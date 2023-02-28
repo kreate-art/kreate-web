@@ -50,7 +50,7 @@ export default function ButtonWalletOptions({
               ) : (
                 WALLET_LOGO[walletInfo.walletName]
               )}
-              <Typography.Div>
+              <Typography.Div size="heading6">
                 {error != null || data == null ? (
                   <InlineAddress
                     className={styles.address}
