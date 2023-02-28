@@ -3,6 +3,8 @@ import Image from "next/image";
 import * as React from "react";
 
 import svgFlyingLeaves from "./assets/flying-leaves.svg";
+import SupporterHandle from "./components/SupporterHandle";
+import IconInfo from "./icons/IconInfo";
 import IconTop1 from "./icons/IconTop1";
 import IconTop2 from "./icons/IconTop2";
 import IconTop3 from "./icons/IconTop3";
@@ -12,7 +14,6 @@ import { rankOf, sortedBy } from "@/modules/array-utils";
 import { SupporterInfo } from "@/modules/business-types";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 const MAX_DISPLAYED_RANK = 10;
@@ -60,12 +61,7 @@ export default function TableTopBackers({ className, style, value }: Props) {
                 <span className={styles.circledNumber}>{item.rank}</span>
               )}
             </div>
-            <div className={styles.columnAddress}>
-              <InlineAddress.Auto
-                value={item.address}
-                className={styles.inlineAddressAuto}
-              />
-            </div>
+            <SupporterHandle address={item.address} />
             <div className={styles.columnLovelaceAmount}>
               <AssetViewer.Ada.Compact
                 as="div"

@@ -8,9 +8,11 @@ import IconWarning from "./icons/IconWarning";
 import styles from "./index.module.scss";
 
 import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
+import useAdaHandle from "@/modules/common-hooks/hooks/useAdaHandle";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
+import Typography from "@/modules/teiki-ui/components/Typography";
 import { WalletInfo } from "@/modules/wallet/types";
 
 type Props = {
@@ -28,6 +30,7 @@ export default function ButtonWalletOptions({
   const { adaPriceInfo, walletNetworkWarning } = useAppContextValue$Consumer();
   const adaPriceInUsd = adaPriceInfo?.usd;
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const { data, error } = useAdaHandle(walletInfo.address);
 
   return (
     <div className={styles.buttonWalletOptionsContainer}>
@@ -47,13 +50,23 @@ export default function ButtonWalletOptions({
               ) : (
                 WALLET_LOGO[walletInfo.walletName]
               )}
-              <div>
-                <InlineAddress
-                  className={styles.address}
-                  value={walletInfo.address}
-                  length="short"
-                />
-              </div>
+              <Typography.Div>
+                {error != null || data == null ? (
+                  <InlineAddress
+                    className={styles.address}
+                    value={walletInfo.address}
+                    length="short"
+                  />
+                ) : (
+                  <Typography.Div
+                    size="heading6"
+                    color="ink"
+                    className={styles.handle}
+                    content={data}
+                    maxLines={1}
+                  />
+                )}
+              </Typography.Div>
             </div>
           </div>
           <div className={styles.lineButtonWalletNavbar} />

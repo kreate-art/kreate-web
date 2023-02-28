@@ -132,3 +132,10 @@ assert(
   "NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN must starts with " +
     "'http://' or 'https://' and must not end with '/'"
 );
+
+export const NEXT_PUBLIC_HANDLE_POLICY_ID: string =
+  process.env.NEXT_PUBLIC_HANDLE_POLICY_ID || "";
+assert(
+  NEXT_PUBLIC_HANDLE_POLICY_ID.length > 0,
+  "NEXT_PUBLIC_HANDLE_POLICY_ID is required"
+);
