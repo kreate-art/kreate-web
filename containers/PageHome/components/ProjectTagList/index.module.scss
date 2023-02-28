@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  column-gap: 12px;
+}
+
+.data {
+  flex: 0 1 auto;
+  display: flex;
+  column-gap: 8px;
+  row-gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  .inverted & {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.noTags {
+  padding: 8px 0;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+
+  .inverted & {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

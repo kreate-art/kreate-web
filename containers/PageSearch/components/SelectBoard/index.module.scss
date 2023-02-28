@@ -1,0 +1,32 @@
+.container {
+  background-color: #eef1f0;
+  border-radius: 12px;
+  padding: 24px;
+  width: 317px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f3e2f;
+}
+
+.tagGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox {
+  margin-top: 20px !important;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f3e2f !important;
+}
+
+.checkbox > label::before {
+  background-color: #eef1f0 !important;
+}
+
+.checkbox > label {
+  color: #1f3e2f !important;
+}

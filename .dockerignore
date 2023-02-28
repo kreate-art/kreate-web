@@ -1,0 +1,11 @@
+*
+!package*.json
+!tsconfig*.json
+!next.config.js
+!components/
+!config/
+!containers/
+!modules/
+!pages/
+!public/
+!.env*

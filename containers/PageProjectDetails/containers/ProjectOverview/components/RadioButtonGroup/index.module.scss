@@ -1,0 +1,34 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: colors.$green;
+  margin-bottom: 12px;
+}
+
+.field {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+}
+
+.ui.radio.checkbox input:checked ~ .box:after,
+.ui.radio.checkbox input:checked ~ label:after {
+  background-color: colors.$green;
+}
+
+.radio.radio.radio.radio:after {
+  background-color: colors.$green;
+}

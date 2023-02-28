@@ -1,0 +1,9 @@
+.container {
+  display: block;
+  flex: 1 1 auto;
+  overflow: auto;
+
+  &.paddingDefault {
+    padding: 32px 48px;
+  }
+}

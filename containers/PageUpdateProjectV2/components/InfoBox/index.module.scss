@@ -1,0 +1,24 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  background-color: #eef1f0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 20px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: colors.$green;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #00362c;
+}

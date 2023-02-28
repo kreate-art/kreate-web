@@ -1,0 +1,90 @@
+.milestoneMain {
+  background-color: rgba(31, 62, 47, 0.05);
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+}
+
+.milestoneMain + .milestoneMain {
+  margin-top: 16px;
+}
+
+.placeholderHeading {
+  background-color: #d9d9d9;
+  width: 60%;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.placeholderLine {
+  background-color: #d9d9d9;
+  width: 100%;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.milestoneTime {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 125px;
+  padding: 24px 15px;
+  flex: 0 0 auto;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.description {
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
+
+.funding {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  white-space: pre-wrap;
+}
+
+.mileStoneTitle {
+  overflow-wrap: break-word;
+}
+
+.divider {
+  flex: 0 0 auto;
+}
+
+.mileStoneInfo {
+  padding: 24px;
+  min-width: 0;
+  overflow-wrap: break-word;
+  flex-grow: 1;
+}
+
+.milestonePlaceholder {
+  padding: 24px 32px;
+  background-color: rgba(31, 62, 47, 0.05);
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.adaPrice {
+  margin-left: 8px;
+}
+
+.statusContainer {
+  padding: 8px 12px;
+  background: rgba(0, 54, 44, 0.1);
+  border-radius: 65px;
+  margin-top: 16px;
+}
+
+.iconCompleted {
+  margin-top: 16px;
+}

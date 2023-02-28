@@ -1,0 +1,90 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: flex;
+  font-size: 14px;
+  line-height: 21px;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.right {
+  flex: 1 1 auto;
+}
+
+.bullet {
+  color: #eee;
+  width: 21px;
+  height: 21px;
+}
+
+.action {
+  margin-right: 1ex;
+}
+
+.createdAt {
+  display: inline-block;
+  width: 110px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(31, 62, 47, 0.5);
+}
+
+.messageContainer {
+  padding: 8px 20px;
+  background: rgba(0, 138, 69, 0.1);
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.message {
+  color: colors.$green;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: pre-line;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+// TODO: Fix this
+.activitiesContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.censoredMessageContainer {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.censoredMessage {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff7a00;
+}
+
+.censoredMessageButton {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 12px;
+  text-decoration-line: underline;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #00362c;
+  padding: 0;
+}

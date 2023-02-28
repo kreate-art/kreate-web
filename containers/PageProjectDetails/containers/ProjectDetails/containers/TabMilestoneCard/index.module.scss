@@ -1,0 +1,52 @@
+.container {
+  width: 100%;
+  background: #eef1f0;
+  border-radius: 12px;
+  display: flex;
+}
+
+.leftCardContainer {
+  flex: 0 0 auto;
+  padding: 56px 8px;
+  width: 30%;
+  min-width: 115px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconCompleted {
+  margin-top: 16px;
+}
+
+.statusContainer {
+  padding: 8px 12px;
+  background: rgba(0, 54, 44, 0.1);
+  border-radius: 65px;
+  margin-top: 16px;
+}
+
+.rightCardContainer {
+  padding: 48px;
+}
+
+.fundingWrapper {
+  margin-top: 24px;
+  white-space: pre-wrap;
+  display: flex;
+  align-items: center;
+}
+
+.description {
+  margin-top: 24px;
+  white-space: pre-wrap;
+}
+
+.adaPrice {
+  margin-left: 8px;
+}
+
+.divider {
+  flex: 0 0 auto;
+}

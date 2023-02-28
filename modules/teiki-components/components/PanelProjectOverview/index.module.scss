@@ -1,0 +1,37 @@
+.container {
+  display: block;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(40px);
+  border-radius: 16px;
+}
+
+.summary {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  color: #00362c;
+
+  @supports (-webkit-line-clamp: 6) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.logoImage {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  border: 2px solid #ffffff;
+  position: absolute;
+  left: 56px;
+  top: 56px;
+  overflow: hidden;
+  filter: drop-shadow(0px 28px 11px rgba(0, 0, 0, 0.01))
+    drop-shadow(0px 16px 10px rgba(0, 0, 0, 0.05))
+    drop-shadow(0px 7px 7px rgba(0, 0, 0, 0.09))
+    drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))
+    drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.1));
+}

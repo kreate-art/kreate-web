@@ -1,0 +1,16 @@
+.container {
+  padding-bottom: 35px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 21px;
+}

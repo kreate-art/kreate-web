@@ -1,0 +1,43 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.bodyContent {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.container {
+  padding: 54px 56px 112px 56px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 1440px;
+  width: 100%;
+}
+
+.title {
+  font-weight: 900;
+  font-size: 96px;
+  line-height: 120px;
+  color: #1e1e1e;
+  text-align: center;
+}
+
+.podcastContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  width: 100%;
+}
+
+.podcast {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+}

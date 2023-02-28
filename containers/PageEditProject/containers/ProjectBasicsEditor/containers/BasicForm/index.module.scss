@@ -1,0 +1,164 @@
+.customUrlLeftSlot {
+  padding: 0 0 0 24px;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  margin-bottom: 12px;
+}
+
+.basicTitle {
+  width: 100%;
+  margin: 0;
+}
+
+.basicForm {
+  padding-left: 32px;
+  width: 66%;
+  position: relative;
+}
+
+.basicTextArea {
+  width: 100%;
+  height: 200px;
+}
+
+.basicInputWrapper {
+  width: 100%;
+  padding-top: 20px;
+}
+
+.basicInput {
+  width: 100%;
+  height: 53px;
+  display: flex;
+  justify-content: center;
+}
+
+.basicSuggestionWrapper {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.basicSuggestionTagTitle {
+  color: rgba(31, 62, 47, 0.6);
+}
+
+.basicSuggestion {
+  background-color: white;
+  min-height: 120px;
+  width: 100%;
+  position: absolute;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 20px 24px 24px 24px;
+}
+
+.basicSuggestionTagWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.basicSuggestionTag.basicSuggestionTag.basicSuggestionTag {
+  background-color: white;
+  border: 1px solid rgba(35, 41, 52, 0.1);
+  border-radius: 16px;
+  color: #1f3e2f;
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.basicTag.basicTag.basicTag {
+  background-color: #1f3e2f;
+  color: white;
+  border-radius: 75px;
+  padding: 2px 2px 4px 12px;
+  margin-top: 6px;
+  margin-right: 8px;
+}
+
+.basicTag button {
+  color: white;
+  font-size: 12px;
+}
+
+.basicTagWrapper div {
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+  white-space: nowrap;
+}
+
+.basicTagWrapper {
+  border-radius: 4px;
+  width: 100%;
+  min-height: 53px;
+  display: flex;
+}
+
+.basicTagWrapper span {
+  display: inline-block;
+}
+
+.basicTagWrapper input {
+  display: inline-block;
+  width: 100%;
+}
+
+// A copy of `basicTextArea`
+.basicTextAreaSummary {
+  width: 100%;
+  height: 200px;
+}
+
+.basicTextAreaSummary::placeholder {
+  font-weight: 600;
+  color: #1f3e2f;
+  font-size: 14px;
+}
+
+.basicFormSummary {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.basicsButtonNewSummary {
+  background: none;
+  cursor: pointer;
+  padding-right: 16px;
+  border-left: none;
+  border-bottom: none;
+  border-top: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.basicTextAreaNewSuggestion {
+  font-weight: 600;
+  color: rgba(31, 62, 47, 1);
+  font-size: 14px;
+  margin-bottom: 20px;
+  padding-left: 24px;
+}
+
+.basicNewSuggestionWrapper {
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0px 205px 82px rgba(35, 41, 52, 0.01),
+    0px 115px 69px rgba(35, 41, 52, 0.05), 0px 51px 51px rgba(35, 41, 52, 0.09),
+    0px 13px 28px rgba(35, 41, 52, 0.1), 0px 0px 0px rgba(35, 41, 52, 0.1);
+  text-align: left;
+  z-index: 999;
+  min-height: 153px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 97%; //#FIXME: this suppose to be 100% but the position is `absolute`
+  bottom: 30%;
+}

@@ -1,0 +1,30 @@
+.container {
+  display: block;
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.label {
+  margin: 0 0 24px 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: rgba(31, 62, 47, 0.8);
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2021%2021%22%3E%3Cpath%20stroke%3D%22%23000%22%20stroke-opacity%3D%22.1%22%20d%3D%22M11%200v21%22%2F%3E%3C%2Fsvg%3E");
+  background-size: 20px;
+  background-repeat: repeat-y;
+  background-position: 0px;
+}
+
+.buttonAllActivities {
+  width: 100%;
+  margin: 16px 0 0 0;
+  justify-content: center;
+}

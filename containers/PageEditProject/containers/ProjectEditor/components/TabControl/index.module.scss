@@ -1,0 +1,44 @@
+.container {
+  align-items: center;
+  background-color: #eef1f0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  gap: 16px;
+  height: 80px;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0 24px 0 16px;
+
+  &.active {
+    background-color: white;
+    border-bottom: 1px solid rgba(0, 138, 69, 1);
+    box-shadow: 0 1px rgba(0, 138, 69, 1);
+  }
+}
+
+.icon {
+  filter: grayscale(90%);
+
+  .active & {
+    filter: grayscale(0);
+  }
+}
+
+.title {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+}
+
+.progressScoreIndicator {
+  flex: 0 0 auto;
+}
+
+.hidden {
+  display: none;
+}

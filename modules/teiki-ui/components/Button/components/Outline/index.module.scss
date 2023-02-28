@@ -1,0 +1,132 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  border: 1px solid colors.$black10;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  transition-property: background-color, color, filter;
+  transition-duration: 0.1s;
+  gap: 8px;
+
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    color: white;
+    background-color: colors.$green;
+    border: 1px solid transparent;
+    outline: colors.$green30 solid 3px;
+  }
+}
+
+// height, border-radius, padding
+.sizeSmall {
+  height: 40px;
+  border-radius: 20px;
+  padding: 8px 16px;
+  min-width: 60px;
+  font-size: 14px;
+
+  &.circular {
+    min-width: 40px;
+    width: 40px;
+    padding: 0;
+  }
+}
+
+.sizeMedium {
+  height: 48px;
+  border-radius: 24px;
+  padding: 8px 16px;
+  min-width: 72px;
+  font-size: 14px;
+
+  &.circular {
+    min-width: 48px;
+    width: 48px;
+    padding: 0;
+  }
+}
+
+.sizeLarge {
+  height: 56px;
+  border-radius: 28px;
+  padding: 12px 24px;
+  min-width: 84px;
+  font-size: 16px;
+
+  &.circular {
+    min-width: 56px;
+    width: 56px;
+    padding: 0;
+  }
+}
+
+// background-color, color, border-color
+.colorGreen {
+  border-color: colors.$black10;
+  background-color: transparent;
+  color: colors.$ink;
+}
+
+.colorWhite {
+  border-color: colors.$white30;
+  background-color: transparent;
+  color: colors.$white;
+}
+
+.container:hover:not(:disabled) {
+  color: white;
+  background-color: colors.$green;
+  border: 1px solid transparent;
+}
+
+// filter
+.container {
+  filter: brightness(1);
+
+  &:hover {
+    filter: brightness(0.95);
+  }
+
+  &:active {
+    filter: brightness(0.8);
+  }
+
+  &:disabled {
+    filter: grayscale(80%) opacity(50%);
+  }
+}
+
+// cursor
+.container {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.body {
+  flex: 0 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 2em;
+}
+
+.iconLeft,
+.iconRight {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}

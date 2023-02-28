@@ -1,0 +1,138 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.nav {
+  position: relative;
+  top: 0;
+  z-index: 10;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.slogan {
+  color: #00362c;
+  font-weight: 900;
+  margin: 64px auto 8px auto;
+  max-width: 1440px;
+  box-sizing: border-box;
+}
+
+.projectCarousel {
+  max-width: 1440px;
+  box-sizing: border-box;
+  margin: 0px auto;
+}
+
+.twoColumnsWrapper {
+  margin: 0;
+  padding: 56px;
+}
+
+.twoColumns {
+  max-width: 1440px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.columnLeft {
+  flex: 4 400 870px;
+}
+
+.columnRight {
+  flex: 1 1 300px;
+}
+
+.podcast {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.containerButtonLoadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.buttonLoadMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  border: 1px solid rgba(31, 62, 47, 0.1);
+  padding: 12px 16px;
+  border-radius: 97px;
+  color: #1f3e2f;
+  font-weight: bold;
+}
+
+.blogSection {
+  max-width: 1440px;
+  box-sizing: border-box;
+  margin: 48px auto 80px auto;
+}
+
+.label {
+  font-weight: 600;
+  color: #00362c;
+  font-size: 14px;
+  line-height: 21px;
+  margin: 0;
+}
+
+.topSupporterContainer {
+  min-width: 50px;
+  min-height: 50px;
+  padding: 32px 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: rgba(0, 54, 44, 0.1);
+  border-radius: 12px;
+}
+
+.defaultBackground {
+  background-image: url("./assets/background.svg");
+  background-size: cover;
+}
+
+.projectContainer {
+  display: flex;
+  gap: 48px;
+  flex-direction: column;
+}
+
+.divider {
+  width: 100%;
+  border: 0;
+  height: 1px;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='2' stroke-dasharray='1%2c 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+  margin-bottom: 48px;
+}
+
+.tableTopSupporters {
+  padding: 24px 20px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.sortButtonGroup {
+  display: flex;
+  gap: 8px;
+  justify-content: right;
+  margin-bottom: 24px;
+}
+
+.blockContainer {
+  padding: 0 56px;
+}

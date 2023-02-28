@@ -1,0 +1,38 @@
+.container {
+  padding: 32px 0px;
+}
+
+.titleMessage {
+  margin-left: 12px;
+  opacity: 0.6;
+}
+
+.titleQuestion {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.titleAnswer {
+  margin-top: 27px;
+  margin-bottom: 8px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.buttonNewFAQContainer {
+  text-align: center;
+}
+
+.buttonNewFAQ {
+  height: 32px;
+  margin-top: 16px;
+}
+
+.textAreaAnswer {
+  margin-bottom: 30px;
+}

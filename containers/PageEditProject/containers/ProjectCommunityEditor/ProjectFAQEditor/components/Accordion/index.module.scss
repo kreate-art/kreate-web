@@ -1,0 +1,37 @@
+.container {
+  background-color: #eef1f0;
+  border-radius: 12px;
+  padding: 17.5px 24px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  background-color: #eef1f0;
+  font-size: 18px;
+  border-radius: 10px;
+  color: #1f3e2f;
+  margin-top: 17.5px;
+}

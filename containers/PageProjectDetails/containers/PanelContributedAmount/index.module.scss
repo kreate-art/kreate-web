@@ -1,0 +1,55 @@
+.container {
+  background-color: green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  border-radius: 16px;
+  gap: 24px;
+
+  background-blend-mode: multiply, normal;
+  background-position: center, center;
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
+  background-image: url("./images/supporter-info-background.min.png"),
+    radial-gradient(
+      68.56% 67.65% at 68.56% 32.35%,
+      #008a45 0%,
+      #007239 82.95%,
+      #006432 100%
+    );
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #ffffff;
+}
+
+.amount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lovelace {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 48px;
+  color: white;
+  white-space: nowrap;
+}
+
+.usd {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.buttonClaimReward {
+  align-self: stretch;
+}

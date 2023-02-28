@@ -1,0 +1,37 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.twoColumns {
+  min-height: 400px;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.buttonEdit {
+  display: inline-flex !important; // override the original display: flex
+  margin-left: 1ch !important;
+}
+
+.sponsorBox {
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.closeSymbol {
+  padding: 4px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.statusTextContainer {
+  overflow: hidden;
+  color: colors.$ink80;
+}

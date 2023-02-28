@@ -1,0 +1,164 @@
+.imageModal {
+  border-radius: 10px 10px 0 0;
+  background-color: white;
+  display: flex;
+  overflow: hidden;
+}
+
+.sideImageContainer {
+  border-radius: 12px;
+  width: 241px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.addImage {
+  height: 92px;
+  border: 1px dashed rgba(0, 54, 44, 0.3);
+  color: #00362c;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  gap: 6px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.basicMainImageModal {
+  width: 577px;
+  background-color: rgba(31, 62, 47, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.basicImageEditor {
+  width: 100%;
+  height: 422px;
+  position: relative;
+}
+
+.basicCropperWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.cropContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 50%;
+  transform: translateX(-50%);
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.zoomRange {
+  appearance: none;
+  height: 1px;
+  width: 100%;
+  background: white;
+}
+
+.zoomIcon.zoomIcon.zoomIcon {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: white;
+}
+
+.basicEditingImagePlaceholder {
+  width: 100%;
+  height: 100%;
+}
+
+.basicEditingPlaceholderImage {
+  width: 100%;
+  height: 100%;
+}
+
+.modalActionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding: 0 10px;
+  gap: 12px;
+}
+
+.nikoContainer {
+  flex: 1 1 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nikoMessage {
+  font-size: 12px;
+  line-height: 12px;
+  color: #00362c;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.imageNiko {
+  border-radius: 50%;
+}
+
+.divider.divider.divider {
+  margin-top: 8px;
+  margin-bottom: 16px;
+  flex: 0 0 auto;
+}
+
+.zoomIcon {
+  flex: 0 0 auto;
+}
+
+.imagePlaceholderContainer {
+  background-color: #474747;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 422px;
+}
+
+.imagePlaceholder {
+  background-color: #333333;
+  height: 290px;
+  width: 298px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.sideImage {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1;
+  flex-basis: 0;
+}

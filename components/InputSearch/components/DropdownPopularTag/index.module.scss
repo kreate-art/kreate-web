@@ -1,0 +1,11 @@
+.group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}

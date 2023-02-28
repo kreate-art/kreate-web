@@ -1,0 +1,74 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.tableContainer {
+  padding: 0 30px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headerTitle {
+  flex: 1 1 0;
+}
+
+.closeButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.row {
+  height: 53px;
+}
+
+.row:nth-child(even) {
+  background-color: #d9d9d9;
+  border-radius: 8px;
+}
+
+.totalWithdrawn {
+  font-weight: 600;
+  font-size: 20px;
+  color: colors.$green;
+}
+
+.totalWithdrawnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 70px;
+}
+
+.totalWithdrawnText {
+  font-weight: 600;
+}
+
+.headerTable {
+  color: rgba(0, 54, 44, 0.8);
+  font-weight: 600;
+  padding: 0 20px;
+}
+
+.item {
+  border: none;
+  padding: 0 20px;
+  color: #00362c;
+  font-weight: 600;
+}
+
+.leftItem {
+  border-radius: 8px 0 0 8px;
+}
+
+.rightItem {
+  border-radius: 0 8px 8px 0;
+}

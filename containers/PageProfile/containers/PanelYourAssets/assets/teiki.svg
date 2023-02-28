@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 96 96">
+  <mask id="mask0_0_4" width="96" height="96" x="0" y="0" maskUnits="userSpaceOnUse"
+    style="mask-type:alpha">
+    <rect width="96" height="96" fill="#30925E" rx="48" />
+  </mask>
+  <g mask="url(#mask0_0_4)">
+    <rect width="96" height="96" fill="#30925E" rx="48" />
+    <rect width="81" height="81" x="7.5" y="7.5" fill="url(#paint0_radial_0_4)" rx="40.5" />
+    <path fill="#FCFDFD"
+      d="M58.699 68.368a13.981 13.981 0 0 1-19.116-4.643 14.032 14.032 0 0 1-2.083-6.891V25.512l5.579-.012v16.847h8.484v5.594h-.075c-.276-.001-.553.012-.828.04h-7.581v8.381a8.43 8.43 0 0 0 4.28 7.33 8.4 8.4 0 0 0 8.479-.129l2.86 4.805Z" />
+    <path fill="#FCFDFD"
+      d="M59.837 25.513h-4.804a6.348 6.348 0 0 0-5.871 3.929c-.32.772-.485 1.6-.485 2.436v4.82h4.807a6.35 6.35 0 0 0 4.492-1.854l.04-.04a6.36 6.36 0 0 0 1.861-4.419c.028-2.19.046-4.956-.04-4.872Z" />
+    <rect width="75" height="75" x="-27" y="-19.5" fill="#fff" fill-opacity=".1" rx="36.5" />
+  </g>
+  <defs>
+    <radialGradient id="paint0_radial_0_4" cx="0" cy="0" r="1"
+      gradientTransform="rotate(90 0 48) scale(40.5)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1DB866" />
+      <stop offset="1" stop-color="#1E854E" />
+    </radialGradient>
+  </defs>
+</svg>

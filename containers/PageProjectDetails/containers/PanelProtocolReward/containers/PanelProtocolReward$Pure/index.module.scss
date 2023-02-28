@@ -1,0 +1,57 @@
+.container {
+  background-blend-mode: multiply, normal;
+  background-color: #018643;
+  background-image: url(./images/background.png),
+    radial-gradient(
+      68.56% 67.65% at 68.56% 32.35%,
+      #008a45 0%,
+      #007239 82.95%,
+      #006432 100%
+    );
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+  border-radius: 16px;
+  color: white;
+  display: block;
+  min-height: 100px;
+  overflow: hidden;
+}
+
+.unclaimed {
+  text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #ffffff;
+
+  .teiki {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+    color: #ffffff;
+  }
+
+  .usd {
+    margin-left: 12px;
+  }
+}
+
+.claimed {
+  text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #ffffff;
+
+  .teiki {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffffff;
+  }
+
+  .usd {
+    margin-left: 12px;
+  }
+}

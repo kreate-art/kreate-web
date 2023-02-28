@@ -1,0 +1,100 @@
+.container {
+  background-color: #eef1f0;
+  padding: 20px 24px;
+}
+
+.title {
+  margin-bottom: 12px;
+}
+
+.divider {
+  margin-bottom: 20px;
+}
+
+.feeBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.label {
+  color: #00362c;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.feeBreakdownUnit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.value {
+  color: #00362c;
+  font-weight: 600;
+}
+
+.totalContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalHeader {
+  color: #00362c;
+  font-weight: 600;
+}
+
+.totalContainer {
+  text-align: right;
+}
+
+.totalValueInAda {
+  color: #006e46;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.totalValueInUsd {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 54, 44, 0.8);
+}
+
+.loadingContainer {
+  position: relative;
+  overflow: hidden;
+  height: 21px;
+  width: 100%;
+  background-color: #dddddd;
+
+  &.breakdown {
+    height: 21px;
+  }
+
+  &.total {
+    height: 49px;
+    margin-top: 20px;
+  }
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  left: 50%;
+  background: linear-gradient(to right, #dddddd, #eef1f0 50%, #dddddd);
+  animation: skeletonLoading 2s infinite alternate;
+}
+
+@keyframes skeletonLoading {
+  from {
+    left: -50%;
+  }
+  to {
+    left: 50%;
+  }
+}

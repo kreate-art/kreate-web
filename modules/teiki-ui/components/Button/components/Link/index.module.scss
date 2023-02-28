@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  color: #30925e;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 16px;
+
+  &:hover {
+    color: #008a45cc;
+  }
+
+  &:focus-visible {
+    outline: #008a4580 solid 3px;
+  }
+
+  &:disabled {
+    color: #0000004d;
+    cursor: not-allowed;
+  }
+}

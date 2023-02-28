@@ -1,0 +1,64 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "react", "prettier"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "eol-last": ["error", "always"],
+    "no-restricted-globals": [
+      "warn",
+      {
+        "name": "alert",
+        "message": "Use 'useToast' instead."
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "paths": [
+          {
+            "name": "awesome-debounce-promise",
+            "message": "Use '@/modules/common-hooks/hooks/useAutoSaver' or '@/modules/common-hooks/hooks/useDebounce' instead."
+          },
+          {
+            "name": "semantic-ui-react",
+            "message": "Use '@/modules/teiki-ui' instead."
+          }
+        ],
+        "patterns": [
+          {
+            "group": ["@/modules/storage", "@/modules/storage/*"],
+            "message": "Use '@/modules/storage', '@/modules/with-bufs-as', '@/modules/with-bufs-as-converters' instead."
+          }
+        ]
+      }
+    ],
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
+}

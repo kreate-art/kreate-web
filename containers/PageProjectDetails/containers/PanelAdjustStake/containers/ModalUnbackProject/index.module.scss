@@ -1,0 +1,119 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.modalContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feeBreakdown {
+  width: 294px;
+}
+
+.errorBox {
+  background-color: rgba(247, 64, 85, 0.1);
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #f74055;
+  margin-top: 16px;
+}
+
+.inputContainer {
+  flex: 1 1 0;
+  padding: 32px 24px 32px 48px;
+}
+
+.inputWithdraw {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.adaSymbol {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(0, 54, 44, 0.8);
+}
+
+.maxButton {
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  width: 74px;
+  outline: none;
+  border-left: 1px solid rgba(0, 54, 44, 0.1);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+  color: #006e46;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.bottomSlotInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  color: rgba(0, 54, 44, 0.8);
+}
+
+.messageTitle {
+  margin-top: 32px;
+  font-weight: 700;
+}
+
+.optionalTitle {
+  font-weight: 500;
+}
+
+.textArea {
+  margin-top: 8px;
+}
+
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.buttonActionContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.stepDetails {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1f3e2f;
+  opacity: 0.8;
+}
+
+.alert {
+  color: #dc2020;
+}
+
+.backedAmount {
+  font-weight: 700;
+}
+
+.characterCount {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(0, 54, 44, 0.8);
+}
+
+.statusTextContainer {
+  overflow: hidden;
+  color: colors.$ink80;
+}

@@ -1,0 +1,60 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  background-color: #efefef;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 20px;
+
+  &.colorInfo {
+    background-color: #eef1f0;
+  }
+
+  &.colorSuccess {
+    background-color: rgba(0, 138, 69, 0.1);
+  }
+
+  &.colorDanger {
+    background-color: rgba(247, 64, 85, 0.1);
+  }
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #848484;
+
+  .colorInfo > & {
+    color: colors.$green;
+  }
+
+  .colorSuccess > & {
+    color: colors.$green;
+  }
+
+  .colorDanger > & {
+    color: #f74055;
+  }
+}
+
+.description {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #323232;
+
+  .colorInfo > & {
+    color: #00362c;
+  }
+
+  .colorSuccess > & {
+    color: colors.$green;
+  }
+
+  .colorDanger > & {
+    color: #f74055;
+  }
+}

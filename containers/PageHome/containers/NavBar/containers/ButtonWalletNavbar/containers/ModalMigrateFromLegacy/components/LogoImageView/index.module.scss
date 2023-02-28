@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0px 28px 11px rgba(0, 0, 0, 0.01))
+    drop-shadow(0px 16px 10px rgba(0, 0, 0, 0.05))
+    drop-shadow(0px 7px 7px rgba(0, 0, 0, 0.09))
+    drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))
+    drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.1));
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid white;
+  overflow: hidden;
+  background-color: white;
+}

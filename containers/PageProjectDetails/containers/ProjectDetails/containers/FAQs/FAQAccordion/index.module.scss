@@ -1,0 +1,19 @@
+.collapse {
+  margin-bottom: 32px;
+}
+
+.collapseHead {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 24px;
+  text-align: left;
+  padding: 0;
+}
+
+.icon {
+  flex: 0 0 auto;
+}

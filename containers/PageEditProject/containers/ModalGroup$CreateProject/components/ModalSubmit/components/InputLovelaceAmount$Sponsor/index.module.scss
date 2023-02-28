@@ -1,0 +1,58 @@
+.adaSymbol {
+  padding: 4px 24px;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 54, 44, 0.8);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.closeSymbol {
+  display: flex;
+  align-items: center;
+  padding: 4px 24px;
+  cursor: pointer;
+}
+
+.container {
+  position: relative;
+}
+
+.status {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 16px 24px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  position: absolute;
+  float: left;
+  top: 68px;
+  border-radius: 4px;
+  gap: 20px;
+  z-index: 999;
+
+  margin-top: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.descriptionGroup {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(0, 54, 44, 0.8);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.amount {
+  flex: 0 0 auto;
+}

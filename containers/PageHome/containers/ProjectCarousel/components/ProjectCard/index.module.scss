@@ -1,0 +1,102 @@
+.container {
+  position: relative;
+  display: block;
+  min-height: 50px;
+  min-width: 300px;
+  width: 100%;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+  text-align: left;
+  overflow: hidden;
+}
+
+.afterBackdrop {
+  margin-top: -30px;
+  &.narrow {
+    padding: 0 32px 24px 32px;
+  }
+
+  &.normal {
+    padding: 0 56px 48px 56px;
+  }
+}
+
+.logo {
+  width: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  filter: drop-shadow(0px 28px 11px rgba(0, 0, 0, 0.01))
+    drop-shadow(0px 16px 10px rgba(0, 0, 0, 0.05))
+    drop-shadow(0px 7px 7px rgba(0, 0, 0, 0.09))
+    drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))
+    drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.1));
+}
+
+.creationAndUpdateTime {
+  margin-top: 16px;
+}
+
+.title {
+  margin-top: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.slogan {
+  margin-top: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tagList {
+  margin-top: 16px;
+}
+
+.summary {
+  margin-top: 16px;
+}
+
+.stats {
+  margin-top: 32px;
+}
+
+.milestoneProgress {
+  margin-top: 16px;
+}
+
+.censoredItemContainer {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: auto;
+}
+
+.censoredItemDescription {
+  margin-top: 16px;
+  max-width: 560px;
+  text-align: center;
+}
+
+.censoredItemButton {
+  margin-top: 24px;
+}
+
+.match {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 65px;
+  padding: 8px 12px;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+}

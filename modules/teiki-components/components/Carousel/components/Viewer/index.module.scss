@@ -1,0 +1,24 @@
+.container {
+  display: block;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  display: flex;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  transition-duration: 500ms;
+  transition-property: transform;
+}
+
+.itemBox {
+  flex: 1 1 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}

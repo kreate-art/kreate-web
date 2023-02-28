@@ -1,0 +1,21 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.statusTextContainer {
+  overflow: hidden;
+  color: colors.$ink80;
+}

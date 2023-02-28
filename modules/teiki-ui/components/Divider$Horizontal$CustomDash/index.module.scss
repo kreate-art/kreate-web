@@ -1,0 +1,11 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: flex;
+  height: 1px;
+  width: 100%;
+}
+
+.colorInk50 {
+  color: colors.$ink50;
+}

@@ -1,0 +1,67 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+}
+
+.mainFooter {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 8px 50px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.statusText {
+  color: #1f3e2f;
+  min-width: 10em;
+  flex: 10000 10000 0;
+  padding: 5px 0;
+}
+
+.buttonGroup {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.main {
+  position: fixed;
+  left: 400px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainMain {
+  flex: 1 1 0;
+  background-color: #eef1f0;
+  overflow: auto;
+  padding: 32px 48px;
+  padding-bottom: 0;
+  height: 100%;
+}
+
+.collapsedMain {
+  left: 90px;
+}
+
+.buttonCollapseWrapper {
+  position: absolute;
+  left: 0;
+  top: 128px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0px 14px 6px rgba(35, 41, 52, 0.01))
+    drop-shadow(0px 8px 5px rgba(35, 41, 52, 0.05))
+    drop-shadow(0px 4px 4px rgba(35, 41, 52, 0.09))
+    drop-shadow(0px 1px 2px rgba(35, 41, 52, 0.1))
+    drop-shadow(0px 0px 0px rgba(35, 41, 52, 0.1));
+}

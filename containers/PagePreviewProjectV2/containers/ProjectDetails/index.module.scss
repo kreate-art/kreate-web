@@ -1,0 +1,26 @@
+.container {
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(40px);
+}
+
+.richTextEditorContainer {
+  padding: 32px 0;
+
+  p {
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+.richTextEditor.richTextEditor {
+  background: none;
+  box-shadow: none;
+}
+
+.roadmapMain {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 64px 66px;
+}

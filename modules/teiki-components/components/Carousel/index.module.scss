@@ -1,0 +1,59 @@
+.container {
+  display: block;
+  position: relative;
+}
+
+.viewer {
+  min-height: 50px;
+}
+
+.buttonPrevContainer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+  backdrop-filter: blur(40px);
+  filter: drop-shadow(0px 28px 11px rgba(0, 55, 44, 0.01))
+    drop-shadow(0px 16px 10px rgba(0, 55, 44, 0.05))
+    drop-shadow(0px 7px 7px rgba(0, 55, 44, 0.09))
+    drop-shadow(0px 2px 4px rgba(0, 55, 44, 0.1))
+    drop-shadow(0px 0px 0px rgba(0, 55, 44, 0.1));
+}
+
+.buttonNextContainer {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: auto;
+  height: auto;
+  transform: translate(+50%, -50%);
+
+  border-radius: 50%;
+  backdrop-filter: blur(40px);
+  filter: drop-shadow(0px 28px 11px rgba(0, 55, 44, 0.01))
+    drop-shadow(0px 16px 10px rgba(0, 55, 44, 0.05))
+    drop-shadow(0px 7px 7px rgba(0, 55, 44, 0.09))
+    drop-shadow(0px 2px 4px rgba(0, 55, 44, 0.1))
+    drop-shadow(0px 0px 0px rgba(0, 55, 44, 0.1));
+}
+
+.buttonScrollProjects {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonScrollProjects:hover {
+  background-color: white;
+}

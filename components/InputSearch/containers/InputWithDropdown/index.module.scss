@@ -1,0 +1,89 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  position: relative;
+  z-index: 999;
+}
+
+.inputContainerInactive {
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 83px;
+  display: flex;
+  align-items: center;
+}
+
+.inputContainerActive {
+  width: 896px;
+  height: 48px;
+  background-color: #fff;
+  position: absolute;
+  backdrop-filter: blur(40px);
+  display: flex;
+  align-items: center;
+  border-radius: 16px 16px 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.searchIcon {
+  margin-left: 27px;
+  color: rgba(31, 62, 47, 0.5);
+  width: 17.49px;
+  height: 17.49px;
+}
+
+.input {
+  border: none;
+  outline: none;
+  padding-left: 15.51px;
+  color: rgba(31, 62, 47, 0.8);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  width: 100%;
+}
+
+.input::placeholder {
+  font-weight: 600;
+}
+
+.inputInactive {
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+}
+
+.inputActive {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.searchInput::placeholder {
+  color: rgba(31, 62, 47, 0.8);
+}
+
+.blurLayer {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.53);
+  position: fixed;
+  z-index: 998;
+}
+
+.dropdown {
+  width: inherit;
+  background-color: #fff;
+  backdrop-filter: blur(40px);
+  position: absolute;
+  top: 48px;
+  border-radius: 0 0 16px 16px;
+  width: 896px;
+}
+
+.dropdownContainer {
+  padding: 32px 48px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

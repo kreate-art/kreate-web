@@ -1,0 +1,101 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.button {
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 14px;
+  transition-property: background-color, color;
+  transition-duration: 0.1s;
+  gap: 8px;
+
+  // height, border-radius, padding
+  &.sizeSmall {
+    height: 40px;
+    border-radius: 20px;
+    padding: 8px 16px;
+  }
+
+  &.sizeMedium {
+    height: 48px;
+    border-radius: 24px;
+    padding: 8px 16px;
+  }
+
+  &.sizeLarge {
+    height: 56px;
+    border-radius: 28px;
+    padding: 12px 24px;
+  }
+
+  // background-color, border-color, color, outline
+  &.variantSolid {
+    background-color: colors.$green;
+    border-color: transparent;
+    color: white;
+  }
+
+  &.variantOutline {
+    background-color: transparent;
+    border-color: #00000019;
+    color: #1f3e2f;
+  }
+
+  &.variantTransparent {
+    background-color: transparent;
+    border-color: transparent;
+    color: #1f3e2f;
+  }
+
+  &:hover {
+    background-color: #007c3e;
+    border-color: transparent;
+    color: white;
+    cursor: pointer;
+    &:hover:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &:focus-visible {
+    outline: #008a454c solid 3px;
+  }
+
+  &:active {
+    background-color: #006e37;
+    border-color: transparent;
+    color: white;
+  }
+
+  &.variantSolid:disabled {
+    background-color: #d6d8d8;
+    border-color: transparent;
+    color: rgba(31, 62, 47, 0.5);
+  }
+
+  &.variantOutline:disabled {
+    background-color: transparent;
+    border-color: #00000019;
+    color: rgba(31, 62, 47, 0.5);
+  }
+
+  &.variantTransparent:disabled {
+    background-color: transparent;
+    border-color: transparent;
+    color: rgba(31, 62, 47, 0.5);
+  }
+}
+
+.iconContainer {
+  width: 24px;
+  height: 24px;
+}
+
+.displayedContentContainer {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

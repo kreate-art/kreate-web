@@ -1,0 +1,33 @@
+.container {
+  border-radius: 16px;
+  background-color: white;
+}
+
+.richTextEditorContainer {
+  padding: 32px 0;
+}
+
+.richTextEditor.richTextEditor {
+  background: none;
+  box-shadow: none;
+}
+
+.roadmapMain {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 64px 66px;
+}
+
+.textArea {
+  width: 100%;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  padding: 16px 24px;
+  border-radius: 4px;
+}
+
+.titleText {
+  padding: 12px 0;
+}

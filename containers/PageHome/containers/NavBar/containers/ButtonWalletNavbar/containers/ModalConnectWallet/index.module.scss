@@ -1,0 +1,41 @@
+// @sk-kitsune: This file is copied (with modification) from:
+// containers/NavBar/index.module.scss
+// (authored by @sk-tenba).
+
+.modal {
+  padding: 0 32px 32px 32px;
+  width: 390px !important;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.buttonCloseModal {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.connectWalletHeading {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.disabledCloseButton {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.walletLogo {
+  width: 24px;
+  height: 24px;
+}

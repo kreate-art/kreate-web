@@ -1,0 +1,75 @@
+.container {
+  background-color: #00362c;
+  color: white;
+  width: 100%;
+}
+
+.upperContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 56px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1440px;
+  margin: auto;
+  height: 160px;
+}
+
+.iconList {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.teiki {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slogan {
+  font-size: 20px;
+  padding: 0 16px;
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.logo {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding-right: 20px;
+}
+
+.lowerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 32px 56px 96px;
+  height: 88px;
+  max-width: 1440px;
+  font-weight: 500;
+  margin: auto;
+}
+
+.routingPageItem {
+  position: relative;
+  cursor: pointer;
+  color: white;
+}
+
+.routingPageItem:hover {
+  color: white;
+}
+
+.iconContainer {
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border-radius: 50%;
+  background-color: white;
+  color: #002e33;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

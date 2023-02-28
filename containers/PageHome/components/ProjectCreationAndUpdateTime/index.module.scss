@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  column-gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.section {
+  flex: 0 0 auto;
+  line-height: 1.5em;
+}
+
+.label {
+  font-weight: 600;
+  color: #1f3e2f;
+
+  .inverted & {
+    color: white;
+  }
+}
+
+.value {
+  font-weight: 400;
+  color: #1f3e2fcc;
+
+  .inverted & {
+    color: white;
+  }
+}
+
+.match {
+  color: #006e46;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.divider {
+  flex: 0 0 auto;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: auto;
+  margin: 4px;
+  border: none;
+}

@@ -1,0 +1,20 @@
+.faqSearchBar {
+  width: 50%;
+  margin: 48px auto;
+}
+
+.input.input {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.input.input > input {
+  height: 48px;
+  border-radius: 100px;
+  border-color: transparent;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  padding: 0px 112px 32px;
+}

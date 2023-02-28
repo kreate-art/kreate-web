@@ -1,0 +1,25 @@
+.modalCongratsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 74px 97px;
+}
+
+.titleCongrats {
+  margin-top: 18px;
+}
+
+.congratsContent {
+  margin-top: 24px;
+}
+
+.buttonBack {
+  margin-top: 48px;
+}
+
+.lovelaceWithdrawn {
+  font-weight: 700;
+  font-size: 14px;
+  color: #006e46;
+}

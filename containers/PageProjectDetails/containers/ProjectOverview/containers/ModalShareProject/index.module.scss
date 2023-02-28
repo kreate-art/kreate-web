@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal {
+  flex-flow: column;
+  min-height: 368px;
+  width: 660px !important;
+  background-color: #ffffff;
+}
+
+.close {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.contentLink {
+  display: flex;
+  background: #eef1f0;
+  min-height: 62px;
+  width: 564px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 24px;
+}

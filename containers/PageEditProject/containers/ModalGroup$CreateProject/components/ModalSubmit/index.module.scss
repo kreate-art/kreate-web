@@ -1,0 +1,61 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: block;
+}
+
+.checkbox {
+  font-weight: 600;
+  color: #00362c;
+}
+
+.notes {
+  background-color: rgba(0, 54, 44, 0.1);
+  padding: 16px 20px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #00362c;
+  border-radius: 8px;
+
+  .title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: colors.$green;
+  }
+}
+
+.modalContent {
+  max-height: 67vh;
+  overflow-y: auto;
+}
+
+.sponsorAda {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #00362c;
+}
+
+.sponsorUsd {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  color: rgba(0, 54, 44, 0.8);
+}
+
+.errorBox {
+  background-color: rgba(247, 64, 85, 0.1);
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #f74055;
+  margin-top: 16px;
+}
+
+.statusTextContainer {
+  overflow: hidden;
+  color: colors.$ink80;
+}

@@ -1,0 +1,58 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.modalContent {
+  flex: 1 1 0;
+  display: block;
+  overflow: auto;
+  padding: 0;
+}
+
+.form {
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.fieldLabel {
+  margin-bottom: 16px;
+}
+
+.inputMessage {
+  width: 100%;
+}
+
+.errorBox {
+  background-color: rgba(247, 64, 85, 0.1);
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #f74055;
+  margin-top: 16px;
+}
+
+.characterCount {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(0, 54, 44, 0.8);
+}
+
+.statusTextContainer {
+  overflow: hidden;
+  color: colors.$ink80;
+}

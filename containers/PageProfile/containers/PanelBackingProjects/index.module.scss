@@ -1,0 +1,13 @@
+.container {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  backdrop-filter: blur(40px);
+  border-radius: 16px;
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+}

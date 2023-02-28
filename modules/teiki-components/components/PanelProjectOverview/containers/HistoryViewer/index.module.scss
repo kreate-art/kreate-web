@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.entry {
+  flex: 0 0 auto;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 125%;
+  color: #00362c;
+}
+
+.match {
+  color: #006e46;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.content {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 125%;
+  color: rgba(0, 54, 44, 0.8);
+}

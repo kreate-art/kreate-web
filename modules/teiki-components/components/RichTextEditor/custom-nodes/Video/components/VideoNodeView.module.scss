@@ -1,0 +1,15 @@
+.videoContainer {
+  position: relative;
+  text-align: center;
+}
+
+.video {
+  max-width: 100%;
+  height: auto;
+}
+
+.videoSelectedHalo {
+  background-color: rgba(35, 131, 226, 0.14);
+  position: absolute;
+  inset: 0;
+}

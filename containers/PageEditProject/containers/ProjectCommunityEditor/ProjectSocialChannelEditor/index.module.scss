@@ -1,0 +1,58 @@
+.container {
+  padding: 32px 0px;
+}
+
+.socialList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  font-weight: 600;
+}
+
+.social {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.iconUrl {
+  width: 24px;
+  height: 24px;
+}
+
+.buttonSocial {
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.inputBox {
+  margin-top: 24px;
+}
+
+.titleMessage {
+  margin-left: 12px;
+  opacity: 0.6;
+}
+
+.closeButton {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.addButtonWrapper {
+  padding: 10px 24px;
+}
+
+.addButton {
+  height: 32px;
+}
+
+.prefixUrl {
+  margin-left: 12px;
+  opacity: 0.6;
+}

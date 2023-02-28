@@ -1,0 +1,123 @@
+.buttonWalletOptionsContainer {
+  position: relative;
+}
+
+.buttonWalletOptions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 48px;
+  border: 1px solid rgba(31, 62, 47, 0.1);
+  border-radius: 20px 20px 0 0;
+  background-color: transparent;
+  padding: 7px 16px;
+  width: 300px;
+  outline: none;
+  cursor: pointer;
+
+  &:disabled {
+    filter: grayscale(1) opacity(0.5);
+  }
+}
+
+.wallet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  width: 300px;
+  justify-content: center;
+  display: flex;
+}
+
+.assets {
+  text-align: left;
+  position: relative;
+}
+
+.ada {
+  color: #00362c;
+  font-weight: 600;
+  font-size: 12px;
+  margin-left: 17px;
+}
+
+.usd {
+  font-weight: 400;
+  font-size: 10px;
+  color: rgba(0, 54, 44, 0.8);
+  margin-left: 17px;
+}
+
+.iconArrowDropDown {
+  position: absolute;
+  right: 0px;
+  display: flex;
+  top: 0px;
+  height: 100%;
+  align-items: center;
+}
+
+.address {
+  color: #00362c;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.walletOptions {
+  position: absolute;
+  background-color: #eef1f0;
+  border: 1px solid rgba(31, 62, 47, 0.1);
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding-top: 20px;
+  justify-content: left;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.optionButton {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  display: block;
+  margin-left: 40px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #00362c;
+  cursor: pointer;
+  text-align: left;
+}
+
+.line {
+  width: 100%;
+  border-bottom: 1px solid rgba(31, 62, 47, 0.1);
+}
+
+.lineButtonWalletNavbar {
+  border-left: 1px solid rgba(31, 62, 47, 0.1);
+}
+
+.disconnectButton {
+  border: none;
+  outline: none;
+  font-weight: 600;
+  font-size: 14px;
+  color: #f74055;
+  margin-left: 40px;
+  cursor: pointer;
+  text-align: left;
+  padding-bottom: 20px;
+  background-color: transparent;
+}
+
+.walletInfo {
+  flex: 1 1 0px;
+  justify-content: center;
+}

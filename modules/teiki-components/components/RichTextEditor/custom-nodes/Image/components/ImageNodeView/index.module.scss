@@ -1,0 +1,28 @@
+.imageContainer {
+  position: relative;
+  text-align: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+}
+
+.iconLoading {
+  width: 100px;
+  height: auto;
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.iconFileClose {
+  width: 100px;
+  height: auto;
+  color: #000000;
+  opacity: 10%;
+}
+
+.imageSelectedHalo {
+  background-color: rgba(35, 131, 226, 0.14);
+  position: absolute;
+  inset: 0;
+}

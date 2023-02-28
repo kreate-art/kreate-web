@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 91px;
+  min-height: 48px;
+  padding: 7px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.status {
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.walletIdentity {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoWallet {
+  width: 24px;
+  height: 24px;
+}
+
+.walletBalance {
+  flex: 1 1 auto;
+  display: block;
+}
+
+.ada {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usd {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

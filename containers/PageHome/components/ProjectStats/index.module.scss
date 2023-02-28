@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  column-gap: 12px;
+  row-gap: 12px;
+  flex-wrap: wrap;
+}
+
+.box {
+  flex: 0 0 auto;
+  border: 1px solid #00000019;
+  border-radius: 12px;
+  padding: 16px;
+
+  .inverted & {
+    border: 2px solid #ffffffcc;
+  }
+}
+
+.value {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 25px;
+  color: #1f3e2f;
+
+  .inverted & {
+    color: #ffffff;
+  }
+
+  .large & {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
+.legend {
+  margin-top: 16px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 12px;
+  color: #1f3e2fcc;
+
+  .inverted & {
+    color: #ffffffcc;
+  }
+}

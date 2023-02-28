@@ -1,0 +1,24 @@
+.container {
+  border-radius: 8px;
+  color: #00362c;
+  cursor: pointer;
+  filter: brightness(1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 150%;
+  outline: none;
+  padding: 8px 16px;
+  text-overflow: ellipsis;
+  transition-duration: 0.05s;
+  transition-property: background-color, color, filter;
+
+  &[data-highlighted] {
+    color: white;
+    background-color: #008241;
+  }
+
+  &[data-disabled] {
+    filter: grayscale(80%) opacity(50%);
+    cursor: not-allowed;
+  }
+}

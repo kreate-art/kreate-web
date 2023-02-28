@@ -1,0 +1,42 @@
+/*
+  Useful links:
+  - https://sass-lang.com/documentation/modules
+  - https://sass-lang.com/documentation/variables
+  - https://sass-lang.com/documentation/at-rules/use
+*/
+
+$white: #ffffff;
+$white80: rgba($white, 0.8);
+$white50: rgba($white, 0.5);
+$white30: rgba($white, 0.3);
+$white10: rgba($white, 0.1);
+
+$black: #000000;
+$black80: rgba($black, 0.8);
+$black50: rgba($black, 0.5);
+$black30: rgba($black, 0.3);
+$black10: rgba($black, 0.1);
+
+$green: #006e46;
+$green80: rgba($green, 0.8);
+$green50: rgba($green, 0.5);
+$green30: rgba($green, 0.3);
+$green10: rgba($green, 0.1);
+
+$orange: #ff7a00;
+$orange80: rgba($orange, 0.8);
+$orange50: rgba($orange, 0.5);
+$orange30: rgba($orange, 0.3);
+$orange10: rgba($orange, 0.1);
+
+$red: #f74055;
+$red80: rgba($red, 0.8);
+$red50: rgba($red, 0.5);
+$red30: rgba($red, 0.3);
+$red10: rgba($red, 0.1);
+
+$ink: #00362c;
+$ink80: rgba($ink, 0.8);
+$ink50: rgba($ink, 0.5);
+$ink30: rgba($ink, 0.3);
+$ink10: rgba($ink, 0.1);

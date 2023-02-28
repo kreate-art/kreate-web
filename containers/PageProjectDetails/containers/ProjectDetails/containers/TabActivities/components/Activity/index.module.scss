@@ -1,0 +1,73 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: flex;
+  font-size: 14px;
+  line-height: 21px;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.right {
+  flex: 1 1 auto;
+}
+
+.bullet {
+  color: #eee;
+  width: 21px;
+  height: 21px;
+}
+
+.action {
+  margin-right: 1ex;
+}
+
+.createdAt {
+  width: 110px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(31, 62, 47, 0.5);
+}
+
+.messageContainer {
+  padding: 8px 20px;
+  background: rgba(0, 138, 69, 0.1);
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.message {
+  color: colors.$green;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: pre-line;
+}
+
+// TODO: Fix this
+.activitiesContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.censoredItemContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: auto;
+  gap: 12px;
+}
+
+.censoredItemButton {
+  margin-left: 6px;
+}

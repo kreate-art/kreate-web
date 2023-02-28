@@ -1,0 +1,73 @@
+.container {
+  position: relative;
+  display: block;
+  min-height: 50px;
+  min-width: 300px;
+  width: 100%;
+  border-radius: 12px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.contentContainer {
+  padding: 24px 32px;
+  max-width: 100%;
+  background-color: white;
+  height: 100%;
+}
+
+.cover {
+  height: 257px;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.posted {
+  color: #00362c;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.dayPosted {
+  color: #00362c;
+  font-weight: 400;
+}
+
+.title.title.title {
+  text-overflow: ellipsis;
+  min-height: 72px;
+  @supports (-webkit-line-clamp: 2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.createdAt {
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.articleDescription {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(0, 54, 44, 0.8);
+  margin-top: 16px;
+  vertical-align: bottom;
+  min-height: 72px;
+  @supports (-webkit-line-clamp: 3) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.learnMoreButton {
+  margin-top: 16px;
+}

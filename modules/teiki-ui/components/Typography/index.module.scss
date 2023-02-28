@@ -1,0 +1,172 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  overflow-wrap: anywhere;
+}
+
+.sizeHeading1 {
+  font-size: 40px;
+  line-height: 125%;
+  font-weight: 700;
+}
+
+.sizeHeading2 {
+  font-size: 32px;
+  line-height: 150%;
+  font-weight: 700;
+}
+
+.sizeHeading3 {
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 700;
+}
+
+.sizeHeading4 {
+  font-size: 20px;
+  line-height: 150%;
+  font-weight: 600;
+}
+
+.sizeHeading5 {
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 600;
+}
+
+.sizeHeading6 {
+  font-size: 14px;
+  line-height: 150%;
+  font-weight: 600;
+}
+
+.sizeBody {
+  font-size: 16px;
+  line-height: 175%;
+  font-weight: 400;
+}
+
+.sizeBodySmall {
+  font-size: 14px;
+  line-height: 175%;
+  font-weight: 400;
+}
+
+.sizeBodyExtraSmall {
+  font-size: 12px;
+  line-height: 175%;
+  font-weight: 400;
+}
+
+.lineHeightLarge {
+  line-height: 175%;
+}
+
+.lineHeightMedium {
+  line-height: 150%;
+}
+
+.lineHeightSmall {
+  line-height: 125%;
+}
+
+.colorInk {
+  color: colors.$ink;
+}
+
+.colorInk80 {
+  color: colors.$ink80;
+}
+
+.colorInk50 {
+  color: colors.$ink50;
+}
+
+.colorInk30 {
+  color: colors.$ink30;
+}
+
+.colorInk10 {
+  color: colors.$ink10;
+}
+
+.colorOrange {
+  color: rgba(255, 122, 0, 1);
+}
+
+.colorOrange80 {
+  color: rgba(255, 122, 0, 0.8);
+}
+
+.colorOrange50 {
+  color: rgba(255, 122, 0, 0.5);
+}
+
+.colorOrange30 {
+  color: rgba(255, 122, 0, 0.3);
+}
+
+.colorOrange10 {
+  color: rgba(255, 122, 0, 0.1);
+}
+
+.colorGreen {
+  color: colors.$green;
+}
+
+.colorWhite {
+  color: colors.$white;
+}
+
+.colorRed {
+  color: colors.$red;
+}
+
+.fontWeightRegular {
+  font-weight: 400;
+}
+
+.fontWeightSemibold {
+  font-weight: 600;
+}
+
+.fontWeightBold {
+  font-weight: 700;
+}
+
+.fontWeightBlack {
+  font-weight: 900;
+}
+
+@supports (-webkit-line-clamp: 42) {
+  .maxLines1,
+  .maxLines2,
+  .maxLines3,
+  .maxLines4,
+  .maxLines5 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .maxLines1 {
+    -webkit-line-clamp: 1;
+  }
+
+  .maxLines2 {
+    -webkit-line-clamp: 2;
+  }
+
+  .maxLines3 {
+    -webkit-line-clamp: 3;
+  }
+
+  .maxLines4 {
+    -webkit-line-clamp: 4;
+  }
+
+  .maxLines5 {
+    -webkit-line-clamp: 5;
+  }
+}

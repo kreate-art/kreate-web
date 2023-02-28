@@ -1,0 +1,41 @@
+.input {
+  border: none;
+  background-color: white;
+  padding: 16px 24px;
+  outline: none;
+  font-weight: 600;
+  color: #1f3e2f;
+  width: 100%;
+
+  &.error {
+    color: #f74055;
+  }
+
+  &.paddingLeftNarrow {
+    padding-left: 4px;
+  }
+
+  &.paddingLeftNone {
+    padding-left: 0;
+  }
+
+  &.paddingRightNarrow {
+    padding-right: 4px;
+  }
+
+  &.paddingRightNone {
+    padding-right: 0;
+  }
+}
+
+.input::placeholder {
+  color: rgba(0, 54, 44, 0.5);
+}
+
+.label {
+  color: #1f3e2f;
+  line-height: 21px;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 12px;
+}

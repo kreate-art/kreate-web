@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16.5px 48px;
+  justify-content: space-between;
+  flex-direction: row;
+  max-width: 1440px;
+  height: 80px;
+  position: relative;
+  cursor: pointer;
+
+  &.playing {
+    background: rgba(0, 54, 44, 0.1);
+  }
+}
+
+.container:hover {
+  background: rgba(31, 62, 47, 0.05);
+}
+
+.leftContainer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  min-width: 200px;
+}
+
+.title {
+  width: 100%;
+  margin-right: 20px;
+}
+
+.censoredItemContainer {
+  background: #d2dad8;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  padding: 16.5px 48px;
+  cursor: auto;
+}
+
+.censoredItemDescription {
+  max-width: 700px;
+}

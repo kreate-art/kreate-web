@@ -1,0 +1,27 @@
+.adaSymbol {
+  padding: 4px 24px;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 54, 44, 0.8);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.buttonMax.buttonMax {
+  padding: 4px 24px;
+  border-left: 1px solid rgba(0, 54, 44, 0.1);
+  border-radius: 0;
+  outline-offset: -10px;
+}
+
+.descriptionGroup {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(0, 54, 44, 0.8);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}

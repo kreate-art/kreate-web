@@ -1,0 +1,7 @@
+.container {
+  display: block;
+
+  .inverted & {
+    color: white;
+  }
+}

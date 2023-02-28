@@ -1,0 +1,29 @@
+.container {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  backdrop-filter: blur(40px);
+  border-radius: 16px;
+}
+
+.svgAda {
+  width: 96px;
+  height: 96px;
+
+  filter: drop-shadow(0px 42px 17px rgba(0, 99, 215, 0.01))
+    drop-shadow(0px 24px 14px rgba(0, 99, 215, 0.05))
+    drop-shadow(0px 11px 11px rgba(0, 99, 215, 0.09))
+    drop-shadow(0px 3px 6px rgba(0, 99, 215, 0.1))
+    drop-shadow(0px 0px 0px rgba(0, 99, 215, 0.1));
+}
+
+.svgTeiki {
+  width: 96px;
+  height: 96px;
+
+  filter: drop-shadow(0px 42px 17px rgba(42, 131, 85, 0.01))
+    drop-shadow(0px 24px 14px rgba(42, 131, 85, 0.05))
+    drop-shadow(0px 11px 11px rgba(42, 131, 85, 0.09))
+    drop-shadow(0px 3px 6px rgba(42, 131, 85, 0.1))
+    drop-shadow(0px 0px 0px rgba(42, 131, 85, 0.1));
+}

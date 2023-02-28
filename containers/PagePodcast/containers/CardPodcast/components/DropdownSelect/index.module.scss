@@ -1,0 +1,96 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  position: relative;
+}
+
+.selectContainer {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 275px;
+  position: absolute;
+  top: 56px;
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%),
+    0 1px 18px 0 rgb(0 0 0 / 12%);
+  z-index: 999;
+}
+
+.inputSearch {
+  margin-top: 4px;
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 83px;
+  display: flex;
+  align-items: center;
+  padding: 0 27px;
+}
+
+.input {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+  margin-left: 15.51px;
+  color: rgba(31, 62, 47, 0.8);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f3e2f;
+}
+
+.itemGroup {
+  max-height: 253px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: auto;
+}
+
+.resetButton.resetButton.resetButton {
+  right: 0;
+  width: 100px;
+}
+
+.buttonDropdown {
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+  padding: 16px;
+}
+
+.buttonActive {
+  color: colors.$green;
+}
+
+.buttonInactive {
+  color: #1f3e2f;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 998;
+}
+
+.buttonDropdownLabel {
+  font-weight: 600;
+}

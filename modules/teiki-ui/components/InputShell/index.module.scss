@@ -1,0 +1,53 @@
+.container {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+
+  &:focus-within {
+    border: 1px solid rgba(0, 138, 69, 0.3);
+  }
+
+  &.error {
+    border: 1px solid #f74055;
+  }
+
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "top    top    top"
+    "left   center right"
+    "bottom bottom bottom";
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+.slot {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+
+  &.topSlot {
+    grid-area: top;
+    flex-direction: column;
+  }
+
+  &.leftSlot {
+    grid-area: left;
+  }
+
+  &.centerSlot {
+    grid-area: center;
+  }
+
+  &.rightSlot {
+    grid-area: right;
+  }
+
+  &.bottomSlot {
+    grid-area: bottom;
+    flex-direction: column;
+  }
+}

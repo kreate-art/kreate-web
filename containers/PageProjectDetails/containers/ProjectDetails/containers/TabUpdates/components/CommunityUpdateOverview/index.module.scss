@@ -1,0 +1,109 @@
+.container {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 32px 48px;
+  position: relative;
+}
+
+.header {
+  min-height: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.headerMain {
+  position: relative;
+  flex: 1 1 0;
+}
+
+.headerRight {
+  flex: 0 0 auto;
+}
+
+.title {
+  margin: 12px 0 0 0;
+}
+
+.iconDocumentCircle {
+  position: absolute;
+  top: 32px;
+  left: -72px;
+  width: 48px;
+  height: 48px;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  margin: 24px 0;
+  padding: 0;
+  border: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.main {
+  min-height: 10px;
+}
+
+.summary {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  color: #00362c;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+  @supports (-webkit-line-clamp: 10) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.linkContainer {
+  margin-top: 24px;
+}
+
+.link {
+  color: #30925e;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 14px;
+  text-decoration-line: underline;
+
+  &:hover {
+    color: #44a270;
+    text-decoration-line: underline;
+  }
+}
+
+.censoredItemContainer {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: auto;
+}
+
+.censoredItemTitle {
+  margin-top: 20px;
+}
+
+.censoredItemDescription {
+  margin-top: 16px;
+  max-width: 560px;
+  text-align: center;
+}
+
+.censoredItemButton {
+  margin-top: 24px;
+}

@@ -1,0 +1,44 @@
+.container {
+  min-width: 50px;
+  min-height: 50px;
+  padding: 32px 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: radial-gradient(
+    68.56% 67.65% at 68.56% 32.35%,
+    #256847 0%,
+    #213f30 82.95%,
+    #213f30 100%
+  );
+}
+
+.title {
+  font-weight: 600;
+  color: white;
+  text-align: center;
+}
+
+.fund {
+  text-align: center;
+}
+
+.usd {
+  color: white;
+  text-align: center;
+}
+
+.withdrawButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  color: #00362c;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 97px;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+}
