@@ -1,6 +1,7 @@
 import cx from "classnames";
 import * as React from "react";
 
+import SupporterHandle from "./components/SupporterHandle";
 import IconInfo from "./icons/IconInfo";
 import IconTop1 from "./icons/IconTop1";
 import IconTop2 from "./icons/IconTop2";
@@ -10,7 +11,6 @@ import styles from "./index.module.scss";
 import { rankOf, sortedBy } from "@/modules/array-utils";
 import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { SupporterInfo } from "@/modules/business-types";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 
 const MAX_DISPLAYED_RANK = 10;
 
@@ -58,12 +58,7 @@ export default function TableTopSupporters({ className, style, value }: Props) {
                 <span className={styles.circledNumber}>{item.rank}</span>
               )}
             </div>
-            <div className={styles.columnAddress}>
-              <InlineAddress.Auto
-                value={item.address}
-                className={styles.inlineAddressAuto}
-              />
-            </div>
+            <SupporterHandle address={item.address} />
             <div
               className={styles.columnLovelaceAmount}
               title={`${item.lovelaceAmount}`}
