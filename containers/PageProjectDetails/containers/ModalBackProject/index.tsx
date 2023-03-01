@@ -9,6 +9,7 @@ import { useSupportProjectLogic } from "./hooks/useSupportProjectLogic";
 import styles from "./index.module.scss";
 import { buildTx } from "./utils/transaction";
 
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { throw$, try$, tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
@@ -54,6 +55,7 @@ export default function ModalBackProject({
   onSuccess,
 }: Props) {
   const { showMessage } = useToast();
+  const adaPriceInfo = useAdaPriceInfo();
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
   const lucid =
@@ -211,6 +213,7 @@ export default function ModalBackProject({
                 { label: "Transaction Fee", value: txBreakdown?.transaction },
               ]}
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
+              adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 <div>
                   {txBreakdown$DisplableError ? (

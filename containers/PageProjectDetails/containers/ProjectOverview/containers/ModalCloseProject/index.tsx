@@ -10,6 +10,7 @@ import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
 import styles from "./index.module.scss";
 import { buildTx } from "./utils/transactions";
 
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT, throw$, try$ } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
@@ -54,6 +55,7 @@ export default function ModalCloseProject({
 }: Props) {
   const { showMessage } = useToast();
   const router = useRouter();
+  const adaPriceInfo = useAdaPriceInfo();
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
   const txParamsResult = useTxParams$CreatorCloseProject({ projectId });
@@ -184,6 +186,7 @@ export default function ModalCloseProject({
                 { label: "Transaction Fee", value: txBreakdown?.transaction },
               ]}
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
+              adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 txBreakdown$DisplableError ? (
                   <ErrorBox

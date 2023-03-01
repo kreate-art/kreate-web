@@ -22,6 +22,7 @@ import ModalSponsorship, {
 import IconClock from "./icons/IconClock";
 import styles from "./index.module.scss";
 
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT, throw$, try$ } from "@/modules/async-utils";
 import { formatLovelaceAmount, sumTxBreakdown } from "@/modules/bigint-utils";
 import {
@@ -70,6 +71,7 @@ export default function ModalUpdateProject({
   onSuccess,
 }: Props) {
   const { showMessage } = useToast();
+  const adaPriceInfo = useAdaPriceInfo();
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
   const txParamsResult = useTxParams$CreatorUpdateProject({ projectId });
@@ -432,6 +434,7 @@ export default function ModalUpdateProject({
                 },
               ]}
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
+              adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 txBreakdown$DisplableError ? (
                   <ErrorBox
