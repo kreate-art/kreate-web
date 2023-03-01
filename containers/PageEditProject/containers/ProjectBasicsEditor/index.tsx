@@ -42,12 +42,12 @@ export default function ProjectBasicsEditor({
 }: Props) {
   // TODO: @sk-kitsune: let the child component converts `blobUrl` to `ProjectImage`
   const coverSuggestions: ProjectImage[] = (suggestedCoverImages || []).map(
-    (blobUrl) => ({ url: blobUrl, x: 0, y: 0, width: 1, height: 1 })
+    (blobUrl) => ({ url: blobUrl, crop: { x: 0, y: 0, w: 1, h: 1 } })
   );
 
   // TODO: @sk-kitsune: let the child component converts `blobUrl` to `ProjectImage`
   const logoSuggestions: ProjectImage[] = (suggestedLogoImages || []).map(
-    (blobUrl) => ({ url: blobUrl, x: 0, y: 0, width: 1, height: 1 })
+    (blobUrl) => ({ url: blobUrl, crop: { x: 0, y: 0, w: 1, h: 1 } })
   );
 
   return (

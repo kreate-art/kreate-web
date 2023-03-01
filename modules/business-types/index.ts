@@ -12,13 +12,16 @@ export type ProjectDescription = {
   body: JSONContent;
 };
 
+type Ratio = number; // 0.0 .. 1.0
+
 export type ProjectImage = {
   url: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  // TODO: change to ProjectImage = { url: string, crop: { x, y, w, h }}
+  crop: { x: Ratio; y: Ratio; w: Ratio; h: Ratio };
+  // we mark these fields as never so that we will never use it in the future
+  x?: never;
+  y?: never;
+  width?: never;
+  height?: never;
 };
 
 export type ProjectBasics = {

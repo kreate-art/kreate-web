@@ -18,15 +18,6 @@ type Props = {
 export default function ProjectImageCropped({ value, ...others }: Props) {
   const actualValue = value || DEFAULT_PROJECT_IMAGE;
   return (
-    <ImageCropped
-      src={actualValue.url}
-      crop={{
-        x: actualValue.x,
-        y: actualValue.y,
-        w: actualValue.width,
-        h: actualValue.height,
-      }}
-      {...others}
-    />
+    <ImageCropped src={actualValue.url} crop={actualValue.crop} {...others} />
   );
 }

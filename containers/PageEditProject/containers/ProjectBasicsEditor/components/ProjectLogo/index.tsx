@@ -58,12 +58,7 @@ export default function ProjectLogo({
                   borderRadius: "12px",
                 }}
                 src={logo.url}
-                crop={{
-                  x: logo.x,
-                  y: logo.y,
-                  w: logo.width,
-                  h: logo.height,
-                }}
+                crop={logo.crop}
               />
             </div>
           </div>

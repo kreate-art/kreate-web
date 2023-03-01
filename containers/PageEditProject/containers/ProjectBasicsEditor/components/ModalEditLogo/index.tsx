@@ -67,10 +67,7 @@ export default function ModalEditLogo({
               if (typeof url !== "string") return;
               setSelectedImage({
                 url: url,
-                x: 0,
-                y: 0,
-                width: 1,
-                height: 1,
+                crop: { x: 0, y: 0, w: 1, h: 1 },
               });
               setEditingImage(url);
             }}
@@ -81,12 +78,7 @@ export default function ModalEditLogo({
                   <ImageCropped
                     className={styles.imageCropped}
                     src={selectedImage.url}
-                    crop={{
-                      x: selectedImage.x,
-                      y: selectedImage.y,
-                      w: selectedImage.width,
-                      h: selectedImage.height,
-                    }}
+                    crop={selectedImage.crop}
                   />
                   <button
                     className={styles.closeImageButton}
@@ -118,10 +110,7 @@ export default function ModalEditLogo({
                       const url = URL.createObjectURL(event.target.files[0]);
                       setSelectedImage({
                         url,
-                        x: 0,
-                        y: 0,
-                        width: 1,
-                        height: 1,
+                        crop: { x: 0, y: 0, w: 1, h: 1 },
                       });
                       setEditingImage(url);
                     }
@@ -144,10 +133,12 @@ export default function ModalEditLogo({
                 onCropAreaChange={(croppedArea) => {
                   const image = {
                     url: editingImage,
-                    x: croppedArea.x / 100.0,
-                    y: croppedArea.y / 100.0,
-                    width: croppedArea.width / 100.0,
-                    height: croppedArea.height / 100.0,
+                    crop: {
+                      x: croppedArea.x / 100.0,
+                      y: croppedArea.y / 100.0,
+                      w: croppedArea.width / 100.0,
+                      h: croppedArea.height / 100.0,
+                    },
                   };
                   setSelectedImage(image);
                 }}
@@ -183,10 +174,7 @@ export default function ModalEditLogo({
             onClickSelectLogo={(url) => {
               setSelectedImage({
                 url,
-                x: 0,
-                y: 0,
-                width: 1,
-                height: 1,
+                crop: { x: 0, y: 0, w: 1, h: 1 },
               });
               setEditingImage(url);
             }}

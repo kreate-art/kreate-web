@@ -14,8 +14,5 @@ export const DEFAULT_LOGO_IMAGE: ProjectImage = {
       </defs>
       <rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)' />
     </svg>`.replace(/\s/g, " "),
-  x: 0,
-  y: 0,
-  width: 1,
-  height: 1,
+  crop: { x: 0, y: 0, w: 1, h: 1 },
 };

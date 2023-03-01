@@ -9,8 +9,5 @@ export const DEFAULT_IMAGE_URL = `data:image/svg+xml,
 
 export const DEFAULT_PROJECT_IMAGE: ProjectImage = {
   url: DEFAULT_IMAGE_URL,
-  x: 0,
-  y: 0,
-  width: 1,
-  height: 1,
+  crop: { x: 0, y: 0, w: 1, h: 1 },
 };

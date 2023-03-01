@@ -75,10 +75,7 @@ export default function ModalEditImage({
                 ...newFileUrls.map((url) => {
                   return {
                     url: url,
-                    x: 0,
-                    y: 0,
-                    width: 1,
-                    height: 1,
+                    crop: { x: 0, y: 0, w: 1, h: 1 },
                   };
                 }),
               ];
@@ -154,10 +151,7 @@ export default function ModalEditImage({
                       ...newFileUrls.map((url) => {
                         return {
                           url: url,
-                          x: 0,
-                          y: 0,
-                          width: 1,
-                          height: 1,
+                          crop: { x: 0, y: 0, w: 1, h: 1 },
                         };
                       }),
                     ];
@@ -186,10 +180,12 @@ export default function ModalEditImage({
                         if (image.url === editingImage) {
                           return {
                             url: editingImage,
-                            x: croppedArea.x / 100.0,
-                            y: croppedArea.y / 100.0,
-                            width: croppedArea.width / 100.0,
-                            height: croppedArea.height / 100.0,
+                            crop: {
+                              x: croppedArea.x / 100.0,
+                              y: croppedArea.y / 100.0,
+                              w: croppedArea.width / 100.0,
+                              h: croppedArea.height / 100.0,
+                            },
                           };
                         } else {
                           return image;
@@ -232,10 +228,7 @@ export default function ModalEditImage({
                 ...selectedImages,
                 {
                   url,
-                  x: 0,
-                  y: 0,
-                  width: 1,
-                  height: 1,
+                  crop: { x: 0, y: 0, w: 1, h: 1 },
                 },
               ];
               setSelectedImages(newSelectedImage);

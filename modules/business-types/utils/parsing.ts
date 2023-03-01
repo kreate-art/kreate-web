@@ -66,13 +66,25 @@ function parseLovelaceAmount(obj: any): LovelaceAmount {
 }
 
 function parseProjectImage(obj: any): ProjectImage {
-  return {
-    url: parseString(obj?.url),
-    x: parseNumber(obj?.x),
-    y: parseNumber(obj?.y),
-    width: parseNumber(obj?.width),
-    height: parseNumber(obj?.height),
-  };
+  return typeof obj?.crop === "object"
+    ? {
+        url: parseString(obj?.url),
+        crop: {
+          x: parseNumber(obj?.crop?.x),
+          y: parseNumber(obj?.crop?.y),
+          w: parseNumber(obj?.crop?.w),
+          h: parseNumber(obj?.crop?.h),
+        },
+      }
+    : {
+        url: parseString(obj?.url),
+        crop: {
+          x: parseNumber(obj?.x),
+          y: parseNumber(obj?.y),
+          w: parseNumber(obj?.width),
+          h: parseNumber(obj?.height),
+        },
+      };
 }
 
 function parseProjectBasics$CoverImages(obj: any): ProjectImage[] {

@@ -70,12 +70,7 @@ export default function ProjectCoverImages({
                       borderRadius: "12px",
                     }}
                     src={image.url}
-                    crop={{
-                      x: image.x,
-                      y: image.y,
-                      w: image.width,
-                      h: image.height,
-                    }}
+                    crop={image.crop}
                   />
                 </div>
               );

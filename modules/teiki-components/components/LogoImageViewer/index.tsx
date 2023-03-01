@@ -54,12 +54,7 @@ export default function LogoImageViewer({
       <ImageView
         className={styles.image}
         src={actualValue.url}
-        crop={{
-          x: actualValue.x,
-          y: actualValue.y,
-          w: actualValue.width,
-          h: actualValue.height,
-        }}
+        crop={actualValue.crop}
       />
     </div>
   );

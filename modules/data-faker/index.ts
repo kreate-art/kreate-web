@@ -44,18 +44,12 @@ export function generateProjectBasics(): ProjectBasics {
     summary: faker.commerce.productDescription(),
     coverImages: Array.from(Array(6), () => ({
       url: faker.image.business(800, 450, true),
-      x: 0,
-      y: 0,
-      width: 1,
-      height: 1,
+      crop: { x: 0, y: 0, w: 1, h: 1 },
     })),
 
     logoImage: {
       url: faker.image.business(500, 400),
-      x: 0.3,
-      y: 0.1,
-      width: 0.6,
-      height: 0.75,
+      crop: { x: 0.3, y: 0.1, w: 0.6, h: 0.75 },
     },
   };
 }
