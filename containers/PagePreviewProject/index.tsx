@@ -113,7 +113,7 @@ export default function PagePreviewProject({ storageId }: Props) {
                   <ProjectDetails
                     className={styles.details}
                     description={project.description}
-                    roadmap={project.roadmap}
+                    roadmap={project.roadmapInfo}
                     community={project.community}
                   />
                 </div>

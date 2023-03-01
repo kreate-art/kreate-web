@@ -40,7 +40,7 @@ export async function loadProject(projectId: string): Promise<Project> {
   // 2. Load from backend
   const response = await httpGetProject({ projectId, preset: "full" });
   assert(!response.error, "response has non-null error");
-  const { description, basics, roadmap, community } = response.project;
-  assert(description && basics && roadmap && community, "missing fields");
-  return { description, basics, roadmap, community };
+  const { description, basics, roadmapInfo, community } = response.project;
+  assert(description && basics && roadmapInfo && community, "missing fields");
+  return { description, basics, roadmapInfo, community };
 }

@@ -11,13 +11,13 @@ import {
   ProjectCommunity,
   ProjectDescription,
   ProjectMilestone,
-  ProjectRoadmap,
+  ProjectRoadmapInfo,
 } from "@/modules/business-types";
 import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
 
 type Props = {
   className?: string;
-  roadmap: ProjectRoadmap;
+  roadmap: ProjectRoadmapInfo;
   community: ProjectCommunity;
   description: ProjectDescription;
 };
@@ -54,9 +54,11 @@ export default function ProjectDetails({
         </div>
       ) : activeTabIndex == 1 ? ( // Roadmaps
         <div className={styles.roadmapMain}>
-          {roadmap.map((milestone: ProjectMilestone, index: number) => (
-            <MilestoneDetail {...milestone} key={index} />
-          ))}
+          {roadmap.milestones.map(
+            (milestone: ProjectMilestone, index: number) => (
+              <MilestoneDetail {...milestone} key={index} />
+            )
+          )}
         </div>
       ) : activeTabIndex == 3 ? ( // FAQs
         <FAQs faqs={community.frequentlyAskedQuestions} />

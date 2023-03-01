@@ -192,7 +192,7 @@ export async function getDetailedProject(
     totalRaisedFunds,
   } = row;
 
-  const { description, basics, roadmap, community } = await try$<
+  const { description, basics, roadmapInfo, community } = await try$<
     Partial<Project>
   >(
     () => {
@@ -329,7 +329,7 @@ export async function getDetailedProject(
 
     Object.assign(project, {
       description,
-      roadmap,
+      roadmapInfo,
       announcements,
       activities,
       topSupporters,

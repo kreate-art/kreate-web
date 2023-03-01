@@ -41,8 +41,11 @@ export type ProjectMilestone = {
   isCompleted: boolean;
 };
 
+/** @deprecated use ProjectRoadmapInfo instead */
 export type ProjectRoadmap = ProjectMilestone[];
-// TODO: change to ProjectRoadmap = { milestones: ProjectMilestone[] }
+export type ProjectRoadmapInfo = {
+  milestones: ProjectMilestone[];
+};
 
 export type FrequentlyAskedQuestion = {
   question: string;
@@ -57,7 +60,8 @@ export type ProjectCommunity = {
 export type Project = {
   description: ProjectDescription;
   basics: ProjectBasics;
-  roadmap: ProjectRoadmap;
+  roadmap?: never; // previously `roadmap: ProjectRoadmap`
+  roadmapInfo: ProjectRoadmapInfo;
   community: ProjectCommunity;
 };
 
@@ -142,7 +146,7 @@ export type SupporterInfo = {
 export type ProjectDetailsInfo = {
   generalInfo: ProjectGeneralInfo;
   description: ProjectDescription;
-  roadmap: ProjectRoadmap;
+  roadmap: ProjectRoadmapInfo;
   community: ProjectCommunity;
   communityUpdates: ProjectCommunityUpdate[];
   activities: ProjectActivity[];
@@ -277,7 +281,8 @@ export type Podcast = {
 export type DetailedProject = {
   id: ProjectId;
   description?: ProjectDescription;
-  roadmap?: ProjectRoadmap;
+  roadmap?: never; // previously `roadmap?: ProjectRoadMap`
+  roadmapInfo?: ProjectRoadmapInfo;
   basics?: ProjectBasics;
   community?: ProjectCommunity;
   history?: ProjectGeneralInfo["history"];

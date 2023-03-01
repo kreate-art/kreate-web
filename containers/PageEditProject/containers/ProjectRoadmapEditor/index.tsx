@@ -7,12 +7,12 @@ import MilestoneDetail from "./components/MilestoneDetail";
 import MilestoneInput from "./components/MilestoneInput";
 import styles from "./index.module.scss";
 
-import { ProjectMilestone, ProjectRoadmap } from "@/modules/business-types";
+import { ProjectMilestone, ProjectRoadmapInfo } from "@/modules/business-types";
 import Button from "@/modules/teiki-ui/components/Button";
 
 type Props = {
-  value: ProjectRoadmap;
-  onChange: (newRoadmap: ProjectRoadmap) => void;
+  value: ProjectRoadmapInfo;
+  onChange: (newRoadmap: ProjectRoadmapInfo) => void;
 };
 
 export default function ProjectRoadmapEditor({ value, onChange }: Props) {
@@ -21,7 +21,7 @@ export default function ProjectRoadmapEditor({ value, onChange }: Props) {
     while (true) {
       const mileStoneName = "Milestone " + minIndex;
       if (
-        value.some(
+        value.milestones.some(
           (mileStone: ProjectMilestone) => mileStone.name == mileStoneName
         )
       ) {
@@ -33,32 +33,34 @@ export default function ProjectRoadmapEditor({ value, onChange }: Props) {
   };
   const addMilestone = () => {
     const milestoneName = getSuggestedNameForNewMilestone();
-    onChange([
-      ...value,
-      {
-        id: Uuid.v4(),
-        dateIso: moment().format("YYYY-MM-DD"),
-        name: milestoneName,
-        description: "",
-        funding: undefined,
-        isCompleted: false,
-      },
-    ]);
+    onChange({
+      milestones: [
+        ...value.milestones,
+        {
+          id: Uuid.v4(),
+          dateIso: moment().format("YYYY-MM-DD"),
+          name: milestoneName,
+          description: "",
+          funding: undefined,
+          isCompleted: false,
+        },
+      ],
+    });
   };
   const updateMilestone = (id: string, newValue: ProjectMilestone) => {
-    onChange(
-      value.map((milestone: ProjectMilestone) => {
+    onChange({
+      milestones: value.milestones.map((milestone: ProjectMilestone) => {
         if (milestone.id === id) return newValue;
         return milestone;
-      })
-    );
+      }),
+    });
   };
   const deleteMilestone = (id: string) => {
-    onChange(
-      value.filter((milestone: ProjectMilestone) => {
+    onChange({
+      milestones: value.milestones.filter((milestone: ProjectMilestone) => {
         return milestone.id !== id;
-      })
-    );
+      }),
+    });
   };
   return (
     <div className={styles.roadmapMain}>
@@ -72,7 +74,7 @@ export default function ProjectRoadmapEditor({ value, onChange }: Props) {
           alignItems: "center",
         }}
       >
-        {value.map((milestone: ProjectMilestone) => (
+        {value.milestones.map((milestone: ProjectMilestone) => (
           <MilestoneInput
             value={milestone}
             onChange={(newValue: ProjectMilestone) =>
@@ -92,7 +94,7 @@ export default function ProjectRoadmapEditor({ value, onChange }: Props) {
       </div>
       <div className={styles.line} />
       <div className={styles.milestoneContainer}>
-        {value.map((milestone: ProjectMilestone, index: number) => (
+        {value.milestones.map((milestone: ProjectMilestone, index: number) => (
           <MilestoneDetail {...milestone} key={index} />
         ))}
       </div>

@@ -344,7 +344,7 @@ export default function PageProjectDetails({ className, style }: Props) {
               {!project ||
               !project.basics ||
               !project.description ||
-              !project.roadmap ||
+              !project.roadmapInfo ||
               !project.community ||
               !project.history ||
               !project.categories ||
@@ -401,7 +401,7 @@ export default function PageProjectDetails({ className, style }: Props) {
                         className={styles.details}
                         projectId={project.id}
                         description={project.description}
-                        roadmap={project.roadmap}
+                        roadmap={project.roadmapInfo}
                         community={project.community}
                         announcements={project.announcements}
                         activities={project.activities}

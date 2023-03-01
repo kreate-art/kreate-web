@@ -7,7 +7,7 @@ import {
   ProjectBasics,
   ProjectCommunity,
   ProjectDescription,
-  ProjectRoadmap,
+  ProjectRoadmapInfo,
 } from "@/modules/business-types";
 import { editorExtensions } from "@/modules/teiki-components/components/RichTextEditor/config";
 
@@ -17,7 +17,7 @@ export function getProjectProgressScores(
   return {
     description: getDescriptionProgress(project.description),
     basics: getBasicProgress(project.basics),
-    roadmap: getRoadmapProgress(project.roadmap),
+    roadmap: getRoadmapProgress(project.roadmapInfo),
     community: getCommunityProgress(project.community),
   };
 }
@@ -37,9 +37,9 @@ function getBasicProgress(basic: ProjectBasics): ProgressScore {
   );
 }
 
-function getRoadmapProgress(roadmap: ProjectRoadmap): ProgressScore {
-  if (roadmap.length > 0) {
-    return roadmap.some(
+function getRoadmapProgress(roadmap: ProjectRoadmapInfo): ProgressScore {
+  if (roadmap.milestones.length > 0) {
+    return roadmap.milestones.some(
       (milestone) => milestone.name === "" || milestone.description === ""
     )
       ? 0.5

@@ -10,7 +10,7 @@ import {
   ProjectDescription,
   ProjectImage,
   ProjectMilestone,
-  ProjectRoadmap,
+  ProjectRoadmapInfo,
 } from "..";
 
 import { convertDateAsDateIso } from "./converters";
@@ -84,7 +84,7 @@ function parseProjectBasics$Tags(obj: any): string[] {
 }
 
 function parseProjectDescription(obj: any): ProjectDescription {
-  return { body: parseJSONContent(obj) };
+  return { body: parseJSONContent(obj?.body) };
 }
 
 function parseProjectMilestone(obj: any): ProjectMilestone {
@@ -115,8 +115,13 @@ function parseProjectBasics(obj: any): ProjectBasics {
   };
 }
 
-function parseProjectRoadmap(obj: any): ProjectRoadmap {
-  return parseArrayT<ProjectMilestone>(obj, parseProjectMilestone);
+function parseProjectRoadmapInfo(obj: any): ProjectRoadmapInfo {
+  return {
+    milestones: parseArrayT<ProjectMilestone>(
+      typeof obj?.milestones === "undefined" ? obj : obj?.milestones,
+      parseProjectMilestone
+    ),
+  };
 }
 
 function parseFrequentlyAskedQuestion(obj: any): FrequentlyAskedQuestion {
@@ -162,7 +167,12 @@ export function parseProject(obj: any): Project {
   return {
     description: parseProjectDescription(obj?.description),
     basics: parseProjectBasics(obj?.basics),
-    roadmap: parseProjectRoadmap(obj?.roadmap),
+    roadmapInfo:
+      typeof obj?.roadmap === "object"
+        ? parseProjectRoadmapInfo(obj?.roadmap)
+        : typeof obj?.roadmapInfo === "object"
+        ? parseProjectRoadmapInfo(obj?.roadmapInfo)
+        : throw$(new TypeError("invalid roadmapInfo")),
     community: parseProjectCommunity(obj?.community),
   };
 }

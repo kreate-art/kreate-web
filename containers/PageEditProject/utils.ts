@@ -29,7 +29,7 @@ function newProject(): Project {
       coverImages: [],
       logoImage: null,
     },
-    roadmap: [],
+    roadmapInfo: { milestones: [] },
     community: {
       socialChannels: [],
       frequentlyAskedQuestions: [],

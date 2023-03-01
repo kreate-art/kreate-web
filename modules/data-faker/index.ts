@@ -17,7 +17,7 @@ import {
   ProjectDescription,
   ProjectGeneralInfo,
   ProjectMilestone,
-  ProjectRoadmap,
+  ProjectRoadmapInfo,
   ProjectUpdateScope,
   PROJECT_UPDATE_SCOPE,
   ProtocolStatistics,
@@ -105,8 +105,8 @@ export function generateMilestone(): ProjectMilestone {
   };
 }
 
-export function generateProjectRoadmap(): ProjectRoadmap {
-  return generateSome(generateMilestone);
+export function generateProjectRoadmap(): ProjectRoadmapInfo {
+  return { milestones: generateSome(generateMilestone) };
 }
 
 export function generateSocialChannel(): string {
@@ -351,7 +351,7 @@ export function generateDetailedProject(): DetailedProject {
   return {
     id: faker.datatype.uuid(),
     description: generateProjectDescription(),
-    roadmap: generateProjectRoadmap(),
+    roadmapInfo: generateProjectRoadmap(),
     basics: generateProjectBasics(),
     community: generateProjectCommunity(),
     history: {
@@ -379,7 +379,7 @@ export function generateProject(): Project {
   return {
     description: generateProjectDescription(),
     basics: generateProjectBasics(),
-    roadmap: generateProjectRoadmap(),
+    roadmapInfo: generateProjectRoadmap(),
     community: generateProjectCommunity(),
   };
 }

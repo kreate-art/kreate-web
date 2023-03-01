@@ -179,7 +179,7 @@ export default function ProjectEditor({
   useContentModeration({
     section: "roadmap",
     uuid: roadmapUuid,
-    text: value.roadmap
+    text: value.roadmapInfo.milestones
       .flatMap((milestone) => [milestone.name, milestone.description])
       .join(","),
     alertNewModerationWarning,
@@ -373,9 +373,9 @@ export default function ProjectEditor({
               />
             ) : activeIndex === 2 ? (
               <ProjectRoadmapEditor
-                value={value.roadmap}
+                value={value.roadmapInfo}
                 onChange={(newRoadmap) => {
-                  onChange && onChange({ ...value, roadmap: newRoadmap });
+                  onChange && onChange({ ...value, roadmapInfo: newRoadmap });
                 }}
               />
             ) : activeIndex === 3 ? (

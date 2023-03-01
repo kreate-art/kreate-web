@@ -13,7 +13,7 @@ import {
   ProjectCommunity,
   ProjectDescription,
   ProjectMilestone,
-  ProjectRoadmap,
+  ProjectRoadmapInfo,
 } from "@/modules/business-types";
 import { ProjectActivity } from "@/modules/business-types";
 import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
@@ -22,7 +22,7 @@ type Props = {
   className?: string;
   projectId: string | undefined;
   description: ProjectDescription;
-  roadmap: ProjectRoadmap;
+  roadmap: ProjectRoadmapInfo;
   community: ProjectCommunity;
   announcements: ProjectAnnouncement[];
   activities: ProjectActivity[];
@@ -66,9 +66,11 @@ export default function ProjectDetails({
         </div>
       ) : activeTabIndex == 1 ? ( // Roadmaps
         <div className={styles.roadmapMain}>
-          {roadmap.map((milestone: ProjectMilestone, index: number) => (
-            <TabMilestoneCard {...milestone} key={index} />
-          ))}
+          {roadmap.milestones.map(
+            (milestone: ProjectMilestone, index: number) => (
+              <TabMilestoneCard {...milestone} key={index} />
+            )
+          )}
         </div>
       ) : activeTabIndex == 2 ? ( // Announcements
         <TabUpdates value={announcements} />
