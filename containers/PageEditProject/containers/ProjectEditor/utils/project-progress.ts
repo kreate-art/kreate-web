@@ -32,7 +32,8 @@ function getDescriptionProgress(
 
 function getBasicProgress(basic: ProjectBasics): ProgressScore {
   return (
-    (basic.title.length > 0 ? 0.5 : 0) + (basic.customUrl.length > 0 ? 0.5 : 0)
+    (basic.title.length > 0 ? 0.5 : 0) +
+    ((basic.customUrl ?? "").length > 0 ? 0.5 : 0)
   );
 }
 

@@ -161,7 +161,7 @@ export default function ProjectEditor({
   useContentModeration({
     section: "custom url",
     uuid: customUrlUuid,
-    text: value.basics.customUrl,
+    text: value.basics.customUrl ?? "",
     alertNewModerationWarning,
   });
   useContentModeration({

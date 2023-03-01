@@ -107,7 +107,7 @@ function parseProjectBasics(obj: any): ProjectBasics {
   return {
     title: parseString(obj?.title),
     slogan: parseString(obj?.slogan),
-    customUrl: parseString(obj?.customUrl),
+    customUrl: parse$Nullable<string>(obj?.customUrl, parseString),
     tags: parseProjectBasics$Tags(obj?.tags),
     summary: parseString(obj?.summary),
     coverImages: parseProjectBasics$CoverImages(obj?.coverImages),

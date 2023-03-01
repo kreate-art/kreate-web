@@ -33,7 +33,7 @@ export default function BasicForm({
   suggestedCustomUrls,
 }: Props) {
   const checkCustomUrlExists$Result = useCheckCustomUrlExists({
-    customUrl: value.customUrl,
+    customUrl: value.customUrl ?? "",
     ignoreIfProjectIdIs: projectId,
   });
 
@@ -67,7 +67,7 @@ export default function BasicForm({
       </div>
       <div className={styles.basicInputWrapper}>
         <ComboBox.Text
-          value={value.customUrl}
+          value={value.customUrl ?? ""}
           onChange={(customUrl) =>
             onChange &&
             onChange({

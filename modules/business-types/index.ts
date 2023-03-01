@@ -24,7 +24,7 @@ export type ProjectImage = {
 export type ProjectBasics = {
   title: string;
   slogan: string;
-  customUrl: string; // TODO: When customUrl = "", we should define it as null
+  customUrl: string | null;
   tags: string[];
   summary: string;
   coverImages: ProjectImage[];

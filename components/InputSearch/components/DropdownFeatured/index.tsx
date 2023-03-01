@@ -29,7 +29,7 @@ export default function DropdownFeatured({ error, data, onClick }: Props) {
                   <FeaturedProjectCard
                     key={generalInfo.id}
                     onClick={() =>
-                      onClick && onClick(generalInfo.basics.customUrl)
+                      onClick && onClick(generalInfo.basics.customUrl ?? "")
                     }
                     basics={generalInfo.basics}
                   />
