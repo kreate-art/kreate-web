@@ -6,6 +6,7 @@ import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
 
 import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
 import { useSupportProjectLogic } from "./hooks/useSupportProjectLogic";
+import IconRewardStar from "./icons/IconRewardStar";
 import styles from "./index.module.scss";
 import { buildTx } from "./utils/transaction";
 
@@ -22,12 +23,19 @@ import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesB
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
+import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import TextArea from "@/modules/teiki-ui/components/TextArea";
 import Title from "@/modules/teiki-ui/components/Title";
 import Typography from "@/modules/teiki-ui/components/Typography";
+
+const ASSUMED_ROA = BigInt(35000);
+const MULTIPLIER = BigInt(1000000);
+const EPOCH_LENGTH_IN_DAYS = BigInt(5);
+const YEAR_LENGTH_IN_DAYS = BigInt(365);
 
 type SuccessEvent = {
   lovelaceAmount: LovelaceAmount;
@@ -178,6 +186,45 @@ export default function ModalBackProject({
                   disabled={busy}
                 />
               </fieldset>
+              <Flex.Col padding="20px" gap="16px" className={styles.infoBox}>
+                <Flex.Row
+                  justifyContent="space-between"
+                  gap="20px"
+                  alignItems="center"
+                >
+                  <Flex.Col>
+                    <IconRewardStar />
+                  </Flex.Col>
+                  <Typography.Div>
+                    <Typography.Span
+                      content="With this backing amount, you help the project earn "
+                      size="bodySmall"
+                    />
+                    <AssetViewer.Ada.Compact
+                      as="span"
+                      approx={true}
+                      lovelaceAmount={
+                        output.lovelaceAmount
+                          ? (((BigInt(output.lovelaceAmount) * ASSUMED_ROA) /
+                              MULTIPLIER) *
+                              EPOCH_LENGTH_IN_DAYS) /
+                            YEAR_LENGTH_IN_DAYS
+                          : undefined
+                      }
+                      size="heading6"
+                      fontWeight="bold"
+                      color="green"
+                    />
+                    <Typography.Span content=" every 5 days" size="bodySmall" />
+                  </Typography.Div>
+                </Flex.Row>
+                <Divider.Horizontal />
+                <Typography.Div
+                  content="You can withdraw your backing ADA at anytime"
+                  color="green"
+                  size="heading6"
+                />
+              </Flex.Col>
               <fieldset className={styles.fieldset}>
                 <Title className={styles.fieldLabel}>
                   <span>Message</span>
