@@ -1,6 +1,6 @@
 import { tryAsResultT } from "@/modules/async-utils";
 import { ProjectAnnouncement } from "@/modules/business-types";
-import { assert } from "@/modules/common-utils";
+import { parseProjectAnnoucement } from "@/modules/business-types/utils/parsing";
 import { clear, load, save } from "@/modules/storage-v2";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
@@ -19,23 +19,16 @@ function getStorageId(projectId: string, storageType: StorageType): string {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isProjectAnnouncement(obj: any): obj is ProjectAnnouncement {
-  return (
-    typeof obj?.title === "string" &&
-    typeof obj?.body === "object" &&
-    typeof obj?.summary === "string"
-  );
-}
-
 export async function loadProjectAnnouncementFromBrowserStorage(
   projectId: string,
   storageType: StorageType
 ): Promise<ProjectAnnouncement> {
   const storageId = getStorageId(projectId, storageType);
   const { data, bufs } = await load(storageId);
-  assert(isProjectAnnouncement(data));
-  return Converters.toProjectAnnouncement(CodecBlob)({ data, bufs });
+  return Converters.toProjectAnnouncement(CodecBlob)({
+    data: parseProjectAnnoucement(data),
+    bufs,
+  });
 }
 
 export function newProjectAnnouncement(): ProjectAnnouncement {

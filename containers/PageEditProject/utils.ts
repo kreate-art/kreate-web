@@ -1,7 +1,7 @@
 import { generateText } from "@tiptap/core";
 
 import { Project } from "@/modules/business-types";
-import { assert } from "@/modules/common-utils";
+import { parseProject } from "@/modules/business-types/utils/parsing";
 import { load, save } from "@/modules/storage-v2";
 import { editorExtensions } from "@/modules/teiki-components/components/RichTextEditor/config";
 import { Converters } from "@/modules/with-bufs-as-converters";
@@ -10,16 +10,6 @@ import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
 export function getStorageId(paymentPubKeyHash: string) {
   // https://www.notion.so/shinka-network/549ee87019e240cd8c9de1cc3f49bbab
   return `storage-v2://creator-create-project/by-payment-pkh/${paymentPubKeyHash}/project--auto-saved`;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isProject(obj: any): obj is Project {
-  return (
-    typeof obj?.description === "object" &&
-    typeof obj?.basics === "object" &&
-    Array.isArray(obj?.roadmap) &&
-    typeof obj?.community === "object"
-  );
 }
 
 function newProject(): Project {
@@ -51,8 +41,8 @@ async function loadProjectFromBrowserStorage(
   storageId: string
 ): Promise<Project> {
   const { data, bufs } = await load(storageId);
-  assert(isProject(data));
-  return Converters.toProject(CodecBlob)({ data, bufs });
+  const project = parseProject(data);
+  return Converters.toProject(CodecBlob)({ data: project, bufs });
 }
 
 export async function loadProject(storageId: string) {

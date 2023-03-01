@@ -1,4 +1,5 @@
 import { Project } from "../business-types";
+import { parseProject } from "../business-types/utils/parsing";
 
 import { CodecCid } from "@/modules/next-backend/utils/CodecCid";
 import { WithBufsAs } from "@/modules/with-bufs-as";
@@ -8,7 +9,10 @@ export function getProjectDetailsResponse(
   projectWBA: WithBufsAs<Project, string> | undefined
 ) {
   if (projectWBA) {
-    const project = Converters.toProject(CodecCid)(projectWBA);
+    const project = Converters.toProject(CodecCid)({
+      data: parseProject(projectWBA.data),
+      bufs: projectWBA.bufs,
+    });
 
     return {
       ok: true,

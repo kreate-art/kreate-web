@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { DetailedProject } from "@/modules/business-types";
+import { parseProject } from "@/modules/business-types/utils/parsing";
 import { toJson } from "@/modules/json-utils";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { db } from "@/modules/next-backend/db";
@@ -30,7 +31,10 @@ export default async function handler(
     const backedProjects = await getBackedProjectsByBacker(db, { address });
     const detailedBackedProjects = await Promise.all(
       backedProjects.map(async (item) => {
-        const project = Converters.toProject(CodecCid)(item.contents);
+        const project = Converters.toProject(CodecCid)({
+          data: parseProject(item.contents.data),
+          bufs: item.contents.bufs,
+        });
         const detailedProject: DetailedProject = {
           id: item.projectId,
           basics: project.basics,

@@ -6,6 +6,7 @@ import { CodecCid } from "../utils/CodecCid";
 
 import { try$ } from "@/modules/async-utils";
 import { Podcast, Project } from "@/modules/business-types";
+import { parseProject } from "@/modules/business-types/utils/parsing";
 import { assert } from "@/modules/common-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
@@ -100,7 +101,10 @@ export async function getAllPodcasts(
       const { basics: pbasics } = await try$<Partial<Project>>(
         () => {
           assert(isWithBufsAs<Project, Cid>(row.contents));
-          return Converters.toProject(CodecCid)(row.contents);
+          return Converters.toProject(CodecCid)({
+            data: parseProject(row.contents.data),
+            bufs: row.contents.bufs,
+          });
         },
         () => ({})
       );

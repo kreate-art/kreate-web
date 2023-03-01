@@ -12,6 +12,7 @@ import {
   PROJECT_UPDATE_SCOPE,
   UnixTimestamp,
 } from "@/modules/business-types";
+import { parseProject } from "@/modules/business-types/utils/parsing";
 import { toJson } from "@/modules/json-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
@@ -80,7 +81,10 @@ export async function getAllProjectUpdates(
   `;
 
   const allProjectSnapshots: ProjectSnapshot[] = results.map((result) => {
-    const contents = Converters.toProject(CodecCid)(result.contents);
+    const contents = Converters.toProject(CodecCid)({
+      data: parseProject(result.contents.data),
+      bufs: result.contents.bufs,
+    });
     return {
       time: result.time?.valueOf(),
       contents,

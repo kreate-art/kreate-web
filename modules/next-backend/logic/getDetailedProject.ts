@@ -22,6 +22,7 @@ import {
   ProjectActivity,
   ProjectActivityAction,
 } from "@/modules/business-types";
+import { parseProject } from "@/modules/business-types/utils/parsing";
 import { assert } from "@/modules/common-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
@@ -196,7 +197,10 @@ export async function getDetailedProject(
   >(
     () => {
       assert(isWithBufsAs<Project, Cid>(contents));
-      return Converters.toProject(CodecCid)(contents);
+      return Converters.toProject(CodecCid)({
+        data: parseProject(contents.data),
+        bufs: contents.bufs,
+      });
     },
     () => ({})
   );

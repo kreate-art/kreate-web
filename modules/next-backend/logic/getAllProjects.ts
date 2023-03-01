@@ -10,6 +10,7 @@ import { getBackingTags } from "./getBackingTags";
 import { httpPostTagsRecommendation } from "@/modules/ai/api/httpPostTagsRecommendation";
 import { sortedBy } from "@/modules/array-utils";
 import { Project, ProjectGeneralInfo } from "@/modules/business-types";
+import { parseProject } from "@/modules/business-types/utils/parsing";
 import {
   Query,
   toBoolean,
@@ -173,7 +174,10 @@ export async function getAllProjects(
   let projects: ProjectGeneralInfo[] = results
     .filter(({ contents }) => isWithBufsAs<Project, Cid>(contents))
     .map((p) => {
-      const project = Converters.toProject(CodecCid)(p.contents);
+      const project = Converters.toProject(CodecCid)({
+        data: parseProject(p.contents.data),
+        bufs: p.contents.bufs,
+      });
       return {
         id: p.projectId,
         basics: project.basics,
