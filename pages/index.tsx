@@ -3,12 +3,10 @@ import { SWRConfig, unstable_serialize } from "swr";
 
 import PageHome from "../containers/PageHome";
 
-import { try$ } from "@/modules/async-utils";
 import { db } from "@/modules/next-backend/db";
 import {
   getAllProjects,
   GetAllProjects$Params,
-  GetAllProjects$Response,
 } from "@/modules/next-backend/logic/getAllProjects";
 import { httpGetAllProjects$GetKey } from "@/modules/next-backend-client/api/httpGetAllProjects";
 
@@ -34,11 +32,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const featuredProjects$Key = httpGetAllProjects$GetKey(
     featuredProjects$Params
   );
-  const featuredProjects$Response: GetAllProjects$Response | undefined =
-    await try$(
-      async () => await getAllProjects(db, featuredProjects$Params),
-      () => undefined
-    );
 
   const sponsoredProjects$Params: GetAllProjects$Params = {
     category: "sponsor",
@@ -47,11 +40,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const sponsoredProjects$Key = httpGetAllProjects$GetKey(
     sponsoredProjects$Params
   );
-  const sponsoredProjects$Response: GetAllProjects$Response | undefined =
-    await try$(
-      async () => await getAllProjects(db, sponsoredProjects$Params),
-      () => undefined
-    );
+
+  const [featuredProjects$Response, sponsoredProjects$Response] =
+    await Promise.all([
+      getAllProjects(db, featuredProjects$Params).catch((error) => {
+        console.error("[SSR | Home | featuredProjects]", error);
+        return undefined;
+      }),
+      getAllProjects(db, sponsoredProjects$Params).catch((error) => {
+        console.error("[SSR | Home | sponsoredProjects]", error);
+        return undefined;
+      }),
+    ]);
 
   return {
     props: {
