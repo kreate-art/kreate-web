@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 import { range } from "../array-utils";
+import { convertDateAsDateIso } from "../business-types/utils/converters";
 
 import {
   Address,
@@ -96,7 +97,7 @@ export function generateProjectDescription(): ProjectDescription {
 export function generateMilestone(): ProjectMilestone {
   return {
     id: faker.datatype.uuid(),
-    date: faker.date.past().valueOf(),
+    dateIso: convertDateAsDateIso(faker.date.past().valueOf()),
     name: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     funding: faker.datatype.number(),

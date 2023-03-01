@@ -33,7 +33,8 @@ export type ProjectBasics = {
 
 export type ProjectMilestone = {
   id: string;
-  date: number;
+  date?: never; // previously `date: number`
+  dateIso: string; // YYYY-MM-DD, conforming to ISO 8601
   name: string;
   description: string;
   funding?: LovelaceAmount;

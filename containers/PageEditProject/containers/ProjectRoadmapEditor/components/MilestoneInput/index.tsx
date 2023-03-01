@@ -1,3 +1,4 @@
+import moment from "moment";
 import * as React from "react";
 
 import GrammarlyWrapper from "../../../../../../components/GrammarlyWrapper";
@@ -15,6 +16,7 @@ import {
   parseLovelaceAmount,
 } from "@/modules/bigint-utils";
 import { ProjectMilestone } from "@/modules/business-types";
+import { convertDateAsDateIso } from "@/modules/business-types/utils/converters";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Checkbox from "@/modules/teiki-ui/components/Checkbox";
 import Divider from "@/modules/teiki-ui/components/Divider";
@@ -65,9 +67,12 @@ export default function MilestoneInput({ value, onChange, onDelete }: Props) {
             <div className={styles.inputField}>
               <Title content="Date" />
               <InputDate
-                value={value.date}
+                value={moment(value.date, "YYYY-MM-DD").valueOf()}
                 onChange={(newValue: number) => {
-                  onChange({ ...value, date: newValue });
+                  onChange({
+                    ...value,
+                    dateIso: convertDateAsDateIso(newValue),
+                  });
                 }}
               />
             </div>

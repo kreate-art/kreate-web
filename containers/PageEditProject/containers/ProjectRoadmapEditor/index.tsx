@@ -1,3 +1,4 @@
+import moment from "moment";
 import * as React from "react";
 import * as Uuid from "uuid";
 
@@ -36,7 +37,7 @@ export default function ProjectRoadmapEditor({ value, onChange }: Props) {
       ...value,
       {
         id: Uuid.v4(),
-        date: Date.now(),
+        dateIso: moment().format("YYYY-MM-DD"),
         name: milestoneName,
         description: "",
         funding: undefined,

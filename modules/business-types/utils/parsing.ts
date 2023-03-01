@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   FrequentlyAskedQuestion,
   LovelaceAmount,
@@ -11,6 +12,10 @@ import {
   ProjectMilestone,
   ProjectRoadmap,
 } from "..";
+
+import { convertDateAsDateIso } from "./converters";
+
+import { throw$ } from "@/modules/async-utils";
 
 function parse$Nullable<T>(obj: any, parser: (obj: any) => T): T | null {
   if (typeof obj === "object" && obj === null) return null;
@@ -85,7 +90,12 @@ function parseProjectDescription(obj: any): ProjectDescription {
 function parseProjectMilestone(obj: any): ProjectMilestone {
   return {
     id: parseString(obj?.id),
-    date: parseNumber(obj?.date),
+    dateIso:
+      typeof obj?.dateIso === "string"
+        ? obj.dateIso
+        : typeof obj?.date === "number"
+        ? convertDateAsDateIso(obj.date)
+        : throw$(new TypeError("invalid dateIso")),
     name: parseString(obj?.name),
     description: parseString(obj?.description),
     funding: parse$Undefinedable(obj?.funding, parseLovelaceAmount),

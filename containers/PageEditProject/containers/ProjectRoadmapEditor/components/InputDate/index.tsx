@@ -1,6 +1,6 @@
-import moment from "moment";
 import * as React from "react";
 
+import { convertDateAsDateIso } from "@/modules/business-types/utils/converters";
 import Input from "@/modules/teiki-ui/components/Input";
 
 type Props = {
@@ -32,7 +32,7 @@ export default function InputDate({
       className={className}
       style={style}
       type="date"
-      value={text == null ? moment(value).format("yyyy-MM-DD") : text}
+      value={text == null ? convertDateAsDateIso(value) : text}
       onChange={(newText) => {
         if (validateDateFormat(newText)) {
           const newValue = new Date(newText).valueOf();
