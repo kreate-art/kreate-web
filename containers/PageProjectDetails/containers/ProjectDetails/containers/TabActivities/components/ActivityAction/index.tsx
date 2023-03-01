@@ -2,6 +2,8 @@ import cx from "classnames";
 import Link from "next/link";
 import * as React from "react";
 
+import styles from "./index.module.scss";
+
 import { formatScope, ProjectActivityAction } from "@/modules/business-types";
 import { getExplorerUrl } from "@/modules/common-utils";
 import { useTxParams$CreatorCreateProject } from "@/modules/next-backend-client/hooks/useTxParams$CreatorCreateProject";
@@ -20,66 +22,56 @@ export default function ActivityAction({ className, style, value }: Props) {
   switch (value.type) {
     case "back":
       return (
-        <Typography.Div maxLines={2} className={className} style={style}>
-          <Typography.Span size="heading6">
-            <InlineAddress value={value.createdBy} length="short" />
-          </Typography.Span>
-          <Typography.Span
-            color="ink80"
-            size="bodySmall"
-            lineHeight="medium"
-            content=" backed "
-          />
-          <Typography.Span size="heading6" color="green">
-            <AssetViewer.Ada.Standard
-              as="span"
-              lovelaceAmount={value.lovelaceAmount}
-            />
-          </Typography.Span>
-          <Link href={getExplorerUrl(value.createdTx)} target="_blank">
+        <Link href={getExplorerUrl(value.createdTx)} target="_blank">
+          <Typography.Div
+            maxLines={2}
+            className={cx(className, styles.action)}
+            style={style}
+          >
+            <Typography.Span size="heading6">
+              <InlineAddress value={value.createdBy} length="short" />
+            </Typography.Span>
             <Typography.Span
-              content="View transaction"
-              size="heading6"
-              style={{
-                color: "#00362C",
-                textDecoration: "underline",
-                marginLeft: "8px",
-              }}
+              color="ink80"
+              size="bodySmall"
+              lineHeight="medium"
+              content=" backed "
             />
-          </Link>
-        </Typography.Div>
+            <Typography.Span size="heading6" color="green">
+              <AssetViewer.Ada.Standard
+                as="span"
+                lovelaceAmount={value.lovelaceAmount}
+              />
+            </Typography.Span>
+          </Typography.Div>
+        </Link>
       );
 
     case "unback":
       return (
-        <Typography.Div maxLines={2} className={className} style={style}>
-          <Typography.Span size="heading6">
-            <InlineAddress value={value.createdBy} length="short" />
-          </Typography.Span>
-          <Typography.Span
-            color="ink80"
-            size="bodySmall"
-            lineHeight="medium"
-            content=" unbacked "
-          />
-          <Typography.Span size="heading6">
-            <AssetViewer.Ada.Standard
-              as="span"
-              lovelaceAmount={value.lovelaceAmount}
-            />
-          </Typography.Span>
-          <Link href={getExplorerUrl(value.createdTx)} target="_blank">
+        <Link href={getExplorerUrl(value.createdTx)} target="_blank">
+          <Typography.Div
+            maxLines={2}
+            className={cx(className, styles.action)}
+            style={style}
+          >
+            <Typography.Span size="heading6">
+              <InlineAddress value={value.createdBy} length="short" />
+            </Typography.Span>
             <Typography.Span
-              content="View transaction"
-              size="heading6"
-              style={{
-                color: "#00362C",
-                textDecoration: "underline",
-                marginLeft: "8px",
-              }}
+              color="ink80"
+              size="bodySmall"
+              lineHeight="medium"
+              content=" unbacked "
             />
-          </Link>
-        </Typography.Div>
+            <Typography.Span size="heading6">
+              <AssetViewer.Ada.Standard
+                as="span"
+                lovelaceAmount={value.lovelaceAmount}
+              />
+            </Typography.Span>
+          </Typography.Div>
+        </Link>
       );
 
     case "announcement":
