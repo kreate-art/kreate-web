@@ -11,6 +11,7 @@ import {
 import styles from "./index.module.scss";
 import { buildTx } from "./utils/transaction";
 
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -55,6 +56,7 @@ export default function ModalWithdrawFund({
   onSuccess,
 }: Props) {
   const { showMessage } = useToast();
+  const adaPriceInfo = useAdaPriceInfo();
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
   const lucid =
@@ -174,6 +176,7 @@ export default function ModalWithdrawFund({
                 { label: "Transaction Fee", value: feeBreakdown?.transaction },
               ]}
               total={feeBreakdown ? sumTxBreakdown(feeBreakdown) : undefined}
+              adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 <div>
                   {formattedError$estimatedFees ? (

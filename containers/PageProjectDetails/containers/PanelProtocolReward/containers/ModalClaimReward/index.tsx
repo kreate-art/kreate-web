@@ -7,6 +7,7 @@ import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
 import IconRevenue from "./icons/IconRevenue";
 import styles from "./index.module.scss";
 
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { formatMicroTeikiAmount, sumTxBreakdown } from "@/modules/bigint-utils";
 import { MicroTeikiAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -44,6 +45,7 @@ export default function ModalClaimReward({
   unclaimedAmount,
 }: Props) {
   const { showMessage } = useToast();
+  const adaPriceInfo = useAdaPriceInfo();
   const { walletStatus } = useAppContextValue$Consumer();
   const [statusText, setStatusText] = React.useState("");
   const [busy, setBusy] = React.useState(false);
@@ -151,6 +153,7 @@ export default function ModalClaimReward({
                     ]
               }
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
+              adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 txBreakdown$DisplableError ? (
                   <ErrorBox

@@ -12,6 +12,7 @@ import IconClock from "../ModalUpdateProject/icons/IconClock";
 
 import styles from "./index.module.scss";
 
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT } from "@/modules/async-utils";
 import {
   formatLovelaceAmount,
@@ -62,6 +63,7 @@ export default function ModalSponsorship({
   onCancel,
   onSuccess,
 }: Props) {
+  const adaPriceInfo = useAdaPriceInfo();
   const [sponsorInputOpen, setSponsorInputOpen] = React.useState(false);
   const txParamsResult = useTxParams$CreatorUpdateProject({ projectId });
   const { input, syntaxError, output } = useCreateProjectLogic({
@@ -179,6 +181,7 @@ export default function ModalSponsorship({
                 },
               ]}
               total={txBreakdown?.extendsSponsorship}
+              adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 <div>
                   {txBreakdown$DisplableError ? (
