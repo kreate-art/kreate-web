@@ -1,10 +1,12 @@
-# teiki-web
+# Teiki Web
+
+This repository contains the Teiki web implementation in Generation I.
 
 ## Docker
 
 ### Build
 
-Unfortunately, we need to prepare an `.env` first before building the image...
+We must prepare an `.env` before building the image.
 
 ```
 # Multi Platform
@@ -18,7 +20,7 @@ docker buildx build -t teiki/web:latest --load .
 
 `teiki-web` depends on `teiki-index` and other services.
 
-Prepare your own `docker-compose.yml`, based on https://github.com/teiki-network/teiki-index/blob/main/docker-compose.yml, with an extra service for `teiki-web`
+Prepare your own `docker-compose.yml` based on https://github.com/teiki-network/teiki-index/blob/main/docker-compose.yml, with an extra service for `teiki-web`:
 
 ```yaml
 web:
@@ -48,16 +50,20 @@ docker-compose down
 
 ## Development
 
-### Installing dependencies
+### Install dependencies
 
 ```sh
 npm install
 ```
 
-### Running the development server
+### Start the development server
 
 ```sh
 npm run dev
 # or
 npm run dev:turbo
 ```
+
+---
+
+Feel free to connect: [Website](https://teiki.network), [Medium](https://teikinetwork.medium.com), [Discord](https://discord.gg/n9wZZTY6XA), [Twitter](https://twitter.com/TeikiNetwork), [Telegram](https://t.me/teiki_announcement). We are very open to discussions, questions, and feedback :seedling:.
