@@ -18,13 +18,28 @@ console.log(`Interally route IPFS Gateway to: ${IPFS_GATEWAY_ORIGIN}`);
 export function middleware(request: NextRequest) {
   const method = request.method;
   if (method !== "GET" && method !== "HEAD" && method !== "OPTIONS")
-    throw new Error("We only accept GET/HEAD/OPTIONS method");
+    return new NextResponse("GET / HEAD / OPTIONS only", {
+      status: 405,
+      statusText: "Method Not Allowed",
+    });
   const url = request.nextUrl;
-  return NextResponse.rewrite(
-    `${IPFS_GATEWAY_ORIGIN}${url.pathname.slice(6)}${url.search}${url.hash}`
-  );
+  const pathname = url.pathname;
+  if (pathname === "/_proxy") {
+    const proxyUrl = url.searchParams.get("url");
+    if (!proxyUrl)
+      return new NextResponse("URL must be specified", {
+        status: 400,
+        statusText: "Bad Request",
+      });
+    return NextResponse.rewrite(proxyUrl);
+  } else {
+    // Must be /_ipfs/:path*
+    return NextResponse.rewrite(
+      `${IPFS_GATEWAY_ORIGIN}${pathname.slice(6)}${url.search}${url.hash}`
+    );
+  }
 }
 
 export const config = {
-  matcher: ["/_ipfs/:path*"],
+  matcher: ["/_ipfs/:path*", "/_proxy"],
 };
