@@ -24,7 +24,7 @@ import PanelActivities from "./containers/PanelActivities";
 import PanelAdjustStake from "./containers/PanelAdjustStake";
 import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUnbackSuccess";
 import PanelProtocolReward from "./containers/PanelProtocolReward";
-import PanelTopSupporters from "./containers/PanelTopSupporters";
+import PanelTopBackers from "./containers/PanelTopBackers";
 import PanelWithdrawFund from "./containers/PanelWithdrawFund";
 import ProjectDetails, { TABS } from "./containers/ProjectDetails";
 import ModalCloseProject from "./containers/ProjectOverview/containers/ModalCloseProject";
@@ -474,7 +474,7 @@ export default function PageProjectDetails({ className, style }: Props) {
                       ) : null}
 
                       {project.topSupporters && project.topSupporters.length ? (
-                        <PanelTopSupporters value={project.topSupporters} />
+                        <PanelTopBackers value={project.topSupporters} />
                       ) : null}
 
                       {!project.activities ? null : (
