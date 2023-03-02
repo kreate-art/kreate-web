@@ -2,6 +2,7 @@ import Link from "next/link";
 import * as React from "react";
 
 import { ProjectActivityAction } from "@/modules/business-types";
+import useAdaHandle from "@/modules/common-hooks/hooks/useAdaHandle";
 import { getExplorerUrl } from "@/modules/common-utils";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -15,11 +16,16 @@ type Props = {
 };
 
 export default function ActionUnback({ className, style, value }: Props) {
+  const { data, error } = useAdaHandle(value.createdBy);
   return (
     <Flex.Col className={className} style={style} gap="8px">
       <Typography.Div size="bodySmall" color="ink80">
         <Typography.Span fontWeight="semibold" color="ink">
-          <InlineAddress value={value.createdBy} length="short" />
+          {error != null || data == undefined ? (
+            <InlineAddress value={value.createdBy} length="short" />
+          ) : (
+            `$${data}`
+          )}
         </Typography.Span>
         <Typography.Span content=" unbacked " />
         <AssetViewer.Ada.Standard

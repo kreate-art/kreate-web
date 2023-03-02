@@ -17,10 +17,10 @@ type Response = {
   script: boolean;
 };
 
-export default function useAdaHandle(address: string) {
+export default function useAdaHandle(address?: string) {
   const policyID = NEXT_PUBLIC_HANDLE_POLICY_ID;
   const { data, error } = useSWR(address, async (address) => {
-    if (address === "") {
+    if (address === "" || address == null) {
       return undefined;
     }
     const response = await fetch(

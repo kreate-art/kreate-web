@@ -62,7 +62,7 @@ export default function ButtonWalletOptions({
                     size="heading6"
                     color="ink"
                     className={styles.handle}
-                    content={data}
+                    content={`$${data}`}
                     maxLines={1}
                   />
                 )}

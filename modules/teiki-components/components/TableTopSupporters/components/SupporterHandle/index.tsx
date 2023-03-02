@@ -29,7 +29,7 @@ export default function SupporterHandle({ address }: Props) {
       size="heading6"
       className={styles.columnAddress}
       maxLines={1}
-      content={data}
+      content={`$${data}`}
     />
   );
 }
