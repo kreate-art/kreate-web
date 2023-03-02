@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 
 import { getStorageId } from "../../../containers/PageEditProject/utils";
-import PagePreviewProjectV2 from "../../../containers/PagePreviewProjectV2";
+import PagePreviewProject from "../../../containers/PagePreviewProject";
 
 type Props = {
   paymentPubKeyHash: string;
@@ -10,7 +10,7 @@ type Props = {
 export default function RouteToPagePreviewProject({
   paymentPubKeyHash,
 }: Props) {
-  return <PagePreviewProjectV2 storageId={getStorageId(paymentPubKeyHash)} />;
+  return <PagePreviewProject storageId={getStorageId(paymentPubKeyHash)} />;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (

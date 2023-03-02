@@ -23,7 +23,7 @@ type Props = {
   storageId: string;
 };
 
-export default function PagePreviewProjectV2({ storageId }: Props) {
+export default function PagePreviewProject({ storageId }: Props) {
   useDefaultBackground();
   const componentMountedAt = useComputationOnMount(() => Date.now());
 
