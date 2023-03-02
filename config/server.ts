@@ -22,6 +22,6 @@ export const DATABASE_MAX_CONNECTIONS = Number(
   process.env.DATABASE_MAX_CONNECTIONS || "4"
 );
 
-export const IPFS_HTTP_CLIENT_ORIGIN: string =
-  process.env.IPFS_HTTP_CLIENT_ORIGIN || "";
-runtimeAssert(IPFS_HTTP_CLIENT_ORIGIN, "IPFS_HTTP_CLIENT_ORIGIN is required");
+export const IPFS_HTTP_API_ORIGIN: string =
+  process.env.IPFS_HTTP_API_ORIGIN || "";
+runtimeAssert(IPFS_HTTP_API_ORIGIN, "IPFS_HTTP_API_ORIGIN is required");

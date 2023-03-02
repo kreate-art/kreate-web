@@ -31,7 +31,7 @@ web:
     - .env.testnet
   environment:
     DATABASE_URL: postgres://postgres:teiki73114@postgres:5432/teiki
-    IPFS_HTTP_CLIENT_ORIGIN: http://ipfs:5001
+    IPFS_HTTP_API_ORIGIN: http://ipfs:5001
   ports:
     - "3000:3000"
   restart: on-failure

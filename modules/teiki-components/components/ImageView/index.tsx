@@ -1,11 +1,12 @@
 import Image from "next/image";
 import * as React from "react";
 
+import { NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN } from "../../../../config/client";
 import { ImageErrorBoundary } from "../RichTextEditor/custom-nodes/Image/components/ImageErrorBoundary";
 
 import styles from "./index.module.scss";
 import { Crop, Size } from "./types";
-import { shrinkRectToAspectRatio, toAbsoluteUrl } from "./utils";
+import { shrinkRectToAspectRatio } from "./utils";
 
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 
@@ -17,6 +18,8 @@ type Props = {
   crop: Crop;
 };
 
+const IPFS_GATEWAY_ORIGIN_PREFIX = NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN + "/";
+
 export default function ImageView({ className, style, src, alt, crop }: Props) {
   const [target, setTarget] = React.useState<HTMLDivElement | null>(null);
   const [imageSize, setImageSize] = React.useState<Size | undefined>(undefined);
@@ -26,7 +29,14 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
     setTarget(target);
   }, []);
 
-  const absoluteSrc = toAbsoluteUrl(src);
+  // @sk-shishi: This is the "safest" option I have at the moment without messing up
+  // all the usages of `CodecCid`.
+  // The patched URL Must match the path in `middleware.ts`.
+  const patchedSrc =
+    process.env.NODE_ENV !== "development" &&
+    src.startsWith(IPFS_GATEWAY_ORIGIN_PREFIX)
+      ? "/_ipfs/" + src.slice(IPFS_GATEWAY_ORIGIN_PREFIX.length)
+      : src;
 
   const computed = React.useMemo(() => {
     if (!targetSize) return undefined;
@@ -77,7 +87,7 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
   return (
     <div className={className} style={style}>
       <div ref={targetRef} className={styles.image}>
-        {absoluteSrc && computed ? (
+        {patchedSrc && computed ? (
           // NOTE: @sk-kitsune: don't use ImageErrorBoundary
           <ImageErrorBoundary>
             <Image
@@ -85,7 +95,7 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
                 transform: `translate(${computed.bgPosition.x}px, ${computed.bgPosition.y}px)`,
                 filter: imageSize ? "none" : "blur(40px)",
               }}
-              src={absoluteSrc}
+              src={patchedSrc}
               alt={alt || ""}
               width={computed.bgSize.w}
               height={computed.bgSize.h}
