@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-import { NEXT_PUBLIC_IPFS_GATEWAY } from "../../../../../config/client";
+import { NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN } from "../../../../../config/client";
 
 import { httpPostBlazinglyFastLogos } from "@/modules/ai/api/httpPostBlazinglyFastLogos";
 import { assert } from "@/modules/common-utils";
@@ -20,7 +20,7 @@ function useLogoAsBlobUrl(logoCid: LogoCid | null): BlobUrl | undefined {
     async () => {
       if (!logoCid) return undefined;
       const response = await fetch(
-        `${NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${logoCid}`
+        `${NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN}/ipfs/${logoCid}`
       );
       assert(response.ok, "response not ok");
       return URL.createObjectURL(await response.blob());

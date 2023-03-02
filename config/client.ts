@@ -100,6 +100,7 @@ assert(
   "NEXT_PUBLIC_TEIKI_ASSET_NAME must be a hex string"
 );
 
+// TODO: Rename to NEXT_PUBLIC_AI_ORIGIN
 export const NEXT_PUBLIC_AI_URL: string = process.env.NEXT_PUBLIC_AI_URL || "";
 assert(
   /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_AI_URL),
@@ -115,6 +116,7 @@ assert(
     "'client_' and followed by alphanumeric characters"
 );
 
+// TODO: Rename to NEXT_PUBLIC_TEIKI_CDN_ORIGIN
 export const NEXT_PUBLIC_TEIKI_CDN: string =
   process.env.NEXT_PUBLIC_TEIKI_CDN || "";
 assert(
@@ -123,10 +125,10 @@ assert(
     "'http://' or 'https://' and must not end with '/'"
 );
 
-export const NEXT_PUBLIC_IPFS_GATEWAY: string =
-  process.env.NEXT_PUBLIC_IPFS_GATEWAY || "";
+export const NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN: string =
+  process.env.NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN || "";
 assert(
-  /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_IPFS_GATEWAY),
-  "NEXT_PUBLIC_IPFS_GATEWAY must starts with " +
+  /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN),
+  "NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN must starts with " +
     "'http://' or 'https://' and must not end with '/'"
 );

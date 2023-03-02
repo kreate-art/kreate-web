@@ -4,9 +4,9 @@ import busboy from "busboy";
 import * as IpfsHttpClient from "ipfs-http-client";
 import { NextApiRequest } from "next";
 
-import { IPFS_HTTP_CLIENT_ORIGIN } from "../../../config/server";
+import { IPFS_HTTP_API_ORIGIN } from "../../../config/server";
 
-const ipfsClient = IpfsHttpClient.create({ url: IPFS_HTTP_CLIENT_ORIGIN });
+const ipfsClient = IpfsHttpClient.create({ url: IPFS_HTTP_API_ORIGIN });
 
 type Result = { cid: string; size: number };
 
