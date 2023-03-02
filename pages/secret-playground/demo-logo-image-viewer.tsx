@@ -58,7 +58,7 @@ type FormData = {
 
 function applyProxy(projectImage: ProjectImage): ProjectImage {
   const originalUrl = projectImage.url;
-  const url = `/api/v1/proxy?${new URLSearchParams({ url: originalUrl })}`;
+  const url = `/_proxy?${new URLSearchParams({ url: originalUrl })}`;
   return { ...projectImage, url };
 }
 

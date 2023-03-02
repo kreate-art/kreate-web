@@ -34,7 +34,7 @@ export function ImageNodeView({
         const response = await fetch(
           src.startsWith("data:")
             ? src
-            : `/api/v1/proxy?${new URLSearchParams({ url: src })}`
+            : `/_proxy?${new URLSearchParams({ url: src })}`
         );
         signal.throwIfAborted();
         const blob = await response.blob();
