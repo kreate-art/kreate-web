@@ -4,7 +4,6 @@ import * as React from "react";
 
 import svgFlyingLeaves from "./assets/flying-leaves.svg";
 import SupporterHandle from "./components/SupporterHandle";
-import IconInfo from "./icons/IconInfo";
 import IconTop1 from "./icons/IconTop1";
 import IconTop2 from "./icons/IconTop2";
 import IconTop3 from "./icons/IconTop3";
