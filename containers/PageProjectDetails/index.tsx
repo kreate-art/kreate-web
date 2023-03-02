@@ -473,7 +473,7 @@ export default function PageProjectDetails({ className, style }: Props) {
                         />
                       ) : null}
 
-                      {project.topSupporters && project.topSupporters.length ? (
+                      {project.topSupporters ? (
                         <PanelTopBackers value={project.topSupporters} />
                       ) : null}
 
