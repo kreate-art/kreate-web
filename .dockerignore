@@ -2,6 +2,7 @@
 !package*.json
 !tsconfig*.json
 !next.config.js
+!middleware.ts
 !components/
 !config/
 !containers/

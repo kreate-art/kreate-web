@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const IPFS_GATEWAY_ORIGIN =
   process.env.INTERNAL_IPFS_GATEWAY_ORIGIN ||

@@ -9,6 +9,7 @@ COPY --chown=node:node package*.json ./
 RUN npm ci
 COPY --chown=node:node tsconfig*.json ./
 COPY --chown=node:node next.config.js ./
+COPY --chown=node:node middleware.ts ./
 COPY --chown=node:node components components
 COPY --chown=node:node config config
 COPY --chown=node:node containers containers
