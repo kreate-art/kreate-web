@@ -395,6 +395,9 @@ export default function PageProjectDetails({ className, style }: Props) {
                   <div className={styles.detailsStatsPanels}>
                     <div className={styles.mainPanels}>
                       <ProjectDetails
+                        // We set `key={project.id}` so what when `location.href` changes,
+                        // `ProjectDetails` state (including its children) is reset.
+                        key={project.id}
                         className={styles.details}
                         projectId={project.id}
                         description={project.description}
