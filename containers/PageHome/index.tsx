@@ -18,7 +18,7 @@ import IconLoadMore from "./icons/IconLoadMore";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
-import TableTopSupporters from "@/modules/teiki-components/components/TableTopSupporters";
+import TableTopBackers from "@/modules/teiki-components/components/TableTopBackers";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -158,11 +158,11 @@ export default function PageHome({ className, style }: Props) {
                 ) : !topSupporterResponse.data ? (
                   "loading"
                 ) : (
-                  <div className={styles.topSupporterContainer}>
+                  <div className={styles.topBackersContainer}>
                     <h6 className={styles.label}>Top Backers</h6>
-                    <TableTopSupporters
+                    <TableTopBackers
                       value={topSupporterResponse.data.supporters}
-                      className={styles.tableTopSupporters}
+                      className={styles.tableTopBackers}
                     />
                   </div>
                 )}

@@ -1,16 +1,19 @@
 import cx from "classnames";
+import Image from "next/image";
 import * as React from "react";
 
-import IconInfo from "./icons/IconInfo";
+import svgFlyingLeaves from "./assets/flying-leaves.svg";
 import IconTop1 from "./icons/IconTop1";
 import IconTop2 from "./icons/IconTop2";
 import IconTop3 from "./icons/IconTop3";
 import styles from "./index.module.scss";
 
 import { rankOf, sortedBy } from "@/modules/array-utils";
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { SupporterInfo } from "@/modules/business-types";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
+import Flex from "@/modules/teiki-ui/components/Flex";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 const MAX_DISPLAYED_RANK = 10;
 
@@ -20,7 +23,7 @@ type Props = {
   value: SupporterInfo[];
 };
 
-export default function TableTopSupporters({ className, style, value }: Props) {
+export default function TableTopBackers({ className, style, value }: Props) {
   // sort by amount  > remove zero-amount supporters > inject rank property > only display MAX_DISPLAYED_RANK items
   const sortedItems = sortedBy(value, (item) => -item.lovelaceAmount)
     .filter((item) => item.lovelaceAmount > 0)
@@ -33,10 +36,10 @@ export default function TableTopSupporters({ className, style, value }: Props) {
   if (!sortedItems.length) {
     return (
       <div className={cx(styles.container, className)} style={style}>
-        <div className={styles.empty}>
-          <IconInfo width="36px" height="36px" />
-          <div>No supporters</div>
-        </div>
+        <Flex.Col gap="10px" alignItems="center">
+          <Image src={svgFlyingLeaves} alt="" width={96} height={96} />
+          <Typography.Div size="bodySmall" color="ink80" content="No Backers" />
+        </Flex.Col>
       </div>
     );
   }
@@ -47,7 +50,6 @@ export default function TableTopSupporters({ className, style, value }: Props) {
         {sortedItems.map((item, index) => (
           <React.Fragment key={index}>
             <div className={styles.columnRank}>
-              {/* TODO: @sk-umiuma -> @sk-kitsune: Implement the new top 3 design */}
               {item.rank === 1 ? (
                 <IconTop1 />
               ) : item.rank === 2 ? (
@@ -64,12 +66,14 @@ export default function TableTopSupporters({ className, style, value }: Props) {
                 className={styles.inlineAddressAuto}
               />
             </div>
-            <div
-              className={styles.columnLovelaceAmount}
-              title={`${item.lovelaceAmount}`}
-            >
-              {formatLovelaceAmount(item.lovelaceAmount, { compact: true }) +
-                " ₳"}
+            <div className={styles.columnLovelaceAmount}>
+              <AssetViewer.Ada.Compact
+                as="div"
+                size="bodySmall"
+                color="ink"
+                fontWeight="semibold"
+                lovelaceAmount={item.lovelaceAmount}
+              />
             </div>
           </React.Fragment>
         ))}

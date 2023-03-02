@@ -25,21 +25,6 @@
   min-height: 28px;
   font-size: 12px;
   line-height: 12px;
-
-  &.rank1 {
-    background-color: colors.$green;
-    color: white;
-  }
-
-  &.rank2 {
-    background-color: #1f3e2f;
-    color: white;
-  }
-
-  &.rank3 {
-    background-color: #d9d9d9;
-    color: #1f3e2f;
-  }
 }
 
 .columnRank {
@@ -48,7 +33,7 @@
 }
 
 .columnAddress {
-  font-weight: 500;
+  font-weight: 400;
   color: #00362c;
   overflow: hidden;
 }
@@ -61,12 +46,4 @@
   text-align: right;
   font-weight: 400;
   color: #00362c;
-}
-
-.empty {
-  display: flex;
-  flex-direction: column;
-  color: rgba(0, 0, 0, 0.1);
-  align-items: center;
-  gap: 10px;
 }
