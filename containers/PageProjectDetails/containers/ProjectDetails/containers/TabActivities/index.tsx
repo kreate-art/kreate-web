@@ -12,7 +12,9 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: ProjectActivity[];
-  projectId: string;
+  // @sk-kitsune: we are gonna use `ProjectDetails` in the preview page.
+  // Therefore, we allow `projectId` to be nullable.
+  projectId: string | undefined;
 };
 
 export default function TabActivities({
@@ -28,7 +30,9 @@ export default function TabActivities({
         icon={<IconDownload width="24px" />}
         content="Export CSV Data"
         size="large"
-        onClick={async () => {
+        disabled={!projectId}
+        onClick={() => {
+          if (!projectId) return;
           const search = new URLSearchParams({ projectId });
           window.open(
             `/api/v1/export-backing-data?${search.toString()}`,

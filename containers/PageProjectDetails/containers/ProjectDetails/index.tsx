@@ -20,7 +20,7 @@ import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor
 
 type Props = {
   className?: string;
-  projectId: string;
+  projectId: string | undefined;
   description: ProjectDescription;
   roadmap: ProjectRoadmap;
   community: ProjectCommunity;
@@ -59,28 +59,23 @@ export default function ProjectDetails({
       {activeTabIndex == 0 ? ( // Campaign
         <div className={styles.richTextEditorContainer}>
           <RichTextEditor
-            /**NOTE: @sk-tenba: setting key to projectId make the component rerender when the route changes */
             key={projectId}
             value={description.body}
             className={styles.richTextEditor}
           />
         </div>
       ) : activeTabIndex == 1 ? ( // Roadmaps
-        <div className={styles.roadmapMain} key={projectId}>
+        <div className={styles.roadmapMain}>
           {roadmap.map((milestone: ProjectMilestone, index: number) => (
             <TabMilestoneCard {...milestone} key={index} />
           ))}
         </div>
       ) : activeTabIndex == 2 ? ( // Announcements
-        <TabUpdates key={projectId} value={announcements} />
+        <TabUpdates value={announcements} />
       ) : activeTabIndex == 3 ? ( // FAQs
-        <FAQs key={projectId} faqs={community.frequentlyAskedQuestions} />
-      ) : activeTabIndex === 4 ? ( // TODO: Activities
-        <TabActivities
-          key={projectId}
-          value={activities}
-          projectId={projectId}
-        />
+        <FAQs faqs={community.frequentlyAskedQuestions} />
+      ) : activeTabIndex === 4 ? ( // Activities
+        <TabActivities value={activities} projectId={projectId} />
       ) : null}
     </div>
   );
