@@ -67,7 +67,7 @@ export default function MilestoneInput({ value, onChange, onDelete }: Props) {
             <div className={styles.inputField}>
               <Title content="Date" />
               <InputDate
-                value={moment(value.date, "YYYY-MM-DD").valueOf()}
+                value={moment(value.dateIso, "YYYY-MM-DD").valueOf()}
                 onChange={(newValue: number) => {
                   onChange({
                     ...value,

@@ -124,7 +124,7 @@ function getAllUpdatedScopes(
 ): ProjectUpdateScope[] {
   const results: ProjectUpdateScope[] = [];
   for (const [key, value] of Object.entries(a)) {
-    if (key === "description" || key === "community" || key === "roadmap") {
+    if (key === "description" || key === "community" || key === "roadmapInfo") {
       if (toJson(value) !== toJson(b[key])) results.push({ type: key });
     } else {
       for (const [keyBasics, valueBasics] of Object.entries(a.basics)) {

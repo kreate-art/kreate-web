@@ -176,7 +176,7 @@ export const PROJECT_UPDATE_SCOPE = [
   "summary",
   "coverImages",
   "logoImage",
-  "roadmap",
+  "roadmapInfo",
   "community",
   "sponsorship",
 ] as const;
@@ -190,7 +190,7 @@ export type ProjectUpdateScope =
   | { type: "summary" }
   | { type: "coverImages" }
   | { type: "logoImage" }
-  | { type: "roadmap" }
+  | { type: "roadmapInfo" }
   | { type: "community" }
   | { type: "sponsorship"; sponsorshipAmount: LovelaceAmount };
 
@@ -198,7 +198,7 @@ export function formatScope(scope: ProjectUpdateScope): string {
   switch (scope.type) {
     case "description":
       return "description";
-    case "roadmap":
+    case "roadmapInfo":
       return "roadmap";
     case "community":
       return "community info";

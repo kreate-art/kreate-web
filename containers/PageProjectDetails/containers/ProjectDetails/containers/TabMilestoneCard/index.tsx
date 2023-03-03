@@ -11,7 +11,7 @@ import Title from "@/modules/teiki-ui/components/Title";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 export default function TabMilestoneCard({
-  date,
+  dateIso,
   name,
   description,
   funding,
@@ -21,7 +21,7 @@ export default function TabMilestoneCard({
   return (
     <div className={styles.container}>
       <div className={styles.leftCardContainer}>
-        <Title content={moment(date).format("MMM DD, YYYY")} />
+        <Title content={dateIso} />
         <IconCompleted className={styles.iconCompleted} />
         <div className={styles.statusContainer}>
           {!isCompleted ? (

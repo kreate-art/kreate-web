@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { JSONContent } from "@tiptap/core";
+
 import {
   FrequentlyAskedQuestion,
   LovelaceAmount,
@@ -54,14 +56,14 @@ function parseArrayT<T>(obj: any, parser: (obj: any) => T): T[] {
 
 // Project types
 
-function parseJSONContent(obj: any): any {
+function parseJSONContent(obj: any): JSONContent {
   if (typeof obj !== "object") throw new TypeError("invalid object");
   return obj;
 }
 
 function parseLovelaceAmount(obj: any): LovelaceAmount {
   if (typeof obj !== "number" && typeof obj !== "bigint")
-    throw new TypeError("invalid boolean");
+    throw new TypeError("invalid LovelaceAmount");
   return obj;
 }
 

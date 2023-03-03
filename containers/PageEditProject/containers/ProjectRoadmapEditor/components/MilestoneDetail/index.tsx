@@ -1,5 +1,4 @@
 import cx from "classnames";
-import moment from "moment";
 
 import IconCompleted from "./components/IconCompleted";
 import styles from "./index.module.css";
@@ -12,7 +11,7 @@ import Title from "@/modules/teiki-ui/components/Title";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 export default function MilestoneDetail({
-  date,
+  dateIso,
   name,
   description,
   funding,
@@ -22,7 +21,7 @@ export default function MilestoneDetail({
   return (
     <div className={styles.milestoneMain}>
       <div className={styles.milestoneTime}>
-        <Title content={moment(date).format("MMM DD, YYYY")} />
+        <Title content={dateIso} />
         <IconCompleted className={styles.iconCompleted} />
         <div className={styles.statusContainer}>
           {!isCompleted ? (
