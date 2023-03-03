@@ -87,10 +87,10 @@ export const ActionTypes = [
 
 // TODO: @sk-tenba: Add "political", "drug", "discrimination" when quality is decent.
 export const MODERATION_TAGS = [
-  "toxicity",
+  // "toxicity", @sk-yagi: Add this when quality is decent
   "obscene",
   "identityAttack",
-  "insult",
+  // "insult", @sk-yagi: Add this when quality is decent
   "threat",
   "sexualExplicit",
   "gun",
