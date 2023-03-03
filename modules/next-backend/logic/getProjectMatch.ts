@@ -25,6 +25,7 @@ export async function getProjectMatch(
     WHERE
       o.spent_slot IS NULL
       AND pd.project_id = ${projectId}
+      AND NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = pd.project_id)
     LIMIT
       1
   `;

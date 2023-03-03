@@ -80,6 +80,7 @@ export async function getDetailedProject(
           o.spent_slot IS NULL
           AND p.project_id = d.project_id
           AND p.status in ('delisted', 'closed')
+          AND NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = p.project_id)
         LIMIT
           1
       ),

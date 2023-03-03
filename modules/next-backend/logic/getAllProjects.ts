@@ -143,6 +143,7 @@ export async function getAllProjects(
       AND ${sqlTagsFilter}
       AND ${sqlSearchQuery}
       AND ${sqlCategorySponsor}
+      AND NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = p.project_id)
   `;
 
   let targetTag: string[] = [];

@@ -23,6 +23,7 @@ export async function getTotalStakedByBacker(
       b.backer_address = ${backerAddress}
       AND b.project_id = ${projectId}
       AND o.spent_slot IS NULL
+      AND NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = b.project_id)
   `;
 
   return {
