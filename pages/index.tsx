@@ -41,23 +41,41 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     sponsoredProjects$Params
   );
 
-  const [featuredProjects$Response, sponsoredProjects$Response] =
-    await Promise.all([
-      getAllProjects(db, featuredProjects$Params).catch((error) => {
-        console.error("[SSR | Home | featuredProjects]", error);
-        return undefined;
-      }),
-      getAllProjects(db, sponsoredProjects$Params).catch((error) => {
-        console.error("[SSR | Home | sponsoredProjects]", error);
-        return undefined;
-      }),
-    ]);
+  const regularProjects$FirstPage$Params: GetAllProjects$Params = {
+    active: true,
+    limit: 5,
+    offset: 0,
+  };
+  const regularProjects$FirstPage$Key = httpGetAllProjects$GetKey(
+    regularProjects$FirstPage$Params
+  );
+
+  const [
+    featuredProjects$Response,
+    sponsoredProjects$Response,
+    regularProjects$FirstPage$Response,
+  ] = await Promise.all([
+    getAllProjects(db, featuredProjects$Params).catch((error) => {
+      console.error("[SSR | Home | featuredProjects]", error);
+      return undefined;
+    }),
+    getAllProjects(db, sponsoredProjects$Params).catch((error) => {
+      console.error("[SSR | Home | sponsoredProjects]", error);
+      return undefined;
+    }),
+    getAllProjects(db, regularProjects$FirstPage$Params).catch((error) => {
+      console.error("[SSR | Home | regularProjects]", error);
+      return undefined;
+    }),
+  ]);
 
   return {
     props: {
       fallback: {
         [unstable_serialize(featuredProjects$Key)]: featuredProjects$Response,
         [unstable_serialize(sponsoredProjects$Key)]: sponsoredProjects$Response,
+        [unstable_serialize(regularProjects$FirstPage$Key)]:
+          regularProjects$FirstPage$Response,
       },
     },
   };
