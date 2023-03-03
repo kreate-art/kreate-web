@@ -35,7 +35,11 @@ export function useContentModeration({
         baseUrl: NEXT_PUBLIC_AI_URL,
         text: value$Debounced,
       });
-      return response.tags;
+      // @sk-yagi: We temporary disable these tags until our model is decent enough.
+      const tags = response.tags.filter(
+        (tag) => tag !== "toxicity" && tag !== "insult"
+      );
+      return tags;
     },
     {
       shouldRetryOnError: true,
