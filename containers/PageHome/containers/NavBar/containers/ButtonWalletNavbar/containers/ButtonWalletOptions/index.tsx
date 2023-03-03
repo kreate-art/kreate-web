@@ -8,7 +8,6 @@ import IconWarning from "./icons/IconWarning";
 import styles from "./index.module.scss";
 
 import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
-import useAdaHandle from "@/modules/common-hooks/hooks/useAdaHandle";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
@@ -30,7 +29,6 @@ export default function ButtonWalletOptions({
   const { adaPriceInfo, walletNetworkWarning } = useAppContextValue$Consumer();
   const adaPriceInUsd = adaPriceInfo?.usd;
   const [showDropdown, setShowDropdown] = React.useState(false);
-  const { data, error } = useAdaHandle(walletInfo.address);
 
   return (
     <div className={styles.buttonWalletOptionsContainer}>
@@ -45,27 +43,20 @@ export default function ButtonWalletOptions({
         <div className={styles.grid}>
           <div className={styles.walletInfo}>
             <div className={styles.wallet} title={walletNetworkWarning || ""}>
-              {walletNetworkWarning ? (
-                <IconWarning />
-              ) : (
-                WALLET_LOGO[walletInfo.walletName]
-              )}
-              <Typography.Div size="heading6">
-                {error != null || data == null ? (
-                  <InlineAddress
-                    className={styles.address}
-                    value={walletInfo.address}
-                    length="short"
-                  />
+              <div className={styles.logoContainer}>
+                {walletNetworkWarning ? (
+                  <IconWarning />
                 ) : (
-                  <Typography.Div
-                    size="heading6"
-                    color="ink"
-                    className={styles.handle}
-                    content={`$${data}`}
-                    maxLines={1}
-                  />
+                  WALLET_LOGO[walletInfo.walletName]
                 )}
+              </div>
+              <Typography.Div size="heading6" maxLines={1}>
+                <InlineAddress
+                  className={styles.address}
+                  value={walletInfo.address}
+                  length="short"
+                  allowAdaHandle={true}
+                />
               </Typography.Div>
             </div>
           </div>

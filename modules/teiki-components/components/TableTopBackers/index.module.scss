@@ -32,6 +32,16 @@
   color: #00362c;
 }
 
+.columnAddress {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.inlineAddressAuto {
+  width: 100%;
+}
+
 .columnLovelaceAmount {
   text-align: right;
   font-weight: 400;

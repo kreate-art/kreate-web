@@ -22,7 +22,11 @@ export default function ActionAnnouncement({
     <Flex.Col className={className} style={style} gap="8px">
       <Typography.Div size="bodySmall" color="ink80">
         <Typography.Span fontWeight="semibold" color="ink">
-          <InlineAddress value={createdBy} length="short" />
+          <InlineAddress
+            value={createdBy}
+            length="short"
+            allowAdaHandle={true}
+          />
         </Typography.Span>
         <Typography.Span content=" posted an announcement" />
       </Typography.Div>

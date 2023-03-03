@@ -2,13 +2,13 @@ import cx from "classnames";
 import Link from "next/link";
 import * as React from "react";
 
-import SupporterHandle from "./components/SupporterHandle";
 import styles from "./index.module.scss";
 
 import { formatScope, ProjectActivityAction } from "@/modules/business-types";
 import { getExplorerUrl } from "@/modules/common-utils";
 import { useTxParams$CreatorCreateProject } from "@/modules/next-backend-client/hooks/useTxParams$CreatorCreateProject";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
+import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
@@ -28,7 +28,13 @@ export default function ActivityAction({ className, style, value }: Props) {
             className={cx(className, styles.action)}
             style={style}
           >
-            <SupporterHandle address={value.createdBy} />
+            <Typography.Span size="heading6">
+              <InlineAddress
+                value={value.createdBy}
+                length="short"
+                allowAdaHandle={true}
+              />
+            </Typography.Span>
             <Typography.Span
               color="ink80"
               size="bodySmall"
@@ -53,7 +59,13 @@ export default function ActivityAction({ className, style, value }: Props) {
             className={cx(className, styles.action)}
             style={style}
           >
-            <SupporterHandle address={value.createdBy} />
+            <Typography.Span size="heading6">
+              <InlineAddress
+                value={value.createdBy}
+                length="short"
+                allowAdaHandle={true}
+              />
+            </Typography.Span>
             <Typography.Span
               color="ink80"
               size="bodySmall"

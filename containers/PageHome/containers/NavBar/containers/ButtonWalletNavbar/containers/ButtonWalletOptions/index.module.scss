@@ -66,11 +66,6 @@
   margin-left: 10px;
 }
 
-.handle {
-  margin-left: 10px;
-  max-width: 85px;
-}
-
 .walletOptions {
   position: absolute;
   background-color: #eef1f0;
@@ -125,4 +120,8 @@
 .walletInfo {
   flex: 1 1 0px;
   justify-content: center;
+}
+
+.logoContainer {
+  flex: 0 0 auto;
 }

@@ -96,12 +96,14 @@ export default function DemoInlineAddress() {
         >
           {length !== "auto" ? (
             <InlineAddress
+              allowAdaHandle={false}
               style={{ fontWeight: fontWeight }}
               value="addr_test1mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
               length={length}
             />
           ) : (
             <InlineAddress.Auto
+              allowAdaHandle={false}
               style={{ fontWeight: fontWeight, width: "100%" }}
               value="addr_test1mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
             />
