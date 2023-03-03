@@ -71,6 +71,8 @@ export async function getBackedProjectsByBacker(sql: Sql, { address }: Params) {
       x_unspent_project xup
     INNER JOIN x_all_backings_by_user xabbu
     ON xup.project_id = xabbu.project_id
+    WHERE
+      NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = xup.project_id)
     ORDER BY xabbu.total_backing_amount_by_user DESC
   `;
 

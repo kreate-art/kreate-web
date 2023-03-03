@@ -12,7 +12,12 @@ export async function getProtocolStatistics(
         SELECT count(ps.project_id) FROM views.project_summary ps
       ) project_count,
       (
-        SELECT count(DISTINCT b.backer_address) FROM chain.backing b
+        SELECT
+          count(DISTINCT b.backer_address)
+        FROM
+          chain.backing b
+        WHERE
+          NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = b.project_id)
       ) backer_count,
       (
         SELECT count(ps.project_id) FROM views.project_summary ps
@@ -61,6 +66,8 @@ export async function getProtocolStatistics(
             )
           FROM
             chain.project_detail pd
+          WHERE
+            NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = pd.project_id)
         ) * 1000
       ) average_milliseconds_between_project_updates
   `;

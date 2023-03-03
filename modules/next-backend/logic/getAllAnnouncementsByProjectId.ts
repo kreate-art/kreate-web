@@ -40,6 +40,8 @@ export async function getAllAnnouncementsByProjectId(
       INNER JOIN chain.block bk ON o.created_slot = bk.slot
       INNER JOIN ipfs.project_announcement pa ON a.announcement_cid = pa.cid
       LEFT JOIN ai.project_moderation pm ON a.announcement_cid = pm.cid
+    WHERE
+      NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = ${projectId})
     ORDER BY bk.slot DESC;
   `;
   return rows

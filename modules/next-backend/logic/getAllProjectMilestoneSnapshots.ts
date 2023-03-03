@@ -32,6 +32,8 @@ export async function getAllProjectMilestoneSnapshots(
       ) AS mr
       INNER JOIN chain.output o ON mr.id = o.id
       INNER JOIN chain.block bk ON o.created_slot = bk.slot
+    WHERE
+      NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = ${projectId})
     ORDER BY bk.slot DESC
   `;
 

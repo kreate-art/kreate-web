@@ -312,12 +312,12 @@ export async function getAllActivities(
         ru.sponsorship,
         ru.sponsorship_amount
       FROM res_update ru
-    ) _res
+    ) res
     WHERE ${
       cursorTime && cursorAction && cursorOutputId
         ? sql`(time, action, output_id) < (SELECT to_timestamp(${cursorTime}), ${cursorAction}::int8, ${cursorOutputId}::int8)`
         : sql`TRUE`
-    }
+    } AND NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = res.project_id)
     ORDER BY (time, action, output_id) DESC NULLS LAST
     LIMIT ${limit + 1}
   `;
