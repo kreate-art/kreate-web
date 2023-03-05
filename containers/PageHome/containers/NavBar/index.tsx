@@ -1,13 +1,13 @@
 import cx from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
-import useSWR from "swr";
 
 import InputSearch from "../../../../components/InputSearch";
 import {
   NEXT_PUBLIC_ENABLE_LEGACY,
   NEXT_PUBLIC_NETWORK,
 } from "../../../../config/client";
+import useDetailedProject from "../../../PageProjectDetails/hooks/useDetailedProject";
 
 import ButtonWalletNavbar from "./containers/ButtonWalletNavbar";
 import ModalConnectWallet from "./containers/ButtonWalletNavbar/containers/ModalConnectWallet";
@@ -18,12 +18,8 @@ import styles from "./index.module.scss";
 
 import { toJson } from "@/modules/json-utils";
 import { useModalPromises } from "@/modules/modal-promises";
-import { GetDetailedProject$Params } from "@/modules/next-backend/logic/getDetailedProject";
 import { httpGetLegacyBacking } from "@/modules/next-backend-client/api/httpGetLegacyBacking";
-import {
-  httpGetProject,
-  httpGetProject$GetKey,
-} from "@/modules/next-backend-client/api/httpGetProject";
+import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { LogoTeikiFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -56,17 +52,11 @@ export default function NavBar({ className, style }: Props) {
       ? appContextValue.walletStatus.info.address
       : undefined;
 
-  const httpGetProject$Params: GetDetailedProject$Params | undefined =
-    ownerAddress ? { ownerAddress, active: true, preset: "basic" } : undefined;
-  const httpGetProject$Key = httpGetProject$GetKey(httpGetProject$Params);
-  const { data, error } = useSWR(httpGetProject$Key, () =>
-    httpGetProject$Params ? httpGetProject(httpGetProject$Params) : undefined
+  const { project, error } = useDetailedProject(
+    ownerAddress ? { active: true, ownerAddress, preset: "basic" } : undefined
   );
 
-  const customUrl =
-    !error && data?.error === undefined
-      ? data?.project?.basics?.customUrl
-      : null;
+  const customUrl = project?.basics?.customUrl;
 
   const [isCreateProjectButtonDisabled, setIsCreateProjectButtonDisabled] =
     React.useState(false);
@@ -102,7 +92,7 @@ export default function NavBar({ className, style }: Props) {
               appContextValue.walletStatus.status === "connecting" ||
               appContextValue.walletStatus.status === "unknown" ||
               (appContextValue.walletStatus.status === "connected" &&
-                (data == null || error != null)) ||
+                (project == null || error != null)) ||
               isCreateProjectButtonDisabled
             }
             onClick={async () => {
