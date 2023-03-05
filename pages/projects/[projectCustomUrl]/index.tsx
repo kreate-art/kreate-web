@@ -7,6 +7,7 @@ import { db } from "@/modules/next-backend/db";
 import {
   getDetailedProject,
   GetDetailedProject$Params,
+  GET_DETAILED_PROJECT__ERRORS,
 } from "@/modules/next-backend/logic/getDetailedProject";
 import { httpGetProject$GetKey } from "@/modules/next-backend-client/api/httpGetProject";
 
@@ -51,6 +52,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       return undefined;
     }
   );
+
+  if (project$Response?.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND) {
+    return { notFound: true };
+  }
 
   return {
     props: {
