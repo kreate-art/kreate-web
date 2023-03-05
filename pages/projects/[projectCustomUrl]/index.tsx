@@ -1,30 +1,34 @@
+import { GetServerSideProps } from "next";
+
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
-import { db } from "@/modules/next-backend/db";
-import { getDetailedProject } from "@/modules/next-backend/logic/getDetailedProject";
+type Props = {
+  projectCustomUrl: string;
+};
 
 // eslint-disable-next-line react/prop-types
-export default function RouteToPageProjectDetails() {
-  return <PageProjectDetails />;
+export default function RouteToPageProjectDetails({ projectCustomUrl }: Props) {
+  return (
+    <PageProjectDetails
+      projectCustomUrl={projectCustomUrl}
+      projectId={undefined}
+    />
+  );
 }
 
-/**
- * The idea is to replace each media source in sha256
- * with is corresponding IPFS gateway URL in the `bufs` field
- */
-export async function getServerSideProps(context: {
-  params: { projectCustomUrl: string };
-}) {
-  const { params } = context;
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const customUrl = context.params?.["projectCustomUrl"];
 
-  const result = await getDetailedProject(db, {
-    customUrl: params.projectCustomUrl,
-    preset: "minimal",
-  });
-
-  if (result.error === null) {
-    return { props: {} };
-  } else {
+  if (typeof customUrl !== "string" || !/^[ -~]+$/.test(customUrl)) {
     return { notFound: true };
   }
-}
+
+  // TODO: if project is not found, show page 404
+  return {
+    props: {
+      projectCustomUrl: customUrl,
+    },
+  };
+};
