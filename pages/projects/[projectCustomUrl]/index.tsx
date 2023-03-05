@@ -1,18 +1,32 @@
 import { GetServerSideProps } from "next";
+import { SWRConfig, unstable_serialize } from "swr";
 
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
+import { db } from "@/modules/next-backend/db";
+import {
+  getDetailedProject,
+  GetDetailedProject$Params,
+} from "@/modules/next-backend/logic/getDetailedProject";
+import { httpGetProject$GetKey } from "@/modules/next-backend-client/api/httpGetProject";
+
 type Props = {
+  fallback: Record<string, unknown>;
   projectCustomUrl: string;
 };
 
 // eslint-disable-next-line react/prop-types
-export default function RouteToPageProjectDetails({ projectCustomUrl }: Props) {
+export default function RouteToPageProjectDetails({
+  fallback,
+  projectCustomUrl,
+}: Props) {
   return (
-    <PageProjectDetails
-      projectCustomUrl={projectCustomUrl}
-      projectId={undefined}
-    />
+    <SWRConfig value={{ fallback }}>
+      <PageProjectDetails
+        projectCustomUrl={projectCustomUrl}
+        projectId={undefined}
+      />
+    </SWRConfig>
   );
 }
 
@@ -25,9 +39,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     return { notFound: true };
   }
 
-  // TODO: if project is not found, show page 404
+  const project$Params: GetDetailedProject$Params = {
+    customUrl,
+    projectId: undefined,
+    preset: "full",
+  };
+  const project$Key = httpGetProject$GetKey(project$Params);
+  const project$Response = await getDetailedProject(db, project$Params).catch(
+    (error) => {
+      console.error("[SSR | ProjectDetails | project]", error);
+      return undefined;
+    }
+  );
+
   return {
     props: {
+      fallback: {
+        [unstable_serialize(project$Key)]: project$Response,
+      },
       projectCustomUrl: customUrl,
     },
   };
