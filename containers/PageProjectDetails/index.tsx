@@ -71,8 +71,9 @@ export default function PageProjectDetails({
     mutate: mutateProject,
   } = useDetailedProject({
     projectId: typeof projectId === "string" ? projectId : undefined,
-    projectCustomUrl:
+    customUrl:
       typeof projectCustomUrl === "string" ? projectCustomUrl : undefined,
+    preset: "full",
   });
 
   React.useEffect(() => {
