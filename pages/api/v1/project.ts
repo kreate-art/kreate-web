@@ -12,6 +12,7 @@ export default async function handler(
   try {
     const { active, customUrl, projectId, ownerAddress, preset } = req.query;
 
+    // TODO: define fromQuery$GetDetailedProject
     ClientError.assert(
       (!active ||
         (typeof active === "string" && /^(true|false)$/.test(active))) &&
@@ -27,23 +28,13 @@ export default async function handler(
       "invalid preset"
     );
 
-    const result = await getDetailedProject(db, {
+    const response = await getDetailedProject(db, {
       active: active === undefined ? undefined : active === "true",
       customUrl,
       projectId,
       ownerAddress,
       preset,
     });
-
-    // IIFE (https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
-    const response = (() => {
-      switch (result.error) {
-        case null:
-          return { project: result.project };
-        case "not-found":
-          return { error: 48, _debug: result };
-      }
-    })();
 
     sendJson(res.status(200), response);
   } catch (error) {
