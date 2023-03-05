@@ -35,7 +35,7 @@ import { useProjectMatch } from "./hooks/useProjectMatch";
 import { useTotalStakedByBacker } from "./hooks/useTotalStakedByBacker";
 import styles from "./index.module.scss";
 
-import { DetailedProject, LovelaceAmount } from "@/modules/business-types";
+import { LovelaceAmount } from "@/modules/business-types";
 import { useLocationHash } from "@/modules/common-hooks/hooks/useLocationHash";
 import { useModalPromises } from "@/modules/modal-promises";
 import PanelProjectOverview from "@/modules/teiki-components/components/PanelProjectOverview";
@@ -49,17 +49,22 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  project?: DetailedProject;
+  projectId: string | undefined;
+  projectCustomUrl: string | undefined;
 };
 
-export default function PageProjectDetails({ className, style }: Props) {
+export default function PageProjectDetails({
+  className,
+  style,
+  projectId,
+  projectCustomUrl,
+}: Props) {
   const { walletStatus } = useAppContextValue$Consumer();
   const { showModal } = useModalPromises();
   const { showMessage } = useToast();
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const hash = useLocationHash();
-  const { projectId, projectCustomUrl } = router.query;
   const {
     project,
     error: errorProject,
