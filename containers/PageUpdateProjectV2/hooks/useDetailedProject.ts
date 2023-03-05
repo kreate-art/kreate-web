@@ -1,7 +1,11 @@
 import useSWR from "swr";
 
 import { DetailedProject } from "@/modules/business-types";
-import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
+import { GetDetailedProject$Params } from "@/modules/next-backend/logic/getDetailedProject";
+import {
+  httpGetProject,
+  httpGetProject$GetKey,
+} from "@/modules/next-backend-client/api/httpGetProject";
 
 export type Params = {
   active?: boolean;
@@ -23,18 +27,18 @@ export function useDetailedProject({
   customUrl,
   projectId,
   ownerAddress,
-  preset,
+  preset = "basic",
 }: Params): Result | undefined {
-  const { data, error } = useSWR(
-    ["b6e81188-6ef9-4d77-b2bd-7a76680ba24a"],
-    async () =>
-      await httpGetProject({
-        active,
-        customUrl,
-        projectId,
-        ownerAddress,
-        preset,
-      })
+  const httpGetProject$Params: GetDetailedProject$Params | undefined = {
+    active,
+    customUrl,
+    projectId,
+    ownerAddress,
+    preset,
+  };
+  const httpGetProject$Key = httpGetProject$GetKey(httpGetProject$Params);
+  const { data, error } = useSWR(httpGetProject$Key, () =>
+    httpGetProject$Params ? httpGetProject(httpGetProject$Params) : undefined
   );
 
   if (error) {

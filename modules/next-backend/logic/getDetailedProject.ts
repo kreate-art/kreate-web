@@ -26,6 +26,12 @@ import { assert } from "@/modules/common-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 
+const ERRORS = {
+  NOT_FOUND: 48,
+} as const;
+
+export const GET_DETAILED_PROJECT__ERRORS = ERRORS;
+
 type Cid = string;
 
 type Params = {
@@ -37,9 +43,13 @@ type Params = {
   preset: "minimal" | "basic" | "full";
 };
 
-type Result =
-  | { error: null; project: DetailedProject }
-  | { error: "not-found"; _debug?: unknown };
+export type GetDetailedProject$Params = Params;
+
+type Response =
+  | { error?: undefined; project: DetailedProject }
+  | { error: typeof ERRORS.NOT_FOUND; _debug?: unknown };
+
+export type GetDetailedProject$Response = Response;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isWithBufsAs<T, V>(obj: any): obj is WithBufsAs<T, V> {
@@ -52,7 +62,7 @@ function isWithBufsAs<T, V>(obj: any): obj is WithBufsAs<T, V> {
 export async function getDetailedProject(
   sql: Sql,
   params: Params
-): Promise<Result> {
+): Promise<Response> {
   assert(
     params.customUrl || params.projectId || params.ownerAddress,
     "at least one filter is required"
@@ -164,7 +174,7 @@ export async function getDetailedProject(
   const row = results[0];
 
   if (!row) {
-    return { error: "not-found" };
+    return { error: ERRORS.NOT_FOUND };
   }
 
   const {
@@ -333,7 +343,7 @@ export async function getDetailedProject(
     });
   }
 
-  return { error: null, project };
+  return { error: undefined, project };
 }
 
 async function backingDataToActivities(

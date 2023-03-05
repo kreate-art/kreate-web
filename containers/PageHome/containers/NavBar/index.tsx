@@ -18,8 +18,12 @@ import styles from "./index.module.scss";
 
 import { toJson } from "@/modules/json-utils";
 import { useModalPromises } from "@/modules/modal-promises";
+import { GetDetailedProject$Params } from "@/modules/next-backend/logic/getDetailedProject";
 import { httpGetLegacyBacking } from "@/modules/next-backend-client/api/httpGetLegacyBacking";
-import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
+import {
+  httpGetProject,
+  httpGetProject$GetKey,
+} from "@/modules/next-backend-client/api/httpGetProject";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { LogoTeikiFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -52,10 +56,11 @@ export default function NavBar({ className, style }: Props) {
       ? appContextValue.walletStatus.info.address
       : undefined;
 
-  const { data, error } = useSWR(
-    ["7b45b432-aca6-4406-bbc8-c3dc1420e988", ownerAddress],
-    ([_, ownerAddress]) =>
-      ownerAddress ? httpGetProject({ ownerAddress, active: true }) : null
+  const httpGetProject$Params: GetDetailedProject$Params | undefined =
+    ownerAddress ? { ownerAddress, active: true, preset: "basic" } : undefined;
+  const httpGetProject$Key = httpGetProject$GetKey(httpGetProject$Params);
+  const { data, error } = useSWR(httpGetProject$Key, () =>
+    httpGetProject$Params ? httpGetProject(httpGetProject$Params) : undefined
   );
 
   const customUrl =

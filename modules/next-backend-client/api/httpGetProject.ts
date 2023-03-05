@@ -1,26 +1,18 @@
-import { DetailedProject } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { fromJson } from "@/modules/json-utils";
+import { GetAllProjects$Params } from "@/modules/next-backend/logic/getAllProjects";
+import {
+  GET_DETAILED_PROJECT__ERRORS,
+  GetDetailedProject$Params,
+  GetDetailedProject$Response,
+} from "@/modules/next-backend/logic/getDetailedProject";
+import { prefixes, ResourceKey } from "@/modules/resource-keys";
 
 export type Cid = string;
 
-type Params = {
-  active?: boolean;
-  customUrl?: string;
-  projectId?: string;
-  ownerAddress?: string;
-  preset?: "minimal" | "basic" | "full";
-};
-
-type Response =
-  | { error: undefined; project: DetailedProject }
-  | { error: 48; _debug?: unknown /* not found */ };
-
-export type HttpGetProject$Response = Response;
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isResponse(obj: any): obj is Response {
-  if (obj?.error === 48) return true;
+function isResponse(obj: any): obj is GetDetailedProject$Response {
+  if (obj?.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND) return true;
   return obj?.error === undefined && typeof obj?.project === "object";
 }
 
@@ -29,9 +21,10 @@ export async function httpGetProject({
   customUrl,
   projectId,
   ownerAddress,
-  preset = "basic",
-}: Params): Promise<Response> {
+  preset,
+}: GetDetailedProject$Params): Promise<GetDetailedProject$Response> {
   const search = new URLSearchParams();
+  // TODO: define toQuery$GetDetailedProject
   if (active) search.append("active", active.toString());
   if (customUrl) search.append("customUrl", customUrl);
   if (projectId) search.append("projectId", projectId);
@@ -46,4 +39,11 @@ export async function httpGetProject({
   assert(isResponse(data), "invalid response");
 
   return data;
+}
+
+export function httpGetProject$GetKey(
+  params: GetAllProjects$Params | undefined
+): ResourceKey | undefined {
+  if (params == null) return undefined;
+  return [...prefixes.protocol, "0daba241-017b-4b8b-99a4-cd88a30e5f7a", params];
 }
