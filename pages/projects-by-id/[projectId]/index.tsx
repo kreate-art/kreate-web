@@ -2,6 +2,12 @@ import { GetServerSideProps } from "next";
 
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
+import { db } from "@/modules/next-backend/db";
+import {
+  getDetailedProject,
+  GET_DETAILED_PROJECT__ERRORS,
+} from "@/modules/next-backend/logic/getDetailedProject";
+
 type Props = {
   projectId: string;
 };
@@ -22,7 +28,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     return { notFound: true };
   }
 
-  // TODO: if project is not found, show page 404
+  const project$Response = await getDetailedProject(db, {
+    projectId,
+    preset: "minimal",
+  });
+
+  if (project$Response.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       projectId,
