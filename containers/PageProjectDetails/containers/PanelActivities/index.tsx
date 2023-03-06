@@ -16,7 +16,7 @@ type Props = {
   style?: React.CSSProperties;
   value: ProjectActivity[];
   onClickAllActivities?: () => void;
-  id: string;
+  id: string | undefined;
 };
 
 export default function PanelActivities({

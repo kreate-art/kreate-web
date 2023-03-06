@@ -3,6 +3,8 @@ import useSWR from "swr";
 
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import ProjectListItem from "../PageHome/containers/ProjectList/components/ProjectListItem";
+import PanelActivities from "../PageProjectDetails/containers/PanelActivities";
+import PanelTopBackers from "../PageProjectDetails/containers/PanelTopBackers";
 import ProjectDetails from "../PageProjectDetails/containers/ProjectDetails";
 import useDetailedProject from "../PageProjectDetails/hooks/useDetailedProject";
 import { loadProjectFromBrowserStorage } from "../PageUpdateProjectV2/utils/storage";
@@ -132,7 +134,21 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                     }
                   />
                 </div>
-                <div className={styles.rightPanels}>{/* nothing here */}</div>
+                <div className={styles.rightPanels}>
+                  {originalDetailedProject?.topSupporters ? (
+                    <PanelTopBackers
+                      value={originalDetailedProject.topSupporters}
+                    />
+                  ) : null}
+
+                  {!originalDetailedProject?.activities ? null : (
+                    <PanelActivities
+                      value={originalDetailedProject.activities}
+                      onClickAllActivities={() => setActiveTabIndex(4)}
+                      id={undefined}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           ) : null}
