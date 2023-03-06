@@ -118,12 +118,6 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
               </div>
               <div className={styles.detailsStatsPanels}>
                 <div className={styles.mainPanels}>
-                  {/* <ProjectDetails
-                    className={styles.details}
-                    description={project.description}
-                    roadmap={project.roadmap}
-                    community={project.community}
-                  /> */}
                   <ProjectDetails
                     className={styles.details}
                     projectId={projectId}
