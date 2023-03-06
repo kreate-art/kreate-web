@@ -28,7 +28,7 @@ export default function ModalSuccess({
       className={cx(styles.container, className)}
       style={style}
       open={open}
-      onOpenChange={onClose} // disable
+      onClose={onClose}
       closeOnDimmerClick
       closeOnEscape
     >

@@ -133,30 +133,37 @@ export default function ModalPostAnnouncement({
       });
 
       setStatusBarText("Building transaction...");
-      const { txComplete } = await try$(
-        async () =>
-          await buildTx({
-            lucid: walletStatus.lucid,
-            txParams: txParamsResult.data.txParams,
-            newSponsorshipAmount: undefined,
-            newInformationCid: undefined,
-            newAnnouncementCid: announcementCid,
-          }),
-        (cause) => {
-          console.log(cause);
-          throw$(new Error("failed to build tx", { cause }));
-        }
-      );
+      const buildTx$Params = {
+        lucid: walletStatus.lucid,
+        txParams: txParamsResult.data.txParams,
+        newSponsorshipAmount: undefined,
+        newInformationCid: undefined,
+        newAnnouncementCid: announcementCid,
+      };
+      const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
+        console.error({ buildTx$Params }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to build transaction");
+      });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await try$(
-        async () => await signAndSubmit(txComplete),
-        (cause) => throw$(new Error("failed to sign or submit", { cause }))
-      );
+      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+        console.error({ txComplete }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to sign or submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      await walletStatus.lucid.awaitTx(txHash);
-      await waitUntilAnnouncementIndexed(projectId, announcementCid);
+      await walletStatus.lucid.awaitTx(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
+
+      setStatusBarText("Waiting for indexers...");
+      await waitUntilAnnouncementIndexed(projectId, announcementCid).catch(
+        (cause) => {
+          console.error({ projectId, announcementCid }); // for debugging purpose
+          throw DisplayableError.from(cause, "Failed to wait for indexers");
+        }
+      );
 
       setStatusBarText("Done.");
       await handleSaveOnSubmit();

@@ -4,7 +4,7 @@ import * as React from "react";
 import { signAndSubmit } from "@teiki/protocol/helpers/lucid";
 
 import styles from "./index.module.scss";
-import { buildTx } from "./utils/transaction";
+import { buildTx, BuildTxParams } from "./utils/transaction";
 
 import {
   formatLovelaceAmount,
@@ -29,11 +29,8 @@ import {
   useField$Message,
   useField$UnbackLovelaceAmount,
 } from "./hooks/useField";
-import { ResultT, throw$, try$, tryUntil } from "@/modules/async-utils";
-import {
-  DisplayableError,
-  writeErrorToConsole,
-} from "@/modules/displayable-error";
+import { ResultT, tryUntil } from "@/modules/async-utils";
+import { DisplayableError } from "@/modules/displayable-error";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import { ProjectStatus } from "@/modules/next-backend-client/api/httpGetTxParams$BackerUnbackProject";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -139,29 +136,37 @@ export default function ModalUnbackProject({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Building transaction...");
-      const { txComplete } = await try$(
-        async () =>
-          await buildTx({
-            lucid: walletStatus.lucid,
-            backerAddress: walletStatus.info.address,
-            unbackLovelaceAmount,
-            projectStatus,
-            message,
-            action: "unback",
-            txParams: txParamsResult.data.txParams,
-          }),
-        (cause) => throw$(new Error("failed to build tx", { cause }))
-      );
+      const buildTx$Params: BuildTxParams = {
+        lucid: walletStatus.lucid,
+        backerAddress: walletStatus.info.address,
+        unbackLovelaceAmount,
+        projectStatus,
+        message,
+        action: "unback",
+        txParams: txParamsResult.data.txParams,
+      };
+      const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
+        console.error({ buildTx$Params }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to build transaction");
+      });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await try$(
-        async () => await signAndSubmit(txComplete),
-        (cause) => throw$(new Error("failed to sign or submit", { cause }))
-      );
+      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+        console.error({ txComplete }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to sign or submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      await walletStatus.lucid.awaitTx(txHash);
-      await waitUntilTxIndexed(txHash);
+      await walletStatus.lucid.awaitTx(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
+
+      setStatusBarText("Waiting for indexers...");
+      await waitUntilTxIndexed(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for indexers");
+      });
 
       setStatusBarText("Done.");
       onSuccess && onSuccess({ unbackLovelaceAmount });
@@ -172,7 +177,6 @@ export default function ModalUnbackProject({
         description: displayableError.description,
         color: "danger",
       });
-      writeErrorToConsole(displayableError);
       setStatusBarText("Failed.");
     } finally {
       setBusy(false);

@@ -11,7 +11,7 @@ import styles from "./index.module.scss";
 import { buildTx } from "./utils/transactions";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
-import { ResultT, throw$, try$ } from "@/modules/async-utils";
+import { ResultT } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -95,27 +95,26 @@ export default function ModalCloseProject({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Building transaction...");
-      const { txComplete } = await try$(
-        async () =>
-          await buildTx({
-            lucid: walletStatus.lucid,
-            txParams: txParamsResult.data.txParams,
-          }),
-        (cause) =>
-          throw$(new Error(`failed to build tx ${toJson(cause)}`, { cause }))
-      );
+      const buildTx$Params = {
+        lucid: walletStatus.lucid,
+        txParams: txParamsResult.data.txParams,
+      };
+      const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
+        console.error({ buildTx$Params }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to build transaction");
+      });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await try$(
-        async () => await signAndSubmit(txComplete),
-        (cause) =>
-          throw$(
-            new Error(`failed to sign or submit ${toJson(cause)}`, { cause })
-          )
-      );
+      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+        console.error({ txComplete }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to sign or submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      await walletStatus.lucid.awaitTx(txHash);
+      await walletStatus.lucid.awaitTx(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
 
       setStatusBarText("Done.");
       onSuccess && onSuccess();
@@ -139,7 +138,7 @@ export default function ModalCloseProject({
       className={cx(styles.container, className)}
       style={style}
       open={open}
-      onOpenChange={onCancel}
+      onClose={onCancel}
       closeOnDimmerClick={false}
       closeOnEscape={!busy}
     >
