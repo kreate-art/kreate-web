@@ -61,11 +61,11 @@ export default function PageControl({
       <Divider.Vertical color="black-05" /> */}
       <TabControl
         className={styles.tab}
-        active={value === 3}
+        active={value === 2}
         label="Community"
         icon={<IconTeamwork />}
         progressScore={progress.community}
-        onClick={() => onChange && onChange(3)}
+        onClick={() => onChange && onChange(2)}
       />
     </div>
   );

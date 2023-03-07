@@ -53,11 +53,16 @@ export type ProjectCommunity = {
   frequentlyAskedQuestions: FrequentlyAskedQuestion[];
 };
 
+export type ProjectBenefits = {
+  perks: JSONContent;
+};
+
 // TODO: `roadmap` is temporarily hidden from the UI (not removed)
 export type Project = {
   description: ProjectDescription;
   basics: ProjectBasics;
-  roadmap: ProjectRoadmap;
+  roadmap?: ProjectRoadmap;
+  benefits?: ProjectBenefits;
   community: ProjectCommunity;
 };
 

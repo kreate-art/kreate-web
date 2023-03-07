@@ -405,17 +405,11 @@ export default function ProjectEditor({
               />
             ) : activeIndex === 1 ? (
               <Button.Solid
-                content="Next: Roadmap"
+                content="Next: Community"
                 size="medium"
                 onClick={() => setActiveIndex(2)}
               />
             ) : activeIndex === 2 ? (
-              <Button.Solid
-                content="Next: Community"
-                size="medium"
-                onClick={() => setActiveIndex(3)}
-              />
-            ) : activeIndex === 3 ? (
               <Button.Solid
                 // TODO: use `ButtonAsync` because `onSubmit` is an async function
                 size="medium"

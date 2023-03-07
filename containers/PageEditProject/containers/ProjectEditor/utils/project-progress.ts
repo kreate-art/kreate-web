@@ -17,7 +17,7 @@ export function getProjectProgressScores(
   return {
     description: getDescriptionProgress(project.description),
     basics: getBasicProgress(project.basics),
-    roadmap: getRoadmapProgress(project.roadmap),
+    // roadmap: getRoadmapProgress(project.roadmap),
     community: getCommunityProgress(project.community),
   };
 }
