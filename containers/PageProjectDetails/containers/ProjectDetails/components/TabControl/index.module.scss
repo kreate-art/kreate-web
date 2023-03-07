@@ -27,7 +27,7 @@
 
 .tabContent {
   flex: 1 1 auto;
-
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,4 +57,10 @@
 
 .tab + .tab {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.numOfAnnouncements {
+  position: absolute;
+  left: 38px;
+  top: 15px;
 }

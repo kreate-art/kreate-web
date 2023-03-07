@@ -26,7 +26,7 @@ import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUn
 import PanelProtocolReward from "./containers/PanelProtocolReward";
 import PanelTopBackers from "./containers/PanelTopBackers";
 import PanelWithdrawFund from "./containers/PanelWithdrawFund";
-import ProjectDetails, { TABS } from "./containers/ProjectDetails";
+import ProjectDetails from "./containers/ProjectDetails";
 import ModalCloseProject from "./containers/ProjectOverview/containers/ModalCloseProject";
 import ModalShareProject from "./containers/ProjectOverview/containers/ModalShareProject";
 import ModalWithdrawWarn from "./containers/ProjectOverview/containers/ModalWithdrawWarn";
@@ -53,6 +53,8 @@ type Props = {
   projectCustomUrl: string | undefined;
 };
 
+const TABS_HASH = ["#about", "#benefits", "#posts", "#faqs", "#activities"];
+
 export default function PageProjectDetails({
   className,
   style,
@@ -77,11 +79,9 @@ export default function PageProjectDetails({
   });
 
   React.useEffect(() => {
-    const validHashs = TABS.map((tab) => tab.hash);
-    const isHashValid =
-      hash != null && Object.values(validHashs).includes(hash);
+    const isHashValid = hash != null && Object.values(TABS_HASH).includes(hash);
     if (isHashValid) {
-      setActiveTabIndex(validHashs.indexOf(hash));
+      setActiveTabIndex(TABS_HASH.indexOf(hash));
     } else {
       setActiveTabIndex(0);
     }
@@ -414,11 +414,11 @@ export default function PageProjectDetails({
                         benefits={project.benefits}
                         activities={project.activities}
                         activeTabIndex={activeTabIndex}
-                        onChangeActiveTabIndex={(value) => {
-                          history.pushState(null, "", TABS[value].hash);
+                        onChangeActiveTabIndex={(value, hash) => {
+                          history.pushState(null, "", hash);
                           setActiveTabIndex(value);
                           const item = document.getElementById(
-                            TABS[value].hash.substring(1)
+                            hash.substring(1)
                           );
                           if (item) {
                             item.scrollIntoView();

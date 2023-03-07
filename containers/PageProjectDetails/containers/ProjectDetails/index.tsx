@@ -25,16 +25,8 @@ type Props = {
   benefits: ProjectBenefits;
   activities: ProjectActivity[];
   activeTabIndex: number;
-  onChangeActiveTabIndex: (value: number) => void;
+  onChangeActiveTabIndex: (value: number, hash: string) => void;
 };
-
-export const TABS = [
-  { title: "About", hash: "#about" },
-  { title: "Benefits", hash: "#benefits" },
-  { title: "Posts", hash: "#posts" },
-  { title: "FAQs", hash: "#faqs" },
-  { title: "Activities", hash: "#activities" },
-];
 
 export default function ProjectDetails({
   className,
@@ -50,8 +42,8 @@ export default function ProjectDetails({
   return (
     <div className={cx(className, styles.container)}>
       <TabControl
-        tabs={TABS}
         value={activeTabIndex}
+        numOfPosts={announcements.length}
         onChange={onChangeActiveTabIndex}
       />
       {activeTabIndex == 0 ? ( // About
