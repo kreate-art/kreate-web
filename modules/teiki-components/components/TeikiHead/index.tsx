@@ -13,8 +13,8 @@ type Props = {
 };
 
 export default function TeikiHead({
-  title = "Teiki - A decentralized crowdfunding protocol on Cardano",
-  description = "Teiki utilizes Cardano's liquid staking, where backers stake ADA at smart contracts to generate rewards for creators. We integrate AI to minimize the time one needs to raise funding and manage a community.",
+  title = "Teiki - Web3 membership platform",
+  description = "Teiki is a Web3 membership platform providing Metaverse & AI tools for Creators to run a subscription service. Teiki helps creators earn an income every five days from members paying for exclusive benefits.",
   imageUrl = `${NEXT_PUBLIC_HOST}/images/meta-${
     NEXT_PUBLIC_NETWORK === "Mainnet" ? "alpha" : "testnet"
   }.png`,
