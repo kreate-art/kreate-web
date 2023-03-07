@@ -129,9 +129,9 @@ export default function ProjectEditor({
   const startingLines = [
     "Welcome to Teiki 🌱!",
     "My name is Niko, the mascot.",
-    "I will guide you through the project creation process.",
+    "I will guide you through the profile editing process.",
     <span key={0}>
-      Firstly, can you tell us about your project in{" "}
+      Firstly, can you tell us about yourself in{" "}
       <span style={{ color: "rgba(0,138,69,1)" }}> 500 to 2500 words </span> ✍️?
     </span>,
   ];

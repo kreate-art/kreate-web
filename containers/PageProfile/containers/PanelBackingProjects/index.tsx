@@ -175,11 +175,7 @@ export default function PanelBackingProjects({
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col>
         <Flex.Cell padding="20px 32px">
-          <Typography.Div
-            size="heading5"
-            color="ink"
-            content="Backing Projects"
-          />
+          <Typography.Div size="heading5" color="ink" content="Your Creators" />
         </Flex.Cell>
         <Divider.Horizontal />
         <Flex.Row
@@ -278,7 +274,7 @@ export default function PanelBackingProjects({
                   </Typography.Div>
                 </Flex.Col>
                 <Button.Outline
-                  content="Back More"
+                  content="Stake More"
                   size="small"
                   onClick={() =>
                     handleBackMore({
@@ -294,7 +290,7 @@ export default function PanelBackingProjects({
                   }
                 >
                   <DropdownMenu.Item
-                    content="Unback"
+                    content="Unstake"
                     onSelect={() => {
                       assert(walletStatus.status === "connected");
                       handleUnback({

@@ -192,7 +192,7 @@ export default function ModalUnbackProject({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Unbacking: " color="ink" />
+          <Typography.Span content="Unstake: " color="ink" />
           <Typography.Span content={projectName} />
         </Typography.Div>
       </Modal.Header>
@@ -301,7 +301,7 @@ export default function ModalUnbackProject({
             className={styles.feeBreakdown}
             title="Transaction Breakdown"
             rows={[
-              { label: "Unback", value: txBreakdown.unbacking },
+              { label: "Unstake", value: txBreakdown.unbacking },
               { label: "Transaction fee", value: txBreakdown.transaction },
             ]}
             total={sumTxBreakdown(txBreakdown)}
@@ -341,7 +341,7 @@ export default function ModalUnbackProject({
               disabled={busy}
             />
             <Button.Solid
-              content="Unback"
+              content="Submit"
               onClick={handleSubmit}
               disabled={txBreakdownResultT?.ok !== true || busy}
             />

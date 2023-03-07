@@ -176,7 +176,7 @@ export default function ModalSubmit({
       closeOnDimmerClick={false}
       closeOnEscape={!busy}
     >
-      <Modal.Header content="Extra" />
+      <Modal.Header content="Submit Creator" />
       <Modal.Content padding="none" className={styles.modalContent}>
         <Flex.Row alignItems="stretch" flexWrap="wrap">
           <Flex.Col flex="10000 10000 294px" padding="32px 48px" gap="24px">

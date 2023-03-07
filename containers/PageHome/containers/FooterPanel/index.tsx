@@ -26,7 +26,7 @@ const FooterPanel = ({ className, style }: Props) => {
             />
           </div>
           <Divider.Vertical />
-          <div className={styles.slogan}>Simply Grow.</div>
+          <div className={styles.slogan}>Create with your Community</div>
         </div>
         <div className={styles.iconList}>
           {TEIKI_CONNECTION_LIST.map(

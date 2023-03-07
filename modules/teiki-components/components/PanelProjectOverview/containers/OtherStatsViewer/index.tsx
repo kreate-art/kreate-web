@@ -70,7 +70,7 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
       <Flex.Col gap="32px">
         <ImpactfulNumber
           icon={<IconRevenue />}
-          label="Active ADA stake"
+          label="Active stake"
           content={
             value.numLovelacesStaked != null
               ? formatLovelaceAmount(
@@ -83,7 +83,7 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
         />
         <ImpactfulNumber
           icon={<IconPin />}
-          label="Number of backers"
+          label="Number of members"
           content={
             value.numSupporters != null
               ? value.numSupporters.toLocaleString("en-US")

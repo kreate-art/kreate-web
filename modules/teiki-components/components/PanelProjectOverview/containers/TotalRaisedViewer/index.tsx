@@ -23,7 +23,7 @@ export default function TotalRaisedViewer({ className, style, value }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <ImpactfulNumber
         icon={<IconProfit />}
-        label="Total raised ADA"
+        label="Total income"
         title={value?.toString()}
       >
         <Flex.Row gap="12px" alignItems="flex-end" flexWrap="wrap">

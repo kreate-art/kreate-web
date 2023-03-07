@@ -21,7 +21,7 @@ export default function ActionUnback({ className, style, value }: Props) {
         <Typography.Span fontWeight="semibold" color="ink">
           <InlineAddress value={value.createdBy} length="short" />
         </Typography.Span>
-        <Typography.Span content=" unbacked " />
+        <Typography.Span content=" unstaked " />
         <AssetViewer.Ada.Standard
           as="span"
           lovelaceAmount={value.lovelaceAmount}

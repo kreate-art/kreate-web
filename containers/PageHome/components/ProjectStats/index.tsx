@@ -41,7 +41,7 @@ export default function ProjectStats({
             "-"
           )}
         </div>
-        <div className={styles.legend}>Raised</div>
+        <div className={styles.legend}>Total income</div>
       </div>
       <div className={styles.box}>
         <div className={styles.value}>

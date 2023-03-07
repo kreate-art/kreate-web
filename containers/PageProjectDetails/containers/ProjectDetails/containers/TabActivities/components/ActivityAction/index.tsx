@@ -35,7 +35,7 @@ export default function ActivityAction({ className, style, value }: Props) {
               color="ink80"
               size="bodySmall"
               lineHeight="medium"
-              content=" backed "
+              content=" staked "
             />
             <Typography.Span size="heading6" color="green">
               <AssetViewer.Ada.Standard
@@ -62,7 +62,7 @@ export default function ActivityAction({ className, style, value }: Props) {
               color="ink80"
               size="bodySmall"
               lineHeight="medium"
-              content=" unbacked "
+              content=" unstaked "
             />
             <Typography.Span size="heading6">
               <AssetViewer.Ada.Standard
@@ -80,19 +80,16 @@ export default function ActivityAction({ className, style, value }: Props) {
           maxLines={2}
           className={cx(className)}
           style={style}
-          title={`${value.projectTitle} posted an announcement: ${value.title}`}
+          title={`${value.projectTitle} posted: ${value.title}`}
         >
           <Typography.Span size="heading6" content={value.projectTitle} />
           <Typography.Span
             size="bodySmall"
-            content=" posted an "
+            content=" posted: "
             lineHeight="medium"
             color="ink80"
           />
-          <Typography.Span
-            size="heading6"
-            content={"announcement: " + value.title}
-          />
+          <Typography.Span size="heading6" content={value.title} />
         </Typography.Div>
       );
 

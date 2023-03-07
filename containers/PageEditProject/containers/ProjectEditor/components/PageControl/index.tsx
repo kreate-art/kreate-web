@@ -36,7 +36,7 @@ export default function PageControl({
       <TabControl
         className={styles.tab}
         active={value === 0}
-        label="Campaign"
+        label="About"
         icon={<IconWrite />}
         progressScore={progress.description}
         onClick={() => onChange && onChange(0)}

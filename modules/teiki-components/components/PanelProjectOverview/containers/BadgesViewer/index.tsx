@@ -38,7 +38,7 @@ export default function BadgesViewer({ className, style, value }: Props) {
             alignItems="center"
           >
             <IconFeatured />
-            <Title style={{ color: "#D200E4" }} content="Featured Project" />
+            <Title style={{ color: "#D200E4" }} content="Featured Creator" />
           </Flex.Row>
         ) : null}
         {value.sponsor ? (

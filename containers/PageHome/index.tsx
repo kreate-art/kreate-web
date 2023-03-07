@@ -159,7 +159,7 @@ export default function PageHome({ className, style }: Props) {
                   "loading"
                 ) : (
                   <div className={styles.topBackersContainer}>
-                    <h6 className={styles.label}>Top Backers</h6>
+                    <h6 className={styles.label}>Top Members</h6>
                     <TableTopBackers
                       value={topSupporterResponse.data.supporters}
                       className={styles.tableTopBackers}

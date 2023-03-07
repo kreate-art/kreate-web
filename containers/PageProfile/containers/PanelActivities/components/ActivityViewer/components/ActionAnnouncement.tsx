@@ -24,7 +24,7 @@ export default function ActionAnnouncement({
         <Typography.Span fontWeight="semibold" color="ink">
           <InlineAddress value={createdBy} length="short" />
         </Typography.Span>
-        <Typography.Span content=" posted an announcement" />
+        <Typography.Span content=" posted" />
       </Typography.Div>
       {value.title || value.message ? (
         <Typography.Div

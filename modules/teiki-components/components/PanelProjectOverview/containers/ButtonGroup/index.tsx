@@ -29,7 +29,7 @@ export default function ButtonGroup({ className, style, options }: Props) {
         {options.buttonBackProject.visible ? (
           <Button.Solid
             icon={<IconLeaf />}
-            content="Back Project"
+            content="Become a Member"
             disabled={options.buttonBackProject.disabled}
             onClick={options.buttonBackProject.onClick}
             size="large"
@@ -47,7 +47,7 @@ export default function ButtonGroup({ className, style, options }: Props) {
         {options.buttonPostUpdate.visible ? (
           <Button.Outline
             icon={<IconEditPencil />}
-            content="Announce"
+            content="Post"
             disabled={options.buttonPostUpdate.disabled}
             onClick={options.buttonPostUpdate.onClick}
             size="large"
@@ -74,7 +74,7 @@ export default function ButtonGroup({ className, style, options }: Props) {
                 <Button.Outline
                   icon={<IconClose />}
                   size="large"
-                  content="Close Project"
+                  content="Close"
                   disabled={options.buttonCloseProject.disabled}
                   onClick={() => {
                     options.buttonCloseProject.onClick &&

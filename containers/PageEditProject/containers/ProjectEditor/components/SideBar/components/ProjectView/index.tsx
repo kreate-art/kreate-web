@@ -18,7 +18,7 @@ type Props = {
 export default function ProjectView({ className, style, value }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
-      Interesting. I found a relevant project that could be a collaborator or
+      Interesting. I found a relevant creator that could be a collaborator or
       competitor!
       <hr className={styles.divider} />
       <div
