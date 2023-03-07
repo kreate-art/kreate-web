@@ -57,7 +57,7 @@ export default function ProjectDetails({
       {activeTabIndex == 0 ? ( // Campaign
         <div className={styles.richTextEditorContainer}>
           <RichTextEditor
-            key={projectId}
+            key={`${projectId}#description`}
             value={description.body}
             className={styles.richTextEditor}
           />
@@ -65,6 +65,7 @@ export default function ProjectDetails({
       ) : activeTabIndex == 1 ? ( // Benefits
         <div className={styles.richTextEditorContainer}>
           <RichTextEditor
+            key={`${projectId}#benefits`}
             value={benefits.perks}
             className={styles.richTextEditor}
           />

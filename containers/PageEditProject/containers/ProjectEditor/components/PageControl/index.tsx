@@ -54,18 +54,18 @@ export default function PageControl({
       <TabControl
         className={styles.tab}
         active={value === 2}
-        label="Benefits"
-        icon={<IconRoadmap />} // Change to IconBenefits, need help from @sk-shachi
-        progressScore={1} // Get `ProjectBenefits` progress score
+        label="Community"
+        icon={<IconTeamwork />}
+        progressScore={progress.community}
         onClick={() => onChange && onChange(2)}
       />
       <Divider.Vertical color="black-05" />
       <TabControl
         className={styles.tab}
         active={value === 3}
-        label="Community"
-        icon={<IconTeamwork />}
-        progressScore={progress.community}
+        label="Benefits"
+        icon={<IconRoadmap />} // Change to IconBenefits, need help from @sk-shachi
+        progressScore={progress.benefits}
         onClick={() => onChange && onChange(3)}
       />
     </div>
