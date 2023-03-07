@@ -24,10 +24,9 @@ export function useModalPromises() {
   return React.useContext(ModalPromisesContext);
 }
 
-let nextId = 0;
-
 export function withModalPromises<P>(WrappedComponent: React.ComponentType<P>) {
   const WithModalPromises: React.ComponentType<P> = (props: P) => {
+    const [nextId, setNextId] = React.useState(0);
     const [nodes, setNodes] = React.useState<Record<number, React.ReactNode>>(
       {}
     );
@@ -40,7 +39,7 @@ export function withModalPromises<P>(WrappedComponent: React.ComponentType<P>) {
       render: RenderFunction<T>
     ) {
       return new Promise<T>((resolve, reject) => {
-        const id = nextId++;
+        const id = nextId;
         const node = render(
           (value) => {
             setNode(id, null);
@@ -51,6 +50,7 @@ export function withModalPromises<P>(WrappedComponent: React.ComponentType<P>) {
             reject(reason);
           }
         );
+        setNextId((value) => value + 1);
         setNode(id, node);
       });
     };
