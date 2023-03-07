@@ -30,9 +30,9 @@ type Props = {
 
 export const TABS = [
   { title: "Campaign", hash: "#campaign" },
+  { title: "Benefits", hash: "#benefits" },
   { title: "Announcements", hash: "#announcements" },
   { title: "FAQs", hash: "#faqs" },
-  { title: "Benefits", hash: "#benefits" },
   { title: "Activities", hash: "#activities" },
 ];
 
@@ -62,18 +62,17 @@ export default function ProjectDetails({
             className={styles.richTextEditor}
           />
         </div>
-      ) : activeTabIndex == 1 ? ( // Announcements
-        <TabUpdates value={announcements} />
-      ) : activeTabIndex == 2 ? ( // FAQs
-        <FAQs faqs={community.frequentlyAskedQuestions} />
-      ) : activeTabIndex == 3 ? ( // Benefits
+      ) : activeTabIndex == 1 ? ( // Benefits
         <div className={styles.richTextEditorContainer}>
           <RichTextEditor
-            // key={projectId}
             value={benefits.perks}
             className={styles.richTextEditor}
           />
         </div>
+      ) : activeTabIndex == 2 ? ( // Announcements
+        <TabUpdates value={announcements} />
+      ) : activeTabIndex == 3 ? ( // FAQs
+        <FAQs faqs={community.frequentlyAskedQuestions} />
       ) : activeTabIndex === 4 ? ( // Activities
         <TabActivities value={activities} projectId={projectId} />
       ) : null}

@@ -23,6 +23,7 @@ export default function DemoPageControl() {
           onChange={setValue}
           progress={{
             description: 0.0,
+            benefits: 0.0,
             basics: 0.333,
             community: 1.0,
           }}
