@@ -138,6 +138,7 @@ export default function PageProjectDetails({
               open
               projectName={basics.title}
               projectId={project.id}
+              isBacking={!!totalStaked?.amount}
               onCancel={() => resolve({ type: "cancel" })}
               onSuccess={(event) => resolve({ type: "success", event })}
             />
@@ -369,6 +370,7 @@ export default function PageProjectDetails({
                       options={{
                         buttonBackProject: {
                           visible: !isUserCreator,
+                          isBacking: !!totalStaked?.amount,
                           disabled:
                             !!project.history.closedAt ||
                             walletStatus.status !== "connected" ||

@@ -111,6 +111,7 @@ export default function Demo() {
               buttonBackProject: {
                 visible: showButtonBackProject,
                 disabled: false,
+                isBacking: false,
                 onClick: () => alert("clicked: buttonBackProject"),
               },
               buttonUpdateProject: {

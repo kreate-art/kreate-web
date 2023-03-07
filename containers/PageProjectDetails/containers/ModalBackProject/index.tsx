@@ -49,6 +49,7 @@ type Props = {
   open: boolean;
   projectName: string;
   projectId: string;
+  isBacking: boolean;
   onCancel?: () => void;
   onSuccess?: (event: SuccessEvent) => void;
 };
@@ -59,6 +60,7 @@ export default function ModalBackProject({
   open,
   projectName,
   projectId,
+  isBacking,
   onCancel,
   onSuccess,
 }: Props) {
@@ -174,7 +176,10 @@ export default function ModalBackProject({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Become a Member: " color="ink" />
+          <Typography.Span
+            content={`${isBacking ? "Stake More" : "Become a Member"}: `}
+            color="ink"
+          />
           <Typography.Span content={projectName} />
         </Typography.Div>
       </Modal.Header>

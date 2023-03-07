@@ -65,6 +65,7 @@ export default function PanelBackingProjects({
   const handleBackMore = async ({
     projectTitle,
     projectId,
+    backedAmount,
   }: {
     projectTitle: string;
     projectId: string;
@@ -80,6 +81,7 @@ export default function PanelBackingProjects({
           open
           projectName={projectTitle}
           projectId={projectId}
+          isBacking={backedAmount > 0}
           onCancel={() => resolve({ type: "cancel" })}
           onSuccess={(event) => resolve({ type: "success", event })}
         />
