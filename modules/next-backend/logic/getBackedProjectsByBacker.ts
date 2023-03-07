@@ -15,7 +15,7 @@ function isProject(obj: any): obj is Project {
   return (
     typeof obj?.description === "object" &&
     typeof obj?.basics === "object" &&
-    Array.isArray(obj?.roadmap) &&
+    // Array.isArray(obj?.roadmap) &&
     typeof obj?.community === "object"
   );
 }
