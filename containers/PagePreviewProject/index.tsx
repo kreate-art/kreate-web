@@ -114,7 +114,11 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                   stats={projectGeneralInfo.stats}
                   community={projectGeneralInfo.community}
                   options={{
-                    buttonBackProject: { visible: false, disabled: false },
+                    buttonBackProject: {
+                      visible: false,
+                      isBacking: false,
+                      disabled: false,
+                    },
                     buttonUpdateProject: { visible: true, disabled: false },
                     buttonShare: { visible: true, disabled: false },
                     buttonPostUpdate: { visible: true, disabled: false },

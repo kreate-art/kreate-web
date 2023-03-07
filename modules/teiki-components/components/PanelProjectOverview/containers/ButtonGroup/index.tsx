@@ -29,7 +29,11 @@ export default function ButtonGroup({ className, style, options }: Props) {
         {options.buttonBackProject.visible ? (
           <Button.Solid
             icon={<IconLeaf />}
-            content="Become a Member"
+            content={
+              options.buttonBackProject.isBacking
+                ? "Stake More"
+                : "Become a Member"
+            }
             disabled={options.buttonBackProject.disabled}
             onClick={options.buttonBackProject.onClick}
             size="large"

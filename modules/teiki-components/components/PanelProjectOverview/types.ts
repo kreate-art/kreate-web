@@ -1,6 +1,7 @@
 export type Options = {
   buttonBackProject: {
     visible: boolean;
+    isBacking: boolean;
     disabled: boolean;
     onClick?: () => void;
   };
