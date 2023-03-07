@@ -43,7 +43,7 @@ export default function Container({
         onOpenChange && onOpenChange(open);
       }}
     >
-      <Dialog.Portal className={styles.portal}>
+      <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content
           className={cx(className, styles.content, SIZE_TO_CLASS_NAME[size])}
