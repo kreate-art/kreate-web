@@ -24,7 +24,6 @@ export default function DemoPageControl() {
           progress={{
             description: 0.0,
             basics: 0.333,
-            roadmap: 0.667,
             community: 1.0,
           }}
         />

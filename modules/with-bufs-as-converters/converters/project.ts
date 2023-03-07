@@ -14,6 +14,7 @@ import {
   Project,
   ProjectAnnouncement,
   ProjectBasics,
+  ProjectBenefits,
   ProjectDescription,
   ProjectImage,
 } from "@/modules/business-types";
@@ -68,6 +69,20 @@ export function toProjectBasics<V>(codec: Codec<V>): ToFn<ProjectBasics, V> {
   });
 }
 
+/** Converts `ProjectBenefits` to `WithBufsAs<ProjectBenefits, V>`. */
+export function fromProjectBenefits<V>(
+  codec: Codec<V>
+): FromFn<ProjectBenefits | undefined, V> {
+  return fromNullable(fromObject({ perks: fromJSONContent(codec) }));
+}
+
+/** Converts `WithBufsAs<ProjectBenefits, V>` to `ProjectBenefits` */
+export function toProjectBenefits<V>(
+  codec: Codec<V>
+): ToFn<ProjectBenefits, V> {
+  return toNullable(toObject({ perks: toJSONContent(codec) }));
+}
+
 /**
  * Converts `Project` to `WithBufsAs<Project, V>`.
  *
@@ -82,6 +97,7 @@ export function fromProject<V>(codec: Codec<V>): FromFn<Project, V> {
   return fromObject<Project, V>({
     description: fromProjectDescription(codec),
     basics: fromProjectBasics(codec),
+    benefits: fromProjectBenefits(codec),
   });
 }
 
