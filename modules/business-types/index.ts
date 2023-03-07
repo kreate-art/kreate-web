@@ -167,6 +167,7 @@ export type ProtocolStatistics = {
 // Fields that can be updated by project owner (description, slogan, ...)
 export const PROJECT_UPDATE_SCOPE = [
   "description",
+  "benefits",
   "title",
   "slogan",
   "customUrl",
@@ -181,6 +182,7 @@ export const PROJECT_UPDATE_SCOPE = [
 
 export type ProjectUpdateScope =
   | { type: "description" }
+  | { type: "benefits" }
   | { type: "title" }
   | { type: "slogan" }
   | { type: "customUrl" }
@@ -196,6 +198,8 @@ export function formatScope(scope: ProjectUpdateScope): string {
   switch (scope.type) {
     case "description":
       return "description";
+    case "benefits":
+      return "benefits";
     case "roadmap":
       return "roadmap";
     case "community":

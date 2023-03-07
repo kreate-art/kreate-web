@@ -121,7 +121,7 @@ function getAllUpdatedScopes(
   const results: ProjectUpdateScope[] = [];
   for (const [key, value] of Object.entries(a)) {
     if (key === "roadmap") continue; // TODO: @sk-umiuma: remove this when types are normalized
-    if (key === "description" || key === "community") {
+    if (key === "description" || key === "community" || key === "benefits") {
       if (toJson(value) !== toJson(b[key])) results.push({ type: key });
     } else {
       for (const [keyBasics, valueBasics] of Object.entries(a.basics)) {
