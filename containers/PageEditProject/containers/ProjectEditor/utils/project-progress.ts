@@ -5,9 +5,9 @@ import { ProgressScore, ProjectProgressScores } from "../../../types";
 import {
   Project,
   ProjectBasics,
+  ProjectBenefits,
   ProjectCommunity,
   ProjectDescription,
-  ProjectRoadmap,
 } from "@/modules/business-types";
 import { editorExtensions } from "@/modules/teiki-components/components/RichTextEditor/config";
 
@@ -17,7 +17,7 @@ export function getProjectProgressScores(
   return {
     description: getDescriptionProgress(project.description),
     basics: getBasicProgress(project.basics),
-    // roadmap: getRoadmapProgress(project.roadmap),
+    benefits: getProjectBenefitsProgress(project.benefits),
     community: getCommunityProgress(project.community),
   };
 }
@@ -36,15 +36,13 @@ function getBasicProgress(basic: ProjectBasics): ProgressScore {
   );
 }
 
-function getRoadmapProgress(roadmap: ProjectRoadmap): ProgressScore {
-  if (roadmap.length > 0) {
-    return roadmap.some(
-      (milestone) => milestone.name === "" || milestone.description === ""
-    )
-      ? 0.5
-      : 1.0;
-  }
-  return 0.0;
+function getProjectBenefitsProgress(
+  benefits: ProjectBenefits | undefined
+): ProgressScore {
+  if (benefits == null) return 0.0;
+  const bodyContent = benefits.perks;
+  const textContent = generateText(bodyContent, editorExtensions);
+  return textContent.length > 100 ? 1.0 : 0.0;
 }
 
 function getCommunityProgress(community: ProjectCommunity): ProgressScore {

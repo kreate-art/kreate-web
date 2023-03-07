@@ -3,7 +3,7 @@ export type ProgressScore = number; // 0.0 .. 1.0
 export type ProjectProgressScores = {
   description: ProgressScore;
   basics: ProgressScore;
-  // roadmap: ProgressScore;
+  benefits: ProgressScore;
   community: ProgressScore;
 };
 

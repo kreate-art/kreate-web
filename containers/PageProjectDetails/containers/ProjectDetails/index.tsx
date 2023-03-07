@@ -9,6 +9,7 @@ import styles from "./index.module.scss";
 
 import {
   ProjectAnnouncement,
+  ProjectBenefits,
   ProjectCommunity,
   ProjectDescription,
 } from "@/modules/business-types";
@@ -21,6 +22,7 @@ type Props = {
   description: ProjectDescription;
   community: ProjectCommunity;
   announcements: ProjectAnnouncement[];
+  benefits: ProjectBenefits;
   activities: ProjectActivity[];
   activeTabIndex: number;
   onChangeActiveTabIndex: (value: number) => void;
@@ -30,6 +32,7 @@ export const TABS = [
   { title: "Campaign", hash: "#campaign" },
   { title: "Announcements", hash: "#announcements" },
   { title: "FAQs", hash: "#faqs" },
+  { title: "Benefits", hash: "#benefits" },
   { title: "Activities", hash: "#activities" },
 ];
 
@@ -39,6 +42,7 @@ export default function ProjectDetails({
   description,
   community,
   announcements,
+  benefits,
   activities,
   activeTabIndex,
   onChangeActiveTabIndex,
@@ -62,7 +66,15 @@ export default function ProjectDetails({
         <TabUpdates value={announcements} />
       ) : activeTabIndex == 2 ? ( // FAQs
         <FAQs faqs={community.frequentlyAskedQuestions} />
-      ) : activeTabIndex === 3 ? ( // Activities
+      ) : activeTabIndex == 3 ? ( // Benefits
+        <div className={styles.richTextEditorContainer}>
+          <RichTextEditor
+            // key={projectId}
+            value={benefits.perks}
+            className={styles.richTextEditor}
+          />
+        </div>
+      ) : activeTabIndex === 4 ? ( // Activities
         <TabActivities value={activities} projectId={projectId} />
       ) : null}
     </div>

@@ -39,7 +39,13 @@ function newProject(): Project {
       coverImages: [],
       logoImage: null,
     },
-    roadmap: [],
+    // roadmap: [],
+    benefits: {
+      perks: {
+        type: "doc",
+        content: [{ type: "paragraph" }],
+      },
+    },
     community: {
       socialChannels: [],
       frequentlyAskedQuestions: [],

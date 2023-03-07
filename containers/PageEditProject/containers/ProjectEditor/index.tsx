@@ -7,6 +7,7 @@ import { v4 } from "uuid";
 
 import { TabIndex } from "../../types";
 import ProjectBasicsEditor from "../ProjectBasicsEditor";
+import ProjectBenefitsEditor from "../ProjectBenefitsEditor";
 import ProjectCommunityEditor from "../ProjectCommunityEditor";
 import ProjectDescriptionEditor from "../ProjectDescriptionEditor";
 
@@ -29,7 +30,7 @@ import styles from "./index.module.scss";
 import { getProjectProgressScores } from "./utils/project-progress";
 
 import { getDescriptionSentiment } from "@/modules/ai/sentiment-analysis";
-import { Project } from "@/modules/business-types";
+import { Project, ProjectBenefits } from "@/modules/business-types";
 import { useDebounce } from "@/modules/common-hooks/hooks/useDebounce";
 import { editorExtensions } from "@/modules/teiki-components/components/RichTextEditor/config";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -78,6 +79,18 @@ function renderModerationWarningLine(section: string, tags: string[]) {
       delisted and fined.
     </>
   );
+}
+
+// TODO: Clean up this later
+function emptyProjectBenefits(): ProjectBenefits {
+  return {
+    perks: {
+      body: {
+        type: "doc",
+        content: [{ type: "paragraph" }],
+      },
+    },
+  };
 }
 
 /**
@@ -364,6 +377,13 @@ export default function ProjectEditor({
                 suggestedCustomUrls={suggestedCustomUrls || null}
               />
             ) : activeIndex === 2 ? (
+              <ProjectBenefitsEditor
+                value={value.benefits ?? emptyProjectBenefits()}
+                onChange={async (newPerks) => {
+                  onChange && onChange({ ...value, benefits: newPerks });
+                }}
+              />
+            ) : activeIndex === 3 ? (
               <ProjectCommunityEditor
                 value={value.community}
                 onChange={(newCommunity) => {
@@ -410,6 +430,12 @@ export default function ProjectEditor({
                 onClick={() => setActiveIndex(2)}
               />
             ) : activeIndex === 2 ? (
+              <Button.Solid
+                content="Next: Benefits"
+                size="medium"
+                onClick={() => setActiveIndex(3)}
+              />
+            ) : activeIndex === 3 ? (
               <Button.Solid
                 // TODO: use `ButtonAsync` because `onSubmit` is an async function
                 size="medium"

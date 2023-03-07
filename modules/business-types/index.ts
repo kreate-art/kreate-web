@@ -286,7 +286,8 @@ export type Podcast = {
 export type DetailedProject = {
   id: ProjectId;
   description?: ProjectDescription;
-  roadmap?: ProjectRoadmap;
+  roadmap?: ProjectRoadmap; // Note: We are hiding Roadmap from UI, this field will be deprecated soon
+  benefits?: ProjectBenefits;
   basics?: ProjectBasics;
   community?: ProjectCommunity;
   history?: ProjectGeneralInfo["history"];
