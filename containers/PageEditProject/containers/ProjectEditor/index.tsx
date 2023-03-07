@@ -7,9 +7,9 @@ import { v4 } from "uuid";
 
 import { TabIndex } from "../../types";
 import ProjectBasicsEditor from "../ProjectBasicsEditor";
+import ProjectBenefitsEditor from "../ProjectBenefitsEditor";
 import ProjectCommunityEditor from "../ProjectCommunityEditor";
 import ProjectDescriptionEditor from "../ProjectDescriptionEditor";
-import ProjectRoadmapEditor from "../ProjectRoadmapEditor";
 
 import PageControl from "./components/PageControl";
 import SideBar from "./components/SideBar";
@@ -30,7 +30,7 @@ import styles from "./index.module.scss";
 import { getProjectProgressScores } from "./utils/project-progress";
 
 import { getDescriptionSentiment } from "@/modules/ai/sentiment-analysis";
-import { Project } from "@/modules/business-types";
+import { Project, ProjectBenefits } from "@/modules/business-types";
 import { useDebounce } from "@/modules/common-hooks/hooks/useDebounce";
 import { editorExtensions } from "@/modules/teiki-components/components/RichTextEditor/config";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -81,11 +81,23 @@ function renderModerationWarningLine(section: string, tags: string[]) {
   );
 }
 
+// TODO: Clean up this later
+function emptyProjectBenefits(): ProjectBenefits {
+  return {
+    perks: {
+      body: {
+        type: "doc",
+        content: [{ type: "paragraph" }],
+      },
+    },
+  };
+}
+
 /**
  * `ProjectEditor` is the editor of `Project`.
  *
  * It receives a `value: Project`,
- * shows 4 tabs (Description, Basics, Roadmap, Community),
+ * shows 4 tabs (Description, Basics, Community, Benefits),
  * triggers `onChange(newValue)` on every change,
  * triggers `onSubmit()` when user clicks Submit.
  */
@@ -110,7 +122,7 @@ export default function ProjectEditor({
   const isProjectIncomplete =
     projectProgressScores.description !== 1.0 ||
     projectProgressScores.basics !== 1.0 ||
-    projectProgressScores.roadmap !== 1.0 ||
+    projectProgressScores.benefits !== 1.0 ||
     projectProgressScores.community !== 1.0;
   const { showMessage } = useToast();
 
@@ -137,7 +149,7 @@ export default function ProjectEditor({
   const customUrlUuid = React.useMemo(() => v4(), []);
   const tagsUuid = React.useMemo(() => v4(), []);
   const summaryUuid = React.useMemo(() => v4(), []);
-  const roadmapUuid = React.useMemo(() => v4(), []);
+  const benefitsUUid = React.useMemo(() => v4(), []);
   const faqsUuid = React.useMemo(() => v4(), []);
 
   useContentModeration({
@@ -177,11 +189,12 @@ export default function ProjectEditor({
     alertNewModerationWarning,
   });
   useContentModeration({
-    section: "roadmap",
-    uuid: roadmapUuid,
-    text: value.roadmap
-      .flatMap((milestone) => [milestone.name, milestone.description])
-      .join(","),
+    section: "benefits",
+    uuid: benefitsUUid,
+    text:
+      value.benefits == null
+        ? ""
+        : generateText(value.benefits.perks, editorExtensions),
     alertNewModerationWarning,
   });
   useContentModeration({
@@ -364,25 +377,18 @@ export default function ProjectEditor({
                 suggestedLogoImages={suggestedLogoImages || null}
                 suggestedCustomUrls={suggestedCustomUrls || null}
               />
-            ) : activeIndex === 3 ? (
-              <ProjectCommunityEditor
-                value={value.community}
-                onChange={(newCommunity) => {
-                  onChange && onChange({ ...value, community: newCommunity });
-                }}
-              />
             ) : activeIndex === 2 ? (
-              <ProjectRoadmapEditor
-                value={value.roadmap}
-                onChange={(newRoadmap) => {
-                  onChange && onChange({ ...value, roadmap: newRoadmap });
-                }}
-              />
-            ) : activeIndex === 3 ? (
               <ProjectCommunityEditor
                 value={value.community}
                 onChange={(newCommunity) => {
                   onChange && onChange({ ...value, community: newCommunity });
+                }}
+              />
+            ) : activeIndex === 3 ? (
+              <ProjectBenefitsEditor
+                value={value.benefits ?? emptyProjectBenefits()}
+                onChange={async (newPerks) => {
+                  onChange && onChange({ ...value, benefits: newPerks });
                 }}
               />
             ) : null}
@@ -420,13 +426,13 @@ export default function ProjectEditor({
               />
             ) : activeIndex === 1 ? (
               <Button.Solid
-                content="Next: Roadmap"
+                content="Next: Community"
                 size="medium"
                 onClick={() => setActiveIndex(2)}
               />
             ) : activeIndex === 2 ? (
               <Button.Solid
-                content="Next: Community"
+                content="Next: Benefits"
                 size="medium"
                 onClick={() => setActiveIndex(3)}
               />

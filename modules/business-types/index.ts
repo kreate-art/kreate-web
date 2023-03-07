@@ -53,10 +53,16 @@ export type ProjectCommunity = {
   frequentlyAskedQuestions: FrequentlyAskedQuestion[];
 };
 
+export type ProjectBenefits = {
+  perks: JSONContent;
+};
+
+// TODO: `roadmap` is temporarily hidden from the UI (not removed)
 export type Project = {
   description: ProjectDescription;
   basics: ProjectBasics;
-  roadmap: ProjectRoadmap;
+  roadmap?: ProjectRoadmap;
+  benefits?: ProjectBenefits;
   community: ProjectCommunity;
 };
 
@@ -161,6 +167,7 @@ export type ProtocolStatistics = {
 // Fields that can be updated by project owner (description, slogan, ...)
 export const PROJECT_UPDATE_SCOPE = [
   "description",
+  "benefits",
   "title",
   "slogan",
   "customUrl",
@@ -175,6 +182,7 @@ export const PROJECT_UPDATE_SCOPE = [
 
 export type ProjectUpdateScope =
   | { type: "description" }
+  | { type: "benefits" }
   | { type: "title" }
   | { type: "slogan" }
   | { type: "customUrl" }
@@ -190,6 +198,8 @@ export function formatScope(scope: ProjectUpdateScope): string {
   switch (scope.type) {
     case "description":
       return "description";
+    case "benefits":
+      return "benefits";
     case "roadmap":
       return "roadmap";
     case "community":
@@ -276,7 +286,8 @@ export type Podcast = {
 export type DetailedProject = {
   id: ProjectId;
   description?: ProjectDescription;
-  roadmap?: ProjectRoadmap;
+  roadmap?: ProjectRoadmap; // Note: We are hiding Roadmap from UI, this field will be deprecated soon
+  benefits?: ProjectBenefits;
   basics?: ProjectBasics;
   community?: ProjectCommunity;
   history?: ProjectGeneralInfo["history"];

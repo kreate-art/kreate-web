@@ -350,7 +350,7 @@ export default function PageProjectDetails({
               {!project ||
               !project.basics ||
               !project.description ||
-              !project.roadmap ||
+              !project.benefits ||
               !project.community ||
               !project.history ||
               !project.categories ||
@@ -407,9 +407,9 @@ export default function PageProjectDetails({
                         className={styles.details}
                         projectId={project.id}
                         description={project.description}
-                        roadmap={project.roadmap}
                         community={project.community}
                         announcements={project.announcements}
+                        benefits={project.benefits}
                         activities={project.activities}
                         activeTabIndex={activeTabIndex}
                         onChangeActiveTabIndex={(value) => {

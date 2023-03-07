@@ -16,7 +16,7 @@ function isProject(obj: any): obj is Project {
   return (
     typeof obj?.description === "object" &&
     typeof obj?.basics === "object" &&
-    typeof obj?.roadmap === "object" &&
+    // typeof obj?.roadmap === "object" &&
     typeof obj?.community === "object"
   );
 }
@@ -49,7 +49,8 @@ export async function loadProject(projectId: string): Promise<Project> {
   // 2. Load from backend
   const response = await httpGetProject({ projectId, preset: "full" });
   assert(!response.error, "response has non-null error");
-  const { description, basics, roadmap, community } = response.project;
-  assert(description && basics && roadmap && community, "missing fields");
-  return { description, basics, roadmap, community };
+  const { description, benefits, basics, roadmap, community } =
+    response.project;
+  assert(description && benefits && basics && community, "missing fields");
+  return { description, benefits, basics, roadmap, community };
 }

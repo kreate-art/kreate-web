@@ -14,7 +14,7 @@ import Backdrop from "./components/Backdrop";
 import Section from "./components/Section";
 import styles from "./index.module.scss";
 
-import { ProjectGeneralInfo } from "@/modules/business-types";
+import { ProjectBenefits, ProjectGeneralInfo } from "@/modules/business-types";
 import useComputationOnMount from "@/modules/common-hooks/hooks/useComputationOnMount";
 import PanelProjectOverview from "@/modules/teiki-components/components/PanelProjectOverview";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
@@ -25,6 +25,10 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   storageId: string;
   projectId: string | undefined;
+};
+
+const EMPTY_PROJECT_BENEFITS: ProjectBenefits = {
+  perks: { body: { type: "doc", content: [{ type: "paragraph" }] } },
 };
 
 export default function PagePreviewProject({ storageId, projectId }: Props) {
@@ -124,7 +128,7 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                     className={styles.details}
                     projectId={projectId}
                     description={project.description}
-                    roadmap={project.roadmap}
+                    benefits={project?.benefits || EMPTY_PROJECT_BENEFITS}
                     community={project.community}
                     announcements={originalDetailedProject?.announcements || []}
                     activities={originalDetailedProject?.activities || []}
