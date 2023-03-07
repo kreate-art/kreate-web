@@ -135,19 +135,14 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                   />
                 </div>
                 <div className={styles.rightPanels}>
-                  {originalDetailedProject?.topSupporters ? (
-                    <PanelTopBackers
-                      value={originalDetailedProject.topSupporters}
-                    />
-                  ) : null}
-
-                  {!originalDetailedProject?.activities ? null : (
-                    <PanelActivities
-                      value={originalDetailedProject.activities}
-                      onClickAllActivities={() => setActiveTabIndex(4)}
-                      id={undefined}
-                    />
-                  )}
+                  <PanelTopBackers
+                    value={originalDetailedProject?.topSupporters || []}
+                  />
+                  <PanelActivities
+                    value={originalDetailedProject?.activities || []}
+                    onClickAllActivities={() => setActiveTabIndex(4)}
+                    id={undefined}
+                  />
                 </div>
               </div>
             </div>
