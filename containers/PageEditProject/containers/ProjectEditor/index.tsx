@@ -425,13 +425,13 @@ export default function ProjectEditor({
               />
             ) : activeIndex === 1 ? (
               <Button.Solid
-                content="Next: Community"
+                content="Next: Benefits"
                 size="medium"
                 onClick={() => setActiveIndex(2)}
               />
             ) : activeIndex === 2 ? (
               <Button.Solid
-                content="Next: Benefits"
+                content="Next: Community"
                 size="medium"
                 onClick={() => setActiveIndex(3)}
               />
