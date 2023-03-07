@@ -29,7 +29,7 @@ type Props = {
 };
 
 export const TABS = [
-  { title: "Campaign", hash: "#campaign" },
+  { title: "About", hash: "#about" },
   { title: "Benefits", hash: "#benefits" },
   { title: "Posts", hash: "#posts" },
   { title: "FAQs", hash: "#faqs" },
