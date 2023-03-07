@@ -23,12 +23,12 @@ import IconClock from "./icons/IconClock";
 import styles from "./index.module.scss";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
-import { ResultT, throw$, try$ } from "@/modules/async-utils";
+import { ResultT } from "@/modules/async-utils";
 import { formatLovelaceAmount, sumTxBreakdown } from "@/modules/bigint-utils";
 import {
   LovelaceAmount,
   Project,
-  ProjectCommunityUpdate,
+  ProjectAnnouncement,
 } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
@@ -51,11 +51,13 @@ import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
 
+type Cid = string;
+
 type Props = {
   open: boolean;
   projectId: string;
   project: Project;
-  initialAnnouncement: ProjectCommunityUpdate;
+  initialAnnouncement: ProjectAnnouncement;
   initialShouldPostAnnouncement: boolean;
   onCancel?: () => void;
   onSuccess?: () => void;
@@ -148,53 +150,63 @@ export default function ModalUpdateProject({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Uploading files to IPFS...");
-      const newInformationCid = await try$(
-        async () => {
-          const blobWBA: WithBufsAs<Project, Blob> =
-            await Converters.fromProject(CodecBlob)(project);
-          const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);
-          return cid;
-        },
-        (cause) => throw$(new Error("failed to upload files", { cause }))
-      );
+      const projectWBA$Blob: WithBufsAs<Project, Blob> =
+        await Converters.fromProject(CodecBlob)(project).catch((cause) => {
+          console.error({ project }); // for debugging purpose
+          throw DisplayableError.from(cause, "Failed to serialize project");
+        });
+      const newInformationCid: Cid = await ipfsAdd$WithBufsAs$Blob(
+        projectWBA$Blob
+      ).catch((cause) => {
+        console.error({ projectWBA$Blob }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to upload files to IPFS");
+      });
 
       setStatusBarText("Uploading files to IPFS...");
-      const newAnnouncementCid = shouldPostAnnouncement
-        ? await try$(
-            async () => {
-              const blobWBA: WithBufsAs<ProjectCommunityUpdate, Blob> =
-                await Converters.fromProjectAnnouncement(CodecBlob)(
-                  announcement
-                );
-              const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);
-              return cid;
-            },
-            (cause) => throw$(new Error("failed to upload files", { cause }))
-          )
+      const announcementWBA$Blob: WithBufsAs<ProjectAnnouncement, Blob> =
+        await Converters.fromProjectAnnouncement(CodecBlob)(announcement).catch(
+          (cause) => {
+            console.error({ announcement }); // for debugging purpose
+            throw DisplayableError.from(
+              cause,
+              "Failed to serialize announcement."
+            );
+          }
+        );
+      const newAnnouncementCid: Cid | undefined = shouldPostAnnouncement
+        ? await ipfsAdd$WithBufsAs$Blob(announcementWBA$Blob).catch((cause) => {
+            console.error({ announcementWBA$Blob }); // for debugging purpose
+            throw DisplayableError.from(
+              cause,
+              "Failed to upload files to IPFS"
+            );
+          })
         : undefined;
 
       setStatusBarText("Building transaction...");
-
-      const { txComplete } = await try$(
-        async () =>
-          await buildTx({
-            lucid: walletStatus.lucid,
-            txParams: txParamsResult.data.txParams,
-            newSponsorshipAmount,
-            newInformationCid,
-            newAnnouncementCid,
-          }),
-        (cause) => throw$(new Error("failed to build tx", { cause }))
-      );
+      const buildTx$Params = {
+        lucid: walletStatus.lucid,
+        txParams: txParamsResult.data.txParams,
+        newSponsorshipAmount,
+        newInformationCid,
+        newAnnouncementCid,
+      };
+      const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
+        console.error({ buildTx$Params }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to build transaction");
+      });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await try$(
-        async () => await signAndSubmit(txComplete),
-        (cause) => throw$(new Error("failed to sign or submit", { cause }))
-      );
+      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+        console.error({ txComplete }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to sign or submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      await walletStatus.lucid.awaitTx(txHash);
+      await walletStatus.lucid.awaitTx(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
 
       setStatusBarText("Done.");
       await handleSaveOnSubmit();
@@ -216,7 +228,7 @@ export default function ModalUpdateProject({
   const handleClickEdit = async () => {
     type ModalPostAnnouncement$ModalResult =
       | { type: "cancel" }
-      | { type: "continue"; value: ProjectCommunityUpdate }
+      | { type: "continue"; value: ProjectAnnouncement }
       | { type: "skip" };
 
     const modalPostAnnouncement$ModalResult =

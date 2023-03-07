@@ -5,13 +5,16 @@ import * as React from "react";
 import ErrorBox from "../../../../../PageUpdateProjectV2/components/ErrorBox";
 import { useCreateProjectLogic } from "../../hooks/useCreateProjectLogic";
 import { TxBreakdown, useEstimatedFees } from "../../hooks/useEstimatedFees";
-import { buildTx, waitUntilProjectIndexed } from "../../utils/transactions";
+import {
+  buildTx,
+  waitUntilProjectIndexed,
+  BuildTxParams,
+} from "../../utils/transactions";
 
 import InputLovelaceAmount$Sponsor from "./components/InputLovelaceAmount$Sponsor";
 import styles from "./index.module.scss";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
-import { throw$, try$ } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { Project } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -30,6 +33,8 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
+
+type Cid = string;
 
 type Props = {
   className?: string;
@@ -97,41 +102,52 @@ export default function ModalSubmit({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Uploading files to IPFS...");
-      const informationCid = await try$(
-        async () => {
-          const projectWBA$Blob: WithBufsAs<Project, Blob> =
-            await Converters.fromProject(CodecBlob)(project);
-          return await ipfsAdd$WithBufsAs$Blob(projectWBA$Blob);
-        },
-        (cause) => throw$(new Error("failed to upload files", { cause }))
-      );
+      const projectWBA$Blob: WithBufsAs<Project, Blob> =
+        await Converters.fromProject(CodecBlob)(project).catch((cause) => {
+          console.error({ project }); // for debugging purpose
+          throw DisplayableError.from(cause, "Failed to serialize project");
+        });
+      const informationCid: Cid = await ipfsAdd$WithBufsAs$Blob(
+        projectWBA$Blob
+      ).catch((cause) => {
+        console.error({ projectWBA$Blob }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to upload files to IPFS");
+      });
 
       setStatusBarText("Building transaction...");
-      const { txComplete, projectId } = await try$(
-        async () =>
-          await buildTx({
-            lucid: walletStatus.lucid,
-            informationCid,
-            ownerAddress: walletStatus.info.address,
-            sponsorshipAmount: lovelaceAmount,
-            protocolParamsUtxo: txParamsResult.data.protocolParamsUtxo,
-            projectAtScriptReferenceUtxo:
-              txParamsResult.data.projectAtScriptReferenceUtxo,
-          }),
-        (cause) => throw$(new Error("failed to build tx", { cause }))
+      const buildTx$Params: BuildTxParams = {
+        lucid: walletStatus.lucid,
+        informationCid,
+        ownerAddress: walletStatus.info.address,
+        sponsorshipAmount: lovelaceAmount,
+        protocolParamsUtxo: txParamsResult.data.protocolParamsUtxo,
+        projectAtScriptReferenceUtxo:
+          txParamsResult.data.projectAtScriptReferenceUtxo,
+      };
+      const { txComplete, projectId } = await buildTx(buildTx$Params).catch(
+        (cause) => {
+          console.error({ buildTx$Params }); // for debugging purpose
+          throw DisplayableError.from(cause, "Failed to build transaction");
+        }
       );
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await try$(
-        async () => await signAndSubmit(txComplete),
-        (cause) => throw$(new Error("failed to sign or submit", { cause }))
-      );
+      const txHash: string = await signAndSubmit(txComplete).catch((cause) => {
+        console.error({ txComplete }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to sign or submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      await walletStatus.lucid.awaitTx(txHash);
+      await walletStatus.lucid.awaitTx(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
 
       setStatusBarText("Waiting for indexers...");
-      await waitUntilProjectIndexed(projectId);
+      await waitUntilProjectIndexed(projectId).catch((cause) => {
+        console.error({ projectId }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for indexers");
+      });
 
       setStatusBarText("Done.");
       onSuccess && onSuccess();
@@ -156,7 +172,7 @@ export default function ModalSubmit({
       className={cx(styles.container, className)}
       style={style}
       open={open}
-      onOpenChange={(open) => !open && onCancel && onCancel()}
+      onClose={onCancel}
       closeOnDimmerClick={false}
       closeOnEscape={!busy}
     >

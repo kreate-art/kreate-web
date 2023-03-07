@@ -8,10 +8,10 @@ import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
 import { useSupportProjectLogic } from "./hooks/useSupportProjectLogic";
 import IconRewardStar from "./icons/IconRewardStar";
 import styles from "./index.module.scss";
-import { buildTx } from "./utils/transaction";
+import { buildTx, BuildTxParams } from "./utils/transaction";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
-import { throw$, try$, tryUntil } from "@/modules/async-utils";
+import { tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -116,31 +116,42 @@ export default function ModalBackProject({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Building transaction...");
-      const { txComplete } = await try$(
-        async () =>
-          await buildTx({
-            lucid: walletStatus.lucid,
-            lovelaceAmount,
-            message,
-            txParams: txParamsResult.data.txParams,
-          }),
-        (cause) => throw$(new Error("failed to build tx", { cause }))
-      );
+      const buildTx$Params: BuildTxParams = {
+        lucid: walletStatus.lucid,
+        lovelaceAmount,
+        message,
+        txParams: txParamsResult.data.txParams,
+      };
+      const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
+        console.error({ buildTx$Params }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to build transaction");
+      });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await try$(
-        async () => await signAndSubmit(txComplete),
-        (cause) => throw$(new Error("failed to sign or submit", { cause }))
-      );
+      const txHash: string = await signAndSubmit(txComplete).catch((cause) => {
+        console.error({ txComplete }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to sign or submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      await walletStatus.lucid.awaitTx(txHash);
-      await waitUntilTxIndexed(txHash);
+      await walletStatus.lucid.awaitTx(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
+
+      setStatusBarText("Waiting for indexers...");
+      await waitUntilTxIndexed(txHash).catch((cause) => {
+        console.error({ txHash }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for indexers");
+      });
 
       setStatusBarText("Done.");
       onSuccess && onSuccess({ lovelaceAmount });
     } catch (error) {
-      const displayableError = DisplayableError.from(error);
+      const displayableError = DisplayableError.from(
+        error,
+        "Failed to back project"
+      );
       showMessage({
         title: displayableError.title,
         description: displayableError.description,
@@ -157,7 +168,7 @@ export default function ModalBackProject({
       className={cx(styles.container, className)}
       style={style}
       open={open}
-      onOpenChange={onCancel}
+      onClose={onCancel}
       closeOnDimmerClick={false}
       closeOnEscape={!busy}
     >
