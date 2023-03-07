@@ -29,7 +29,6 @@ import {
   LovelaceAmount,
   Project,
   ProjectAnnouncement,
-  ProjectCommunityUpdate,
 } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
@@ -52,11 +51,13 @@ import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
 
+type Cid = string;
+
 type Props = {
   open: boolean;
   projectId: string;
   project: Project;
-  initialAnnouncement: ProjectCommunityUpdate;
+  initialAnnouncement: ProjectAnnouncement;
   initialShouldPostAnnouncement: boolean;
   onCancel?: () => void;
   onSuccess?: () => void;
@@ -152,9 +153,9 @@ export default function ModalUpdateProject({
       const projectWBA$Blob: WithBufsAs<Project, Blob> =
         await Converters.fromProject(CodecBlob)(project).catch((cause) => {
           console.error({ project }); // for debugging purpose
-          throw DisplayableError.from(cause, "Failed to serialize project.");
+          throw DisplayableError.from(cause, "Failed to serialize project");
         });
-      const newInformationCid = await ipfsAdd$WithBufsAs$Blob(
+      const newInformationCid: Cid = await ipfsAdd$WithBufsAs$Blob(
         projectWBA$Blob
       ).catch((cause) => {
         console.error({ projectWBA$Blob }); // for debugging purpose
@@ -163,8 +164,16 @@ export default function ModalUpdateProject({
 
       setStatusBarText("Uploading files to IPFS...");
       const announcementWBA$Blob: WithBufsAs<ProjectAnnouncement, Blob> =
-        await Converters.fromProjectAnnouncement(CodecBlob)(announcement);
-      const newAnnouncementCid = shouldPostAnnouncement
+        await Converters.fromProjectAnnouncement(CodecBlob)(announcement).catch(
+          (cause) => {
+            console.error({ announcement }); // for debugging purpose
+            throw DisplayableError.from(
+              cause,
+              "Failed to serialize announcement."
+            );
+          }
+        );
+      const newAnnouncementCid: Cid | undefined = shouldPostAnnouncement
         ? await ipfsAdd$WithBufsAs$Blob(announcementWBA$Blob).catch((cause) => {
             console.error({ announcementWBA$Blob }); // for debugging purpose
             throw DisplayableError.from(
@@ -219,7 +228,7 @@ export default function ModalUpdateProject({
   const handleClickEdit = async () => {
     type ModalPostAnnouncement$ModalResult =
       | { type: "cancel" }
-      | { type: "continue"; value: ProjectCommunityUpdate }
+      | { type: "continue"; value: ProjectAnnouncement }
       | { type: "skip" };
 
     const modalPostAnnouncement$ModalResult =

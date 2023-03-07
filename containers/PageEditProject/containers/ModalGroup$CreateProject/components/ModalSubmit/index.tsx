@@ -5,8 +5,11 @@ import * as React from "react";
 import ErrorBox from "../../../../../PageUpdateProjectV2/components/ErrorBox";
 import { useCreateProjectLogic } from "../../hooks/useCreateProjectLogic";
 import { TxBreakdown, useEstimatedFees } from "../../hooks/useEstimatedFees";
-import { BuildTxParams } from "../../utils/transactions";
-import { buildTx, waitUntilProjectIndexed } from "../../utils/transactions";
+import {
+  buildTx,
+  waitUntilProjectIndexed,
+  BuildTxParams,
+} from "../../utils/transactions";
 
 import InputLovelaceAmount$Sponsor from "./components/InputLovelaceAmount$Sponsor";
 import styles from "./index.module.scss";
@@ -30,6 +33,8 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
+
+type Cid = string;
 
 type Props = {
   className?: string;
@@ -100,9 +105,9 @@ export default function ModalSubmit({
       const projectWBA$Blob: WithBufsAs<Project, Blob> =
         await Converters.fromProject(CodecBlob)(project).catch((cause) => {
           console.error({ project }); // for debugging purpose
-          throw DisplayableError.from(cause, "Failed to serialize project.");
+          throw DisplayableError.from(cause, "Failed to serialize project");
         });
-      const informationCid = await ipfsAdd$WithBufsAs$Blob(
+      const informationCid: Cid = await ipfsAdd$WithBufsAs$Blob(
         projectWBA$Blob
       ).catch((cause) => {
         console.error({ projectWBA$Blob }); // for debugging purpose
@@ -127,7 +132,7 @@ export default function ModalSubmit({
       );
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+      const txHash: string = await signAndSubmit(txComplete).catch((cause) => {
         console.error({ txComplete }); // for debugging purpose
         throw DisplayableError.from(cause, "Failed to sign or submit");
       });

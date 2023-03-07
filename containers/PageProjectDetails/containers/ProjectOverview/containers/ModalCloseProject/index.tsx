@@ -16,7 +16,6 @@ import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import { toJson } from "@/modules/json-utils";
 import { useTxParams$CreatorCloseProject } from "@/modules/next-backend-client/hooks/useTxParams$CreatorCloseProject";
 import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesBreakdown";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
@@ -105,7 +104,7 @@ export default function ModalCloseProject({
       });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+      const txHash: string = await signAndSubmit(txComplete).catch((cause) => {
         console.error({ txComplete }); // for debugging purpose
         throw DisplayableError.from(cause, "Failed to sign or submit");
       });

@@ -151,7 +151,7 @@ export default function ModalUnbackProject({
       });
 
       setStatusBarText("Waiting for signature and submission...");
-      const txHash = await signAndSubmit(txComplete).catch((cause) => {
+      const txHash: string = await signAndSubmit(txComplete).catch((cause) => {
         console.error({ txComplete }); // for debugging purpose
         throw DisplayableError.from(cause, "Failed to sign or submit");
       });
