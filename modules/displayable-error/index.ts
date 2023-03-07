@@ -85,7 +85,11 @@ export function writeErrorToConsole(error: unknown) {
   console.error(error);
   getCauses(error).forEach((cause) => {
     console.groupCollapsed("Caused by:");
-    console.error(cause);
+    console.error(
+      typeof cause === "object" && Object.getPrototypeOf(cause) == null
+        ? Object.assign({}, cause)
+        : cause
+    );
     console.groupEnd();
   });
 }
