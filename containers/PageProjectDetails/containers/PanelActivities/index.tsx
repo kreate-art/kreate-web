@@ -1,13 +1,16 @@
 import cx from "classnames";
+import Image from "next/image";
 import * as React from "react";
 
+import svgFlyingLeaves from "./assets/flying-leaves.svg";
 import Activity from "./components/Activity";
-import { IconCalendar } from "./icons/IconCalendar";
 import styles from "./index.module.scss";
 
 import { sortedBy } from "@/modules/array-utils";
 import { ProjectActivity } from "@/modules/business-types";
 import Button from "@/modules/teiki-ui/components/Button";
+import Flex from "@/modules/teiki-ui/components/Flex";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 const MAX_DISPLAYED_ITEMS = 5;
 
@@ -32,21 +35,32 @@ export default function PanelActivities({
   );
   return (
     <div className={cx(styles.container, className)} style={style} id={id}>
-      <h6 className={styles.label}>Activities</h6>
-      <div className={styles.activityList}>
-        {displayedActivities.length
-          ? displayedActivities.map((item, index) => (
-              <Activity key={index} value={item} />
-            ))
-          : "None"}
-      </div>
-      <Button.Outline
-        className={styles.buttonAllActivities}
-        icon={<IconCalendar />}
-        content="All Activities"
-        onClick={onClickAllActivities}
-        size="large"
-      />
+      <Flex.Col gap="20px">
+        <Typography.Div size="heading6" color="ink" content="Activities" />
+        {displayedActivities.length ? (
+          <>
+            <Flex.Col className={styles.activityList} gap="16px">
+              {displayedActivities.map((item, index) => (
+                <Activity key={index} value={item} />
+              ))}
+            </Flex.Col>
+            <Button.Outline
+              content="All Activities"
+              onClick={onClickAllActivities}
+              size="medium"
+            />
+          </>
+        ) : (
+          <Flex.Col gap="10px" alignItems="center">
+            <Image src={svgFlyingLeaves} alt="" width={96} height={96} />
+            <Typography.Div
+              size="bodySmall"
+              color="ink80"
+              content="No Activities"
+            />
+          </Flex.Col>
+        )}
+      </Flex.Col>
     </div>
   );
 }
