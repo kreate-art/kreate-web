@@ -53,6 +53,7 @@ export type ProjectCommunity = {
   frequentlyAskedQuestions: FrequentlyAskedQuestion[];
 };
 
+// TODO: `roadmap` is temporarily hidden from the UI (not removed)
 export type Project = {
   description: ProjectDescription;
   basics: ProjectBasics;

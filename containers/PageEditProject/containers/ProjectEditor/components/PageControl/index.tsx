@@ -4,7 +4,6 @@ import { ProjectProgressScores, TabIndex } from "../../../../types";
 import TabControl from "../TabControl";
 
 import IconInfo from "./icons/IconInfo";
-import IconRoadmap from "./icons/IconRoadmap";
 import IconTeamwork from "./icons/IconTeamwork";
 import IconWrite from "./icons/IconWrite";
 import styles from "./index.module.scss";
@@ -51,7 +50,7 @@ export default function PageControl({
         onClick={() => onChange && onChange(1)}
       />
       <Divider.Vertical color="black-05" />
-      <TabControl
+      {/* <TabControl
         className={styles.tab}
         active={value === 2}
         label="Roadmap"
@@ -59,7 +58,7 @@ export default function PageControl({
         progressScore={progress.roadmap}
         onClick={() => onChange && onChange(2)}
       />
-      <Divider.Vertical color="black-05" />
+      <Divider.Vertical color="black-05" /> */}
       <TabControl
         className={styles.tab}
         active={value === 3}

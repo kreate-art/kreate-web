@@ -120,7 +120,6 @@ export async function getAllActivities(
         ru.tx_id AS created_tx,
         ru.sponsorship_amount,
         5 AS action,
-        (ru.contents #> '{data, roadmap}' IS DISTINCT FROM ru.prev_contents #> '{data, roadmap}') AS roadmap,
         (ru.contents #> '{data, community}' IS DISTINCT FROM ru.prev_contents #> '{data, community}') AS community,
         (ru.contents #> '{data, description}' IS DISTINCT FROM ru.prev_contents #> '{data, description}') AS description,
         (ru.contents #> '{data, basics, tags}' IS DISTINCT FROM ru.prev_contents #> '{data, basics, tags}') AS tags,
@@ -232,7 +231,6 @@ export async function getAllActivities(
         null::boolean AS summary,
         null::boolean AS cover_images,
         null::boolean AS logo_image,
-        null::boolean AS roadmap,
         null::boolean AS community,
         null::boolean AS sponsorship,
         null::bigint AS sponsorship_amount
@@ -257,7 +255,6 @@ export async function getAllActivities(
         null::boolean AS summary,
         null::boolean AS cover_images,
         null::boolean AS logo_image,
-        null::boolean AS roadmap,
         null::boolean AS community,
         null::boolean AS sponsorship,
         null::bigint AS sponsorship_amount
@@ -282,7 +279,6 @@ export async function getAllActivities(
         null::boolean AS summary,
         null::boolean AS cover_images,
         null::boolean AS logo_image,
-        null::boolean AS roadmap,
         null::boolean AS community,
         null::boolean AS sponsorship,
         null::bigint AS sponsorship_amount
@@ -307,7 +303,6 @@ export async function getAllActivities(
         ru.summary AS summary,
         ru.cover_images AS cover_images,
         ru.logo_image AS logo_image,
-        ru.roadmap AS roadmap,
         ru.community AS community,
         ru.sponsorship,
         ru.sponsorship_amount

@@ -4,7 +4,6 @@ import * as React from "react";
 import TabControl from "./components/TabControl";
 import FAQs from "./containers/FAQs";
 import TabActivities from "./containers/TabActivities";
-import TabMilestoneCard from "./containers/TabMilestoneCard";
 import TabUpdates from "./containers/TabUpdates";
 import styles from "./index.module.scss";
 
@@ -12,8 +11,6 @@ import {
   ProjectAnnouncement,
   ProjectCommunity,
   ProjectDescription,
-  ProjectMilestone,
-  ProjectRoadmap,
 } from "@/modules/business-types";
 import { ProjectActivity } from "@/modules/business-types";
 import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
@@ -22,7 +19,6 @@ type Props = {
   className?: string;
   projectId: string | undefined;
   description: ProjectDescription;
-  roadmap: ProjectRoadmap;
   community: ProjectCommunity;
   announcements: ProjectAnnouncement[];
   activities: ProjectActivity[];
@@ -32,7 +28,6 @@ type Props = {
 
 export const TABS = [
   { title: "Campaign", hash: "#campaign" },
-  { title: "Roadmap", hash: "#roadmap" },
   { title: "Announcements", hash: "#announcements" },
   { title: "FAQs", hash: "#faqs" },
   { title: "Activities", hash: "#activities" },
@@ -42,7 +37,6 @@ export default function ProjectDetails({
   className,
   projectId,
   description,
-  roadmap,
   community,
   announcements,
   activities,
@@ -64,17 +58,11 @@ export default function ProjectDetails({
             className={styles.richTextEditor}
           />
         </div>
-      ) : activeTabIndex == 1 ? ( // Roadmaps
-        <div className={styles.roadmapMain}>
-          {roadmap.map((milestone: ProjectMilestone, index: number) => (
-            <TabMilestoneCard {...milestone} key={index} />
-          ))}
-        </div>
-      ) : activeTabIndex == 2 ? ( // Announcements
+      ) : activeTabIndex == 1 ? ( // Announcements
         <TabUpdates value={announcements} />
-      ) : activeTabIndex == 3 ? ( // FAQs
+      ) : activeTabIndex == 2 ? ( // FAQs
         <FAQs faqs={community.frequentlyAskedQuestions} />
-      ) : activeTabIndex === 4 ? ( // Activities
+      ) : activeTabIndex === 3 ? ( // Activities
         <TabActivities value={activities} projectId={projectId} />
       ) : null}
     </div>

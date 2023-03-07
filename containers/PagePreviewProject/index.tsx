@@ -124,7 +124,6 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                     className={styles.details}
                     projectId={projectId}
                     description={project.description}
-                    roadmap={project.roadmap}
                     community={project.community}
                     announcements={originalDetailedProject?.announcements || []}
                     activities={originalDetailedProject?.activities || []}
