@@ -14,7 +14,7 @@ type Props = {
 export default function PanelWithdrawFund({ lovelaceAmount, onClick }: Props) {
   return (
     <div className={styles.container}>
-      <div className={styles.title}>Available Funds</div>
+      <div className={styles.title}>Available Income</div>
       <AssetViewer.Ada.Compact
         className={styles.fund}
         as="div"

@@ -38,7 +38,7 @@ export default function CommunityUpdateDetails({
         <div className={styles.beforeTitles}>
           <Button.Outline
             icon={<IconArrowLeftCircle />}
-            content="All Announcements"
+            content="All Posts"
             onClick={onClickBack}
           />
         </div>

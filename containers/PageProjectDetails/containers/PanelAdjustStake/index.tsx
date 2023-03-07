@@ -57,14 +57,14 @@ export default function PanelAdjustStake({
         icon={<IconLeaf />}
         size="large"
         color="white"
-        content="Back More"
+        content="Stake More"
         disabled={projectStatus === "closed" || projectStatus === "delisted"}
         onClick={!preview ? openModalBackProject : undefined}
       />
       <Button.Solid
         className={styles.withdrawButton}
         icon={<IconWithdraw />}
-        content="Unback"
+        content="Unstake"
         size="large"
         onClick={async () => {
           if (!preview) {

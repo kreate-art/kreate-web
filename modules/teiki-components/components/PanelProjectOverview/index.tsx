@@ -82,7 +82,7 @@ export default function PanelProjectOverview({
             />
           ) : null}
         </LeftColumn>
-        {/* TODO: @sk-kitsune: currently, the Divider.Vertical disappears 
+        {/* TODO: @sk-kitsune: currently, the Divider.Vertical disappears
         when the parent div wraps. Fix this by extending `Flex.Row` */}
         <Divider.Vertical />
         <RightColumn flex="1 1 500px" minWidth="0">

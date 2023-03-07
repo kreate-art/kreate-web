@@ -76,7 +76,7 @@ export default function NavBar({ className, style }: Props) {
           <Button.Outline
             // TODO: define onClick
             icon={<IconLeaf />}
-            content="Your Project"
+            content="Your Page"
             size="medium"
             onClick={() => {
               router.push(`/projects/${customUrl}`);
@@ -86,7 +86,7 @@ export default function NavBar({ className, style }: Props) {
           <Button.Outline
             // TODO: define onClick
             icon={<IconPlusSquare />}
-            content="Create Project"
+            content="Create on Teiki"
             size="medium"
             disabled={
               appContextValue.walletStatus.status === "connecting" ||

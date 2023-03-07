@@ -192,7 +192,7 @@ export async function getDetailedProject(
     // @sk-yagi: This field indicates total ADA amount
     // used to generate staking rewards for project,
     // including `totalBackingAmount` from backers as well as
-    // all ADA in project-related UTxOs. This matches `Active ADA stake` on UI
+    // all ADA in project-related UTxOs. This matches `Active stake` on UI
     totalStakingAmount,
     backerCount,
     ownerAddress,

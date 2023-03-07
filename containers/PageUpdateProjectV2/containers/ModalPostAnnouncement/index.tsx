@@ -210,7 +210,7 @@ export default function ModalPostAnnouncement({
       closeOnDimmerClick={false}
       closeOnEscape={!busy}
     >
-      <Modal.Header content="Post Announcement" />
+      <Modal.Header content="New Post" />
       <Modal.Content>
         {error ? (
           <div>ERROR</div>

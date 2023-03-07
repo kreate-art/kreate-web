@@ -113,7 +113,7 @@ export default function ModalMigrateFromLegacy({ open, onClose }: Props) {
                     flex="0 0 260px"
                   >
                     <Button.Outline
-                      content="Unback"
+                      content="Unstake"
                       disabled={busy}
                       onClick={async () => {
                         setBusy(true);

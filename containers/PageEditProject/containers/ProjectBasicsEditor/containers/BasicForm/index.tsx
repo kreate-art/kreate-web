@@ -48,7 +48,7 @@ export default function BasicForm({
             value: item,
           }))}
           label="Name"
-          placeholder="Give your project a name"
+          placeholder="Your name"
           zIndex={1}
         />
       </div>
@@ -60,8 +60,8 @@ export default function BasicForm({
             key: item,
             value: item,
           }))}
-          label="Tagline"
-          placeholder="Give your project a tagline"
+          label="Headline"
+          placeholder="Your headline"
           zIndex={1}
         />
       </div>
@@ -80,7 +80,7 @@ export default function BasicForm({
             value: item,
           }))}
           label="Custom URL"
-          placeholder="project-title"
+          placeholder="name"
           leftSlot={
             <div className={styles.customUrlLeftSlot}>
               <Title content="teiki.network/p/" />

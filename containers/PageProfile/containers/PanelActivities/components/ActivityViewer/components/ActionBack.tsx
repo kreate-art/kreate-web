@@ -21,7 +21,7 @@ export default function ActionBack({ className, style, value }: Props) {
         <Typography.Span fontWeight="semibold" color="ink">
           <InlineAddress value={value.createdBy} length="short" />
         </Typography.Span>
-        <Typography.Span content=" backed " />
+        <Typography.Span content=" staked " />
         <AssetViewer.Ada.Standard
           as="span"
           lovelaceAmount={value.lovelaceAmount}

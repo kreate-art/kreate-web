@@ -35,22 +35,8 @@ export default function PanelProtocolStatistics({
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <div className={styles.title}>Protocol Statistics</div>
+      <div className={styles.title}>Platform Statistics</div>
       <div className={styles.content}>
-        <div className={styles.cardGroup}>
-          <Card className={styles.card}>
-            <Card.Legend>Total ADA raised</Card.Legend>
-            {stats.numLovelaceRaised == null ? (
-              <Card.Content>-</Card.Content>
-            ) : (
-              <Card.Content title={stats.numLovelaceRaised.toString()}>
-                {"≈ "}
-                {shortenNumber(stats.numLovelaceRaised, { shift: -6 })}
-                {" ₳"}
-              </Card.Content>
-            )}
-          </Card>
-        </div>
         <div className={styles.cardGroup}>
           <Card className={styles.card}>
             {stats.numProjects == null ? (
@@ -60,7 +46,7 @@ export default function PanelProtocolStatistics({
                 {stats.numProjects}
               </Card.Content>
             )}
-            <Card.Legend>Total projects</Card.Legend>
+            <Card.Legend>Creators</Card.Legend>
           </Card>
           <Card className={styles.card}>
             {stats.numSupporters == null ? (
@@ -70,7 +56,7 @@ export default function PanelProtocolStatistics({
                 {shortenNumber(stats.numSupporters)}
               </Card.Content>
             )}
-            <Card.Legend>Total backers</Card.Legend>
+            <Card.Legend>Members</Card.Legend>
           </Card>
           <Card className={styles.card}>
             {stats.numLovelaceStakedActive == null ? (
@@ -82,13 +68,25 @@ export default function PanelProtocolStatistics({
                 {" ₳"}
               </Card.Content>
             )}
-            <Card.Legend>Active ADA stake</Card.Legend>
+            <Card.Legend>Active stake</Card.Legend>
+          </Card>
+          <Card className={styles.card}>
+            {stats.numLovelaceRaised == null ? (
+              <Card.Content>-</Card.Content>
+            ) : (
+              <Card.Content title={stats.numLovelaceRaised.toString()}>
+                {"≈ "}
+                {shortenNumber(stats.numLovelaceRaised, { shift: -6 })}
+                {" ₳"}
+              </Card.Content>
+            )}
+            <Card.Legend>Total Creator Income</Card.Legend>
           </Card>
         </div>
-        <div className={styles.cardGroup}>
+        {/* <div className={styles.cardGroup}>
           <Card className={styles.card}>
             <Card.Content>{stats.numProjectsActive}</Card.Content>
-            <Card.Legend>Active projects</Card.Legend>
+            <Card.Legend>Active creators</Card.Legend>
           </Card>
           <Card className={styles.card}>
             {stats.numSupportersActive == null ? (
@@ -100,7 +98,7 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Active backers</Card.Legend>
           </Card>
-          {/* <Card className={styles.card}>
+          <Card className={styles.card}>
             {stats.averageMillisecondsBetweenProjectUpdates === undefined ? (
               <Card.Content>-</Card.Content>
             ) : (
@@ -113,8 +111,8 @@ export default function PanelProtocolStatistics({
               </Card.Content>
             )}
             <Card.Legend>Update frequency</Card.Legend>
-          </Card> */}
-        </div>
+          </Card>
+        </div> */}
       </div>
     </div>
   );

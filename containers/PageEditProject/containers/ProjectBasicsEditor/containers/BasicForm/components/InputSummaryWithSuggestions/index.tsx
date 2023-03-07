@@ -83,7 +83,7 @@ export default function InputSummaryWithSuggestions({
         value={value}
         onChange={onChange}
         resizable
-        placeholder="Summarize your project! We suggest 25 to 50 words, but you can go above or below that limit."
+        placeholder="We suggest to write a summary in 25 to 50 words, but you can go above or below that limit."
         bottomSlot={bottomSlot}
       />
       {openPopover ? (

@@ -416,8 +416,8 @@ export default function ModalUpdateProject({
                     disabled={busy}
                   />
                   <InfoBox
-                    title="Announcements are highlighted updates with detailed descriptions."
-                    description="Each announcement's summary is included in auto-generated podcasts to attract backers."
+                    title="Posts are highlighted updates with a detailed description."
+                    description="Each post's summary is included in auto-generated podcasts to attract members."
                   />
                 </fieldset>
               </Flex.Col>

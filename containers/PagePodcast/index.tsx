@@ -34,13 +34,13 @@ export default function PagePodcast() {
             <div className={styles.podcastContainer}>
               {walletStatus.status === "connected" ? (
                 <CardPodcast
-                  title="Relevant Announcements"
+                  title="Relevant Podcasts"
                   data={relevantPodcastsResponse}
                   podcastBackground={podcastBackgroundSupported.src}
                 />
               ) : null}
               <CardPodcast
-                title="Top Announcements"
+                title="Top Podcasts"
                 data={topPodcastsResponse}
                 podcastBackground={podcastBackgroundWeekly.src}
               />

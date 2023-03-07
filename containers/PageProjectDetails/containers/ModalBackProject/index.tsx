@@ -174,7 +174,7 @@ export default function ModalBackProject({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Backing: " color="ink" />
+          <Typography.Span content="Become a Member: " color="ink" />
           <Typography.Span content={projectName} />
         </Typography.Div>
       </Modal.Header>
@@ -187,7 +187,7 @@ export default function ModalBackProject({
           >
             <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
               <fieldset className={styles.fieldset}>
-                <Title className={styles.fieldLabel} content="Amount" />
+                <Title className={styles.fieldLabel} content="Stake Amount" />
                 <InputLovelaceAmount
                   value={input.lovelaceAmount}
                   onChange={input.setLovelaceAmount}
@@ -208,7 +208,7 @@ export default function ModalBackProject({
                   </Flex.Col>
                   <Typography.Div>
                     <Typography.Span
-                      content="With this backing amount, you help the project earn "
+                      content="With this stake amount, you help the creator earn "
                       size="bodySmall"
                     />
                     <AssetViewer.Ada.Compact
@@ -226,12 +226,15 @@ export default function ModalBackProject({
                       fontWeight="bold"
                       color="green"
                     />
-                    <Typography.Span content=" every 5 days" size="bodySmall" />
+                    <Typography.Span
+                      content=" every 5 days."
+                      size="bodySmall"
+                    />
                   </Typography.Div>
                 </Flex.Row>
                 <Divider.Horizontal />
                 <Typography.Div
-                  content="You can withdraw your backing ADA at anytime"
+                  content="You can withdraw your stake anytime!"
                   color="green"
                   size="heading6"
                 />
@@ -267,7 +270,7 @@ export default function ModalBackProject({
               style={{ flex: "1 1 auto" }}
               title="Transaction Breakdown"
               rows={[
-                { label: "Back", value: txBreakdown?.back },
+                { label: "Stake", value: txBreakdown?.back },
                 { label: "Transaction Fee", value: txBreakdown?.transaction },
               ]}
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
@@ -302,7 +305,7 @@ export default function ModalBackProject({
         </Flex.Row>
         <Button.Outline content="Cancel" onClick={onCancel} disabled={busy} />
         <Button.Solid
-          content="Back Project"
+          content="Submit"
           disabled={txBreakdown === undefined || !lucid || busy}
           onClick={handleSubmit}
         />
