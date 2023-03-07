@@ -1,29 +1,33 @@
 import * as React from "react";
 import useSWR from "swr";
 
-import { ProjectGeneralInfo } from "../../modules/business-types";
-import Divider$Horizontal$CustomDash from "../../modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import ProjectListItem from "../PageHome/containers/ProjectList/components/ProjectListItem";
+import PanelActivities from "../PageProjectDetails/containers/PanelActivities";
+import PanelTopBackers from "../PageProjectDetails/containers/PanelTopBackers";
+import ProjectDetails from "../PageProjectDetails/containers/ProjectDetails";
+import useDetailedProject from "../PageProjectDetails/hooks/useDetailedProject";
 import { loadProjectFromBrowserStorage } from "../PageUpdateProjectV2/utils/storage";
 import Podcast from "../Podcast";
 
 import Backdrop from "./components/Backdrop";
 import Section from "./components/Section";
-import ProjectDetails from "./containers/ProjectDetails";
 import styles from "./index.module.scss";
 
+import { ProjectGeneralInfo } from "@/modules/business-types";
 import useComputationOnMount from "@/modules/common-hooks/hooks/useComputationOnMount";
 import PanelProjectOverview from "@/modules/teiki-components/components/PanelProjectOverview";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
+import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   storageId: string;
+  projectId: string | undefined;
 };
 
-export default function PagePreviewProject({ storageId }: Props) {
+export default function PagePreviewProject({ storageId, projectId }: Props) {
   useDefaultBackground();
   const componentMountedAt = useComputationOnMount(() => Date.now());
 
@@ -33,24 +37,30 @@ export default function PagePreviewProject({ storageId }: Props) {
     { revalidateOnFocus: true, refreshInterval: 10000 }
   );
 
-  const projectGeneralInfo: ProjectGeneralInfo | null = project
+  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
+
+  const { project: originalDetailedProject } = useDetailedProject(
+    projectId ? { projectId, preset: "full" } : undefined
+  );
+
+  const projectGeneralInfo: ProjectGeneralInfo | undefined = project
     ? {
-        id: "00000000000000000000000000000000000000000000000000000000",
+        id:
+          originalDetailedProject?.id ||
+          "00000000000000000000000000000000000000000000000000000000",
         basics: project.basics,
         community: project.community,
         history: {
+          // NOTE: @sk-kitsune: field order here is very important
           createdAt: componentMountedAt || undefined,
+          ...originalDetailedProject?.history,
           updatedAt: componentMountedAt || undefined,
         },
-        stats: {
-          numSupporters: 0,
-          numLovelacesStaked: 0,
-          numLovelacesRaised: 0,
-        },
-        categories: {},
-        censorship: [],
+        stats: originalDetailedProject?.stats || {},
+        categories: originalDetailedProject?.categories || {},
+        censorship: originalDetailedProject?.censorship || [],
       }
-    : null;
+    : undefined;
 
   if (projectError) {
     return <div>ERROR</div>;
@@ -112,12 +122,28 @@ export default function PagePreviewProject({ storageId }: Props) {
                 <div className={styles.mainPanels}>
                   <ProjectDetails
                     className={styles.details}
+                    projectId={projectId}
                     description={project.description}
                     roadmap={project.roadmap}
                     community={project.community}
+                    announcements={originalDetailedProject?.announcements || []}
+                    activities={originalDetailedProject?.activities || []}
+                    activeTabIndex={activeTabIndex}
+                    onChangeActiveTabIndex={(activeTabIndex) =>
+                      setActiveTabIndex(activeTabIndex)
+                    }
                   />
                 </div>
-                <div className={styles.rightPanels}>{/* nothing here */}</div>
+                <div className={styles.rightPanels}>
+                  <PanelTopBackers
+                    value={originalDetailedProject?.topSupporters || []}
+                  />
+                  <PanelActivities
+                    value={originalDetailedProject?.activities || []}
+                    onClickAllActivities={() => setActiveTabIndex(4)}
+                    id={undefined}
+                  />
+                </div>
               </div>
             </div>
           ) : null}

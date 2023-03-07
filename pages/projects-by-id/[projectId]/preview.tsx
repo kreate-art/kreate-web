@@ -8,7 +8,12 @@ type Props = {
 };
 
 export default function RouteToPagePreviewProject({ projectId }: Props) {
-  return <PagePreviewProject storageId={getStorageId(projectId)} />;
+  return (
+    <PagePreviewProject
+      storageId={getStorageId(projectId)}
+      projectId={projectId}
+    />
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (

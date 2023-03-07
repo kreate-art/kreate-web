@@ -10,7 +10,12 @@ type Props = {
 export default function RouteToPagePreviewProject({
   paymentPubKeyHash,
 }: Props) {
-  return <PagePreviewProject storageId={getStorageId(paymentPubKeyHash)} />;
+  return (
+    <PagePreviewProject
+      storageId={getStorageId(paymentPubKeyHash)}
+      projectId={undefined}
+    />
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
