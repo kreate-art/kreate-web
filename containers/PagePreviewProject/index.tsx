@@ -100,12 +100,12 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
       </Section>
       <div className={styles.container}>
         <main className={styles.main}>
-          <Backdrop
-            className={styles.backdrop}
-            coverImages={project?.basics?.coverImages}
-          />
           {project && projectGeneralInfo ? (
             <div className={styles.content}>
+              <Backdrop
+                className={styles.backdrop}
+                coverImages={project?.basics?.coverImages}
+              />
               <div className={styles.header}>
                 <PanelProjectOverview
                   basics={projectGeneralInfo.basics}
