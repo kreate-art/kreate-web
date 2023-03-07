@@ -23,10 +23,10 @@ export default function Backdrop({ className, coverImages }: Props) {
         className={styles.coverImage}
         src={actualCoverImage.url}
         crop={{
-          x: actualCoverImage.x,
-          y: actualCoverImage.y,
-          w: actualCoverImage.width,
-          h: actualCoverImage.height,
+          x: 0,
+          y: 0,
+          w: 1,
+          h: 1,
         }}
       />
     </div>
