@@ -390,10 +390,8 @@ async function backingDataToActivities(
 function emptyProjectBenefits(): ProjectBenefits {
   return {
     perks: {
-      body: {
-        type: "doc",
-        content: [{ type: "paragraph" }],
-      },
+      type: "doc",
+      content: [{ type: "paragraph" }],
     },
   };
 }
