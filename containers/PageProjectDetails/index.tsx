@@ -343,10 +343,6 @@ export default function PageProjectDetails({
                   />
                 </div>
               ) : null}
-              <Backdrop
-                className={styles.backdrop}
-                coverImages={project?.basics?.coverImages}
-              />
               {!project ||
               !project.basics ||
               !project.description ||
@@ -358,6 +354,10 @@ export default function PageProjectDetails({
               project.announcements === undefined ||
               project.activities === undefined ? null : (
                 <div className={styles.content}>
+                  <Backdrop
+                    className={styles.backdrop}
+                    coverImages={project?.basics?.coverImages}
+                  />
                   <div className={styles.header}>
                     <PanelProjectOverview
                       basics={project.basics}
