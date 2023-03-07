@@ -19,7 +19,7 @@ import { DisplayableError } from "@/modules/displayable-error";
 import { useTxParams$CreatorWithdrawFund } from "@/modules/next-backend-client/hooks/useTxParams$CreatorWithdrawFund";
 import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesBreakdown";
 import Flex from "@/modules/teiki-components/components/PanelProjectOverview/components/Flex";
-import IconRevenue from "@/modules/teiki-components/components/PanelProjectOverview/containers/OtherStatsViewer/icons/IconRevenue";
+import IconRevenue from "@/modules/teiki-components/components/PanelProjectOverview/containers/ActiveStakeViewer/icons/IconRevenue";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";

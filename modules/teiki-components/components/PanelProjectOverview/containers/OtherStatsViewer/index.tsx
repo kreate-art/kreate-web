@@ -5,7 +5,7 @@ import Flex from "../../components/Flex";
 import ImpactfulNumber from "../../components/ImpactfulNumber";
 
 import IconPin from "./icons/IconPin";
-import IconRevenue from "./icons/IconRevenue";
+import IconProfit from "./icons/IconProfit";
 import IconSpeechBubble from "./icons/IconSpeechBubble";
 import styles from "./index.module.scss";
 
@@ -69,19 +69,6 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col gap="32px">
         <ImpactfulNumber
-          icon={<IconRevenue />}
-          label="Active stake"
-          content={
-            value.numLovelacesStaked != null
-              ? formatLovelaceAmount(
-                  value.numLovelacesStaked, //
-                  { includeCurrencySymbol: true }
-                )
-              : "-"
-          }
-          title={value.numLovelacesStaked?.toString()}
-        />
-        <ImpactfulNumber
           icon={<IconPin />}
           label="Number of members"
           content={
@@ -96,6 +83,19 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
           label="Update frequency"
           content={frequency ? frequency.label : "-"}
           contentClassName={frequency ? frequency.className : undefined}
+        />
+        <ImpactfulNumber
+          icon={<IconProfit />}
+          label="Total income"
+          content={
+            value.numLovelacesRaised != null
+              ? formatLovelaceAmount(
+                  value.numLovelacesRaised, //
+                  { includeCurrencySymbol: true }
+                )
+              : "-"
+          }
+          title={value.numLovelacesRaised?.toString()}
         />
       </Flex.Col>
     </div>

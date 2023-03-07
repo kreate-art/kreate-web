@@ -5,6 +5,7 @@ import ProjectImageCropped from "../../../../containers/PageHome/components/Proj
 import { DEFAULT_LOGO_IMAGE } from "../LogoImageViewer/constants";
 
 import Flex from "./components/Flex";
+import ActiveStakeViewer from "./containers/ActiveStakeViewer";
 import BadgesViewer from "./containers/BadgesViewer";
 import ButtonGroup from "./containers/ButtonGroup";
 import HistoryViewer from "./containers/HistoryViewer";
@@ -12,7 +13,6 @@ import OtherStatsViewer from "./containers/OtherStatsViewer";
 import SocialChannelsViewer from "./containers/SocialChannelsViewer";
 import TagsViewer from "./containers/TagsViewer";
 import TitleSloganViewer from "./containers/TitleSloganViewer";
-import TotalRaisedViewer from "./containers/TotalRaisedViewer";
 import styles from "./index.module.scss";
 import { Options } from "./types";
 
@@ -87,7 +87,7 @@ export default function PanelProjectOverview({
         <Divider.Vertical />
         <RightColumn flex="1 1 500px" minWidth="0">
           <Flex.Cell flex="0 0 auto" padding="56px 56px 24px 56px">
-            <TotalRaisedViewer value={stats.numLovelacesRaised ?? null} />
+            <ActiveStakeViewer value={stats.numLovelacesStaked ?? null} />
           </Flex.Cell>
           <Divider.Horizontal />
           <Flex.Cell flex="1 0 auto" padding="32px 56px">
