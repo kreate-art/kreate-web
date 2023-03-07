@@ -19,6 +19,9 @@ type Result = {
   mutate: () => void;
 };
 
+// NOTE: @sk-kitsune: This is the proper way to add more meaning to an error.
+export class ProjectNotFound extends DisplayableError {}
+
 export default function useDetailedProject(
   params: GetDetailedProject$Params | undefined
 ): Result {
@@ -33,7 +36,7 @@ export default function useDetailedProject(
       error
         ? DisplayableError.from(error, "Failed to fetch project")
         : data?.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND
-        ? DisplayableError.from(data, "Project not found")
+        ? new ProjectNotFound({ title: "Project not found", cause: data })
         : undefined,
     [error, data]
   );

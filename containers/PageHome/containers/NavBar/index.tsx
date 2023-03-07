@@ -7,7 +7,9 @@ import {
   NEXT_PUBLIC_ENABLE_LEGACY,
   NEXT_PUBLIC_NETWORK,
 } from "../../../../config/client";
-import useDetailedProject from "../../../PageProjectDetails/hooks/useDetailedProject";
+import useDetailedProject, {
+  ProjectNotFound,
+} from "../../../PageProjectDetails/hooks/useDetailedProject";
 
 import ButtonWalletNavbar from "./containers/ButtonWalletNavbar";
 import ModalConnectWallet from "./containers/ButtonWalletNavbar/containers/ModalConnectWallet";
@@ -74,7 +76,6 @@ export default function NavBar({ className, style }: Props) {
         <ButtonWalletNavbar />
         {customUrl ? (
           <Button.Outline
-            // TODO: define onClick
             icon={<IconLeaf />}
             content="Your Page"
             size="medium"
@@ -84,7 +85,6 @@ export default function NavBar({ className, style }: Props) {
           />
         ) : (
           <Button.Outline
-            // TODO: define onClick
             icon={<IconPlusSquare />}
             content="Create on Teiki"
             size="medium"
@@ -92,7 +92,10 @@ export default function NavBar({ className, style }: Props) {
               appContextValue.walletStatus.status === "connecting" ||
               appContextValue.walletStatus.status === "unknown" ||
               (appContextValue.walletStatus.status === "connected" &&
-                (project == null || error != null)) ||
+                // 1. either still loading
+                ((error == null && project == null) ||
+                  // 2. or loaded but there is error except ProjectNotFound
+                  (error != null && !(error instanceof ProjectNotFound)))) ||
               isCreateProjectButtonDisabled
             }
             onClick={async () => {
