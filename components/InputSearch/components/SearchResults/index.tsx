@@ -35,8 +35,8 @@ export default function SearchResults({ error, data, onClick }: Props) {
                   project.history.closedAt ||
                   project.history.delistedAt ||
                   !project.basics.customUrl
-                    ? router.push(`/projects-by-id/${project.id}`)
-                    : router.push(`/projects/${project.basics.customUrl}`);
+                    ? router.push(`/c-by-id/${project.id}`)
+                    : router.push(`/c/${project.basics.customUrl}`);
                 }
                 onClick && onClick();
               }}

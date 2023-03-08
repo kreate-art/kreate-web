@@ -57,8 +57,8 @@ export default function ProjectCard({
     value.history.closedAt ||
     value.history.delistedAt ||
     !value.basics.customUrl
-      ? `/projects-by-id/${value.id}`
-      : `/projects/${value.basics.customUrl}`;
+      ? `/c-by-id/${value.id}`
+      : `/c/${value.basics.customUrl}`;
 
   return (
     <div
