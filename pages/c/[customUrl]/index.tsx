@@ -3,6 +3,7 @@ import { SWRConfig, unstable_serialize } from "swr";
 
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
+import { DisplayableError } from "@/modules/displayable-error";
 import { db } from "@/modules/next-backend/connections";
 import {
   getDetailedProject,
@@ -13,20 +14,17 @@ import { httpGetProject$GetKey } from "@/modules/next-backend-client/api/httpGet
 
 type Props = {
   fallback: Record<string, unknown>;
-  projectCustomUrl: string;
+  customUrl: string;
 };
 
 // eslint-disable-next-line react/prop-types
 export default function RouteToPageProjectDetails({
   fallback,
-  projectCustomUrl,
+  customUrl,
 }: Props) {
   return (
     <SWRConfig value={{ fallback }}>
-      <PageProjectDetails
-        projectCustomUrl={projectCustomUrl}
-        projectId={undefined}
-      />
+      <PageProjectDetails projectCustomUrl={customUrl} projectId={undefined} />
     </SWRConfig>
   );
 }
@@ -34,7 +32,7 @@ export default function RouteToPageProjectDetails({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const customUrl = context.params?.["projectCustomUrl"];
+  const customUrl = context.params?.["customUrl"];
 
   if (typeof customUrl !== "string" || !/^[ -~]+$/.test(customUrl)) {
     return { notFound: true };
@@ -48,8 +46,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const project$Key = httpGetProject$GetKey(project$Params);
   const project$Response = await getDetailedProject(db, project$Params).catch(
     (error) => {
-      console.error("[SSR | ProjectDetails | project]", error);
-      return undefined;
+      throw new DisplayableError({
+        title: "Server error",
+        description: "Failed to get project.",
+        cause: error,
+      });
     }
   );
 
@@ -62,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       fallback: {
         [unstable_serialize(project$Key)]: project$Response,
       },
-      projectCustomUrl: customUrl,
+      customUrl,
     },
   };
 };
