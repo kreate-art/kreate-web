@@ -15,15 +15,19 @@ import {
 
 import { options, Sql } from "./db";
 
+const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
+
 const POSTGRES_OPTIONS = options({
   max: DATABASE_MAX_CONNECTIONS,
+  idle_timeout: IS_DEVELOPMENT ? 30 : 60,
+  max_lifetime: 60 * (IS_DEVELOPMENT ? 5 : 30),
 });
 
 // https://github.com/vercel/next.js/issues/7811
 // TODO: Export this to a new module, because the issue
 // happens regularly with next.js in development mode.
 function service<T>(name: string, init: () => T): T {
-  if (process.env.NODE_ENV === "development") {
+  if (IS_DEVELOPMENT) {
     const globalRecord = global as Record<string, unknown>;
     if (!(name in globalRecord)) globalRecord[name] = init();
     return globalRecord[name] as T;
@@ -62,7 +66,7 @@ export const redis = service("__redis__", () =>
         password: REDIS_PASSWORD,
         connectionName: "web",
         enableAutoPipelining: true,
-        enableReadyCheck: process.env.NODE_ENV !== "development",
+        enableReadyCheck: !IS_DEVELOPMENT,
       })
 );
 
