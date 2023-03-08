@@ -1,6 +1,6 @@
 import { Address, UnixTime } from "lucid-cardano";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
 

@@ -1,6 +1,6 @@
 import { RewardAddress, ScriptHash } from "lucid-cardano";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 
 import { LovelaceAmount } from "@/modules/business-types";
 

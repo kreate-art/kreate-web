@@ -1,4 +1,4 @@
-import { Sql } from "../next-backend/db";
+import { Sql } from "../next-backend/connections";
 
 export async function getTopTags(sql: Sql) {
   // TODO: update this query (like removing one layer of SELECT)

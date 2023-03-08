@@ -3,7 +3,7 @@ import { SWRConfig, unstable_serialize } from "swr";
 
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import {
   getDetailedProject,
   GetDetailedProject$Params,

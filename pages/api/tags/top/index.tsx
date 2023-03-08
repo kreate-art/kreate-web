@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { toJson } from "@/modules/json-utils";
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import { getTopTags } from "@/modules/server/search-bar";
 
 export default async function handler(

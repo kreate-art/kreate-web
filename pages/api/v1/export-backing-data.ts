@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import { getBackingDataByProject } from "@/modules/next-backend/logic/getBackingDataByProject";
 
 export default async function handler(

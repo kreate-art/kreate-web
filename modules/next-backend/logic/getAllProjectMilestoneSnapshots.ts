@@ -1,6 +1,6 @@
 // NOTE: @sk-yagi: The term `milestone` here refers to Protocol Milestone
 // given in Protocol parameters (NOT milestone in Project Roadmap)
-import { Sql } from "../db";
+import { Sql } from "../connections";
 
 import { UnixTimestamp } from "@/modules/business-types";
 

@@ -1,7 +1,7 @@
 import * as S from "@teiki/protocol/schema";
 import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { EnrichedUtxo } from "../types";
 
 import { getDeployedScriptUtxo } from "./getDeployedScript";

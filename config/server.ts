@@ -15,8 +15,16 @@ export function runtimeAssert(
 export const DATABASE_URL: string = process.env.DATABASE_URL || "";
 runtimeAssert(DATABASE_URL, "DATABASE_URL is required");
 
-export const LEGACY_DATABASE_URL: string | null =
-  process.env.LEGACY_DATABASE_URL || null;
+export const REDIS_URL: string = process.env.REDIS_URL || "";
+runtimeAssert(REDIS_URL, "REDIS_URL is required");
+
+export const REDIS_USERNAME: string | undefined =
+  process.env.REDIS_USERNAME || undefined;
+export const REDIS_PASSWORD: string | undefined =
+  process.env.REDIS_PASSWORD || undefined;
+
+export const LEGACY_DATABASE_URL: string | undefined =
+  process.env.LEGACY_DATABASE_URL || undefined;
 
 export const DATABASE_MAX_CONNECTIONS = Number(
   process.env.DATABASE_MAX_CONNECTIONS || "4"

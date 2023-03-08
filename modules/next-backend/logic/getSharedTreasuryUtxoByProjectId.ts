@@ -1,4 +1,4 @@
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { ChainOutput, toLucidUtxo } from "../types";
 
 export async function getRandomSharedTreasuryUtxoByProjectId(

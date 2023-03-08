@@ -3,7 +3,7 @@ import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
 import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
 import { UTxO } from "lucid-cardano";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { EnrichedUtxo } from "../types";
 
 import { getDedicatedTreasuryUtxo } from "./getDedicatedTreasuryUtxo";

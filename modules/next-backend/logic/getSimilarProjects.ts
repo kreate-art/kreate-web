@@ -1,5 +1,5 @@
 import { NEXT_PUBLIC_AI_URL } from "../../../config/client";
-import { Sql } from "../db";
+import { Sql } from "../connections";
 
 import { getAllProjects } from "./getAllProjects";
 
