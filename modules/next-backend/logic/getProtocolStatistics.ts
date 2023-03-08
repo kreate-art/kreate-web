@@ -69,7 +69,10 @@ export async function getProtocolStatistics(
           WHERE
             NOT EXISTS (SELECT FROM admin.blocked_project bp WHERE bp.project_id = pd.project_id)
         ) * 1000
-      ) average_milliseconds_between_project_updates
+      ) average_milliseconds_between_project_updates,
+      (
+        SELECT count(DISTINCT last_announcement_cid) FROM chain.project_detail WHERE last_announcement_cid  IS NOT NULL
+      ) total_posts
   `;
   const [stats] = result;
 
@@ -82,5 +85,6 @@ export async function getProtocolStatistics(
     numSupportersActive: stats.activeBackerCount,
     averageMillisecondsBetweenProjectUpdates:
       stats.averageMillisecondsBetweenProjectUpdates,
+    numPosts: stats.totalPosts,
   };
 }

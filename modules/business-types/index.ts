@@ -162,6 +162,7 @@ export type ProtocolStatistics = {
   numProjectsActive: number | null;
   numSupportersActive: number | null;
   averageMillisecondsBetweenProjectUpdates?: number | null;
+  numPosts: number | null;
 };
 
 // Fields that can be updated by project owner (description, slogan, ...)
