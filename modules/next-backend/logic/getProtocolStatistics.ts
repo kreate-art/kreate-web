@@ -71,7 +71,18 @@ export async function getProtocolStatistics(
         ) * 1000
       ) average_milliseconds_between_project_updates,
       (
-        SELECT count(DISTINCT last_announcement_cid) FROM chain.project_detail WHERE last_announcement_cid  IS NOT NULL
+        SELECT
+          count(DISTINCT last_announcement_cid)
+        FROM
+          chain.project_detail pd
+        WHERE
+          last_announcement_cid IS NOT NULL
+            AND NOT EXISTS 
+              (
+                SELECT FROM 
+                  admin.blocked_project bp 
+                WHERE bp.project_id = pd.project_id
+              )
       ) total_posts
   `;
   const [stats] = result;
