@@ -1,4 +1,3 @@
-import moment from "moment";
 import * as React from "react";
 
 import InputLovelaceAmount$Sponsor from "../../../PageEditProject/containers/ModalGroup$CreateProject/components/ModalSubmit/components/InputLovelaceAmount$Sponsor";
@@ -20,6 +19,7 @@ import ModalSponsorship, {
 
 import IconClock from "./icons/IconClock";
 import styles from "./index.module.scss";
+import { timeToExpiry } from "./utils";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT } from "@/modules/async-utils";
@@ -377,13 +377,9 @@ export default function ModalUpdateProject({
                                   content={
                                     detailedProject.sponsorshipUntil == null
                                       ? "-"
-                                      : moment().isAfter(
+                                      : timeToExpiry(
                                           detailedProject.sponsorshipUntil
                                         )
-                                      ? `Expired`
-                                      : `Expires ${moment(
-                                          detailedProject.sponsorshipUntil
-                                        ).fromNow()}`
                                   }
                                   size="heading6"
                                   color="green"
