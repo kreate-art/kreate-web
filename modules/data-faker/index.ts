@@ -231,6 +231,7 @@ export function generateProtocolStatistics(): ProtocolStatistics {
     numProjectsActive: faker.datatype.number(50),
     numSupportersActive: faker.datatype.number(50000),
     averageMillisecondsBetweenProjectUpdates: faker.datatype.number(1000000000),
+    numPosts: faker.datatype.number(100000000000),
   };
 }
 
