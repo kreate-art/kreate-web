@@ -19,6 +19,9 @@ const POSTGRES_BASE_OPTIONS: postgres.Options<never> = {
   onparameter: (key, value) => {
     console.warn(`(:) ${key} = ${value}`);
   },
+  // onclose: (id) => {
+  //   console.info(`(.) Connection Closed :: ${id}`);
+  // },
 };
 
 const POSTGRES_BASE_TYPES = {
