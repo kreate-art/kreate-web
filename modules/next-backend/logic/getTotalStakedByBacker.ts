@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 
 export type TotalStakedByBacker$Response = {
   amount: bigint;

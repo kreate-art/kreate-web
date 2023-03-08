@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { ChainOutput, toLucidUtxo } from "../types";
 
 export async function getProtocolParamsUtxo(sql: Sql) {

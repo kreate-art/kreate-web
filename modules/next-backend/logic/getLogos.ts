@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 
 import { Cid } from "@/modules/next-backend/utils/CodecCid";
 

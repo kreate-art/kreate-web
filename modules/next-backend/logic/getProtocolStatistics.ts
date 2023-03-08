@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 
 import { ProtocolStatistics } from "@/modules/business-types";
 
@@ -77,10 +77,10 @@ export async function getProtocolStatistics(
           chain.project_detail pd
         WHERE
           last_announcement_cid IS NOT NULL
-            AND NOT EXISTS 
+            AND NOT EXISTS
               (
-                SELECT FROM 
-                  admin.blocked_project bp 
+                SELECT FROM
+                  admin.blocked_project bp
                 WHERE bp.project_id = pd.project_id
               )
       ) total_posts

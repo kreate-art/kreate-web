@@ -1,17 +1,15 @@
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 import { Address } from "lucid-cardano";
 
 import { assert } from "@/modules/common-utils";
 
-export type ADAHandle = string;
+export type AdaHandle = string;
 
 export type Params = {
   addresses: Address[];
 };
 
-type Response = {
-  [address: string]: ADAHandle[];
-};
+type Response = { [address: string]: AdaHandle[] };
 
 const ADDRESS_TO_HANDLES_PREFIX = "s:ah.";
 

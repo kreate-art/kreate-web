@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
+import { db } from "@/modules/next-backend/connections";
 import { getBackerUnbackProject } from "@/modules/next-backend/logic/getBackerUnbackProject";
+import { PROOF_OF_BACKING_MPH } from "@/modules/protocol/constants";
 
 /**
  * Given `projectId` and `backerAddress`, returns the corresponding `TxParams$BackerUnbackProject$Response`
@@ -31,10 +33,11 @@ export default async function handler(
       "invalid project active status"
     );
 
-    const result = await getBackerUnbackProject(legacy != null, {
+    const result = await getBackerUnbackProject(db, {
       active: active === undefined ? undefined : active === "true",
       backerAddress,
       projectId,
+      proofOfBackingMph: PROOF_OF_BACKING_MPH,
     });
     sendJson(res.status(200), { txParams: result });
   } catch (error) {

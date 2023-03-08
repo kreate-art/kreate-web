@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { EnrichedUtxo } from "../types";
 
 import { getDeployedScriptUtxo } from "./getDeployedScript";
