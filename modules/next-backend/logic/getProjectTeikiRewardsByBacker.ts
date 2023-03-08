@@ -4,7 +4,7 @@ import * as S from "@teiki/protocol/schema";
 import { BackingDatum } from "@teiki/protocol/schema/teiki/backing";
 import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
 
-import { db, dbLegacy, Sql } from "../db";
+import { db, dbLegacy, Sql } from "../connections";
 
 import { getBackerBackingUtxosByProjectId } from "./getBackerBackingUtxosByProjectId";
 import { getProjectUtxoByProjectId } from "./getProjectUtxoByProjectId";

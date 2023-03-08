@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { toJson } from "@/modules/json-utils";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import { getCreatorWithdrawFund } from "@/modules/next-backend/logic/getCreatorWithdrawFund";
 
 export default async function handler(

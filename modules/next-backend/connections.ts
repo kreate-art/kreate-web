@@ -1,4 +1,5 @@
 // TODO: Duplicated of teiki-index/src/db.ts
+import Redis from "ioredis";
 import postgres from "postgres";
 import prexit from "prexit";
 
@@ -7,6 +8,9 @@ import {
   DATABASE_URL,
   IS_NEXT_BUILD,
   LEGACY_DATABASE_URL,
+  REDIS_PASSWORD,
+  REDIS_URL,
+  REDIS_USERNAME,
 } from "../../config/server";
 import { toJson, fromJson } from "../json-utils";
 
@@ -99,9 +103,23 @@ export const dbLegacy = service("__db_legacy__", () =>
     : null
 );
 
+export const redis = service("__redis__", () =>
+  IS_NEXT_BUILD
+    ? (undefined as unknown as Redis)
+    : new Redis(REDIS_URL, {
+        username: REDIS_USERNAME,
+        password: REDIS_PASSWORD,
+        connectionName: "web",
+        enableAutoPipelining: true,
+      })
+);
+
 // TODO: Find a more centralized place
 prexit(async (signal, error, idk) => {
   console.warn("$ EXIT:", signal, error, idk);
-  await db.end({ timeout: 5 });
-  await dbLegacy?.end({ timeout: 5 });
+  await Promise.all([
+    db.end({ timeout: 5 }),
+    dbLegacy?.end({ timeout: 5 }),
+    redis.quit(),
+  ]);
 });

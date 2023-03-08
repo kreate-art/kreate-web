@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import { getDetailedProject } from "@/modules/next-backend/logic/getDetailedProject";
 
 export default async function handler(

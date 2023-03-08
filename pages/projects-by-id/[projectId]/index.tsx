@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import {
   getDetailedProject,
   GET_DETAILED_PROJECT__ERRORS,

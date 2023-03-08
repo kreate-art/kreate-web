@@ -1,4 +1,4 @@
-import { Sql } from "../next-backend/db";
+import { Sql } from "../next-backend/connections";
 
 import { getProjectDetailsResponse } from "./responses";
 

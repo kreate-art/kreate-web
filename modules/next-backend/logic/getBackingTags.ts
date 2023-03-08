@@ -1,6 +1,6 @@
 import { Address } from "lucid-cardano";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 
 export type Params = { relevantAddress: Address };
 

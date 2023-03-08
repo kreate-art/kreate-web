@@ -1,4 +1,4 @@
-import { Sql } from "../db";
+import { Sql } from "../connections";
 
 import { ProtocolStatistics } from "@/modules/business-types";
 

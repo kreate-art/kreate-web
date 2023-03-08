@@ -1,6 +1,6 @@
 import { Hex } from "@teiki/protocol/types";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { ChainOutputWithScript, toLucidUtxo } from "../types";
 
 // TODO: @sk-saru should select project script by current staking amount

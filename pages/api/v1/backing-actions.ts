@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db } from "@/modules/next-backend/db";
+import { db } from "@/modules/next-backend/connections";
 import getBackingActionsByTxHash from "@/modules/next-backend/logic/getBackingActivitiesByTxHash";
 
 export default async function handler(

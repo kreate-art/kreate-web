@@ -3,7 +3,7 @@ import * as S from "@teiki/protocol/schema";
 import { TeikiMintingInfo } from "@teiki/protocol/transactions/backing/plant";
 import { Hex } from "@teiki/protocol/types";
 
-import { Sql, db, dbLegacy } from "../db";
+import { Sql, db, dbLegacy } from "../connections";
 import { EnrichedUtxo } from "../types";
 
 import { getBackerBackingUtxosByProjectId } from "./getBackerBackingUtxosByProjectId";

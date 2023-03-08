@@ -3,7 +3,7 @@ import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
 import { ProjectScriptInfo } from "@teiki/protocol/transactions/project/finalize-close";
 import { RewardAddress, UTxO } from "lucid-cardano";
 
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { EnrichedUtxo } from "../types";
 
 import { getAllProjectScripts } from "./getAllProjectScripts";

@@ -1,4 +1,4 @@
-import { Sql } from "../db";
+import { Sql } from "../connections";
 import { getBackerBackingUtxosByProjectId } from "../logic/getBackerBackingUtxosByProjectId";
 import { getDetailedProject } from "../logic/getDetailedProject";
 import { EnrichedUtxo } from "../types";
