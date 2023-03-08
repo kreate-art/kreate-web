@@ -210,11 +210,7 @@ export default function PageProjectDetails({
 
   const handleClickButtonUpdateProject = () => {
     if (!project) return;
-    window.open(
-      `/projects-by-id/${project.id}/update`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    router.push(`/projects-by-id/${project.id}/update`);
   };
 
   const handleClickButtonShare = () => {

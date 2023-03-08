@@ -18,11 +18,12 @@ import IconLeaf from "./icons/IconLeaf";
 import IconPlusSquare from "./icons/IconPlusSquare";
 import styles from "./index.module.scss";
 
-import { toJson } from "@/modules/json-utils";
+import { DisplayableError } from "@/modules/displayable-error";
 import { useModalPromises } from "@/modules/modal-promises";
 import { httpGetLegacyBacking } from "@/modules/next-backend-client/api/httpGetLegacyBacking";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
+import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import { LogoTeikiFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 import { WalletStatus } from "@/modules/wallet/types";
@@ -43,6 +44,7 @@ export default function NavBar({ className, style }: Props) {
   const router = useRouter();
 
   const { showModal } = useModalPromises();
+  const { showMessage } = useToast();
 
   const paymentPubKeyHash =
     appContextValue.walletStatus.status === "connected"
@@ -101,7 +103,7 @@ export default function NavBar({ className, style }: Props) {
             onClick={async () => {
               try {
                 if (appContextValue.walletStatus.status === "connected") {
-                  window.open(`/drafts/${paymentPubKeyHash}/edit`);
+                  router.push(`/drafts/${paymentPubKeyHash}/edit`);
                 } else {
                   const modalResult = await showModal<WalletStatus>(
                     (resolve) => {
@@ -147,16 +149,22 @@ export default function NavBar({ className, style }: Props) {
                     preset: "minimal",
                   });
                   if (projectResponse.error != null) {
-                    window.open(
+                    router.push(
                       `/drafts/${modalResult.info.addressDetails.paymentCredential?.hash}/edit`
                     );
                   }
                   setIsCreateProjectButtonDisabled(false);
                 }
               } catch (error) {
-                console.error(error);
-                alert(error instanceof Error ? error.message : toJson(error));
-                // TODO: @sk-tenba: show error dialog properly
+                const displayableError = DisplayableError.from(
+                  error,
+                  "Failed to create on Teiki"
+                );
+                showMessage({
+                  title: displayableError.title,
+                  description: displayableError.description,
+                  color: "danger",
+                });
               }
             }}
           />
