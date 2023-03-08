@@ -298,7 +298,7 @@ export default function ModalUpdateProject({
           <Flex.Col
             flex="10000 10000 294px"
             gap="32px"
-            padding="32px 24px 32px 48px"
+            padding="20px 48px 20px 48px"
           >
             <form onSubmit={(event) => event.preventDefault()}>
               <Flex.Col gap="20px">
@@ -336,9 +336,8 @@ export default function ModalUpdateProject({
                           color="green"
                           disabled={true}
                           rightSlot={
-                            <Typography.Div
+                            <Button.Link
                               className={styles.closeSymbol}
-                              style={{ display: "flex" }}
                               content={<IconClose />}
                               onClick={() => setNewSponsorshipAmount(undefined)}
                             />

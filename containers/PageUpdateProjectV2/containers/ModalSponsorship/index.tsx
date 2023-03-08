@@ -112,7 +112,7 @@ export default function ModalSponsorship({
       <Modal.Header content="Sponsorship" />
       <Modal.Content padding="none" className={styles.modalContent}>
         <Flex.Row alignItems="stretch" flexWrap="wrap">
-          <Flex.Col flex="10000 10000 294px" padding="32px 48px" gap="24px">
+          <Flex.Col flex="10000 10000 294px" padding="20px 48px" gap="24px">
             <Typography.Div content="Sponsorship Status" size="heading6" />
             <Flex.Col className={styles.sponsorBox}>
               <Flex.Col gap="20px">
