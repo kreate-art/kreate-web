@@ -35,10 +35,10 @@ export default function FAQAccordion({ question, answer }: Props) {
 
       {isOpen && (
         <Typography.Div
-          maxLines={5}
           size="bodySmall"
           color="ink80"
           content={answer}
+          style={{ whiteSpace: "pre-wrap" }}
         />
       )}
     </div>
