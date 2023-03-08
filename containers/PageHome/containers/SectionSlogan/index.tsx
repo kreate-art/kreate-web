@@ -11,7 +11,8 @@ type Props = {
 export default function SectionSlogan({ className, style }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
-      Create with your Community
+      <div>CREATE WITH YOUR</div>
+      <div>COMMUNITY</div>
     </div>
   );
 }
