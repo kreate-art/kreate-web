@@ -22,7 +22,6 @@ import TableTopBackers from "@/modules/teiki-components/components/TableTopBacke
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Button from "@/modules/teiki-ui/components/Button";
-import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 
 type Props = {
   className?: string;
@@ -130,9 +129,8 @@ export default function PageHome({ className, style }: Props) {
                     content="Recommended"
                   />
                 </div>
-                <Divider$Horizontal$CustomDash
-                  style={{ marginBottom: "48px" }}
-                />
+
+                <hr className={styles.divider} />
                 <div className={styles.projectContainer}>{projectLists}</div>
                 {!hasMore ? null : (
                   <div className={styles.containerButtonLoadMore}>
