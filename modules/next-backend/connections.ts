@@ -19,7 +19,7 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
 const POSTGRES_OPTIONS = options({
   max: DATABASE_MAX_CONNECTIONS,
-  idle_timeout: IS_DEVELOPMENT ? 30 : 60,
+  idle_timeout: IS_DEVELOPMENT ? 30 : 300,
   max_lifetime: 60 * (IS_DEVELOPMENT ? 5 : 30),
 });
 
@@ -66,7 +66,6 @@ export const redis = service("__redis__", () =>
         password: REDIS_PASSWORD,
         connectionName: "web",
         enableAutoPipelining: true,
-        enableReadyCheck: !IS_DEVELOPMENT,
       })
 );
 
