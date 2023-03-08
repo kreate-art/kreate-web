@@ -82,6 +82,14 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Total Creator Income</Card.Legend>
           </Card>
+          <Card className={styles.card}>
+            {stats.numPosts == null ? (
+              <Card.Content>-</Card.Content>
+            ) : (
+              <Card.Content>{stats.numPosts}</Card.Content>
+            )}
+            <Card.Legend>Total Posts</Card.Legend>
+          </Card>
         </div>
         {/* <div className={styles.cardGroup}>
           <Card className={styles.card}>
