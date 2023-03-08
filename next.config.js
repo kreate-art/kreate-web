@@ -64,16 +64,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "loremflickr.com", // Hostname of faker-js images, see more here: https://nextjs.org/docs/messages/next-image-unconfigured-host
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-      },
-      {
-        protocol: "https",
         hostname: "**.teiki.network",
       },
+      ...(process.env.NODE_ENV === "development"
+        ? [
+            {
+              protocol: "http",
+              hostname: "localhost",
+            },
+          ]
+        : []),
     ],
   },
   async headers() {
