@@ -1,7 +1,7 @@
 import { Address } from "lucid-cardano";
 
 import { NEXT_PUBLIC_AI_URL } from "../../../config/client";
-import { Sql } from "../connections";
+import { Sql } from "../db";
 
 import { getBackingTags } from "./getBackingTags";
 

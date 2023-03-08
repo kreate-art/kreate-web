@@ -4,7 +4,7 @@ import * as S from "@teiki/protocol/schema";
 import { BackingDatum } from "@teiki/protocol/schema/teiki/backing";
 import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
 
-import { db, dbLegacy, Sql } from "../connections";
+import { Sql } from "../db";
 
 import { getBackerBackingUtxosByProjectId } from "./getBackerBackingUtxosByProjectId";
 import { getProjectUtxoByProjectId } from "./getProjectUtxoByProjectId";
@@ -24,17 +24,9 @@ type Params = {
 
 // TODO: Claim teiki rewards by flowers and n backing UTxOs
 export async function getProjectTeikiRewardsByBacker(
-  legacy: boolean,
+  sql: Sql,
   { backerAddress, projectId }: Params
 ): Promise<TotalProjectTeikiRewardsByBacker$Response> {
-  let sql: Sql;
-  if (legacy) {
-    assert(dbLegacy, "legacy db must be connected in legacy mode");
-    sql = dbLegacy;
-  } else {
-    sql = db;
-  }
-
   const [backingUtxos, protocolParamsUtxo, projectUtxo] = await Promise.all([
     getBackerBackingUtxosByProjectId(sql, {
       backerAddress,

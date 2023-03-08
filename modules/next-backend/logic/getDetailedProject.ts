@@ -1,5 +1,5 @@
 import { NEXT_PUBLIC_AI_URL } from "../../../config/client";
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
 

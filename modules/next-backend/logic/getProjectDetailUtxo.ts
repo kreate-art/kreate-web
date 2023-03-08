@@ -1,6 +1,6 @@
 import { Hex } from "@teiki/protocol/types";
 
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { toLucidUtxo, ChainOutput } from "../types";
 
 export async function getProjectDetailUtxo(

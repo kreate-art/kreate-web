@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { ChainBackingAction } from "../types";
 
 import { UnixTimestamp } from "@/modules/business-types";

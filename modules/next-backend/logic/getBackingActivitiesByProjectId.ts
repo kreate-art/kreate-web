@@ -1,6 +1,6 @@
 import { TxHash } from "lucid-cardano";
 
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { ActionTypes } from "../types";
 
 import {

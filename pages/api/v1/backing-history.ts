@@ -29,7 +29,7 @@ export default async function handler(
 
   try {
     const { backerAddress, projectId } = req.query;
-    const teikiRewards = await getProjectTeikiRewardsByBacker(legacy != null, {
+    const teikiRewards = await getProjectTeikiRewardsByBacker(db, {
       backerAddress: backerAddress as Address,
       projectId: projectId as Hex,
     });

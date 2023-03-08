@@ -1,6 +1,6 @@
 import { Cid } from "@teiki/protocol/types";
 
-import { Sql } from "../connections";
+import { Sql } from "../db";
 import { CodecCid } from "../utils/CodecCid";
 
 import { range } from "@/modules/array-utils";

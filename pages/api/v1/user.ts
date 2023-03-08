@@ -35,7 +35,7 @@ export default async function handler(
           id: item.projectId,
           basics: project.basics,
         };
-        const teikiRewards = await getProjectTeikiRewardsByBacker(false, {
+        const teikiRewards = await getProjectTeikiRewardsByBacker(db, {
           backerAddress: address,
           projectId: item.projectId,
         });

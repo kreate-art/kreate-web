@@ -1,9 +1,8 @@
 import { parseProtocolParams } from "@teiki/protocol/helpers/schema";
 import * as S from "@teiki/protocol/schema";
 import { TeikiMintingInfo } from "@teiki/protocol/transactions/backing/plant";
-import { Hex } from "@teiki/protocol/types";
 
-import { Sql, db, dbLegacy } from "../connections";
+import { Sql } from "../db";
 import { EnrichedUtxo } from "../types";
 
 import { getBackerBackingUtxosByProjectId } from "./getBackerBackingUtxosByProjectId";
@@ -15,16 +14,13 @@ import { getRandomSharedTreasuryUtxoByProjectId } from "./getSharedTreasuryUtxoB
 import { getTeikiPlantUtxo } from "./getTeikiPlantUtxo";
 
 import { assert } from "@/modules/common-utils";
-import {
-  PROOF_OF_BACKING_MPH,
-  LEGACY_PROOF_OF_BACKING_MPH,
-  TEIKI_MPH,
-} from "@/modules/protocol/constants";
+import { TEIKI_MPH } from "@/modules/protocol/constants";
 
 type Params = {
   active?: boolean;
   projectId: string;
   backerAddress: string;
+  proofOfBackingMph: string;
 };
 
 export type TxParams$BackerUnbackProject = {
@@ -39,23 +35,9 @@ export type TxParams$BackerUnbackProject = {
 
 // TODO: @sk-saru support claim teiki rewards
 export async function getBackerUnbackProject(
-  legacy: boolean,
-  { active, projectId, backerAddress }: Params
+  sql: Sql,
+  { active, projectId, backerAddress, proofOfBackingMph }: Params
 ): Promise<TxParams$BackerUnbackProject> {
-  let sql: Sql;
-  let proofOfBackingMph: Hex;
-  if (legacy) {
-    assert(dbLegacy, "legacy db must be connected in legacy mode");
-    assert(
-      LEGACY_PROOF_OF_BACKING_MPH,
-      "LEGACY_PROOF_OF_BACKING_MPH must be set in legacy mode"
-    );
-    sql = dbLegacy;
-    proofOfBackingMph = LEGACY_PROOF_OF_BACKING_MPH;
-  } else {
-    sql = db;
-    proofOfBackingMph = PROOF_OF_BACKING_MPH;
-  }
   const [
     backingUtxos,
     protocolParamsUtxo,

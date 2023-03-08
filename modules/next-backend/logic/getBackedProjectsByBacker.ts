@@ -1,4 +1,4 @@
-import { Sql } from "../connections";
+import { Sql } from "../db";
 
 import { Project } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
