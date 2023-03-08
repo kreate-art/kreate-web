@@ -44,19 +44,21 @@ export default function Container({
       }}
     >
       <Dialog.Portal>
-        <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content
-          className={cx(className, styles.content, SIZE_TO_CLASS_NAME[size])}
-          style={style}
-          onEscapeKeyDown={
-            closeOnEscape ? undefined : (e) => e.preventDefault()
-          }
-          onPointerDownOutside={
-            closeOnDimmerClick ? undefined : (e) => e.preventDefault()
-          }
-        >
-          {children}
-        </Dialog.Content>
+        <div className={styles.portal}>
+          <Dialog.Overlay className={styles.overlay} />
+          <Dialog.Content
+            className={cx(className, styles.content, SIZE_TO_CLASS_NAME[size])}
+            style={style}
+            onEscapeKeyDown={
+              closeOnEscape ? undefined : (e) => e.preventDefault()
+            }
+            onPointerDownOutside={
+              closeOnDimmerClick ? undefined : (e) => e.preventDefault()
+            }
+          >
+            {children}
+          </Dialog.Content>
+        </div>
       </Dialog.Portal>
     </Dialog.Root>
   );
