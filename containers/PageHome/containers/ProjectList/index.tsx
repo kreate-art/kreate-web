@@ -10,8 +10,6 @@ import {
 import ProjectListItem from "./components/ProjectListItem";
 import styles from "./index.module.scss";
 
-import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
-
 /**
  * TODO: @sk-umiuma
  * For the 16/1 launch, only search by a single tag
@@ -68,7 +66,7 @@ export default function ProjectList({
                     : router.push(`/projects/${project.basics.customUrl}`)
                 }
               />
-              <Divider$Horizontal$CustomDash />
+              <hr className={styles.divider} />
             </React.Fragment>
           ))}
         </div>
