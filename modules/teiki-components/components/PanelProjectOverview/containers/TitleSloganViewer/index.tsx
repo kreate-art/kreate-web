@@ -5,7 +5,7 @@ import Flex from "../../components/Flex";
 
 import styles from "./index.module.scss";
 
-import Title from "@/modules/teiki-ui/components/Title";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   className?: string;
@@ -23,19 +23,19 @@ export default function TitleSloganViewer({
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col gap="4px">
-        <Title
-          className={styles.title}
-          size="h2"
+        <Typography.H1
+          size="heading2"
           color="ink"
           content={title}
           title={title}
+          maxLines={2}
         />
-        <Title
-          className={styles.slogan}
-          size="h4"
+        <Typography.Div
+          size="heading4"
           color="green"
           content={slogan}
           title={slogan}
+          maxLines={2}
         />
       </Flex.Col>
     </div>
