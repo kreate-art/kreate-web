@@ -13,10 +13,8 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { TxParams$BackerUnbackProject } from "@/modules/next-backend/logic/getBackerUnbackProject";
 import { ProjectStatus } from "@/modules/next-backend-client/api/httpGetTxParams$BackerUnbackProject";
-import {
-  TX_TIME_END_PADDING,
-  TX_TIME_START_PADDING,
-} from "@/modules/protocol/constants";
+import { TX_TIME_END_PADDING } from "@/modules/protocol/constants";
+import { getTxTimeStartPadding } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -108,6 +106,8 @@ export async function buildTxRaw({
 
   const projectDatum = S.fromData(S.fromCbor(projectUtxo.datum), ProjectDatum);
 
+  const txTimeStartPadding = await getTxTimeStartPadding();
+
   const plantParams: PlantParams = {
     protocolParamsUtxo,
     projectInfo: {
@@ -126,7 +126,7 @@ export async function buildTxRaw({
       proofOfBackingMph: proofOfBackingMpRefUtxo.scriptHash,
     },
     teikiMintingInfo: txParams.teikiMintingInfo,
-    txTimeStartPadding: TX_TIME_START_PADDING,
+    txTimeStartPadding: txTimeStartPadding,
     txTimeEndPadding: TX_TIME_END_PADDING,
     timeProvider,
   };

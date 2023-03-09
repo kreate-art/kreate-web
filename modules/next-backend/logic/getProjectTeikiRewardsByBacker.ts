@@ -11,7 +11,7 @@ import { getProjectUtxoByProjectId } from "./getProjectUtxoByProjectId";
 import { getProtocolParamsUtxo } from "./getProtocolParamsUtxo";
 
 import { assert } from "@/modules/common-utils";
-import { TX_TIME_START_PADDING } from "@/modules/protocol/constants";
+import { getTxTimeStartPadding } from "@/modules/protocol/utils";
 
 export type TotalProjectTeikiRewardsByBacker$Response = {
   amount: bigint;
@@ -55,7 +55,9 @@ export async function getProjectTeikiRewardsByBacker(
   const now = Date.now();
   const timeProvider = () => now;
 
-  const unstakedAt = getTime({ timeProvider }) - TX_TIME_START_PADDING;
+  const txTimeStartPadding = await getTxTimeStartPadding();
+
+  const unstakedAt = getTime({ timeProvider }) - txTimeStartPadding;
 
   let totalTeikiRewards = BigInt(0);
 

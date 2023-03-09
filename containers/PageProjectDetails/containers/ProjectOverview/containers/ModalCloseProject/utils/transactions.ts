@@ -9,6 +9,7 @@ import {
   PROJECT_AT_MPH,
   TX_TIME_END_PADDING,
 } from "@/modules/protocol/constants";
+import { getTxTimeStartPadding } from "@/modules/protocol/utils";
 
 /**
  * Builds transaction and returns a `TxComplete` plus other useful info.
@@ -26,9 +27,12 @@ export async function buildTx({
   lucid: Lucid;
   txParams: TxParams$CreatorCloseProject;
 }): Promise<{ txComplete: TxComplete }> {
+  const txTimeStartPadding = await getTxTimeStartPadding();
+
   const params: Params = {
     ...txParams,
     projectAtPolicyId: PROJECT_AT_MPH,
+    txTimeStartPadding: txTimeStartPadding,
     txTimeEndPadding: TX_TIME_END_PADDING,
   };
   const tx = finalizeCloseTx(lucid, params);
