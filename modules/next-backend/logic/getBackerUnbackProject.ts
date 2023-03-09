@@ -1,5 +1,5 @@
-import { parseProtocolParams } from "@teiki/protocol/helpers/schema";
 import * as S from "@teiki/protocol/schema";
+import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
 import { TeikiMintingInfo } from "@teiki/protocol/transactions/backing/plant";
 
 import { Sql } from "../db";
@@ -74,8 +74,9 @@ export async function getBackerUnbackProject(
     "invalid project utxo: missing inline datum"
   );
 
-  const { protocolParams } = parseProtocolParams(
-    S.fromCbor(protocolParamsUtxo.datum)
+  const protocolParams = S.fromData(
+    S.fromCbor(protocolParamsUtxo.datum),
+    ProtocolParamsDatum
   );
 
   const [sharedTreasuryVRefUtxo, backingScriptRefUtxo] = await Promise.all([

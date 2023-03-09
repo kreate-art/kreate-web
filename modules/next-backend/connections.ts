@@ -19,8 +19,8 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
 const POSTGRES_OPTIONS = options({
   max: DATABASE_MAX_CONNECTIONS,
-  idle_timeout: IS_DEVELOPMENT ? 30 : 300,
-  max_lifetime: 60 * (IS_DEVELOPMENT ? 5 : 30),
+  idle_timeout: IS_DEVELOPMENT ? 60 : 600,
+  max_lifetime: 60 * (IS_DEVELOPMENT ? 10 : 60),
 });
 
 // https://github.com/vercel/next.js/issues/7811

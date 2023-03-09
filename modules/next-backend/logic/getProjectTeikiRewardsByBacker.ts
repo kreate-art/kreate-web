@@ -1,8 +1,8 @@
-import { parseProtocolParams } from "@teiki/protocol/helpers/schema";
 import { getTime } from "@teiki/protocol/helpers/time";
 import * as S from "@teiki/protocol/schema";
 import { BackingDatum } from "@teiki/protocol/schema/teiki/backing";
 import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
+import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
 
 import { Sql } from "../db";
 
@@ -47,8 +47,9 @@ export async function getProjectTeikiRewardsByBacker(
 
   const projectDatum = S.fromData(S.fromCbor(projectUtxo.datum), ProjectDatum);
 
-  const { protocolParams } = parseProtocolParams(
-    S.fromCbor(protocolParamsUtxo.datum)
+  const protocolParams = S.fromData(
+    S.fromCbor(protocolParamsUtxo.datum),
+    ProtocolParamsDatum
   );
 
   const now = Date.now();
