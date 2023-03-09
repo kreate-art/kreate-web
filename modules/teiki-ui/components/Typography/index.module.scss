@@ -4,6 +4,15 @@
   overflow-wrap: anywhere;
 }
 
+.asH1,
+.asH2,
+.asH3,
+.asH4,
+.asH5,
+.asH6 {
+  all: unset;
+}
+
 .sizeHeading1 {
   font-size: 40px;
   line-height: 125%;
