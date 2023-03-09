@@ -95,13 +95,25 @@ export default function ModalWithdrawFund({
       );
 
       setStatusBarText("Building transaction...");
-      const tx = await buildTx({
+      const { txComplete } = await buildTx({
         lucid: walletStatus.lucid,
         txParams: txParamsResult.data.txParams,
       });
 
-      setStatusBarText("Waiting for signature and submission...");
-      const txHash = await signAndSubmit(tx.txComplete);
+      setStatusBarText("Waiting for signature...");
+      const txCompleteSigned = await txComplete
+        .sign()
+        .complete()
+        .catch((cause) => {
+          console.error({ txComplete }); // for debugging purpose
+          throw DisplayableError.from(cause, "Failed to sign");
+        });
+
+      setStatusBarText("Waiting for submission...");
+      const txHash = await txCompleteSigned.submit().catch((cause) => {
+        console.error({ txCompleteSigned });
+        throw DisplayableError.from(cause, "Failed to submit");
+      });
 
       setStatusBarText("Waiting for confirmation...");
       await walletStatus.lucid.awaitTx(txHash);
