@@ -68,10 +68,20 @@ export async function submitClaimTeikiTx({
       throw DisplayableError.from(cause, "Failed to build transaction");
     }
   );
-  onProgress && onProgress("Waiting for signature and submission...");
-  const txHash: string = await signAndSubmit(txComplete).catch((cause) => {
-    console.error({ txComplete }); // for debugging purpose
-    throw DisplayableError.from(cause, "Failed to sign or submit");
+
+  onProgress && onProgress("Waiting for signature...");
+  const txCompleteSigned = await txComplete
+    .sign()
+    .complete()
+    .catch((cause) => {
+      console.error({ txComplete }); // for debugging purpose
+      throw DisplayableError.from(cause, "Failed to sign");
+    });
+
+  onProgress && onProgress("Waiting for submission...");
+  const txHash = await txCompleteSigned.submit().catch((cause) => {
+    console.error({ txCompleteSigned });
+    throw DisplayableError.from(cause, "Failed to submit");
   });
 
   onProgress && onProgress("Waiting for confirmation...");
