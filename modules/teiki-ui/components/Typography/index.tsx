@@ -5,6 +5,17 @@ import cx from "classnames";
 
 import styles from "./index.module.scss";
 
+const AS_TO_CLASS_NAME = {
+  div: "",
+  span: "",
+  h1: styles.asH1,
+  h2: styles.asH2,
+  h3: styles.asH3,
+  h4: styles.asH4,
+  h5: styles.asH5,
+  h6: styles.asH6,
+};
+
 const SIZE_TO_CLASS_NAME = {
   heading1: styles.sizeHeading1,
   heading2: styles.sizeHeading2,
@@ -62,6 +73,7 @@ const MAX_LINES_TO_CLASS_NAME = {
 type Props = {
   className?: string;
   style?: React.CSSProperties;
+  as?: keyof typeof AS_TO_CLASS_NAME;
   content?: React.ReactNode;
   children?: React.ReactNode;
   size?: keyof typeof SIZE_TO_CLASS_NAME;
@@ -74,6 +86,7 @@ type Props = {
 function Div({
   className,
   style,
+  as = "div",
   content,
   children = content,
   size = "body",
@@ -83,10 +96,12 @@ function Div({
   maxLines = "none",
   ...others
 }: Props) {
+  const Component = as;
   return (
     <div className={cx(className, styles.container)} style={style} {...others}>
-      <div
+      <Component
         className={cx(
+          AS_TO_CLASS_NAME[as],
           SIZE_TO_CLASS_NAME[size],
           LINE_HEIGHT_TO_CLASS_NAME[lineHeight],
           COLOR_TO_CLASS_NAME[color],
@@ -95,7 +110,7 @@ function Div({
         )}
       >
         {children}
-      </div>
+      </Component>
     </div>
   );
 }
@@ -103,6 +118,7 @@ function Div({
 function Span({
   className,
   style,
+  as = "span",
   content,
   children = content,
   size = "none",
@@ -111,11 +127,13 @@ function Span({
   fontWeight = "none",
   ...others
 }: Omit<Props, "maxLines">) {
+  const Component = as;
   return (
-    <span
+    <Component
       className={cx(
         className,
         styles.container,
+        AS_TO_CLASS_NAME[as],
         SIZE_TO_CLASS_NAME[size],
         LINE_HEIGHT_TO_CLASS_NAME[lineHeight],
         COLOR_TO_CLASS_NAME[color],
@@ -125,13 +143,43 @@ function Span({
       {...others}
     >
       {children}
-    </span>
+    </Component>
   );
+}
+
+function H1(props: Props) {
+  return <Div as="h1" {...props} />;
+}
+
+function H2(props: Props) {
+  return <Div as="h2" {...props} />;
+}
+
+function H3(props: Props) {
+  return <Div as="h3" {...props} />;
+}
+
+function H4(props: Props) {
+  return <Div as="h4" {...props} />;
+}
+
+function H5(props: Props) {
+  return <Div as="h5" {...props} />;
+}
+
+function H6(props: Props) {
+  return <Div as="h6" {...props} />;
 }
 
 const Typography = {
   Div,
   Span,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
 };
 
 export default Typography;
