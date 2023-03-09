@@ -8,7 +8,6 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .buttonCloseModal {
@@ -21,13 +20,19 @@
   background-color: transparent;
 }
 
+.headingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 22px;
+}
+
 .connectWalletHeading {
   font-weight: 600;
   font-size: 20px;
   line-height: 30px;
   text-align: center;
-  margin-top: 24px;
-  margin-bottom: 16px;
 }
 
 .disabledCloseButton {
@@ -38,4 +43,21 @@
 .walletLogo {
   width: 24px;
   height: 24px;
+}
+
+.networkWarning {
+  padding: 8px 12px;
+  color: #ff7a00;
+  background: rgba(255, 122, 0, 0.1);
+  border-radius: 65px;
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.buttonConnectWalletContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

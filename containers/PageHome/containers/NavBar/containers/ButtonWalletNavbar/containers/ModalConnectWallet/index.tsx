@@ -39,7 +39,7 @@ export default function ModalConnectWallet({
       closeOnDimmerClick={!isLoading}
       style={style}
     >
-      <div>
+      <div className={styles.headingContainer}>
         <div className={styles.connectWalletHeading}>Connect Wallet</div>
         <button
           className={cx(
@@ -50,84 +50,92 @@ export default function ModalConnectWallet({
         >
           <IconClose />
         </button>
+        {NEXT_PUBLIC_NETWORK === "Preview" ? (
+          <span className={styles.networkWarning}>
+            Cardano Preview Network Only
+          </span>
+        ) : null}
       </div>
 
-      <ButtonConnectWallet
-        name="nami"
-        label="Nami"
-        isRecommended={true}
-        logo={<LogoWallet className={styles.walletLogo} walletName="nami" />}
-        installationUrl="https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo"
-        onStartLoading={() => setIsLoading(true)}
-        onStopLoading={() => setIsLoading(false)}
-        onFailure={() =>
-          showMessage({
-            title: "Wallet connection has been cancelled",
-            color: "danger",
-          })
-        }
-        onSuccess={onSuccess}
-        disabled={isLoading}
-      />
+      <div className={styles.buttonConnectWalletContainer}>
+        <ButtonConnectWallet
+          name="nami"
+          label="Nami"
+          isRecommended={true}
+          logo={<LogoWallet className={styles.walletLogo} walletName="nami" />}
+          installationUrl="https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo"
+          onStartLoading={() => setIsLoading(true)}
+          onStopLoading={() => setIsLoading(false)}
+          onFailure={() =>
+            showMessage({
+              title: "Wallet connection has been cancelled",
+              color: "danger",
+            })
+          }
+          onSuccess={onSuccess}
+          disabled={isLoading}
+        />
 
-      <ButtonConnectWallet
-        name="flint"
-        label="Flint"
-        logo={<LogoWallet className={styles.walletLogo} walletName="flint" />}
-        installationUrl="https://chrome.google.com/webstore/detail/flint-wallet/hnhobjmcibchnmglfbldbfabcgaknlkj"
-        onStartLoading={() => setIsLoading(true)}
-        onStopLoading={() => setIsLoading(false)}
-        onFailure={() =>
-          showMessage({
-            title: "Wallet connection has been cancelled",
-            color: "danger",
-          })
-        }
-        onSuccess={onSuccess}
-        disabled={isLoading}
-      />
+        <ButtonConnectWallet
+          name="flint"
+          label="Flint"
+          logo={<LogoWallet className={styles.walletLogo} walletName="flint" />}
+          installationUrl="https://chrome.google.com/webstore/detail/flint-wallet/hnhobjmcibchnmglfbldbfabcgaknlkj"
+          onStartLoading={() => setIsLoading(true)}
+          onStopLoading={() => setIsLoading(false)}
+          onFailure={() =>
+            showMessage({
+              title: "Wallet connection has been cancelled",
+              color: "danger",
+            })
+          }
+          onSuccess={onSuccess}
+          disabled={isLoading}
+        />
 
-      <ButtonConnectWallet
-        name="eternl"
-        label="Eternl"
-        logo={<LogoWallet className={styles.walletLogo} walletName="eternl" />}
-        installationUrl="https://chrome.google.com/webstore/detail/eternl/kmhcihpebfmpgmihbkipmjlmmioameka"
-        onStartLoading={() => setIsLoading(true)}
-        onStopLoading={() => setIsLoading(false)}
-        onFailure={() =>
-          showMessage({
-            title: "Wallet connection has been cancelled",
-            color: "danger",
-          })
-        }
-        onSuccess={onSuccess}
-        disabled={isLoading}
-      />
+        <ButtonConnectWallet
+          name="eternl"
+          label="Eternl"
+          logo={
+            <LogoWallet className={styles.walletLogo} walletName="eternl" />
+          }
+          installationUrl="https://chrome.google.com/webstore/detail/eternl/kmhcihpebfmpgmihbkipmjlmmioameka"
+          onStartLoading={() => setIsLoading(true)}
+          onStopLoading={() => setIsLoading(false)}
+          onFailure={() =>
+            showMessage({
+              title: "Wallet connection has been cancelled",
+              color: "danger",
+            })
+          }
+          onSuccess={onSuccess}
+          disabled={isLoading}
+        />
 
-      <ButtonConnectWallet
-        name="gerowallet"
-        label="Gero Wallet"
-        logo={
-          <LogoWallet className={styles.walletLogo} walletName="gerowallet" />
-        }
-        installationUrl={
-          isNetworkMainnet
-            ? "https://chrome.google.com/webstore/detail/gerowallet/bgpipimickeadkjlklgciifhnalhdjhe"
-            : "https://chrome.google.com/webstore/detail/gerowallet-preview/iifeegfcfhlhhnilhfoeihllenamcfgc"
-        }
-        onStartLoading={() => setIsLoading(true)}
-        onStopLoading={() => setIsLoading(false)}
-        onFailure={() =>
-          showMessage({
-            title: "Wallet connection has been cancelled",
-            color: "danger",
-          })
-        }
-        onSuccess={onSuccess}
-        disabled={isLoading}
-      />
+        <ButtonConnectWallet
+          name="gerowallet"
+          label="Gero Wallet"
+          logo={
+            <LogoWallet className={styles.walletLogo} walletName="gerowallet" />
+          }
+          installationUrl={
+            isNetworkMainnet
+              ? "https://chrome.google.com/webstore/detail/gerowallet/bgpipimickeadkjlklgciifhnalhdjhe"
+              : "https://chrome.google.com/webstore/detail/gerowallet-preview/iifeegfcfhlhhnilhfoeihllenamcfgc"
+          }
+          onStartLoading={() => setIsLoading(true)}
+          onStopLoading={() => setIsLoading(false)}
+          onFailure={() =>
+            showMessage({
+              title: "Wallet connection has been cancelled",
+              color: "danger",
+            })
+          }
+          onSuccess={onSuccess}
+          disabled={isLoading}
+        />
 
-      {/* {isNetworkMainnet ? (
+        {/* {isNetworkMainnet ? (
         <ButtonConnectWallet
           name="cardwallet"
           label="Card Wallet"
@@ -148,26 +156,28 @@ export default function ModalConnectWallet({
         />
       ) : null} */}
 
-      {isNetworkMainnet ? (
-        <ButtonConnectWallet
-          name="nufi"
-          label="NuFi"
-          logo={<LogoWallet className={styles.walletLogo} walletName="nufi" />}
-          installationUrl="https://chrome.google.com/webstore/detail/nufi/gpnihlnnodeiiaakbikldcihojploeca"
-          onStartLoading={() => setIsLoading(true)}
-          onStopLoading={() => setIsLoading(false)}
-          onFailure={() =>
-            showMessage({
-              title: "Wallet connection has been cancelled",
-              color: "danger",
-            })
-          }
-          onSuccess={onSuccess}
-          disabled={isLoading}
-        />
-      ) : null}
+        {isNetworkMainnet ? (
+          <ButtonConnectWallet
+            name="nufi"
+            label="NuFi"
+            logo={
+              <LogoWallet className={styles.walletLogo} walletName="nufi" />
+            }
+            installationUrl="https://chrome.google.com/webstore/detail/nufi/gpnihlnnodeiiaakbikldcihojploeca"
+            onStartLoading={() => setIsLoading(true)}
+            onStopLoading={() => setIsLoading(false)}
+            onFailure={() =>
+              showMessage({
+                title: "Wallet connection has been cancelled",
+                color: "danger",
+              })
+            }
+            onSuccess={onSuccess}
+            disabled={isLoading}
+          />
+        ) : null}
 
-      {/* {isNetworkMainnet ? (
+        {/* {isNetworkMainnet ? (
         <ButtonConnectWallet
           name="typhoncip30"
           label="Typhon"
@@ -190,6 +200,7 @@ export default function ModalConnectWallet({
           disabled={isLoading}
         />
       ) : null} */}
+      </div>
     </Modal>
   );
 }
