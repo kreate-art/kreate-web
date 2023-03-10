@@ -124,7 +124,7 @@ const nextConfig = {
       },
       {
         source: "/projects-by-id/:slug*",
-        destination: "/c-by-id/:slug*",
+        destination: "/creator-by-id/:slug*",
         permanent: true,
       },
     ];

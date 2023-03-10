@@ -210,7 +210,7 @@ export default function PageProjectDetails({
 
   const handleClickButtonUpdateProject = () => {
     if (!project) return;
-    router.push(`/c-by-id/${project.id}/update`);
+    router.push(`/creator-by-id/${project.id}/update`);
   };
 
   const handleClickButtonShare = () => {

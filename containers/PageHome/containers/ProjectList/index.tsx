@@ -62,7 +62,7 @@ export default function ProjectList({
                   project.history.closedAt ||
                   project.history.delistedAt ||
                   !project.basics.customUrl
-                    ? router.push(`/c-by-id/${project.id}`)
+                    ? router.push(`/creator-by-id/${project.id}`)
                     : router.push(`/c/${project.basics.customUrl}`)
                 }
               />
