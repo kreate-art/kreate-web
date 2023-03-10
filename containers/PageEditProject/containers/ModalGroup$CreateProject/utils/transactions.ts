@@ -12,11 +12,8 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { EnrichedUtxo } from "@/modules/next-backend/types";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
-import {
-  PROJECT_AT_MPH,
-  PROTOCOL_NFT_MPH,
-  TX_TIME_START_PADDING,
-} from "@/modules/protocol/constants";
+import { PROJECT_AT_MPH, PROTOCOL_NFT_MPH } from "@/modules/protocol/constants";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -68,6 +65,8 @@ export async function buildTxRaw({
       protocolNftMph: PROTOCOL_NFT_MPH,
     })
   );
+  const txTime = await getReferenceTxTime();
+
   const params: CreateProjectParams = {
     protocolParamsUtxo,
     informationCid: { cid: informationCid },
@@ -77,7 +76,7 @@ export async function buildTxRaw({
     projectATPolicyId: PROJECT_AT_MPH,
     projectStakeValidator,
     seedUtxo,
-    txTimePadding: TX_TIME_START_PADDING,
+    txTime,
   };
   const tx = createProjectTx(lucid, params).addSigner(ownerAddress);
 

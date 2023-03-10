@@ -49,20 +49,6 @@ assert(
   "NEXT_PUBLIC_ENABLE_LEGACY must be 'true' or 'false'"
 );
 
-export const NEXT_PUBLIC_TX_TIME_START_PADDING: string =
-  process.env.NEXT_PUBLIC_TX_TIME_START_PADDING || "";
-assert(
-  NEXT_PUBLIC_TX_TIME_START_PADDING.length > 0,
-  "NEXT_PUBLIC_TX_TIME_START_PADDING is required"
-);
-
-export const NEXT_PUBLIC_TX_TIME_END_PADDING: string =
-  process.env.NEXT_PUBLIC_TX_TIME_END_PADDING || "";
-assert(
-  NEXT_PUBLIC_TX_TIME_END_PADDING.length > 0,
-  "NEXT_PUBLIC_TX_TIME_END_PADDING is required"
-);
-
 export const NEXT_PUBLIC_PROJECT_AT_MPH: string =
   process.env.NEXT_PUBLIC_PROJECT_AT_MPH || "";
 assert(

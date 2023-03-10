@@ -1,4 +1,3 @@
-import { TimeProvider } from "@teiki/protocol/helpers/time";
 import * as S from "@teiki/protocol/schema";
 import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
 import {
@@ -11,17 +10,13 @@ import { splitToLines } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { TxParams$BackerBackProject } from "@/modules/next-backend/logic/getBackerBackProject";
-import {
-  TX_TIME_END_PADDING,
-  TX_TIME_START_PADDING,
-} from "@/modules/protocol/constants";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
   lovelaceAmount: LovelaceAmount;
   message: string; // TODO: @sk-saru attach to metadata in the next PR
   txParams: TxParams$BackerBackProject;
-  timeProvider?: TimeProvider;
 };
 
 export type BuildTxResult = {
@@ -44,7 +39,6 @@ export async function buildTxRaw({
   lovelaceAmount,
   message,
   txParams,
-  timeProvider,
 }: BuildTxParams): Promise<Tx> {
   const supported = BigInt(lovelaceAmount);
 
@@ -89,6 +83,8 @@ export async function buildTxRaw({
     projectStakeCredential
   );
 
+  const txTime = await getReferenceTxTime();
+
   const plantParams: PlantParams = {
     protocolParamsUtxo,
     projectInfo: {
@@ -106,9 +102,7 @@ export async function buildTxRaw({
       proofOfBackingMpRefUtxo,
       proofOfBackingMph: proofOfBackingMpRefUtxo.scriptHash,
     },
-    txTimeStartPadding: TX_TIME_START_PADDING,
-    txTimeEndPadding: TX_TIME_END_PADDING,
-    timeProvider,
+    txTime,
   };
 
   let tx = plantTx(lucid, plantParams);

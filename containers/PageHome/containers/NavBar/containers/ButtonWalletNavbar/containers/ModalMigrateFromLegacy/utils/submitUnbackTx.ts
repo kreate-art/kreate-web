@@ -28,8 +28,6 @@ export async function submitUnbackTx({
   });
 
   onProgress && onProgress("Building transaction...");
-  const now = Date.now();
-  const timeProvider = () => now;
 
   // unback from legacy protocol
   const { txComplete } = await UnbackTx.buildTx({
@@ -38,7 +36,6 @@ export async function submitUnbackTx({
     unbackLovelaceAmount: backedAmount,
     message: "",
     txParams: unbackTxParamsResult.txParams,
-    timeProvider,
     action: "unback",
   });
 

@@ -5,10 +5,8 @@ import {
 import { Lucid, TxComplete } from "lucid-cardano";
 
 import { TxParams$CreatorCloseProject } from "@/modules/next-backend/logic/getCreatorCloseProject";
-import {
-  PROJECT_AT_MPH,
-  TX_TIME_END_PADDING,
-} from "@/modules/protocol/constants";
+import { PROJECT_AT_MPH } from "@/modules/protocol/constants";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 /**
  * Builds transaction and returns a `TxComplete` plus other useful info.
@@ -26,10 +24,12 @@ export async function buildTx({
   lucid: Lucid;
   txParams: TxParams$CreatorCloseProject;
 }): Promise<{ txComplete: TxComplete }> {
+  const txTime = await getReferenceTxTime();
+
   const params: Params = {
     ...txParams,
     projectAtPolicyId: PROJECT_AT_MPH,
-    txTimeEndPadding: TX_TIME_END_PADDING,
+    txTime,
   };
   const tx = finalizeCloseTx(lucid, params);
   // `nativeUplc` is specified as a temporary workaround for an Aiken bug
