@@ -2,7 +2,10 @@ import React from "react";
 
 import { MINIMUM_BACKING_AMOUNT } from "../constants";
 
-import { parseLovelaceAmount } from "@/modules/bigint-utils";
+import {
+  formatLovelaceAmount,
+  parseLovelaceAmount,
+} from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 
 export function useField$Message() {
@@ -27,7 +30,9 @@ export function useField$LovelaceAmount({
       : parsed < MINIMUM_BACKING_AMOUNT
       ? "You must back at least 2 ADA"
       : maxLovelaceAmount != null && maxLovelaceAmount < parsed
-      ? "Insufficient ADA balance"
+      ? `You can only stake up to ${formatLovelaceAmount(
+          maxLovelaceAmount
+        )} ₳. The remaining ₳ is required to hold other native tokens in your wallet`
       : undefined;
 
   // TODO: @sk-kitsune: we should also set onKeyDown at the call site
