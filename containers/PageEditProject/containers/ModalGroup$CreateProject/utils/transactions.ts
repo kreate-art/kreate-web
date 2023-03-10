@@ -13,7 +13,7 @@ import { assert } from "@/modules/common-utils";
 import { EnrichedUtxo } from "@/modules/next-backend/types";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { PROJECT_AT_MPH, PROTOCOL_NFT_MPH } from "@/modules/protocol/constants";
-import { getTxTimeStart } from "@/modules/protocol/utils";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -65,7 +65,7 @@ export async function buildTxRaw({
       protocolNftMph: PROTOCOL_NFT_MPH,
     })
   );
-  const txTime = await getTxTimeStart();
+  const txTime = await getReferenceTxTime();
 
   const params: CreateProjectParams = {
     protocolParamsUtxo,

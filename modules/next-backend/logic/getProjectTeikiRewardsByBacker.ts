@@ -10,7 +10,7 @@ import { getProjectUtxoByProjectId } from "./getProjectUtxoByProjectId";
 import { getProtocolParamsUtxo } from "./getProtocolParamsUtxo";
 
 import { assert } from "@/modules/common-utils";
-import { getTxTimeStart } from "@/modules/protocol/utils";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 export type TotalProjectTeikiRewardsByBacker$Response = {
   amount: bigint;
@@ -51,7 +51,7 @@ export async function getProjectTeikiRewardsByBacker(
     ProtocolParamsDatum
   );
 
-  const txTime = await getTxTimeStart();
+  const txTime = await getReferenceTxTime();
 
   const unstakedAt = txTime;
 

@@ -6,7 +6,7 @@ import { Lucid, TxComplete } from "lucid-cardano";
 
 import { LovelaceAmount } from "@/modules/business-types";
 import { TxParams$CreatorUpdateProject } from "@/modules/next-backend/logic/getCreatorUpdateProject";
-import { getTxTimeStart } from "@/modules/protocol/utils";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 /**
  * Builds transaction and returns a `TxComplete` plus other useful info.
@@ -30,7 +30,7 @@ export async function buildTx({
   newInformationCid: string | undefined;
   newAnnouncementCid: string | undefined;
 }): Promise<{ sponsorshipFee: LovelaceAmount; txComplete: TxComplete }> {
-  const txTime = await getTxTimeStart();
+  const txTime = await getReferenceTxTime();
 
   const params: UpdateProjectParams = {
     protocolParamsUtxo: txParams.protocolParamsUtxo,

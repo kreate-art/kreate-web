@@ -6,7 +6,7 @@ import { Lucid, TxComplete } from "lucid-cardano";
 
 import { TxParams$CreatorCloseProject } from "@/modules/next-backend/logic/getCreatorCloseProject";
 import { PROJECT_AT_MPH } from "@/modules/protocol/constants";
-import { getTxTimeStart } from "@/modules/protocol/utils";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 /**
  * Builds transaction and returns a `TxComplete` plus other useful info.
@@ -24,7 +24,7 @@ export async function buildTx({
   lucid: Lucid;
   txParams: TxParams$CreatorCloseProject;
 }): Promise<{ txComplete: TxComplete }> {
-  const txTime = await getTxTimeStart();
+  const txTime = await getReferenceTxTime();
 
   const params: Params = {
     ...txParams,

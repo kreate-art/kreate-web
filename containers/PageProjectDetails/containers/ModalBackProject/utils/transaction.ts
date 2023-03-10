@@ -10,7 +10,7 @@ import { splitToLines } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { TxParams$BackerBackProject } from "@/modules/next-backend/logic/getBackerBackProject";
-import { getTxTimeStart } from "@/modules/protocol/utils";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -83,7 +83,7 @@ export async function buildTxRaw({
     projectStakeCredential
   );
 
-  const txTime = await getTxTimeStart();
+  const txTime = await getReferenceTxTime();
 
   const plantParams: PlantParams = {
     protocolParamsUtxo,

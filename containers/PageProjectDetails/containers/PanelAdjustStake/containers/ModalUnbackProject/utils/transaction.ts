@@ -12,7 +12,7 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { TxParams$BackerUnbackProject } from "@/modules/next-backend/logic/getBackerUnbackProject";
 import { ProjectStatus } from "@/modules/next-backend-client/api/httpGetTxParams$BackerUnbackProject";
-import { getTxTimeStart } from "@/modules/protocol/utils";
+import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -102,7 +102,7 @@ export async function buildTxRaw({
 
   const projectDatum = S.fromData(S.fromCbor(projectUtxo.datum), ProjectDatum);
 
-  const txTime = await getTxTimeStart();
+  const txTime = await getReferenceTxTime();
 
   const plantParams: PlantParams = {
     protocolParamsUtxo,
