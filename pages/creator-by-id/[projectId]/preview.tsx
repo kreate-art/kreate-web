@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const projectId = context.query["projectId"];
-  if (typeof projectId !== "string" || !/^[0-9A-Fa-f]*$/.test(projectId)) {
+  if (typeof projectId !== "string" || !/^[0-9A-Fa-f]+$/.test(projectId)) {
     return { notFound: true };
   }
   return { props: { projectId } };

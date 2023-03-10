@@ -210,7 +210,7 @@ export default function PageProjectDetails({
 
   const handleClickButtonUpdateProject = () => {
     if (!project) return;
-    router.push(`/projects-by-id/${project.id}/update`);
+    router.push(`/creator-by-id/${project.id}/update`);
   };
 
   const handleClickButtonShare = () => {
@@ -299,7 +299,7 @@ export default function PageProjectDetails({
         title={project?.basics?.title}
         description={project?.basics?.summary}
         imageUrl={project?.basics?.coverImages[0]?.url}
-        url={`${NEXT_PUBLIC_HOST}/projects/${project?.basics?.customUrl}`}
+        url={`${NEXT_PUBLIC_HOST}/c/${project?.basics?.customUrl}`}
       />
       <div
         className={cx(

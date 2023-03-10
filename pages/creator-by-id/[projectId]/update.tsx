@@ -13,7 +13,8 @@ export default function RouteToPageUpdateProjectV2({ projectId }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const { projectId } = context.params || {};
+  const projectId = context.query["projectId"];
+
   if (typeof projectId !== "string" || !/^[0-9A-Fa-f]+$/.test(projectId)) {
     return { notFound: true };
   }

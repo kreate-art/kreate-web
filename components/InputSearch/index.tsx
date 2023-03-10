@@ -63,7 +63,7 @@ export default function InputSearch({ className, style }: Props) {
                       data={featuredProjectsResponse.data}
                       onClick={(customUrl: string) => {
                         setIsActive(false);
-                        router.push(`/projects/${customUrl}`);
+                        router.push(`/c/${customUrl}`);
                       }}
                     />
                   ),

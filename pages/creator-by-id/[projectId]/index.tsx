@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 
 import PageProjectDetails from "../../../containers/PageProjectDetails";
 
+import { DisplayableError } from "@/modules/displayable-error";
 import { db } from "@/modules/next-backend/connections";
 import {
   getDetailedProject,
@@ -31,6 +32,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const project$Response = await getDetailedProject(db, {
     projectId,
     preset: "minimal",
+  }).catch((error) => {
+    throw new DisplayableError({
+      title: "Server error",
+      description: "Failed to get project.",
+      cause: error,
+    });
   });
 
   if (project$Response.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND) {

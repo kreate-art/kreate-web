@@ -115,6 +115,20 @@ const nextConfig = {
       },
     ];
   },
+  redirects() {
+    return [
+      {
+        source: "/projects/:slug*",
+        destination: "/c/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/projects-by-id/:slug*",
+        destination: "/creator-by-id/:slug*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
