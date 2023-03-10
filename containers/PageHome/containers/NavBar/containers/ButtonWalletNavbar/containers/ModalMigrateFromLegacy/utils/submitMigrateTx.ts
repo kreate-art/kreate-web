@@ -37,9 +37,6 @@ export async function submitMigrateTx({
 
   onProgress && onProgress("Building transaction...");
 
-  const now = Date.now();
-  const timeProvider = () => now;
-
   // unback from legacy protocol
   const unbackTxLegacy = await UnbackTx.buildTxRaw({
     lucid,
@@ -47,7 +44,6 @@ export async function submitMigrateTx({
     unbackLovelaceAmount: backedAmount,
     message: "",
     txParams: unbackTxParamsResult.txParams,
-    timeProvider,
     action: "migrate",
   });
 
@@ -57,7 +53,6 @@ export async function submitMigrateTx({
     lovelaceAmount: backedAmount,
     message: "",
     txParams: backTxParamsResult.txParams,
-    timeProvider,
   });
 
   // compose back and unback in a tx

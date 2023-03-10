@@ -6,7 +6,7 @@ import { Lucid, TxComplete } from "lucid-cardano";
 
 import { LovelaceAmount } from "@/modules/business-types";
 import { TxParams$CreatorUpdateProject } from "@/modules/next-backend/logic/getCreatorUpdateProject";
-import { getTxTimeStartPadding } from "@/modules/protocol/utils";
+import { getTxTimeStart } from "@/modules/protocol/utils";
 
 /**
  * Builds transaction and returns a `TxComplete` plus other useful info.
@@ -30,7 +30,7 @@ export async function buildTx({
   newInformationCid: string | undefined;
   newAnnouncementCid: string | undefined;
 }): Promise<{ sponsorshipFee: LovelaceAmount; txComplete: TxComplete }> {
-  const txTimeStartPadding = await getTxTimeStartPadding();
+  const txTime = await getTxTimeStart();
 
   const params: UpdateProjectParams = {
     protocolParamsUtxo: txParams.protocolParamsUtxo,
@@ -48,7 +48,7 @@ export async function buildTx({
     newAnnouncementCid: newAnnouncementCid
       ? { cid: newAnnouncementCid }
       : undefined,
-    txTimePadding: txTimeStartPadding,
+    txTime,
   };
   const { sponsorshipFee, tx } = updateProjectTx(lucid, params);
   // `nativeUplc` is specified as a temporary workaround for an Aiken bug

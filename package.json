@@ -26,7 +26,7 @@
     "@radix-ui/react-slot": "^1.0.1",
     "@radix-ui/react-toast": "^1.1.2",
     "@shinka-network/json-bigint": "^1.0.2",
-    "@teiki/protocol": "github:teiki-network/teiki-protocol#dbd3aac86c7789f228b943fdca077e338013de59",
+    "@teiki/protocol": "github:teiki-network/teiki-protocol#f6f3055276f3680e0330d7fe371054270551fc9e",
     "@tiptap/core": "^2.0.0-beta.199",
     "@tiptap/extension-color": "^2.0.0-beta.202",
     "@tiptap/extension-link": "^2.0.0-beta.204",

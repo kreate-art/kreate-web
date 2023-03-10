@@ -13,7 +13,7 @@ import { assert } from "@/modules/common-utils";
 import { EnrichedUtxo } from "@/modules/next-backend/types";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { PROJECT_AT_MPH, PROTOCOL_NFT_MPH } from "@/modules/protocol/constants";
-import { getTxTimeStartPadding } from "@/modules/protocol/utils";
+import { getTxTimeStart } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -65,7 +65,7 @@ export async function buildTxRaw({
       protocolNftMph: PROTOCOL_NFT_MPH,
     })
   );
-  const txTimeStartPadding = await getTxTimeStartPadding();
+  const txTime = await getTxTimeStart();
 
   const params: CreateProjectParams = {
     protocolParamsUtxo,
@@ -76,7 +76,7 @@ export async function buildTxRaw({
     projectATPolicyId: PROJECT_AT_MPH,
     projectStakeValidator,
     seedUtxo,
-    txTimePadding: txTimeStartPadding,
+    txTime,
   };
   const tx = createProjectTx(lucid, params).addSigner(ownerAddress);
 

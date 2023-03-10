@@ -1,4 +1,3 @@
-import { getTime } from "@teiki/protocol/helpers/time";
 import * as S from "@teiki/protocol/schema";
 import { BackingDatum } from "@teiki/protocol/schema/teiki/backing";
 import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
@@ -11,7 +10,7 @@ import { getProjectUtxoByProjectId } from "./getProjectUtxoByProjectId";
 import { getProtocolParamsUtxo } from "./getProtocolParamsUtxo";
 
 import { assert } from "@/modules/common-utils";
-import { getTxTimeStartPadding } from "@/modules/protocol/utils";
+import { getTxTimeStart } from "@/modules/protocol/utils";
 
 export type TotalProjectTeikiRewardsByBacker$Response = {
   amount: bigint;
@@ -52,12 +51,9 @@ export async function getProjectTeikiRewardsByBacker(
     ProtocolParamsDatum
   );
 
-  const now = Date.now();
-  const timeProvider = () => now;
+  const txTime = await getTxTimeStart();
 
-  const txTimeStartPadding = await getTxTimeStartPadding();
-
-  const unstakedAt = getTime({ timeProvider }) - txTimeStartPadding;
+  const unstakedAt = txTime;
 
   let totalTeikiRewards = BigInt(0);
 

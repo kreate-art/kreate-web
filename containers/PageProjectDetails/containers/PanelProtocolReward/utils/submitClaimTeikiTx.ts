@@ -32,9 +32,6 @@ export async function submitClaimTeikiTx({
 
   onProgress && onProgress("Building transaction...");
 
-  const now = Date.now();
-  const timeProvider = () => now;
-
   /**
    * - If the project is still active, we unback 0 ADA so that user can keep
    * their backings unchanged
@@ -57,7 +54,6 @@ export async function submitClaimTeikiTx({
     message: "",
     projectStatus,
     txParams: unbackTxParamsResult.txParams,
-    timeProvider,
     action: "claim reward",
   };
 

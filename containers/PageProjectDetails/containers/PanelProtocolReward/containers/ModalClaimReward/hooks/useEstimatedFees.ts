@@ -62,8 +62,6 @@ export function useEstimatedFees({
         cause: unbackTxParamsResult,
       });
 
-      const now = Date.now();
-      const timeProvider = () => now;
       const unbackLovelaceAmount =
         projectStatus == "active" || projectStatus === undefined
           ? BigInt(0)
@@ -82,7 +80,6 @@ export function useEstimatedFees({
         message: "",
         projectStatus,
         txParams: unbackTxParamsResult.data.txParams,
-        timeProvider,
         action: "claim reward",
       });
       signal.throwIfAborted();

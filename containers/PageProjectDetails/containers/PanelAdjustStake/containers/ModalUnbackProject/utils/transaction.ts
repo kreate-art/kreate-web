@@ -1,4 +1,3 @@
-import { TimeProvider } from "@teiki/protocol/helpers/time";
 import * as S from "@teiki/protocol/schema";
 import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
 import {
@@ -13,8 +12,7 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { TxParams$BackerUnbackProject } from "@/modules/next-backend/logic/getBackerUnbackProject";
 import { ProjectStatus } from "@/modules/next-backend-client/api/httpGetTxParams$BackerUnbackProject";
-import { TX_TIME_END_PADDING } from "@/modules/protocol/constants";
-import { getTxTimeStartPadding } from "@/modules/protocol/utils";
+import { getTxTimeStart } from "@/modules/protocol/utils";
 
 export type BuildTxParams = {
   lucid: Lucid;
@@ -23,7 +21,6 @@ export type BuildTxParams = {
   message: string;
   projectStatus?: ProjectStatus;
   txParams: TxParams$BackerUnbackProject;
-  timeProvider?: TimeProvider;
   action: "unback" | "claim reward" | "migrate";
 };
 
@@ -49,7 +46,6 @@ export async function buildTxRaw({
   message,
   projectStatus,
   txParams,
-  timeProvider,
   action,
 }: BuildTxParams): Promise<Tx> {
   const {
@@ -106,7 +102,7 @@ export async function buildTxRaw({
 
   const projectDatum = S.fromData(S.fromCbor(projectUtxo.datum), ProjectDatum);
 
-  const txTimeStartPadding = await getTxTimeStartPadding();
+  const txTime = await getTxTimeStart();
 
   const plantParams: PlantParams = {
     protocolParamsUtxo,
@@ -126,9 +122,7 @@ export async function buildTxRaw({
       proofOfBackingMph: proofOfBackingMpRefUtxo.scriptHash,
     },
     teikiMintingInfo: txParams.teikiMintingInfo,
-    txTimeStartPadding: txTimeStartPadding,
-    txTimeEndPadding: TX_TIME_END_PADDING,
-    timeProvider,
+    txTime,
   };
 
   const tx = await try$(
