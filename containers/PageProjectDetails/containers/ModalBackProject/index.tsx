@@ -1,4 +1,3 @@
-import { signAndSubmit } from "@teiki/protocol/helpers/lucid";
 import cx from "classnames";
 import * as React from "react";
 

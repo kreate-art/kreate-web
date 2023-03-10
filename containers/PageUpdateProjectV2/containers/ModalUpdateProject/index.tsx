@@ -1,4 +1,3 @@
-import { signAndSubmit } from "@teiki/protocol/helpers/lucid";
 import moment from "moment";
 import * as React from "react";
 

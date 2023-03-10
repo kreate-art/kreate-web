@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }).catch((error) => {
     throw new DisplayableError({
       title: "Server error",
-      description: "Failed to get project.",
+      description: "Failed to get the creator.",
       cause: error,
     });
   });
