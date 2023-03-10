@@ -1,4 +1,3 @@
-import { signAndSubmit } from "@teiki/protocol/helpers/lucid";
 import { JSONContent } from "@tiptap/core";
 import * as React from "react";
 

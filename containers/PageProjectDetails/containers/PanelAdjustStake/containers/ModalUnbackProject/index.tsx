@@ -1,8 +1,6 @@
 /* eslint-disable import/order */
 import * as React from "react";
 
-import { signAndSubmit } from "@teiki/protocol/helpers/lucid";
-
 import styles from "./index.module.scss";
 import { buildTx, BuildTxParams } from "./utils/transaction";
 
