@@ -1,4 +1,3 @@
-// @sk-yagi: We should change this to something more Creator-related...
 import { Sql } from "../db";
 
 import {
@@ -22,7 +21,7 @@ export type CreationActivity$Response =
       error: "no-project-found";
     };
 
-export async function getProjectCreation(
+export async function getProjectCreationActivity(
   sql: Sql,
   { projectId }: Params
 ): Promise<CreationActivity$Response> {

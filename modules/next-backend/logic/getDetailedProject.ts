@@ -11,7 +11,7 @@ import {
   ProjectBackingActivity,
 } from "./getBackingActivitiesByProjectId";
 import { getBackingTags } from "./getBackingTags";
-import { getProjectCreation } from "./getProjectCreation";
+import { getProjectCreationActivity } from "./getProjectCreationActivity";
 import { getTopSupporter } from "./getTopSupporter";
 
 import { httpPostContentModeration } from "@/modules/ai/api/httpPostContentModeration";
@@ -272,7 +272,7 @@ export async function getDetailedProject(
         projectId,
       }),
       getTopSupporter(sql, { projectId }),
-      getProjectCreation(sql, { projectId }),
+      getProjectCreationActivity(sql, { projectId }),
     ]);
 
     const activities = await backingDataToActivities(backingData);
