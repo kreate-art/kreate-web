@@ -16,8 +16,17 @@ export function fromJson<T = unknown>(text: string): T {
   return JsonBig.parse(text);
 }
 
-type ValidJsonTypes = string | number | bigint | boolean | object | unknown[];
-type InvalidJsonTypes = undefined | symbol | ((...args: unknown[]) => unknown);
+export type ValidJsonTypes =
+  | string
+  | number
+  | bigint
+  | boolean
+  | object
+  | unknown[];
+export type InvalidJsonTypes =
+  | undefined
+  | symbol
+  | ((...args: unknown[]) => unknown);
 
 /**
  * Converts a JS value to a JSON-formatted string.
