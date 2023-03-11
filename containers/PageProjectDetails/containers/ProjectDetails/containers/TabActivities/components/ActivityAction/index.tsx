@@ -158,7 +158,7 @@ export default function ActivityAction({ className, style, value }: Props) {
               <Typography.Span
                 size="bodySmall"
                 lineHeight="medium"
-                content=", with the sponsorship of "
+                content={`, with a Teiki sponsorship of `}
                 color="ink80"
               />
               <Typography.Span size="heading6" color="green">
@@ -167,6 +167,12 @@ export default function ActivityAction({ className, style, value }: Props) {
                   lovelaceAmount={value.sponsorshipAmount}
                 />
               </Typography.Span>
+              <Typography.Span
+                size="bodySmall"
+                lineHeight="medium"
+                content={`/month`}
+                color="ink80"
+              />
             </>
           ) : null}
         </Typography.Div>
