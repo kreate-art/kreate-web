@@ -1,23 +1,28 @@
-import { Readable } from "stream";
+import { Readable } from "node:stream";
 
 import busboy from "busboy";
-import * as IpfsHttpClient from "ipfs-http-client";
 import { NextApiRequest } from "next";
 
-import { IPFS_HTTP_API_ORIGIN } from "../../../config/server";
+import { ipfs } from "../connections";
 
-const ipfsClient = IpfsHttpClient.create({ url: IPFS_HTTP_API_ORIGIN });
+import { MaybePromise } from "@/modules/async-utils";
 
-type Result = { cid: string; size: number };
+export type Cid = string;
 
-export async function pinToIpfs(req: NextApiRequest): Promise<Result> {
-  return new Promise<Result>((resolve, reject) => {
-    let numProcessedFiles = 0;
+export type PinResult = { cid: Cid; size: number };
 
+export async function pinToIpfs(
+  req: NextApiRequest,
+  transform?: (file: Readable) => MaybePromise<Readable>
+): Promise<PinResult> {
+  return new Promise((resolve, reject) => {
     const processFile = async (file: Readable) => {
-      const { cid, size } = await ipfsClient.add(file, { pin: true });
+      const stream = transform ? await transform(file) : file;
+      const { cid, size } = await ipfs.add(stream, { pin: true });
       return { cid: cid.toString(), size };
     };
+
+    let numProcessedFiles = 0;
 
     const bb = busboy({ headers: req.headers });
 
@@ -34,9 +39,7 @@ export async function pinToIpfs(req: NextApiRequest): Promise<Result> {
       }
     });
     bb.on("close", () => {
-      if (numProcessedFiles !== 1) {
-        reject(new Error("accept exactly one file"));
-      }
+      if (numProcessedFiles !== 1) reject(new Error("accept exactly one file"));
     });
     bb.on("error", reject);
     req.pipe(bb);
