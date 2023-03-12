@@ -68,7 +68,7 @@
     "@hyperionbt/helios": "^0.12.12",
     "@types/busboy": "^1.5.0",
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.15.0",
+    "@types/node": "^18.14.6",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@types/uuid": "^9.0.0",
