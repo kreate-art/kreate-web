@@ -1,7 +1,7 @@
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
 import { assert } from "@/modules/common-utils";
-import { createSecretKey, KeyId, KeySet } from "@/modules/crypt";
+import { createSecretKey, KeySet, KeyId } from "@/modules/crypt";
 
 export const IS_NEXT_BUILD = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
 
@@ -38,9 +38,9 @@ runtimeAssert(IPFS_HTTP_API_ORIGIN, "IPFS_HTTP_API_ORIGIN is required");
 export const TEIKI_CONTENT_KEYS: KeySet = new Map(
   process.env.TEIKI_CONTENT_KEYS
     ? process.env.TEIKI_CONTENT_KEYS.split(",").map((term) => {
-        const [kid, keyHex] = term.trim().split(":", 2);
+        const [kid, keyText] = term.trim().split(":", 2);
         assert(kid, "Content key id must be specified");
-        return [kid, createSecretKey("content", keyHex)];
+        return [kid, createSecretKey("content", keyText)];
       })
     : []
 );

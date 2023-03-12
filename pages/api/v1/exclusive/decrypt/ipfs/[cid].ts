@@ -45,8 +45,8 @@ export default async function handler(
     });
 
     const { key } = crypt.selectKey(TEIKI_CONTENT_KEYS, kid);
-    const b_iv = Buffer.from(iv, crypt.Base64);
-    const b_aut = Buffer.from(aut, crypt.Base64);
+    const b_iv = Buffer.from(iv, crypt.b64);
+    const b_aut = Buffer.from(aut, crypt.b64);
     const decipher = crypt.createDecipher(key, b_iv);
     decipher.setAuthTag(b_aut);
 
