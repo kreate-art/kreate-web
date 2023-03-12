@@ -35,13 +35,13 @@ export default async function handler(
 
     const chunks: Uint8Array[] = [];
     for await (const chunk of req.pipe(cipher)) chunks.push(chunk);
-    const data = Buffer.concat(chunks).toString(crypt.Base64);
+    const data = Buffer.concat(chunks).toString(crypt.b64);
 
     const ev: Envelope = {
       enc: "proto",
       kid,
-      iv: iv.toString(crypt.Base64),
-      aut: cipher.getAuthTag().toString(crypt.Base64),
+      iv: iv.toString(crypt.b64),
+      aut: cipher.getAuthTag().toString(crypt.b64),
       data,
     };
 

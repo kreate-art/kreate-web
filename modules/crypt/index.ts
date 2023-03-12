@@ -3,64 +3,52 @@ import stream from "node:stream";
 
 import { toJsonStable, ValidJsonTypes } from "../json-utils";
 
+import { Base64, KeyId, KeyType } from "./types";
+
 import { assert } from "@/modules/common-utils";
 
-export type Base64 = string;
-export const Base64 = "base64url";
+export * from "./types";
+
+export const b64 = "base64url";
 
 type BinaryLike = string | NodeJS.ArrayBufferView;
-type CipherOptions = stream.TransformOptions & {
-  authTagLength?: number | undefined;
-};
 
-export type KeyType = "content" | "hmac";
-export type KeyId = string;
-export type KeyObject = crypto.KeyObject;
-export type KeySet = Map<KeyId, KeyObject>;
+export type Key = crypto.KeyObject;
+export type KeySet = Map<KeyId, Key>;
 
 const ENC_ALGO = "aes-128-gcm" as const;
 const ENC_IV_LEN = 16 as const;
 const HMAC_ALGO = "sha256" as const;
 
-// TODO: Update format later...
-export type CipherMeta = {
-  enc: "proto";
-  kid: string;
-  iv: Base64;
-  // Because GCM
-  aut: Base64;
-  // TODO: Make use of AAD also...
-};
-
 // Throw errors if key is not specified
 export function selectKey(
   keySet: KeySet,
   kid: KeyId | undefined
-): { kid: KeyId; key: crypto.KeyObject } {
+): { kid: KeyId; key: Key } {
   assert(kid, "selectKey: key id must be specified");
   const key = keySet.get(kid);
   assert(key, `selectKey: key '${kid}' is not defined`);
   return { kid, key };
 }
 
-export function createSecretKey(
-  keyType: KeyType,
-  key: string
-): crypto.KeyObject {
+export function createSecretKey(keyType: KeyType, keyText: string): Key {
+  // TOOD: Validate base64...
+  const keyBuffer = Buffer.from(keyText, b64);
   if (keyType === "content") {
-    assert(
-      /^[0-9a-f]{32}$/.test(key),
-      "Content key must be a 32-char hex string"
-    );
-    return crypto.createSecretKey(key, "hex");
+    assert(keyBuffer.length === 16, "Content key must be 16 bytes");
+    return crypto.createSecretKey(keyBuffer);
   } else {
-    assert(/^\w{32,}$/.test(key), "HMAC key must be at least 32-char");
-    return crypto.createSecretKey(key, "utf8");
+    assert(keyBuffer.length >= 32, "HMAC key must be at least 32 bytes");
+    return crypto.createSecretKey(keyBuffer);
   }
 }
 
+type CipherOptions = stream.TransformOptions & {
+  authTagLength?: number | undefined;
+};
+
 export function createCipher(
-  key: crypto.KeyObject,
+  key: Key,
   iv: BinaryLike,
   options?: CipherOptions
 ) {
@@ -68,17 +56,14 @@ export function createCipher(
 }
 
 export function createDecipher(
-  key: crypto.KeyObject,
+  key: Key,
   iv: BinaryLike,
   options?: CipherOptions
 ) {
   return crypto.createDecipheriv(ENC_ALGO, key, iv, options);
 }
 
-export function createHmac(
-  key: crypto.KeyObject,
-  options?: stream.TransformOptions
-) {
+export function createHmac(key: Key, options?: stream.TransformOptions) {
   return crypto.createHmac(HMAC_ALGO, key, options);
 }
 
@@ -87,7 +72,7 @@ export function randomIv() {
 }
 
 export function hmacSign(
-  key: KeyObject,
+  key: Key,
   data: BinaryLike | { json: ValidJsonTypes }
 ): Base64 {
   const hmac = createHmac(key);
@@ -95,5 +80,5 @@ export function hmacSign(
   else if ("json" in data)
     hmac.update(toJsonStable(data.json, undefined, 0), "utf8");
   else hmac.update(data);
-  return hmac.digest(Base64);
+  return hmac.digest(b64);
 }

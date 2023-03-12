@@ -45,8 +45,8 @@ export default async function handler(
 
     const meta = {
       kid,
-      iv: iv.toString(crypt.Base64),
-      aut: cipher.getAuthTag().toString(crypt.Base64),
+      iv: iv.toString(crypt.b64),
+      aut: cipher.getAuthTag().toString(crypt.b64),
     };
     const preview =
       NEXT_PUBLIC_HOST +
