@@ -13,21 +13,21 @@ type SupportedTypes =
 
 export function parseEnv<T extends SupportedTypes>({
   label,
-  value,
+  input,
   parser,
 }: {
   label: string;
-  value: string | undefined;
+  input: string | undefined;
   parser: Parser<T>;
 }): T {
-  if (!value) {
-    throw new TypeError("Missing env: " + JSON.stringify({ label, value }));
+  if (!input) {
+    throw new Error("Missing env: " + JSON.stringify({ label, input }));
   }
   try {
-    return parser(value);
+    return parser(input);
   } catch (error) {
-    throw new RangeError(
-      "Failed to parse env: " + JSON.stringify({ label, value }),
+    throw new Error(
+      "Failed to parse env: " + JSON.stringify({ label, input }),
       { cause: error }
     );
   }
@@ -35,23 +35,23 @@ export function parseEnv<T extends SupportedTypes>({
 
 export function parseEnv$Optional<T extends SupportedTypes>({
   label,
-  value,
+  input,
   parser,
   defaultValue,
 }: {
   label: string;
-  value: string | undefined;
+  input: string | undefined;
   parser: Parser<T>;
   defaultValue: T;
 }) {
-  if (!value) {
+  if (!input) {
     return defaultValue;
   }
   try {
-    return parser(value);
+    return parser(input);
   } catch (error) {
-    throw new RangeError(
-      "Failed to parse env: " + JSON.stringify({ label, value }),
+    throw new Error(
+      "Failed to parse env: " + JSON.stringify({ label, input }),
       { cause: error }
     );
   }
