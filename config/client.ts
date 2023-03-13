@@ -1,6 +1,7 @@
 import { assert } from "@/modules/common-utils";
 
 // TODO: Maybe replace this with a middleware filling in the hostname
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_HOST: string = process.env.NEXT_PUBLIC_HOST || "";
 assert(
   /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_HOST),
@@ -8,6 +9,7 @@ assert(
     "'http://' or 'https://' and must not end with '/'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_BLOCKFROST_URL: string =
   process.env.NEXT_PUBLIC_BLOCKFROST_URL || "";
 assert(
@@ -16,6 +18,7 @@ assert(
     "'http://' or 'https://' and must not end with '/'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_BLOCKFROST_PROJECT_ID: string =
   process.env.NEXT_PUBLIC_BLOCKFROST_PROJECT_ID || "";
 assert(
@@ -27,6 +30,7 @@ assert(
     "and followed by 32 alphanumeric characters"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_NETWORK: "Mainnet" | "Preview" | "Preprod" =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (process.env.NEXT_PUBLIC_NETWORK || "") as any;
@@ -35,6 +39,7 @@ assert(
   "NEXT_PUBLIC_NETWORK must be 'Mainnet', 'Testnet', 'Preview' or 'Preprod'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_SHOW_SECRET_ROUTES: string =
   process.env.NEXT_PUBLIC_SHOW_SECRET_ROUTES || "";
 assert(
@@ -42,6 +47,7 @@ assert(
   "NEXT_PUBLIC_SHOW_SECRET_ROUTES must be 'true' or 'false'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_ENABLE_LEGACY: string =
   process.env.NEXT_PUBLIC_ENABLE_LEGACY || "";
 assert(
@@ -49,6 +55,7 @@ assert(
   "NEXT_PUBLIC_ENABLE_LEGACY must be 'true' or 'false'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_PROJECT_AT_MPH: string =
   process.env.NEXT_PUBLIC_PROJECT_AT_MPH || "";
 assert(
@@ -56,6 +63,7 @@ assert(
   "NEXT_PUBLIC_PROJECT_AT_MPH is required"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_PROOF_OF_BACKING_MPH: string =
   process.env.NEXT_PUBLIC_PROOF_OF_BACKING_MPH || "";
 assert(
@@ -63,15 +71,19 @@ assert(
   "NEXT_PUBLIC_PROOF_OF_BACKING_MPH is required"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_LEGACY_PROOF_OF_BACKING_MPH: string | null =
   process.env.NEXT_PUBLIC_LEGACY_PROOF_OF_BACKING_MPH || null;
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_PROTOCOL_NFT_MPH: string =
   process.env.NEXT_PUBLIC_PROTOCOL_NFT_MPH || "";
 assert(
   NEXT_PUBLIC_PROTOCOL_NFT_MPH.length > 0,
   "NEXT_PUBLIC_PROTOCOL_NFT_MPH is required"
 );
+
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_TEIKI_MPH: string =
   process.env.NEXT_PUBLIC_TEIKI_MPH || "";
 assert(
@@ -79,6 +91,7 @@ assert(
   "NEXT_PUBLIC_TEIKI_MPH must be a hex string"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_TEIKI_ASSET_NAME: string =
   process.env.NEXT_PUBLIC_TEIKI_ASSET_NAME || "";
 assert(
@@ -86,7 +99,7 @@ assert(
   "NEXT_PUBLIC_TEIKI_ASSET_NAME must be a hex string"
 );
 
-// TODO: Rename to NEXT_PUBLIC_AI_ORIGIN
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_AI_URL: string = process.env.NEXT_PUBLIC_AI_URL || "";
 assert(
   /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_AI_URL),
@@ -94,6 +107,7 @@ assert(
     "'http://' or 'https://' and must not end with '/'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_GRAMMARLY_CLIENT_ID =
   process.env.NEXT_PUBLIC_GRAMMARLY_CLIENT_ID || "";
 assert(
@@ -102,7 +116,7 @@ assert(
     "'client_' and followed by alphanumeric characters"
 );
 
-// TODO: Rename to NEXT_PUBLIC_TEIKI_CDN_ORIGIN
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_TEIKI_CDN: string =
   process.env.NEXT_PUBLIC_TEIKI_CDN || "";
 assert(
@@ -111,6 +125,7 @@ assert(
     "'http://' or 'https://' and must not end with '/'"
 );
 
+/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN: string =
   process.env.NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN || "";
 assert(
