@@ -15,7 +15,7 @@ export const config = {
   },
 };
 
-type Envelope = crypt.CipherMeta & { data: crypt.Base64 };
+type Envelope = crypt.CipherMeta & { ciphertext: crypt.Base64 };
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,15 +35,16 @@ export default async function handler(
 
     const chunks: Uint8Array[] = [];
     for await (const chunk of req.pipe(cipher)) chunks.push(chunk);
-    const data = Buffer.concat(chunks).toString(crypt.b64);
+    const ciphertext = Buffer.concat(chunks).toString(crypt.b64);
 
-    const ev: Envelope = {
+    const meta: crypt.CipherMeta = {
       enc: "proto",
       kid,
       iv: iv.toString(crypt.b64),
-      aut: cipher.getAuthTag().toString(crypt.b64),
-      data,
+      tag: cipher.getAuthTag().toString(crypt.b64),
     };
+
+    const ev: Envelope = { ...meta, ciphertext };
 
     sendJson(res.status(200), ev);
   } catch (error) {
