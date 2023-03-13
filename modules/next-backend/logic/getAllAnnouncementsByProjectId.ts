@@ -14,9 +14,17 @@ type Params = {
   projectId: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isWithBufsAs<T, V>(obj: any): obj is WithBufsAs<T, V> {
-  return typeof obj?.data === "object" && typeof obj?.bufs === "object";
+// TODO: @sk-yagi: Must handle more properly, this's just a
+// minimal change to prevent crash when we add an exclusive post
+function isWithBufsAsProjectAnnouncement<ProjectAnnouncement, V>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  obj: any
+): obj is WithBufsAs<ProjectAnnouncement, V> {
+  return (
+    typeof obj?.data === "object" &&
+    typeof obj?.bufs === "object" &&
+    !obj.data.exclusive
+  );
 }
 
 export async function getAllAnnouncementsByProjectId(
@@ -47,7 +55,9 @@ export async function getAllAnnouncementsByProjectId(
   return rows
     .map((row) => {
       try {
-        assert(isWithBufsAs<ProjectAnnouncement, Cid>(row.data));
+        assert(
+          isWithBufsAsProjectAnnouncement<ProjectAnnouncement, Cid>(row.data)
+        );
         const projectAnnouncements = Converters.toProjectCommunityUpdate(
           CodecCid
         )(row.data);
