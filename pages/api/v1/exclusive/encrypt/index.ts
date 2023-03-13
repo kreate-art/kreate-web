@@ -16,7 +16,7 @@ export const config = {
   },
 };
 
-type Envelope = crypt.CipherMeta & { ciphertext: crypt.Base64 };
+type Envelope = crypt.CipherMeta & { ciphertext: crypt.CipherText };
 
 export default async function handler(
   req: NextApiRequest,
