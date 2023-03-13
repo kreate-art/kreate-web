@@ -21,7 +21,7 @@ export const DATABASE_URL = IS_NEXT_BUILD
   ? never()
   : parseEnv({
       label: "DATABASE_URL",
-      value: process.env.DATABASE_URL,
+      input: process.env.DATABASE_URL,
       parser: parseStringByRegex(/^postgres:.*$/),
     });
 
@@ -29,34 +29,34 @@ export const REDIS_URL = IS_NEXT_BUILD
   ? never()
   : parseEnv({
       label: "REDIS_URL",
-      value: process.env.REDIS_URL,
+      input: process.env.REDIS_URL,
       parser: parseStringByRegex(/^redis:.*$/),
     });
 
 export const REDIS_USERNAME = parseEnv$Optional({
   label: "REDIS_USERNAME",
-  value: process.env.REDIS_USERNAME,
+  input: process.env.REDIS_USERNAME,
   parser: parseStringByRegex(/^[ -~]+$/),
   defaultValue: undefined,
 });
 
 export const REDIS_PASSWORD = parseEnv$Optional({
   label: "REDIS_PASSWORD",
-  value: process.env.REDIS_PASSWORD,
+  input: process.env.REDIS_PASSWORD,
   parser: parseStringByRegex(/^[ -~]+$/),
   defaultValue: undefined,
 });
 
 export const LEGACY_DATABASE_URL = parseEnv$Optional({
   label: "LEGACY_DATABASE_URL",
-  value: process.env.LEGACY_DATABASE_URL,
+  input: process.env.LEGACY_DATABASE_URL,
   parser: parseStringByRegex(/^postgres:.*$/),
   defaultValue: undefined,
 });
 
 export const DATABASE_MAX_CONNECTIONS = parseEnv$Optional({
   label: "DATABASE_MAX_CONNECTIONS",
-  value: process.env.DATABASE_MAX_CONNECTIONS,
+  input: process.env.DATABASE_MAX_CONNECTIONS,
   parser: parseInteger(),
   defaultValue: 4,
 });
@@ -65,7 +65,7 @@ export const IPFS_HTTP_API_ORIGIN = IS_NEXT_BUILD
   ? never()
   : parseEnv$Optional({
       label: "IPFS_HTTP_API_ORIGIN",
-      value: process.env.IPFS_HTTP_API_ORIGIN,
+      input: process.env.IPFS_HTTP_API_ORIGIN,
       parser: parseBaseUrl(),
       defaultValue: "",
     });
@@ -74,7 +74,7 @@ export const TEIKI_CONTENT_KEYS: KeySet = IS_NEXT_BUILD
   ? never()
   : parseEnv$Optional({
       label: "TEIKI_CONTENT_KEYS",
-      value: process.env.TEIKI_CONTENT_KEYS,
+      input: process.env.TEIKI_CONTENT_KEYS,
       parser: (text) =>
         new Map(
           text.split(",").map((term) => {
@@ -90,7 +90,7 @@ export const TEIKI_CONTENT_DEFAULT_KEY_ID = IS_NEXT_BUILD
   ? never()
   : parseEnv$Optional<KeyId | undefined>({
       label: "TEIKI_CONTENT_DEFAULT_KEY_ID",
-      value: process.env.TEIKI_CONTENT_DEFAULT_KEY_ID,
+      input: process.env.TEIKI_CONTENT_DEFAULT_KEY_ID,
       parser: parseStringByRegex(/^[ -~]+$/),
       defaultValue: undefined,
     });
@@ -99,7 +99,7 @@ export const TEIKI_HMAC_SECRET = IS_NEXT_BUILD
   ? never()
   : parseEnv({
       label: "TEIKI_HMAC_SECRET",
-      value: process.env.TEIKI_HMAC_SECRET,
+      input: process.env.TEIKI_HMAC_SECRET,
       parser: parseStringByRegex(/^[ -~]+$/),
     });
 
