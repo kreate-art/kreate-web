@@ -83,7 +83,13 @@ export async function getProtocolStatistics(
                   admin.blocked_project bp
                 WHERE bp.project_id = pd.project_id
               )
-      ) total_posts
+      ) total_posts,
+      (
+        SELECT
+          count(DISTINCT o.tx_id)
+        FROM
+          chain.output o
+      ) total_txs
   `;
   const [stats] = result;
 
@@ -97,5 +103,6 @@ export async function getProtocolStatistics(
     averageMillisecondsBetweenProjectUpdates:
       stats.averageMillisecondsBetweenProjectUpdates,
     numPosts: stats.totalPosts,
+    numProtocolTransactions: stats.totalTxs,
   };
 }
