@@ -13,6 +13,7 @@ type Params = {
 
 type DetailedBackedProject = {
   project: DetailedProject;
+  handle?: string;
   numLovelacesBacked: LovelaceAmount;
   numMicroTeikisUnclaimed: MicroTeikiAmount;
   isCurrentlyBacking: boolean;

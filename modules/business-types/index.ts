@@ -139,6 +139,7 @@ export type ProjectGeneralInfo = {
 export type SupporterInfo = {
   address: Address;
   lovelaceAmount: number | bigint;
+  handle?: string;
 };
 
 // Contains all data needed for ProjectDetails page
@@ -234,6 +235,7 @@ export type ProjectActivityAction =
   | {
       type: "back";
       createdBy: Address;
+      createdByHandle?: string;
       lovelaceAmount: LovelaceAmount;
       message: string | null;
       message$ModeratedTags?: string[];
@@ -242,6 +244,7 @@ export type ProjectActivityAction =
   | {
       type: "unback";
       createdBy: Address;
+      createdByHandle?: string;
       lovelaceAmount: LovelaceAmount;
       message: string | null;
       message$ModeratedTags?: string[];
@@ -269,6 +272,7 @@ export type ProjectActivityAction =
 export type ProjectActivity = {
   createdAt: UnixTimestamp;
   createdBy: string;
+  createdByHandle?: string;
   projectId?: string;
   action: ProjectActivityAction;
 };
