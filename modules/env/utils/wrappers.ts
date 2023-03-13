@@ -1,13 +1,15 @@
 import { Parser } from "../types";
 
+// anything except functions
 type SupportedTypes =
   | undefined
   | null
   | boolean
   | number
   | string
-  | SupportedTypes[]
-  | { [key: string]: SupportedTypes };
+  | unknown[]
+  | { [key: string]: unknown }
+  | Map<unknown, unknown>;
 
 export function parseEnv<T extends SupportedTypes>({
   label,

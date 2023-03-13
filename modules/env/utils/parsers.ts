@@ -41,3 +41,10 @@ export function parseBoolean(): Parser<boolean> {
 export function parseHex(): Parser<string> {
   return parseStringByRegex(/^([0-9A-Fa-f]{2})+$/);
 }
+
+export function parseInteger(): Parser<number> {
+  return (text) => {
+    assert(/^[+-]?[0-9]+$/.test(text));
+    return parseInt(text, 10);
+  };
+}
