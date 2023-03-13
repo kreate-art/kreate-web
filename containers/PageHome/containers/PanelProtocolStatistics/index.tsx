@@ -67,6 +67,14 @@ export default function PanelProtocolStatistics({
             <Card.Legend>Posts</Card.Legend>
           </Card>
           <Card className={styles.card}>
+            {stats.numProtocolTransactions == null ? (
+              <Card.Content>-</Card.Content>
+            ) : (
+              <Card.Content>{stats.numProtocolTransactions}</Card.Content>
+            )}
+            <Card.Legend>Transactions</Card.Legend>
+          </Card>
+          <Card className={styles.card}>
             {stats.numLovelaceStakedActive == null ? (
               <Card.Content>-</Card.Content>
             ) : (
