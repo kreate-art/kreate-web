@@ -15,7 +15,6 @@ type Props = {
 };
 
 export default function ActionBack({ className, style, value }: Props) {
-  console.log(value);
   return (
     <Flex.Col className={className} style={style} gap="8px">
       <Typography.Div size="bodySmall" color="ink80">
