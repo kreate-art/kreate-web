@@ -43,11 +43,12 @@ export default async function handler(
 
     const pinned = await pinToIpfs(req, (file) => file.pipe(cipher));
 
-    const meta = {
+    const meta: Omit<crypt.CipherMeta, "enc"> = {
       kid,
       iv: iv.toString(crypt.b64),
-      aut: cipher.getAuthTag().toString(crypt.b64),
+      tag: cipher.getAuthTag().toString(crypt.b64),
     };
+
     const preview =
       NEXT_PUBLIC_HOST +
       "/api/v1/exclusive/decrypt/ipfs/" +

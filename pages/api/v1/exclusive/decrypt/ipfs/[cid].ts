@@ -22,13 +22,14 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-    const { cid, kid, iv, aut, exp: r_exp, sig } = req.query;
+    const { cid, kid, iv, tag, aad, exp: r_exp, sig } = req.query;
 
     ClientError.assert(
       isNonEmptyString(cid) &&
         isNonEmptyString(kid) &&
         isNonEmptyString(iv) &&
-        isNonEmptyString(aut) &&
+        isNonEmptyString(tag) &&
+        (!aad || typeof aad === "string") &&
         isNonEmptyString(r_exp) &&
         /^[0-9]+$/.test(r_exp),
       { _debug: "invalid request" }
@@ -39,16 +40,15 @@ export default async function handler(
       _debug: "expired",
     });
 
-    const payload = { json: { cid, kid, iv, aut, exp } };
+    const payload = { json: { cid, kid, iv, tag, aad, exp } };
     ClientError.assert(sig === crypt.hmacSign(TEIKI_HMAC_SECRET, payload), {
       _debug: "invalid signature",
     });
 
     const { key } = crypt.selectKey(TEIKI_CONTENT_KEYS, kid);
-    const b_iv = Buffer.from(iv, crypt.b64);
-    const b_aut = Buffer.from(aut, crypt.b64);
-    const decipher = crypt.createDecipher(key, b_iv);
-    decipher.setAuthTag(b_aut);
+    const decipher = crypt.createDecipher(key, Buffer.from(iv, crypt.b64));
+    decipher.setAuthTag(Buffer.from(tag, crypt.b64));
+    aad && decipher.setAAD(Buffer.from(aad, crypt.b64));
 
     const upstream = stream.Readable.from(ipfs.cat(`/ipfs/${cid}`));
     upstream.on("error", (error) => apiCatch(req, res, error));
