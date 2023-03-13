@@ -86,9 +86,21 @@ export async function getProtocolStatistics(
       ) total_posts,
       (
         SELECT
-          count(DISTINCT o.tx_id)
+          count(1)
         FROM
-          chain.output o
+          (
+            SELECT
+              tx_id
+            FROM
+              chain.output
+            UNION
+            SELECT
+              spent_tx_id
+            FROM
+              chain.output
+            WHERE
+              spent_tx_id IS NOT NULL
+          ) tx
       ) total_txs
   `;
   const [stats] = result;
