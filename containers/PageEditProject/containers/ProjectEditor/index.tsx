@@ -84,10 +84,8 @@ function renderModerationWarningLine(section: string, tags: string[]) {
 // TODO: Clean up this later
 function emptyProjectBenefits(): ProjectBenefits {
   return {
-    perks: {
-      type: "doc",
-      content: [{ type: "paragraph" }],
-    },
+    perks: { type: "doc", content: [{ type: "paragraph" }] },
+    tiers: [],
   };
 }
 
