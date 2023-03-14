@@ -27,9 +27,7 @@ type Props = {
   projectId: string | undefined;
 };
 
-const EMPTY_PROJECT_BENEFITS: ProjectBenefits = {
-  perks: { type: "doc", content: [{ type: "paragraph" }] },
-};
+const EMPTY_PROJECT_BENEFITS: ProjectBenefits = { tiers: [] };
 
 export default function PagePreviewProject({ storageId, projectId }: Props) {
   useDefaultBackground();

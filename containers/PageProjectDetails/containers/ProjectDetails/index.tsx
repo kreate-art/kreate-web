@@ -63,13 +63,7 @@ export default function ProjectDetails({
           />
         </div>
       ) : activeTabIndex == 1 ? ( // Benefits
-        <div className={styles.richTextEditorContainer}>
-          <RichTextEditor
-            key={`${projectId}#benefits`}
-            value={benefits.perks}
-            className={styles.richTextEditor}
-          />
-        </div>
+        <div className={styles.richTextEditorContainer} />
       ) : activeTabIndex == 2 ? ( // Posts
         <TabUpdates value={announcements} />
       ) : activeTabIndex == 3 ? ( // FAQs

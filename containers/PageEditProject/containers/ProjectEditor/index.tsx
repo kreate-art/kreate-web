@@ -83,12 +83,7 @@ function renderModerationWarningLine(section: string, tags: string[]) {
 
 // TODO: Clean up this later
 function emptyProjectBenefits(): ProjectBenefits {
-  return {
-    perks: {
-      type: "doc",
-      content: [{ type: "paragraph" }],
-    },
-  };
+  return { tiers: [] };
 }
 
 /**
@@ -184,15 +179,6 @@ export default function ProjectEditor({
     section: "summary",
     uuid: summaryUuid,
     text: value.basics.summary,
-    alertNewModerationWarning,
-  });
-  useContentModeration({
-    section: "benefits",
-    uuid: benefitsUUid,
-    text:
-      value.benefits == null
-        ? ""
-        : generateText(value.benefits.perks, editorExtensions),
     alertNewModerationWarning,
   });
   useContentModeration({
@@ -383,12 +369,7 @@ export default function ProjectEditor({
                 }}
               />
             ) : activeIndex === 3 ? (
-              <ProjectBenefitsEditor
-                value={value.benefits ?? emptyProjectBenefits()}
-                onChange={async (newPerks) => {
-                  onChange && onChange({ ...value, benefits: newPerks });
-                }}
-              />
+              <ProjectBenefitsEditor />
             ) : null}
             <GrammarlyButton
               style={{

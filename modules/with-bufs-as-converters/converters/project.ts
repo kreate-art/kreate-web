@@ -94,7 +94,6 @@ export function fromProjectBenefits<V>(
 ): FromFn<ProjectBenefits | undefined, V> {
   return fromNullable(
     fromObject<ProjectBenefits, V>({
-      perks: fromJSONContent(codec),
       tiers: fromNullable(fromArray(fromProjectBenefitsTier(codec))),
     })
   );
@@ -106,7 +105,6 @@ export function toProjectBenefits<V>(
 ): ToFn<ProjectBenefits | undefined, V> {
   return toNullable(
     toObject<ProjectBenefits, V>({
-      perks: toJSONContent(codec),
       tiers: toNullable(toArray(toProjectBenefitsTier(codec))),
     })
   );
