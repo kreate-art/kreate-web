@@ -1,11 +1,11 @@
 import { C, Lucid } from "lucid-cardano";
 
+import { MINIMUM_BACKING_AMOUNT, PADDING_LOVELACE_AMOUNT } from "../constants";
+
 import { LovelaceAmount } from "@/modules/business-types";
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
 import { toJson } from "@/modules/json-utils";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
-
-const PADDING_LOVELACE_AMOUNT: LovelaceAmount = 5000000;
 
 type BigNum = ReturnType<typeof C.BigNum.zero>;
 
@@ -17,9 +17,7 @@ function fromBigNum(amount: BigNum): LovelaceAmount {
   return BigInt(amount.to_str());
 }
 
-async function getMaxLovelaceAmount(
-  lucid: Lucid
-): Promise<LovelaceAmount | undefined> {
+async function getMaxLovelaceAmount(lucid: Lucid): Promise<LovelaceAmount> {
   const [protocolParameters, utxos] = await Promise.all([
     lucid.provider.getProtocolParameters(),
     lucid.wallet.getUtxosCore(),
@@ -38,11 +36,13 @@ async function getMaxLovelaceAmount(
     result = result.checked_add(totalAda).checked_sub(minAda);
   }
 
-  // 3. Return max(0, result - padding lovelace amount)
-  result = result.checked_sub(
-    C.BigNum.from_str(PADDING_LOVELACE_AMOUNT.toString())
-  );
-  return fromBigNum(result);
+  // 3. result = max(0, result - padding lovelace amount)
+  result = result.clamped_sub(toBigNum(PADDING_LOVELACE_AMOUNT));
+
+  // 4. If result < minimum backing amount, return 0. Else, returns result
+  return result.compare(toBigNum(MINIMUM_BACKING_AMOUNT)) < 0
+    ? 0
+    : fromBigNum(result);
 }
 
 export function useMaxLovelaceAmount() {

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { MINIMUM_BACKING_AMOUNT } from "../constants";
+
 import { parseLovelaceAmount } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 
@@ -20,12 +22,12 @@ export function useField$LovelaceAmount({
   const error =
     parsed == null
       ? "Invalid number"
-      : parsed < 2000000 // TODO: @sk-tenba: import this number from somewhere
+      : maxLovelaceAmount != null && maxLovelaceAmount < MINIMUM_BACKING_AMOUNT
+      ? "Insufficient ADA balance"
+      : parsed < MINIMUM_BACKING_AMOUNT
       ? "You must back at least 2 ADA"
-      : // TODO: @sk-kitsune: We should not use `maxLovelaceAmount`
-      // if it is not accurate.
-      maxLovelaceAmount && maxLovelaceAmount < parsed
-      ? "There is not sufficient ADA in your wallet"
+      : maxLovelaceAmount != null && maxLovelaceAmount < parsed
+      ? "Insufficient ADA balance"
       : undefined;
 
   // TODO: @sk-kitsune: we should also set onKeyDown at the call site
