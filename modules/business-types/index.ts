@@ -57,8 +57,18 @@ export type ProjectCommunity = {
   frequentlyAskedQuestions: FrequentlyAskedQuestion[];
 };
 
+export type ProjectBenefitsTier = {
+  id: string;
+  title: string;
+  description: string;
+  banner?: ProjectImage;
+  requiredStake: LovelaceAmount;
+  benefits: string[];
+};
+
 export type ProjectBenefits = {
-  perks: JSONContent;
+  perks: JSONContent; // TODO: Change this field to `perks?: never`
+  tiers?: ProjectBenefitsTier[];
 };
 
 // TODO: `roadmap` is temporarily hidden from the UI (not removed)
