@@ -55,9 +55,9 @@ export default function InputSupportedLovelaceAmount({
             <Button.Link
               className={styles.buttonMax}
               content="Max"
-              disabled={!maxLovelaceAmount || disabled}
+              disabled={maxLovelaceAmount == null || disabled}
               onClick={() =>
-                maxLovelaceAmount
+                maxLovelaceAmount != null
                   ? onChange(
                       formatLovelaceAmount(maxLovelaceAmount, {
                         excludeThousandsSeparator: true,
