@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import * as crypt from "@/modules/crypt";
 import {
   TEIKI_CONTENT_DEFAULT_KEY_ID,
   TEIKI_CONTENT_KEYS,
-} from "../../../../../config/server";
-
-import * as crypt from "@/modules/crypt";
+} from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 

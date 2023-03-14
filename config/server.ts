@@ -1,7 +1,6 @@
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
 import { assert } from "@/modules/common-utils";
-import { createSecretKey, KeySet, KeyId } from "@/modules/crypt";
 
 export const IS_NEXT_BUILD = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
 
@@ -42,31 +41,3 @@ export const DATABASE_MAX_CONNECTIONS = Number(
 export const IPFS_HTTP_API_ORIGIN: string =
   process.env.IPFS_HTTP_API_ORIGIN || "";
 runtimeAssert(IPFS_HTTP_API_ORIGIN, "IPFS_HTTP_API_ORIGIN is required");
-
-/** @deprecated - use modules/env/server.ts instead */
-export const TEIKI_CONTENT_KEYS: KeySet = new Map(
-  process.env.TEIKI_CONTENT_KEYS
-    ? process.env.TEIKI_CONTENT_KEYS.split(",").map((term) => {
-        const [kid, keyText] = term.trim().split(":", 2);
-        assert(kid, "Content key id must be specified");
-        return [kid, createSecretKey("content", keyText)];
-      })
-    : []
-);
-
-/** @deprecated - use modules/env/server.ts instead */
-export const TEIKI_CONTENT_DEFAULT_KEY_ID: KeyId | undefined =
-  process.env.TEIKI_CONTENT_DEFAULT_KEY_ID || undefined;
-
-const hmacSecret = process.env.TEIKI_HMAC_SECRET
-  ? createSecretKey("hmac", process.env.TEIKI_HMAC_SECRET)
-  : undefined;
-runtimeAssert(hmacSecret, "TEIKI_HMAC_SECRET is required");
-/** @deprecated - use modules/env/server.ts instead */
-export const TEIKI_HMAC_SECRET = hmacSecret;
-
-if (!IS_NEXT_BUILD) {
-  if (!TEIKI_CONTENT_KEYS.size) console.warn("! TEIKI_CONTENT_KEYS is not set");
-  if (!TEIKI_CONTENT_DEFAULT_KEY_ID)
-    console.warn("! TEIKI_CONTENT_DEFAULT_KEY_ID is not set");
-}
