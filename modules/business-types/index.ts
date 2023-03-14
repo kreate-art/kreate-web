@@ -67,7 +67,7 @@ export type ProjectBenefitsTier = {
 };
 
 export type ProjectBenefits = {
-  perks: JSONContent; // TODO: Change this field to `perks?: never`
+  perks?: never; // previously `perks: JSONContent`
   tiers?: ProjectBenefitsTier[];
 };
 
