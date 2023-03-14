@@ -15,6 +15,7 @@ import {
   ProjectAnnouncement,
   ProjectBasics,
   ProjectBenefits,
+  ProjectBenefitsTier,
   ProjectDescription,
   ProjectImage,
 } from "@/modules/business-types";
@@ -69,18 +70,46 @@ export function toProjectBasics<V>(codec: Codec<V>): ToFn<ProjectBasics, V> {
   });
 }
 
+/** Converts `ProjectBenefitsTier` to `WithBufsAs<ProjectBenefitsTier, V>`. */
+export function fromProjectBenefitsTier<V>(
+  codec: Codec<V>
+): FromFn<ProjectBenefitsTier, V> {
+  return fromObject<ProjectBenefitsTier, V>({
+    banner: fromNullable(fromProjectImage(codec)),
+  });
+}
+
+/** Converts `WithBufsAs<ProjectBenefitsTier, V>` to `ProjectBenefitsTier` */
+export function toProjectBenefitsTier<V>(
+  codec: Codec<V>
+): ToFn<ProjectBenefitsTier, V> {
+  return toObject<ProjectBenefitsTier, V>({
+    banner: toNullable(toProjectImage(codec)),
+  });
+}
+
 /** Converts `ProjectBenefits` to `WithBufsAs<ProjectBenefits, V>`. */
 export function fromProjectBenefits<V>(
   codec: Codec<V>
 ): FromFn<ProjectBenefits | undefined, V> {
-  return fromNullable(fromObject({ perks: fromJSONContent(codec) }));
+  return fromNullable(
+    fromObject<ProjectBenefits, V>({
+      perks: fromJSONContent(codec),
+      tiers: fromNullable(fromArray(fromProjectBenefitsTier(codec))),
+    })
+  );
 }
 
 /** Converts `WithBufsAs<ProjectBenefits, V>` to `ProjectBenefits` */
 export function toProjectBenefits<V>(
   codec: Codec<V>
 ): ToFn<ProjectBenefits | undefined, V> {
-  return toNullable(toObject({ perks: toJSONContent(codec) }));
+  return toNullable(
+    toObject<ProjectBenefits, V>({
+      perks: toJSONContent(codec),
+      tiers: toNullable(toArray(toProjectBenefitsTier(codec))),
+    })
+  );
 }
 
 /**
