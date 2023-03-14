@@ -1,0 +1,51 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  width: 100%;
+  background-color: colors.$ink10;
+  border-radius: 12px;
+}
+
+.header {
+  background-color: colors.$ink10;
+  border-radius: 12px;
+  &.open {
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+.icon {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.left {
+  background-color: #fff;
+}
+
+.input > div {
+  border-radius: 12px;
+}
+
+.benefits {
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.textInput {
+  font-weight: 600;
+  font-size: 14px;
+  color: colors.$ink;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+
+  &.description {
+    font-weight: 400;
+    font-size: 14px;
+    color: colors.$ink80;
+    margin-bottom: 20px;
+  }
+}

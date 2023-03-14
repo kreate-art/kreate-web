@@ -10,6 +10,7 @@ import ProjectBasicsEditor from "../ProjectBasicsEditor";
 import ProjectBenefitsEditor from "../ProjectBenefitsEditor";
 import ProjectCommunityEditor from "../ProjectCommunityEditor";
 import ProjectDescriptionEditor from "../ProjectDescriptionEditor";
+import ProjectRoadmapEditor from "../ProjectRoadmapEditor";
 
 import PageControl from "./components/PageControl";
 import SideBar from "./components/SideBar";
@@ -369,7 +370,12 @@ export default function ProjectEditor({
                 }}
               />
             ) : activeIndex === 3 ? (
-              <ProjectBenefitsEditor />
+              <ProjectBenefitsEditor
+                value={value.benefits ?? { tiers: [] }}
+                onChange={(newBenefits) => {
+                  onChange && onChange({ ...value, benefits: newBenefits });
+                }}
+              />
             ) : null}
             <GrammarlyButton
               style={{

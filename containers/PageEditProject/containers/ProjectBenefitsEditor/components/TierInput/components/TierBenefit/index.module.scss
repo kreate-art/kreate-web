@@ -1,0 +1,16 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.textInput {
+  font-weight: 600;
+  font-size: 14px;
+  color: colors.$green;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+}
