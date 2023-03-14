@@ -8,12 +8,13 @@ import {
 import { parseEnv, parseEnv$Optional } from "./utils/wrappers";
 
 import { assert } from "@/modules/common-utils";
-import { createSecretKey, KeyId, KeySet } from "@/modules/crypt";
+import { createSecretKey, KeySet } from "@/modules/crypt";
 
 export const IS_NEXT_BUILD = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
 
 // never() is something that will never be accessed
-function never<T>(): T {
+// We use `never` as the default type for `T` since we want to use the other type in the branch condition.
+function never<T = never>(): T {
   return undefined as T;
 }
 
@@ -70,9 +71,9 @@ export const IPFS_HTTP_API_ORIGIN = IS_NEXT_BUILD
       defaultValue: "",
     });
 
-export const TEIKI_CONTENT_KEYS: KeySet = IS_NEXT_BUILD
+export const TEIKI_CONTENT_KEYS = IS_NEXT_BUILD
   ? never()
-  : parseEnv$Optional({
+  : parseEnv$Optional<KeySet>({
       label: "TEIKI_CONTENT_KEYS",
       input: process.env.TEIKI_CONTENT_KEYS,
       parser: (text) =>
@@ -88,7 +89,7 @@ export const TEIKI_CONTENT_KEYS: KeySet = IS_NEXT_BUILD
 
 export const TEIKI_CONTENT_DEFAULT_KEY_ID = IS_NEXT_BUILD
   ? never()
-  : parseEnv$Optional<KeyId | undefined>({
+  : parseEnv$Optional({
       label: "TEIKI_CONTENT_DEFAULT_KEY_ID",
       input: process.env.TEIKI_CONTENT_DEFAULT_KEY_ID,
       parser: parseStringByRegex(/^[ -~]+$/),
@@ -100,7 +101,8 @@ export const TEIKI_HMAC_SECRET = IS_NEXT_BUILD
   : parseEnv({
       label: "TEIKI_HMAC_SECRET",
       input: process.env.TEIKI_HMAC_SECRET,
-      parser: parseStringByRegex(/^[ -~]+$/),
+      parser: (text) =>
+        createSecretKey("hmac", parseStringByRegex(/^[ -~]+$/)(text)),
     });
 
 if (!IS_NEXT_BUILD) {

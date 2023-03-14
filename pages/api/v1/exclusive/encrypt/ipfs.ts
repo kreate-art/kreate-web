@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { NEXT_PUBLIC_HOST } from "../../../../../config/client";
+import * as crypt from "@/modules/crypt";
+import { HOST } from "@/modules/env/client";
 import {
   TEIKI_CONTENT_DEFAULT_KEY_ID,
   TEIKI_CONTENT_KEYS,
   TEIKI_HMAC_SECRET,
-} from "../../../../../config/server";
-
-import * as crypt from "@/modules/crypt";
+} from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import {
@@ -50,7 +49,7 @@ export default async function handler(
     };
 
     const preview =
-      NEXT_PUBLIC_HOST +
+      HOST +
       "/api/v1/exclusive/decrypt/ipfs/" +
       pinned.cid +
       "?" +

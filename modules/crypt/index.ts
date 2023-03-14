@@ -3,21 +3,22 @@ import stream from "node:stream";
 
 import { toJsonStable, ValidJsonTypes } from "../json-utils";
 
-import { Base64, KeyId, KeyType } from "./types";
+import { b64, Base64, KeyId, KeyType } from "./types";
 
 import { assert } from "@/modules/common-utils";
 
 export * from "./types";
-
-export const b64 = "base64url";
 
 type BinaryLike = string | NodeJS.ArrayBufferView;
 
 export type Key = crypto.KeyObject;
 export type KeySet = Map<KeyId, Key>;
 
+// We use AES-128 since it has performance and better key schedule than AES-256
 const ENC_ALGO = "aes-128-gcm" as const;
-const ENC_IV_LEN = 16 as const;
+// We only need 12 bytes (instead of 16) for GCM
+const ENC_IV_LEN = 12 as const;
+// We use SHA-256 since it is shorter and enough for our use-cases
 const HMAC_ALGO = "sha256" as const;
 
 // Throw errors if key is not specified

@@ -1,17 +1,6 @@
 import { Parser } from "../types";
 
-// anything except functions
-type SupportedTypes =
-  | undefined
-  | null
-  | boolean
-  | number
-  | string
-  | unknown[]
-  | { [key: string]: unknown }
-  | Map<unknown, unknown>;
-
-export function parseEnv<T extends SupportedTypes>({
+export function parseEnv<T>({
   label,
   input,
   parser,
@@ -33,7 +22,7 @@ export function parseEnv<T extends SupportedTypes>({
   }
 }
 
-export function parseEnv$Optional<T extends SupportedTypes>({
+export function parseEnv$Optional<T>({
   label,
   input,
   parser,

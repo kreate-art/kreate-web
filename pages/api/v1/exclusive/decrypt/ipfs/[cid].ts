@@ -3,16 +3,10 @@ import stream from "node:stream";
 import { fileTypeStream } from "file-type";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import {
-  TEIKI_CONTENT_KEYS,
-  TEIKI_HMAC_SECRET,
-} from "../../../../../../config/server";
-
 import * as crypt from "@/modules/crypt";
+import { TEIKI_CONTENT_KEYS, TEIKI_HMAC_SECRET } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { ipfs } from "@/modules/next-backend/connections";
-
-// TODO: Remove this route later
 
 export default async function handler(
   req: NextApiRequest,

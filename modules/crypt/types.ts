@@ -1,5 +1,7 @@
 // This module is safe to load in front-end code
 
+export const b64 = "base64url";
+
 export type Base64 = string;
 
 export type KeyType = "content" | "hmac";
