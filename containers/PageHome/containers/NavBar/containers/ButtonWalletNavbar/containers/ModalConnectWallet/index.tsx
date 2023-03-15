@@ -156,7 +156,7 @@ export default function ModalConnectWallet({
         />
       ) : null} */}
 
-        {isNetworkMainnet ? (
+        {/* {isNetworkMainnet ? (
           <ButtonConnectWallet
             name="nufi"
             label="NuFi"
@@ -175,7 +175,7 @@ export default function ModalConnectWallet({
             onSuccess={onSuccess}
             disabled={isLoading}
           />
-        ) : null}
+        ) : null} */}
 
         {/* {isNetworkMainnet ? (
         <ButtonConnectWallet
