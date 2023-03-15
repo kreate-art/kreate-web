@@ -11,7 +11,7 @@ export async function authorizeRequest(
   const prefixError = "The authentication failed because of";
   const authHeader = req.headers["authorization"];
   if (!authHeader) return undefined;
-  // NOTE: Should we?
+  // TODO: Delete this comment out
   // ClientError.assert(
   //   authHeader,
   //   `${prefixError} missing 'Authorization' header`,

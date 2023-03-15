@@ -10,6 +10,7 @@ import {
   Address,
   AnyProjectPost,
   ExclusiveProjectPost,
+  EXCLUSIVE_TIERS,
   PublicProjectPost,
 } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -74,7 +75,6 @@ export async function getAllPostsByProjectId(
     ORDER BY bk.slot DESC;
   `;
 
-  // console.log("[GIVE_VIWE_ADDR]: ", viewerAddress);
   const tier = await getViewerTier(sql, viewerAddress, ownerAddress, projectId);
   return rows
     .map((row) => {
@@ -102,11 +102,6 @@ export async function getAllPostsByProjectId(
     .filter(isNotNullOrUndefined);
 }
 
-// TODO: Will fix, this's for testing purpose only...
-function fromActiveStakingAmountToTier(asa: bigint) {
-  return asa > BigInt(2000000000) ? 1 : 0;
-}
-
 async function getViewerTier(
   sql: Sql,
   viewerAddress: Address | null,
@@ -121,4 +116,11 @@ async function getViewerTier(
   });
 
   return fromActiveStakingAmountToTier(viewerActiveStakingAmount.amount);
+}
+
+function fromActiveStakingAmountToTier(asa: bigint) {
+  const tiers = EXCLUSIVE_TIERS.filter((tier) => tier.requiredStake <= asa).map(
+    (tier) => tier.tier
+  );
+  return tiers.length ? Math.max(...tiers) : null;
 }

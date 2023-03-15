@@ -92,8 +92,8 @@ export default function CommunityUpdateOverview({
         <div className={styles.summary}>{value.summary}</div>
         {value.exclusive ? (
           <div>
-            Subscribe to access this content, you should be at least tier{" "}
-            {value.exclusive.tier}
+            Subscribe to access this content, you should reach tier{" "}
+            {value.exclusive.tier} to view
           </div>
         ) : (
           <div className={styles.linkContainer}>

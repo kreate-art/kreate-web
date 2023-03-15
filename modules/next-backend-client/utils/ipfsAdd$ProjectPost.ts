@@ -60,8 +60,6 @@ export async function ipfsAdd$ProjectPost(
     );
     const mediaCount = Object.keys(cidWBA.bufs).length;
 
-    console.log("[NEW_BOD]: ", newBody);
-
     const cidWBAEncryptedBody: WithBufsAs<
       ExclusiveProjectPost,
       CipherMeta & { cid: Cid }
@@ -77,8 +75,6 @@ export async function ipfsAdd$ProjectPost(
         mediaCount,
       },
     };
-
-    console.log("[ENCR_BODY]: ", cidWBAEncryptedBody);
 
     return blobToCid(new Blob([toJsonStable(cidWBAEncryptedBody)]));
   }

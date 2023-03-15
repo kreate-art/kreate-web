@@ -31,16 +31,10 @@ export async function httpPostEncryptAndPin(buf: Blob): Promise<Response> {
     body: formData,
   });
 
-  console.log("[RES_OK]: ", response.ok);
-
   assert(response.ok, "response not ok");
   const body = await response.text();
   const responseData = fromJson(body);
-
-  console.log("[RESP_D]: ", responseData);
   assert(isResponse(responseData), "invalid response");
-
-  console.log("[RESP_D]: ", responseData);
 
   return {
     enc: responseData.enc,

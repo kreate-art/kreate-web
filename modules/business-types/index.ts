@@ -134,6 +134,21 @@ export type ProjectAnnouncement = PublicProjectPost;
 /** @deprecated Please rename to `ProjectAnnouncement` */
 export type ProjectCommunityUpdate = ProjectAnnouncement;
 
+// TODO: The following code hardcodes tiers for quick demonstration
+// purposes. Will be replaced with creator's custom tiers afterward
+export const EXCLUSIVE_TIERS: Tier[] = [
+  { tier: 0, label: "Zero", requiredStake: 500_000 },
+  { tier: 1, label: "One", requiredStake: 1_000_000_000 },
+  { tier: 2, label: "Two", requiredStake: 2_000_000_000 },
+  { tier: 3, label: "Three", requiredStake: 3_000_000_000 },
+];
+
+export type Tier = {
+  tier: number;
+  label: string;
+  requiredStake: LovelaceAmount;
+};
+
 export type UnixTimestamp = number;
 export type ProjectId = string; // Hex
 

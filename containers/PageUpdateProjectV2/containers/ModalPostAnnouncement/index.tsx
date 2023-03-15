@@ -11,7 +11,11 @@ import {
 } from "./utils";
 
 import { throw$, try$, tryUntil } from "@/modules/async-utils";
-import { LovelaceAmount, PublicProjectPost } from "@/modules/business-types";
+import {
+  EXCLUSIVE_TIERS,
+  PublicProjectPost,
+  Tier,
+} from "@/modules/business-types";
 import {
   formatAutoSaverStatus,
   useAutoSaver,
@@ -39,16 +43,6 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
-
-type Tier = { tier: number; label: string; requiredStake: LovelaceAmount };
-
-// TODO: The following code hardcodes tiers for quick demonstration
-// purposes. Will be replaced with creator's custom tiers afterward
-const EXCLUSIVE_TIERS: Tier[] = [
-  { tier: 1, label: "One", requiredStake: 1_000_000_000 },
-  { tier: 2, label: "Two", requiredStake: 2_000_000_000 },
-  { tier: 3, label: "Three", requiredStake: 3_000_000_000 },
-];
 
 function formatTier(tier: Tier) {
   return `Tier ${tier.tier}: ${tier.label}`;
@@ -116,8 +110,6 @@ export default function ModalPostAnnouncement({
   const [richTextEditorKey, setRichTextEditorKey] = React.useState(0);
   const [statusBarText, setStatusBarText] = React.useState("");
   const [busy, setBusy] = React.useState(false);
-  // const [isPublicPost, setPublicPost] = React.useState(false);
-  // const [tierToView, setTierToView] = React.useState<number | null>(1); // For testing purpose only
 
   const handleSaveOnSubmit = async () => {
     if (value == null) return;
@@ -138,9 +130,12 @@ export default function ModalPostAnnouncement({
         async () => {
           const blobWBA: WithBufsAs<PublicProjectPost, Blob> =
             await Converters.fromProjectAnnouncement(CodecBlob)(value);
-          const cid = await ipfsAdd$ProjectPost(blobWBA, tierIndex);
+          const cid = await ipfsAdd$ProjectPost(
+            blobWBA,
+            isExclusive ? tierIndex : null
+          );
+          // TODO: @sk-yagi: Remove this console.log
           console.log("[CID]: ", cid);
-          // const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);
           return cid;
         },
         (cause) => throw$(new Error("failed to upload files", { cause }))
@@ -305,7 +300,7 @@ export default function ModalPostAnnouncement({
                     disabled={!isExclusive}
                   >
                     {EXCLUSIVE_TIERS.map((tier, index) => (
-                      <option value={index} key={index}>
+                      <option value={tier.tier} key={index}>
                         {formatTier(tier)}
                       </option>
                     ))}

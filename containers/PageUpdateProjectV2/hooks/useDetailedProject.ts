@@ -17,6 +17,8 @@ export type Params = {
 
 // Taken from "@/modules/next-backend/logic/getDetailedProject"
 // We should NOT import a module from "backend" at "frontend"
+// I think we should have something like "@/modules/common-types" to
+// share types between BE & FE code.
 type GetDetailedProject$Params = {
   active?: boolean;
   customUrl?: string;

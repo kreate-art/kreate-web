@@ -20,7 +20,6 @@ export default async function handler(
         (!customUrl || typeof customUrl === "string") &&
         (!projectId || typeof projectId === "string") &&
         (!ownerAddress || typeof ownerAddress === "string") &&
-        // (!viewerAddress || typeof viewerAddress === "string") &&
         (customUrl || projectId || ownerAddress),
       { _debug: "Invalid request" }
     );

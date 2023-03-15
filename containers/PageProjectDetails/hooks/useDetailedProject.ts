@@ -17,6 +17,9 @@ type Result = {
 };
 
 // Types taken from @/modules/next-backend/logic/getDetailedProject
+// We should NOT import a module from "backend" at "frontend"
+// I think we should have something like "@/modules/common-types" to
+// share types between BE & FE code.
 const ERRORS = {
   NOT_FOUND: 48,
 } as const;

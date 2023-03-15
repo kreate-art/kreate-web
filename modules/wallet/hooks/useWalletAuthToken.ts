@@ -61,7 +61,6 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
         // TODO: Should look up using address. And
         const token = (await get(Auth.getStorageKey())) as Auth.AuthToken;
         signal.throwIfAborted();
-        console.log(token);
         const { version, expiration } = JSON.parse(token.payload);
         assert(
           version === Auth.VERSION && expiration > toExpirationTime(Date.now()),
