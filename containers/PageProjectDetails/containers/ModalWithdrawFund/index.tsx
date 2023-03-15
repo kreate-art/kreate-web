@@ -143,7 +143,7 @@ export default function ModalWithdrawFund({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Withdraw Fund: " color="ink" />
+          <Typography.Span content="Withdraw Income: " color="ink" />
           <Typography.Span content={projectName} />
         </Typography.Div>
       </Modal.Header>
@@ -158,7 +158,7 @@ export default function ModalWithdrawFund({
               <IconRevenue />
               <Flex.Col gap="8px">
                 <Typography.Div
-                  content="Your funds"
+                  content="Available Income"
                   size="bodySmall"
                   color="ink80"
                 />
@@ -218,7 +218,7 @@ export default function ModalWithdrawFund({
         </Flex.Row>
         <Button.Outline content="Cancel" onClick={onCancel} disabled={busy} />
         <Button.Solid
-          content="Withdraw Fund"
+          content="Withdraw Income"
           disabled={estimatedFees?.error !== null || !lucid || busy}
           onClick={handleSubmit}
         />
