@@ -82,7 +82,7 @@ export default function NavBar({ className, style }: Props) {
             content="Your Page"
             size="medium"
             onClick={() => {
-              router.push(`/c/${customUrl}`);
+              router.push(`/k/${customUrl}`);
             }}
           />
         ) : (

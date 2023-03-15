@@ -118,13 +118,23 @@ const nextConfig = {
   redirects() {
     return [
       {
+        source: "/c/:slug*",
+        destination: "/k/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/creator-by-id/:slug*",
+        destination: "/kreator-by-id/:slug*",
+        permanent: true,
+      },
+      {
         source: "/projects/:slug*",
-        destination: "/c/:slug*",
+        destination: "/k/:slug*",
         permanent: true,
       },
       {
         source: "/projects-by-id/:slug*",
-        destination: "/creator-by-id/:slug*",
+        destination: "/kreator-by-id/:slug*",
         permanent: true,
       },
     ];

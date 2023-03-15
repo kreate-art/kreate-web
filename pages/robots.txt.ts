@@ -11,10 +11,12 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   res.write(
     `
 User-agent: *
-Allow: /c/
-Allow: /creator-by-id/
-Disallow: /creator-by-id/*/update$
-Disallow: /creator-by-id/*/preview$
+Allow: /k/
+Allow: /kreator-by-id/
+Disallow: /kreator-by-id/*/update$
+Disallow: /kreator-by-id/*/preview$
+Disallow: /c/
+Disallow: /creator-by-id/
 Disallow: /projects/
 Disallow: /projects-by-id/
 Disallow: /secret-playground/

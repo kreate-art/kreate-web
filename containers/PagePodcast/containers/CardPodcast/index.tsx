@@ -176,7 +176,7 @@ export default function CardPodcast({ title, data, podcastBackground }: Props) {
                   play(podcast.id);
                 }}
                 onClickViewProject={() =>
-                  router.push(`/creator-by-id/${podcast.pid}`)
+                  router.push(`/kreator-by-id/${podcast.pid}`)
                 }
                 uncensored={isUncensored(podcast)}
                 onClickUncensor={() =>
