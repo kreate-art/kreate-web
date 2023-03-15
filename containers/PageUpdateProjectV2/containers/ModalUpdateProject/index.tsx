@@ -20,6 +20,7 @@ import ModalSponsorship, {
 
 import IconClock from "./icons/IconClock";
 import styles from "./index.module.scss";
+import { formatTimespanToExpiryDate } from "./utils";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT } from "@/modules/async-utils";
@@ -374,16 +375,16 @@ export default function ModalUpdateProject({
                               <Flex.Row alignItems="center" gap="8px">
                                 <IconClock />
                                 <Typography.Div
+                                  title={moment(
+                                    detailedProject.sponsorshipUntil
+                                  ).format("YYYY-MM-DD")}
                                   content={
                                     detailedProject.sponsorshipUntil == null
                                       ? "-"
-                                      : moment().isAfter(
+                                      : formatTimespanToExpiryDate(
+                                          moment().valueOf(),
                                           detailedProject.sponsorshipUntil
                                         )
-                                      ? `Expired`
-                                      : `Expires ${moment(
-                                          detailedProject.sponsorshipUntil
-                                        ).fromNow()}`
                                   }
                                   size="heading6"
                                   color="green"
