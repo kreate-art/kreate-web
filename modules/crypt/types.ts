@@ -10,7 +10,7 @@ export type CipherText<_ = unknown> = Base64;
 
 // We're following JWE closely
 export type CipherMeta = {
-  enc: "proto"; // Shuyshuy told me this
+  enc: "proto";
   kid: KeyId;
   iv: Base64;
   tag: Base64;

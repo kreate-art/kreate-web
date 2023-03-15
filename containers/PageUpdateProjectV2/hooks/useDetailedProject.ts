@@ -1,5 +1,6 @@
 import useSWR from "swr";
 
+import { AuthInfo } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import {
   httpGetProject,
@@ -15,6 +16,7 @@ export type Params = {
 };
 
 // Taken from "@/modules/next-backend/logic/getDetailedProject"
+// We should NOT import a module from "backend" at "frontend"
 type GetDetailedProject$Params = {
   active?: boolean;
   customUrl?: string;
@@ -22,7 +24,7 @@ type GetDetailedProject$Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  viewerAddress?: string | null;
+  authInfo?: AuthInfo | undefined;
 };
 
 type Result =

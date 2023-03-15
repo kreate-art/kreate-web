@@ -4,20 +4,14 @@ import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db } from "@/modules/next-backend/connections";
 import { getDetailedProject } from "@/modules/next-backend/logic/getDetailedProject";
+import { authorizeRequest } from "@/modules/next-backend/utils/authorization";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const {
-      active,
-      customUrl,
-      projectId,
-      ownerAddress,
-      preset,
-      viewerAddress,
-    } = req.query;
+    const { active, customUrl, projectId, ownerAddress, preset } = req.query;
 
     // TODO: define fromQuery$GetDetailedProject
     ClientError.assert(
@@ -26,7 +20,7 @@ export default async function handler(
         (!customUrl || typeof customUrl === "string") &&
         (!projectId || typeof projectId === "string") &&
         (!ownerAddress || typeof ownerAddress === "string") &&
-        (!viewerAddress || typeof viewerAddress === "string") &&
+        // (!viewerAddress || typeof viewerAddress === "string") &&
         (customUrl || projectId || ownerAddress),
       { _debug: "Invalid request" }
     );
@@ -36,13 +30,15 @@ export default async function handler(
       "invalid preset"
     );
 
+    const authInfo = await authorizeRequest(req);
+
     const response = await getDetailedProject(db, {
       active: active === undefined ? undefined : active === "true",
       customUrl,
       projectId,
       ownerAddress,
       preset,
-      viewerAddress: viewerAddress ? viewerAddress : null, // Not 100% sure tbh.
+      authInfo,
     });
 
     sendJson(res.status(200), response);

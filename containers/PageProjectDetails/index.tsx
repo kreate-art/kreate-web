@@ -59,14 +59,12 @@ export default function PageProjectDetails({
   projectId,
   projectCustomUrl,
 }: Props) {
-  const { walletStatus } = useAppContextValue$Consumer();
+  const { walletStatus, walletAuthHeaderInfo } = useAppContextValue$Consumer();
   const { showModal } = useModalPromises();
   const { showMessage } = useToast();
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const hash = useLocationHash();
-  const viewerAddress =
-    walletStatus.status === "connected" ? walletStatus.info.address : null;
 
   const {
     project,
@@ -77,8 +75,10 @@ export default function PageProjectDetails({
     customUrl:
       typeof projectCustomUrl === "string" ? projectCustomUrl : undefined,
     preset: "full",
-    viewerAddress,
-    // isAuthentication?
+    authInfo:
+      walletAuthHeaderInfo.status === "authenticated"
+        ? walletAuthHeaderInfo.info
+        : undefined,
   });
 
   React.useEffect(() => {

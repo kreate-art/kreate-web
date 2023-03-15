@@ -1,6 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 
+import { AuthInfo } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import {
@@ -29,7 +30,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  viewerAddress?: string | null;
+  authInfo?: AuthInfo | undefined;
 };
 
 export type GetDetailedProject$Params = Params;

@@ -1,7 +1,7 @@
+import { AuthInfo } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { fromJson } from "@/modules/json-utils";
-import { GetAllProjects$Params } from "@/modules/next-backend/logic/getAllProjects";
 import { prefixes, ResourceKey } from "@/modules/resource-keys";
 
 export type Cid = string;
@@ -26,7 +26,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  viewerAddress?: string | null;
+  authInfo?: AuthInfo | undefined;
 };
 
 export type GetDetailedProject$Params = Params;
@@ -43,7 +43,7 @@ export async function httpGetProject({
   projectId,
   ownerAddress,
   preset,
-  viewerAddress,
+  authInfo,
 }: GetDetailedProject$Params): Promise<GetDetailedProject$Response> {
   const search = new URLSearchParams();
   // TODO: define toQuery$GetDetailedProject
@@ -51,10 +51,13 @@ export async function httpGetProject({
   if (customUrl) search.append("customUrl", customUrl);
   if (projectId) search.append("projectId", projectId);
   if (ownerAddress) search.append("ownerAddress", ownerAddress);
-  if (viewerAddress) search.append("viewerAddress", viewerAddress);
   search.append("preset", preset);
 
-  const response = await fetch(`/api/v1/project?${search.toString()}`);
+  const headers = authInfo ? { Authorization: authInfo.header } : undefined;
+
+  const response = await fetch(`/api/v1/project?${search.toString()}`, {
+    headers,
+  });
 
   assert(response.ok, "response not ok");
   const body = await response.text();
@@ -65,7 +68,7 @@ export async function httpGetProject({
 }
 
 export function httpGetProject$GetKey(
-  params: GetAllProjects$Params | undefined
+  params: GetDetailedProject$Params | undefined
 ): ResourceKey | undefined {
   if (params == null) return undefined;
   return [...prefixes.protocol, "0daba241-017b-4b8b-99a4-cd88a30e5f7a", params];

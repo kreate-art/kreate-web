@@ -74,6 +74,7 @@ export async function getAllPostsByProjectId(
     ORDER BY bk.slot DESC;
   `;
 
+  // console.log("[GIVE_VIWE_ADDR]: ", viewerAddress);
   const tier = await getViewerTier(sql, viewerAddress, ownerAddress, projectId);
   return rows
     .map((row) => {

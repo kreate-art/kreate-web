@@ -16,6 +16,7 @@ import { getTopSupporter } from "./getTopSupporter";
 import { httpPostContentModeration } from "@/modules/ai/api/httpPostContentModeration";
 import { httpPostTagsRecommendation } from "@/modules/ai/api/httpPostTagsRecommendation";
 import { try$ } from "@/modules/async-utils";
+import { AuthInfo } from "@/modules/authorization";
 import {
   DetailedProject,
   Project,
@@ -42,7 +43,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  viewerAddress?: string | null;
+  authInfo?: AuthInfo | undefined;
 };
 
 export type GetDetailedProject$Params = Params;
@@ -259,7 +260,7 @@ export async function getDetailedProject(
       // TODO: Use `getAllActivities` instead
       getAllPostsByProjectId(sql, {
         projectId,
-        viewerAddress: params.viewerAddress ?? null,
+        viewerAddress: params.authInfo?.address ?? null,
         ownerAddress,
       }),
       // TODO: @sk-umiuma: implement these
