@@ -70,10 +70,7 @@ export const redis = service(
 );
 
 export const ipfs = service("__ipfs__", () =>
-  IpfsClient.create({
-    url: IPFS_HTTP_API_ORIGIN,
-    timeout: 10_000,
-  })
+  IpfsClient.create({ url: IPFS_HTTP_API_ORIGIN })
 );
 
 if (process.env.NEXT_MANUAL_SIG_HANDLE) {

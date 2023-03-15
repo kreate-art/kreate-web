@@ -44,7 +44,9 @@ export default async function handler(
     decipher.setAuthTag(Buffer.from(tag, crypt.b64));
     aad && decipher.setAAD(Buffer.from(aad, crypt.b64));
 
-    const upstream = stream.Readable.from(ipfs.cat(`/ipfs/${cid}`));
+    const upstream = stream.Readable.from(
+      ipfs.cat(`/ipfs/${cid}`, { timeout: 10_000 })
+    );
     upstream.on("error", (error) => apiCatch(req, res, error));
 
     const upstreamWithFt = await fileTypeStream(upstream.pipe(decipher));
