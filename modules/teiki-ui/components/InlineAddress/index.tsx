@@ -1,8 +1,10 @@
 import cx from "classnames";
 import * as React from "react";
+import useSWR from "swr";
 
 import styles from "./index.module.scss";
 
+import { getAdaHandle } from "@/modules/ada-handle/utils";
 import { Address } from "@/modules/business-types";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 
@@ -26,21 +28,39 @@ const LENGTH_TO_SUFFIX_LENGTH: Record<Length, number> = {
   full: Infinity,
 };
 
+const LENGTH_TO_HANDLE_LENGTH: Record<Length, number> = {
+  short: 8,
+  medium: 20,
+  long: 40,
+  full: Infinity,
+};
+
 function Base({
   className,
   style,
   value,
   length = "short",
 }: Props & { length: "short" | "medium" | "long" | "full" }) {
+  const { data: handle, error } = useSWR(
+    ["c2b75c1b-8c7a-4124-ac76-909b2a943a4f", value],
+    async () => {
+      return await getAdaHandle(value);
+    }
+  );
   const prefixLength = LENGTH_TO_PREFIX_LENGTH[length];
   const suffixLength = LENGTH_TO_SUFFIX_LENGTH[length];
-  const displayedText =
-    prefixLength + suffixLength >= value.length
-      ? value
-      : value.slice(0, prefixLength) + "..." + value.slice(-suffixLength);
+  const handleLength = LENGTH_TO_HANDLE_LENGTH[length];
+  const hasAdaHandle = handle && handle !== value && error == null;
+  const displayedText = hasAdaHandle
+    ? handleLength >= handle.length
+      ? handle
+      : handle.slice(0, handleLength) + "..."
+    : prefixLength + suffixLength >= value.length
+    ? value
+    : value.slice(0, prefixLength) + "..." + value.slice(-suffixLength);
   return (
     <span
-      title={value}
+      title={hasAdaHandle ? handle : value}
       className={cx(styles.baseContainer, className)}
       style={style}
     >
