@@ -1,3 +1,4 @@
+import moment from "moment";
 import * as React from "react";
 
 import InputLovelaceAmount$Sponsor from "../../../PageEditProject/containers/ModalGroup$CreateProject/components/ModalSubmit/components/InputLovelaceAmount$Sponsor";
@@ -19,7 +20,7 @@ import ModalSponsorship, {
 
 import IconClock from "./icons/IconClock";
 import styles from "./index.module.scss";
-import { timeToExpiry } from "./utils";
+import { formatTimespanToExpiryDate } from "./utils";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT } from "@/modules/async-utils";
@@ -374,10 +375,14 @@ export default function ModalUpdateProject({
                               <Flex.Row alignItems="center" gap="8px">
                                 <IconClock />
                                 <Typography.Div
+                                  title={moment(
+                                    detailedProject.sponsorshipUntil
+                                  ).format("YYYY-MM-DD")}
                                   content={
                                     detailedProject.sponsorshipUntil == null
                                       ? "-"
-                                      : timeToExpiry(
+                                      : formatTimespanToExpiryDate(
+                                          moment().valueOf(),
                                           detailedProject.sponsorshipUntil
                                         )
                                   }
