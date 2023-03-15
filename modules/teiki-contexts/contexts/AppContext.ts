@@ -4,6 +4,10 @@ import * as React from "react";
 import { AdaPriceInfo, useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { assert } from "@/modules/common-utils";
 import { useLastSavedWalletInfo } from "@/modules/wallet/hooks/useLastSavedWalletInfo";
+import {
+  WalletAuthHeaderInfo,
+  useWalletAuthHeader,
+} from "@/modules/wallet/hooks/useWalletAuthToken";
 import { useWalletConnection } from "@/modules/wallet/hooks/useWalletConnection";
 import {
   useWalletNetworkWarning,
@@ -15,6 +19,8 @@ const WALLET_REFRESH_INTERVAL = 5000;
 
 export type AppContextValue = {
   walletStatus: WalletStatus;
+  walletAuthHeaderInfo: WalletAuthHeaderInfo;
+  authenticateWallet: () => Promise<WalletAuthHeaderInfo>;
   connectWallet: (walletName: string) => Promise<WalletStatus>;
   disconnectWallet: () => void;
   lastSavedWalletInfo: WalletInfo | null;
@@ -28,6 +34,8 @@ function error<T>(message: string): T {
 
 export const AppContext = React.createContext<AppContextValue>({
   walletStatus: { status: "unknown" },
+  walletAuthHeaderInfo: { status: "not-ready" },
+  authenticateWallet: () => error("app context not injected"),
   connectWallet: () => error("app context not injected"),
   disconnectWallet: () => error("app context not injected"),
   lastSavedWalletInfo: null,
@@ -53,6 +61,8 @@ export function useAppContextValue$Provider({
   const lastSavedWalletInfo = useLastSavedWalletInfo(walletStatus);
 
   const walletNetworkWarning = useWalletNetworkWarning(walletStatus);
+  const { walletAuthHeaderInfo, authenticateWallet } =
+    useWalletAuthHeader(walletStatus);
 
   React.useEffect(() => {
     // When `status` is `"unknown"` (usually when the components are newly
@@ -86,6 +96,8 @@ export function useAppContextValue$Provider({
 
   return {
     walletStatus,
+    walletAuthHeaderInfo,
+    authenticateWallet,
     connectWallet,
     disconnectWallet,
     lastSavedWalletInfo:
