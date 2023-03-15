@@ -221,10 +221,11 @@ export function formatScope(scope: ProjectUpdateScope): string {
     case "logoImage":
       return "logo";
     case "sponsorship":
-      return `sponsorship to ${formatLovelaceAmount(scope.sponsorshipAmount, {
-        compact: true,
-        includeCurrencySymbol: true,
-      })}`;
+      return `sponsorship (extended the Teiki sponsorship to 
+          ${formatLovelaceAmount(scope.sponsorshipAmount, {
+            compact: true,
+            includeCurrencySymbol: true,
+          })})`;
     default:
       return "";
   }
