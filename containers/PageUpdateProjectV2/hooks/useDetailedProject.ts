@@ -1,7 +1,6 @@
 import useSWR from "swr";
 
 import { DetailedProject } from "@/modules/business-types";
-import { GetDetailedProject$Params } from "@/modules/next-backend/logic/getDetailedProject";
 import {
   httpGetProject,
   httpGetProject$GetKey,
@@ -13,6 +12,17 @@ export type Params = {
   projectId?: string;
   ownerAddress?: string;
   preset?: "minimal" | "basic" | "full";
+};
+
+// Taken from "@/modules/next-backend/logic/getDetailedProject"
+type GetDetailedProject$Params = {
+  active?: boolean;
+  customUrl?: string;
+  projectId?: string;
+  ownerAddress?: string;
+  relevantAddress?: string;
+  preset: "minimal" | "basic" | "full";
+  viewerAddress?: string | null;
 };
 
 type Result =

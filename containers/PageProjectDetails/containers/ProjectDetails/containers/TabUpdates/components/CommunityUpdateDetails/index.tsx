@@ -7,7 +7,7 @@ import IconArrowRightCircle from "../../icons/IconArrowRightCircle";
 
 import styles from "./index.module.scss";
 
-import { ProjectCommunityUpdate } from "@/modules/business-types";
+import { AnyProjectPost } from "@/modules/business-types";
 import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
 import Button from "@/modules/teiki-ui/components/Button";
 import Chip from "@/modules/teiki-ui/components/Chip";
@@ -18,7 +18,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: ProjectCommunityUpdate;
+  value: AnyProjectPost;
   onClickBack?: () => void;
   onClickPrevious?: () => void;
   onClickNext?: () => void;
@@ -76,7 +76,13 @@ export default function CommunityUpdateDetails({
       <Divider.Horizontal />
       <div className={styles.main}>
         {/* TODO: @sk-kitsune: we should use a proper id */}
-        <RichTextEditor key={value.createdAt} value={value.body} isBorderless />
+        {!value.exclusive && (
+          <RichTextEditor
+            key={value.createdAt}
+            value={value.body}
+            isBorderless
+          />
+        )}
       </div>
       <Divider.Horizontal />
       <div className={styles.footer}>

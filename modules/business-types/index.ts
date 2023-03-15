@@ -110,12 +110,14 @@ interface IProjectPost {
 // Mostly used for rendering
 export interface PublicProjectPost extends IProjectPost {
   body: JSONContent;
+  mediaCount: number;
   exclusive?: never;
 }
 
 // Decrypted body content, need to encrypt to transform to `PublicProjectPost`
 export interface ExclusiveProjectPost extends IProjectPost {
   body: CipherMeta & { ciphertext: CipherText<JSONContent> };
+  mediaCount: number;
   exclusive: { tier: number };
 }
 
@@ -331,7 +333,7 @@ export type DetailedProject = {
   stats?: ProjectGeneralInfo["stats"];
   categories?: ProjectGeneralInfo["categories"];
   match?: ProjectGeneralInfo["match"];
-  announcements?: ProjectAnnouncement[];
+  announcements?: AnyProjectPost[];
   activities?: ProjectActivity[];
   topSupporters?: SupporterInfo[];
   censorship?: string[];

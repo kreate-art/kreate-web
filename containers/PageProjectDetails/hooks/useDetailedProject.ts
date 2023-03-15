@@ -4,10 +4,6 @@ import useSWR from "swr";
 import { DetailedProject } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import {
-  GetDetailedProject$Params,
-  GET_DETAILED_PROJECT__ERRORS,
-} from "@/modules/next-backend/logic/getDetailedProject";
-import {
   httpGetProject,
   httpGetProject$GetKey,
 } from "@/modules/next-backend-client/api/httpGetProject";
@@ -19,6 +15,24 @@ type Result = {
   mutate: () => void;
 };
 
+// Types taken from @/modules/next-backend/logic/getDetailedProject
+const ERRORS = {
+  NOT_FOUND: 48,
+} as const;
+
+export const GET_DETAILED_PROJECT__ERRORS = ERRORS;
+
+type Params = {
+  active?: boolean;
+  customUrl?: string;
+  projectId?: string;
+  ownerAddress?: string;
+  relevantAddress?: string;
+  preset: "minimal" | "basic" | "full";
+  viewerAddress?: string | null;
+};
+
+export type GetDetailedProject$Params = Params;
 // NOTE: @sk-kitsune: This is the proper way to add more meaning to an error.
 export class ProjectNotFound extends DisplayableError {}
 

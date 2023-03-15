@@ -65,6 +65,9 @@ export default function PageProjectDetails({
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const hash = useLocationHash();
+  const viewerAddress =
+    walletStatus.status === "connected" ? walletStatus.info.address : null;
+
   const {
     project,
     error: errorProject,
@@ -74,6 +77,8 @@ export default function PageProjectDetails({
     customUrl:
       typeof projectCustomUrl === "string" ? projectCustomUrl : undefined,
     preset: "full",
+    viewerAddress,
+    // isAuthentication?
   });
 
   React.useEffect(() => {

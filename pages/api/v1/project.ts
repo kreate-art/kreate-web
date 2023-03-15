@@ -10,7 +10,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { active, customUrl, projectId, ownerAddress, preset } = req.query;
+    const {
+      active,
+      customUrl,
+      projectId,
+      ownerAddress,
+      preset,
+      viewerAddress,
+    } = req.query;
 
     // TODO: define fromQuery$GetDetailedProject
     ClientError.assert(
@@ -19,6 +26,7 @@ export default async function handler(
         (!customUrl || typeof customUrl === "string") &&
         (!projectId || typeof projectId === "string") &&
         (!ownerAddress || typeof ownerAddress === "string") &&
+        (!viewerAddress || typeof viewerAddress === "string") &&
         (customUrl || projectId || ownerAddress),
       { _debug: "Invalid request" }
     );
@@ -34,6 +42,7 @@ export default async function handler(
       projectId,
       ownerAddress,
       preset,
+      viewerAddress: viewerAddress ? viewerAddress : null, // Not 100% sure tbh.
     });
 
     sendJson(res.status(200), response);

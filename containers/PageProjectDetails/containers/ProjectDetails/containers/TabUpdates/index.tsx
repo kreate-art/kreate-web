@@ -5,12 +5,12 @@ import CommunityUpdateDetails from "./components/CommunityUpdateDetails";
 import CommunityUpdateOverview from "./components/CommunityUpdateOverview";
 import styles from "./index.module.scss";
 
-import { ProjectAnnouncement } from "@/modules/business-types";
+import { AnyProjectPost } from "@/modules/business-types";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: ProjectAnnouncement[];
+  value: AnyProjectPost[];
 };
 
 export default function TabUpdates({ className, style, value }: Props) {

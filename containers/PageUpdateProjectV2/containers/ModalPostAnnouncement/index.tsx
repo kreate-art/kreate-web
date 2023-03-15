@@ -11,7 +11,7 @@ import {
 } from "./utils";
 
 import { throw$, try$, tryUntil } from "@/modules/async-utils";
-import { LovelaceAmount, ProjectAnnouncement } from "@/modules/business-types";
+import { LovelaceAmount, PublicProjectPost } from "@/modules/business-types";
 import {
   formatAutoSaverStatus,
   useAutoSaver,
@@ -23,7 +23,7 @@ import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { useTxParams$CreatorUpdateProject } from "@/modules/next-backend-client/hooks/useTxParams$CreatorUpdateProject";
-import { ipfsAdd$WithBufsAs$Blob } from "@/modules/next-backend-client/utils/ipfsAdd$WithBufsAs$Blob";
+import { ipfsAdd$ProjectPost } from "@/modules/next-backend-client/utils/ipfsAdd$ProjectPost";
 import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
@@ -58,7 +58,7 @@ type Props = {
   open: boolean;
   projectId: string;
   labelAction: string;
-  onAction?: (value: ProjectAnnouncement) => void;
+  onAction?: (value: PublicProjectPost) => void;
   onSkip?: () => void;
   onSuccess?: () => void;
   onExit?: () => void;
@@ -116,6 +116,8 @@ export default function ModalPostAnnouncement({
   const [richTextEditorKey, setRichTextEditorKey] = React.useState(0);
   const [statusBarText, setStatusBarText] = React.useState("");
   const [busy, setBusy] = React.useState(false);
+  // const [isPublicPost, setPublicPost] = React.useState(false);
+  // const [tierToView, setTierToView] = React.useState<number | null>(1); // For testing purpose only
 
   const handleSaveOnSubmit = async () => {
     if (value == null) return;
@@ -134,9 +136,11 @@ export default function ModalPostAnnouncement({
       setStatusBarText("Uploading files to IPFS...");
       const announcementCid = await try$(
         async () => {
-          const blobWBA: WithBufsAs<ProjectAnnouncement, Blob> =
+          const blobWBA: WithBufsAs<PublicProjectPost, Blob> =
             await Converters.fromProjectAnnouncement(CodecBlob)(value);
-          const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);
+          const cid = await ipfsAdd$ProjectPost(blobWBA, tierIndex);
+          console.log("[CID]: ", cid);
+          // const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);
           return cid;
         },
         (cause) => throw$(new Error("failed to upload files", { cause }))

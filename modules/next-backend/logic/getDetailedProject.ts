@@ -3,7 +3,7 @@ import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
 
-import { getAllAnnouncementsByProjectId } from "./getAllAnnouncementsByProjectId";
+import { getAllPostsByProjectId } from "./getAllPostsByProjectId";
 import { getAllProjectMilestoneSnapshots } from "./getAllProjectMilestoneSnapshots";
 import { getAllProjectUpdates } from "./getAllProjectUpdates";
 import {
@@ -42,6 +42,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
+  viewerAddress?: string | null;
 };
 
 export type GetDetailedProject$Params = Params;
@@ -256,8 +257,10 @@ export async function getDetailedProject(
       topSupporters,
     ] = await Promise.all([
       // TODO: Use `getAllActivities` instead
-      getAllAnnouncementsByProjectId(sql, {
+      getAllPostsByProjectId(sql, {
         projectId,
+        viewerAddress: params.viewerAddress ?? null,
+        ownerAddress,
       }),
       // TODO: @sk-umiuma: implement these
       getBackingActivities(sql, {

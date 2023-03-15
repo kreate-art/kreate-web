@@ -8,7 +8,7 @@ import TabUpdates from "./containers/TabUpdates";
 import styles from "./index.module.scss";
 
 import {
-  ProjectAnnouncement,
+  AnyProjectPost,
   ProjectBenefits,
   ProjectCommunity,
   ProjectDescription,
@@ -21,7 +21,7 @@ type Props = {
   projectId: string | undefined;
   description: ProjectDescription;
   community: ProjectCommunity;
-  announcements: ProjectAnnouncement[];
+  announcements: AnyProjectPost[];
   benefits: ProjectBenefits;
   activities: ProjectActivity[];
   activeTabIndex: number;
