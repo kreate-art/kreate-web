@@ -9,6 +9,7 @@ import { useCreateProjectLogic } from "../../../PageEditProject/containers/Modal
 import ErrorBox from "../../components/ErrorBox";
 import { TxBreakdown, useEstimatedFees } from "../../hooks/useEstimatedFees";
 import IconClock from "../ModalUpdateProject/icons/IconClock";
+import { formatTimespanToExpiryDate } from "../ModalUpdateProject/utils";
 
 import styles from "./index.module.scss";
 
@@ -133,9 +134,10 @@ export default function ModalSponsorship({
                       content={
                         sponsoredUntil == null
                           ? "-"
-                          : moment().isAfter(sponsoredUntil)
-                          ? `Expired`
-                          : `Expires ${moment(sponsoredUntil).fromNow()}`
+                          : formatTimespanToExpiryDate(
+                              moment().valueOf(),
+                              sponsoredUntil
+                            )
                       }
                       size="heading6"
                       color="green"
