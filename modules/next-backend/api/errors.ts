@@ -6,6 +6,7 @@ import { toJson } from "@/modules/json-utils";
 
 const DEFAULT_CLIENT_ERROR_STATUS = 400;
 const DEFAULT_SERVER_ERROR_STATUS = 500;
+export const CLIENT_AUTHORIZATION_ERROR_STATUS = 401;
 
 export class ClientError extends Error {
   reason: unknown;
