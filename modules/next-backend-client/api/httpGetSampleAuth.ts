@@ -26,7 +26,12 @@ export default async function httpGetSampleAuth({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response = await fetch(url, {
     method: "GET",
-    headers: Auth.constructHeader({ token, address: backerAddress }),
+    headers: new Headers({
+      Authorization: Auth.constructAuthHeader({
+        token,
+        address: backerAddress,
+      }),
+    }),
   });
   assert(response.ok, "response not ok");
   const res = await response.json();
