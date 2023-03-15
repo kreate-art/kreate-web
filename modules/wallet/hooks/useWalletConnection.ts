@@ -4,7 +4,9 @@ import * as React from "react";
 import { WalletStatus } from "../types";
 import * as ConnectionUtils from "../utils/connection";
 
+import * as Auth from "@/modules/authorization";
 import { assert } from "@/modules/common-utils";
+import { clear } from "@/modules/storage-v2";
 
 type Params = {
   provider: Provider;
@@ -42,6 +44,7 @@ export function useWalletConnection({ provider, network }: Params): Results {
 
   const disconnectWallet = () => {
     setWalletStatus({ status: "disconnected" });
+    clear(Auth.getStorageKey());
   };
 
   const isWalletConnected = async (walletName: string) => {
