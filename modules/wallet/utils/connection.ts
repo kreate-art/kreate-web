@@ -2,7 +2,6 @@ import { Lucid, Network, Provider } from "lucid-cardano";
 
 import { WalletInfo, WalletName } from "../types";
 
-import * as Auth from "@/modules/authorization";
 import { sumLovelaceAmount } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 
@@ -37,6 +36,5 @@ export async function connectWallet(
     await Lucid.new(context.provider, context.network)
   ).selectWallet(walletApi);
   const walletInfo = await getWalletInfo(walletName, lucid);
-  await Auth.refresh(lucid);
   return [walletInfo, lucid];
 }
