@@ -30,7 +30,7 @@ export default function ModalWithdrawSuccess({
   return (
     <Modal open={open} closeOnEscape closeOnDimmerClick>
       <Modal.Header>
-        <span>{"Withdraw Fund: "}</span>
+        <span>{"Withdraw Income: "}</span>
         <span style={{ color: "#008A45" }}>{projectName}</span>
       </Modal.Header>
       <Modal.Content>
@@ -45,16 +45,13 @@ export default function ModalWithdrawSuccess({
           </Title>
 
           <Flex.Row padding="24px 94px 32px 94px" gap="12px">
-            <Button.Outline
-              content="Back to Project"
-              onClick={onBackToProject}
-            />
+            <Button.Outline content="Back" onClick={onBackToProject} />
             <Link href={getExplorerUrl(txHash)} target="_blank">
               <Button.Outline content="Check your Tx" />
             </Link>
             {onContinueToClose != null ? (
               <Button.Solid
-                content="Continue closing your project"
+                content="Continue closing"
                 onClick={onContinueToClose}
               />
             ) : onViewWithdrawalHistory != null ? (

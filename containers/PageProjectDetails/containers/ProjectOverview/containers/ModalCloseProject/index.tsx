@@ -151,7 +151,7 @@ export default function ModalCloseProject({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Close Project: " color="ink" />
+          <Typography.Span content="Close: " color="ink" />
           <Typography.Span content={projectName} />
         </Typography.Div>
       </Modal.Header>
@@ -165,18 +165,18 @@ export default function ModalCloseProject({
             <fieldset className={styles.fieldset}>
               <InfoBox
                 style={{ whiteSpace: "pre-line", marginBottom: "16px" }}
-                title="Take caution before closing your project"
+                title="Take caution before closing"
                 description={`1. It cannot be undone.
                 2. Please announce clearly for backers to unback.
                 3. You get back all your pledge and remaining funds.
-                4. The closure may require several transactions depending on how complicated your project is.`}
+                4. The closure may require several transactions depending on how complicated your setup is.`}
               />
               {/* TODO: @sk-umiuma: revert this when scheduled closure is ready */}
               {/* <RadioButtonGroup title="Select your closing schedule"></RadioButtonGroup> */}
             </fieldset>
             <fieldset className={styles.fieldset}>
               <Checkbox
-                label={<span>I understand and want to close my project</span>}
+                label={<span>I understand and want to close</span>}
                 value={shouldCloseProject}
                 onChange={setShouldCloseProject}
                 disabled={busy}
@@ -220,7 +220,7 @@ export default function ModalCloseProject({
         </Flex.Row>
         <Button.Outline content="Cancel" onClick={onCancel} disabled={busy} />
         <Button.Solid
-          content="Close Project"
+          content="Close"
           disabled={busy || !shouldCloseProject || !txBreakdown$ResultT?.ok}
           onClick={handleSubmit}
         />
