@@ -4,25 +4,39 @@ import { sendJson } from "./helpers";
 
 import { toJson } from "@/modules/json-utils";
 
+const DEFAULT_CLIENT_ERROR_STATUS = 400;
+const DEFAULT_SERVER_ERROR_STATUS = 500;
+export const CLIENT_AUTHORIZATION_ERROR_STATUS = 401;
+
 export class ClientError extends Error {
   reason: unknown;
+  status: number;
 
-  constructor(reason: unknown) {
-    super(toJson(reason));
+  constructor(reason: unknown, status = DEFAULT_CLIENT_ERROR_STATUS) {
+    super(toJson({ status, reason }));
     this.reason = reason;
+    this.status = status;
   }
 
-  static assert(condition: unknown, reason: unknown): asserts condition {
+  static assert(
+    condition: unknown,
+    reason: unknown,
+    status?: number
+  ): asserts condition {
     if (!condition) {
-      throw new ClientError(reason);
+      throw new ClientError(reason, status);
     }
   }
 
-  static try$<T>(computation: () => T, reason: (cause: unknown) => unknown): T {
+  static try$<T>(
+    computation: () => T,
+    reason: (cause: unknown) => unknown,
+    status?: number
+  ): T {
     try {
       return computation();
     } catch (cause) {
-      throw new ClientError(reason(cause));
+      throw new ClientError(reason(cause), status);
     }
   }
 }
@@ -44,7 +58,7 @@ export function catchClientError(
   req: NextApiRequest,
   res: NextApiResponse,
   error: ClientError,
-  status = 400
+  status = DEFAULT_CLIENT_ERROR_STATUS
 ) {
   // TODO: Maybe Sentry
   console.error("[Client]", req.method, req.url, error);
@@ -55,7 +69,7 @@ export function catchServerError(
   req: NextApiRequest,
   res: NextApiResponse,
   error: unknown,
-  status = 500,
+  status = DEFAULT_SERVER_ERROR_STATUS,
   message = "server error"
 ) {
   // TODO: Sentry
