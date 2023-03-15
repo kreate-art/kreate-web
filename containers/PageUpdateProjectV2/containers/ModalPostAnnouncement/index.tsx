@@ -11,7 +11,7 @@ import {
 } from "./utils";
 
 import { throw$, try$, tryUntil } from "@/modules/async-utils";
-import { ProjectAnnouncement } from "@/modules/business-types";
+import { LovelaceAmount, ProjectAnnouncement } from "@/modules/business-types";
 import {
   formatAutoSaverStatus,
   useAutoSaver,
@@ -32,12 +32,27 @@ import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Input from "@/modules/teiki-ui/components/Input";
 import Modal from "@/modules/teiki-ui/components/Modal";
+import RadioButton from "@/modules/teiki-ui/components/RadioButton";
 import TextArea from "@/modules/teiki-ui/components/TextArea";
 import Title from "@/modules/teiki-ui/components/Title";
 import Typography from "@/modules/teiki-ui/components/Typography";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
+
+type Tier = { tier: number; label: string; requiredStake: LovelaceAmount };
+
+// TODO: The following code hardcodes tiers for quick demonstration
+// purposes. Will be replaced with creator's custom tiers afterward
+const EXCLUSIVE_TIERS: Tier[] = [
+  { tier: 1, label: "One", requiredStake: 1_000_000_000 },
+  { tier: 2, label: "Two", requiredStake: 2_000_000_000 },
+  { tier: 3, label: "Three", requiredStake: 3_000_000_000 },
+];
+
+function formatTier(tier: Tier) {
+  return `Tier ${tier.tier}: ${tier.label}`;
+}
 
 type Props = {
   open: boolean;
@@ -80,6 +95,9 @@ export default function ModalPostAnnouncement({
     { debouncedDelay: 0 },
     [projectId]
   );
+
+  const [isExclusive, setIsExclusive] = React.useState(false);
+  const [tierIndex, setTierIndex] = React.useState(0);
 
   /**TODO: @sk-tenba: move this function to teiki module */
   const isBlankJsonContent = (value: JSONContent) => {
@@ -257,6 +275,39 @@ export default function ModalPostAnnouncement({
                   setValue((value) => ({ ...value, summary }))
                 }
               />
+            </fieldset>
+            <fieldset className={styles.fieldset}>
+              <Title content="Exclusive content?" />
+              <Flex.Col className={styles.box} gap="24px">
+                <Flex.Row gap="32px">
+                  <RadioButton
+                    label="No"
+                    value={!isExclusive}
+                    onChange={() => setIsExclusive(false)}
+                  />
+                  <RadioButton
+                    label="Yes"
+                    value={isExclusive}
+                    onChange={() => setIsExclusive(true)}
+                  />
+                </Flex.Row>
+                <Flex.Col gap="12px">
+                  <Typography.Div content="Tiers from:" size="heading6" />
+                  <select
+                    className={styles.select}
+                    onChange={(event) =>
+                      setTierIndex(Number(event.target.value))
+                    }
+                    disabled={!isExclusive}
+                  >
+                    {EXCLUSIVE_TIERS.map((tier, index) => (
+                      <option value={index} key={index}>
+                        {formatTier(tier)}
+                      </option>
+                    ))}
+                  </select>
+                </Flex.Col>
+              </Flex.Col>
             </fieldset>
           </form>
         )}
