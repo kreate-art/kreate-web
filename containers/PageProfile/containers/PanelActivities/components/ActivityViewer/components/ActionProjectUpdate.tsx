@@ -22,18 +22,41 @@ export default function ActionProjectUpdate({
   value,
   createdBy,
 }: Props) {
+  const nonSponsorshipUpdate = value.scope.filter(
+    (item) => item.type !== "sponsorship"
+  );
+  const sponsorshipUpdate = value.scope.find(
+    (item) => item.type === "sponsorship"
+  );
   return (
     <Flex.Col className={className} style={style} gap="8px">
       <Typography.Div size="bodySmall" color="ink80">
         <Typography.Span fontWeight="semibold" color="ink">
           <InlineAddress value={createdBy} length="short" />
         </Typography.Span>
-        <Typography.Span content=" updated " />
-        <Typography.Span
-          content={value.scope.map(formatScope).join(", ")}
-          fontWeight="semibold"
-          color="ink"
-        />
+        {!nonSponsorshipUpdate.length ? null : (
+          <>
+            <Typography.Span content={" updated "} />
+            <Typography.Span
+              content={nonSponsorshipUpdate.map(formatScope).join(", ")}
+              fontWeight="semibold"
+              color="ink"
+            />
+          </>
+        )}
+        {!nonSponsorshipUpdate.length || !sponsorshipUpdate ? null : (
+          <Typography.Span content={", and"} />
+        )}
+        {!sponsorshipUpdate ? null : (
+          <>
+            <Typography.Span content={" extended "} />
+            <Typography.Span
+              content={formatScope(sponsorshipUpdate)}
+              fontWeight="semibold"
+              color="ink"
+            />
+          </>
+        )}
       </Typography.Div>
       {value.message ? (
         <Typography.Div
