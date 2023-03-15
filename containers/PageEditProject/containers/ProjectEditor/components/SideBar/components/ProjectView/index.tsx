@@ -28,8 +28,8 @@ export default function ProjectView({ className, style, value }: Props) {
             value.history.closedAt ||
               value.history.delistedAt ||
               !value.basics.customUrl
-              ? `/creator-by-id/${value.id}`
-              : `/c/${value.basics.customUrl}`,
+              ? `/kreator-by-id/${value.id}`
+              : `/k/${value.basics.customUrl}`,
             "_blank",
             "noopener,noreferrer"
           );

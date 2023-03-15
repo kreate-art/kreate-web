@@ -32,7 +32,7 @@ export default function ModalWithdrawWarn({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Close Project: " color="ink" />
+          <Typography.Span content="Close: " color="ink" />
           <Typography.Span content={projectName} />
         </Typography.Div>
       </Modal.Header>
@@ -47,15 +47,15 @@ export default function ModalWithdrawWarn({
             title={`You have ${formatLovelaceAmount(
               withdrawableFundLovelaceAmount,
               { compact: true, includeCurrencySymbol: true }
-            )} funds available`}
-            description="You have to withdraw all your funds before closing your project"
+            )} unwithdrawn!`}
+            description="You must withdraw all income before closing."
           />
         </fieldset>
       </Modal.Content>
       <Modal.Actions>
         <Flex.Row gap="12px">
           <Button.Outline content="Exit" onClick={onCancel} />
-          <Button.Solid content="Withdraw Fund" onClick={onClick} />
+          <Button.Solid content="Withdraw Income" onClick={onClick} />
         </Flex.Row>
       </Modal.Actions>
     </Modal>

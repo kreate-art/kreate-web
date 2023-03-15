@@ -145,7 +145,7 @@ export default function PageSearch() {
                         borderless={true}
                         onClick={() =>
                           router.push(
-                            `/c/${projectGeneralInfo.basics.customUrl}`
+                            `/k/${projectGeneralInfo.basics.customUrl}`
                           )
                         }
                       />

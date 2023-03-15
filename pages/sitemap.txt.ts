@@ -31,7 +31,7 @@ async function getAllRelativePaths() {
   for (const project of projects) {
     const customUrl = project.basics.customUrl;
     results.push(
-      customUrl ? `/c/${customUrl}` : `/creator-by-id/${project.id}`
+      customUrl ? `/k/${customUrl}` : `/kreator-by-id/${project.id}`
     );
   }
   return results;

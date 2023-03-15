@@ -119,7 +119,7 @@ export default function PageUpdateProjectV2({
       />
     ));
 
-    router.push(`/c/${project.basics.customUrl}`);
+    router.push(`/k/${project.basics.customUrl}`);
   };
 
   return (

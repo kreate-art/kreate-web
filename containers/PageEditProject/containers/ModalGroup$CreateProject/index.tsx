@@ -44,7 +44,7 @@ export default function ModalGroup$CreateProject({
       />
       <ModalSuccess
         open={step === "success"}
-        onClose={() => router.push(`/c/${project.basics.customUrl}`)}
+        onClose={() => router.push(`/k/${project.basics.customUrl}`)}
       />
     </React.Fragment>
   );
