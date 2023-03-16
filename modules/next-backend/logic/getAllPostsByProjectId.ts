@@ -10,7 +10,7 @@ import {
   Address,
   AnyProjectPost,
   ExclusiveProjectPost,
-  EXCLUSIVE_TIERS,
+  ProjectBenefitsTier,
   PublicProjectPost,
 } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -25,6 +25,7 @@ type Params = {
   projectId: string;
   ownerAddress: Address;
   viewerAddress: Address | null;
+  tiers: ProjectBenefitsTier[];
 };
 
 function isProjectPublicPost<PublicProjectPost, V>(
@@ -51,7 +52,7 @@ function isProjectExclusivePost<ExclusiveProjectPost, V>(
 
 export async function getAllPostsByProjectId(
   sql: Sql,
-  { projectId, ownerAddress, viewerAddress }: Params
+  { projectId, ownerAddress, viewerAddress, tiers }: Params
 ): Promise<AnyProjectPost[]> {
   const rows = await sql`
     SELECT a.announcement_cid, bk.time, pa.data, pm.*
@@ -75,7 +76,12 @@ export async function getAllPostsByProjectId(
     ORDER BY bk.slot DESC;
   `;
 
-  const tier = await getViewerTier(sql, viewerAddress, ownerAddress, projectId);
+  const viewerStatus = await getViewerStatus(
+    sql,
+    viewerAddress,
+    ownerAddress,
+    projectId
+  );
   return rows
     .map((row) => {
       try {
@@ -88,7 +94,7 @@ export async function getAllPostsByProjectId(
         );
 
         const anyProjectAnnouncement = isExclusive
-          ? decryptExclusivePost(row.data, tier)
+          ? decryptExclusivePost(row.data, viewerStatus, tiers)
           : Converters.toProjectCommunityUpdate(CodecCid)(row.data);
         anyProjectAnnouncement.announcementCid = row.announcementCid;
         anyProjectAnnouncement.createdAt = row.time?.valueOf();
@@ -102,25 +108,23 @@ export async function getAllPostsByProjectId(
     .filter(isNotNullOrUndefined);
 }
 
-async function getViewerTier(
+async function getViewerStatus(
   sql: Sql,
   viewerAddress: Address | null,
   ownerAddress: Address,
   projectId: string
-) {
+): Promise<{
+  status: "owner" | "backer";
+  activeStakingAmount?: bigint;
+} | null> {
   if (!viewerAddress) return null;
-  if (viewerAddress === ownerAddress) return 999_999; // A very big number
+  if (viewerAddress === ownerAddress) return { status: "owner" }; // A very big number
   const viewerActiveStakingAmount = await getTotalStakedByBacker(sql, {
     backerAddress: viewerAddress,
     projectId,
   });
-
-  return fromActiveStakingAmountToTier(viewerActiveStakingAmount.amount);
-}
-
-function fromActiveStakingAmountToTier(asa: bigint) {
-  const tiers = EXCLUSIVE_TIERS.filter((tier) => tier.requiredStake <= asa).map(
-    (tier) => tier.tier
-  );
-  return tiers.length ? Math.max(...tiers) : null;
+  return {
+    status: "backer",
+    activeStakingAmount: viewerActiveStakingAmount.amount,
+  };
 }
