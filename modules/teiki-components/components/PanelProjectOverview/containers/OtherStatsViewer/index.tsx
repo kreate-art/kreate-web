@@ -4,9 +4,6 @@ import * as React from "react";
 import Flex from "../../components/Flex";
 import ImpactfulNumber from "../../components/ImpactfulNumber";
 
-import IconPin from "./icons/IconPin";
-import IconProfit from "./icons/IconProfit";
-import IconSpeechBubble from "./icons/IconSpeechBubble";
 import styles from "./index.module.scss";
 
 import { formatLovelaceAmount } from "@/modules/bigint-utils";
@@ -22,32 +19,26 @@ const FREQUENCY_CONFIG = [
   {
     duration: 7 * 24 * 60 * 60 * 1000,
     label: "Always",
-    className: styles.always,
   },
   {
     duration: 2 * 7 * 24 * 60 * 60 * 1000, // two weeks
     label: "Frequent",
-    className: styles.frequent,
   },
   {
     duration: 30 * 24 * 60 * 60 * 1000, // a month
     label: "Often",
-    className: styles.often,
   },
   {
     duration: 90 * 24 * 60 * 60 * 1000, // a quarter
     label: "Sometime",
-    className: styles.sometime,
   },
   {
     duration: (365 * 24 * 60 * 60 * 1000) / 2, // half a year
     label: "Rarely",
-    className: styles.rarely,
   },
   {
     duration: Number.MAX_VALUE,
     label: "Never",
-    className: styles.never,
   },
 ];
 
@@ -67,9 +58,8 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <Flex.Col gap="32px">
+      <Flex.Col gap="24px">
         <ImpactfulNumber
-          icon={<IconPin />}
           label="Number of members"
           content={
             value.numSupporters != null
@@ -79,13 +69,10 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
           title={value.numSupporters?.toString()}
         />
         <ImpactfulNumber
-          icon={<IconSpeechBubble />}
           label="Update frequency"
           content={frequency ? frequency.label : "-"}
-          contentClassName={frequency ? frequency.className : undefined}
         />
         <ImpactfulNumber
-          icon={<IconProfit />}
           label="Total income"
           content={
             value.numLovelacesRaised != null

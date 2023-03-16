@@ -16,7 +16,7 @@
 }
 
 .circledNumber {
-  background-color: #eef1f0;
+  background-color: colors.$secondary10;
   border-radius: 16px;
   display: flex;
   justify-content: center;
@@ -29,12 +29,12 @@
 
 .columnRank {
   font-weight: 700;
-  color: #00362c;
+  color: colors.$secondary;
 }
 
 .columnAddress {
   font-weight: 400;
-  color: #00362c;
+  color: colors.$secondary;
   overflow: hidden;
 }
 
@@ -45,5 +45,5 @@
 .columnLovelaceAmount {
   text-align: right;
   font-weight: 400;
-  color: #00362c;
+  color: colors.$secondary;
 }

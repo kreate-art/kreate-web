@@ -1,5 +1,7 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .action {
-  color: #00362c;
+  color: colors.$ink;
   text-decoration: underline;
   margin-left: 8px;
 }

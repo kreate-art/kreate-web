@@ -1,16 +1,18 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: block;
 }
 
 .label {
-  color: rgba(31, 62, 47, 0.8);
+  color: colors.$ink80;
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
 }
 
 .content {
-  color: #1f3e2f;
+  color: colors.$secondary;
   font-weight: 600;
   font-size: 20px;
   line-height: 30px;

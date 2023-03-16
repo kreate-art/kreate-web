@@ -1,4 +1,5 @@
 import cx from "classnames";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 
@@ -8,6 +9,7 @@ import styles from "./index.module.scss";
 
 import { ProjectBasics } from "@/modules/business-types";
 import Chip from "@/modules/teiki-ui/components/Chip";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   className?: string;
@@ -16,30 +18,31 @@ type Props = {
 };
 
 export default function TagsViewer({ className, style, value }: Props) {
-  const router = useRouter();
-
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Row gap="12px">
-        <Flex.Cell className={styles.label} flex="0 0 auto">
-          {"Tags :"}
-        </Flex.Cell>
+        <Typography.Div
+          size="bodyExtraSmall"
+          fontWeight="semibold"
+          color="ink80"
+          content="Tags: "
+        />
         <Flex.Row flexWrap="wrap" gap="12px 8px">
           {!value.length ? (
-            <span style={{ lineHeight: "28px", color: "rgba(0, 0, 0, 0.6)" }}>
-              {"-"}
-            </span>
+            <span style={{ color: "rgba(0, 0, 0, 0.6)" }}>{"-"}</span>
           ) : (
             value.map((tag, index) => (
-              <Chip
+              <Link
+                style={{ display: "flex", color: "unset" }}
                 key={index}
-                content={tag}
-                onClick={() => {
-                  const search = new URLSearchParams({ tag });
-                  router.push(`/search?${search.toString()}`);
-                }}
-                style={{ cursor: "pointer" }}
-              />
+                href={`/search?${new URLSearchParams({ tag })}`}
+              >
+                <Typography.Span
+                  content={"#" + tag}
+                  size="bodyExtraSmall"
+                  fontWeight="semibold"
+                />
+              </Link>
             ))
           )}
         </Flex.Row>

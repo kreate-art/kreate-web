@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: block;
   position: relative;
@@ -12,7 +14,7 @@
 
 .input {
   border: 0;
-  color: #1f3e2f;
+  color: colors.$ink;
   display: block;
   flex: 1 1 0;
   font-weight: 600;
@@ -72,7 +74,7 @@
 }
 
 .label {
-  color: #1f3e2f;
+  color: colors.$ink;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 12px;

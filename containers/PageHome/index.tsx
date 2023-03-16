@@ -17,11 +17,12 @@ import { useTopSupporter } from "./hooks/useTopSupporter";
 import IconLoadMore from "./icons/IconLoadMore";
 import styles from "./index.module.scss";
 
-import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
 import TableTopBackers from "@/modules/teiki-components/components/TableTopBackers";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
+import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Button from "@/modules/teiki-ui/components/Button";
+import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 
 type Props = {
   className?: string;
@@ -29,7 +30,7 @@ type Props = {
 };
 
 export default function PageHome({ className, style }: Props) {
-  useBodyClasses([styles.defaultBackground]);
+  useDefaultBackground();
   const { walletStatus, lastSavedWalletInfo } = useAppContextValue$Consumer();
   const [activeFilterIndex, setActiveFilterIndex] = React.useState(0);
   const featuredProjectsResponse = useAllProjects({
@@ -129,16 +130,16 @@ export default function PageHome({ className, style }: Props) {
                     content="Recommended"
                   />
                 </div>
-
-                <hr className={styles.divider} />
+                <Divider$Horizontal$CustomDash
+                  style={{ marginBottom: "48px" }}
+                />
                 <div className={styles.projectContainer}>{projectLists}</div>
                 {!hasMore ? null : (
                   <div className={styles.containerButtonLoadMore}>
-                    <Button
+                    <Button.Outline
                       icon={<IconLoadMore />}
                       content="More Creators"
                       size="medium"
-                      variant="outline"
                       className={styles.buttonLoadMore}
                       onClick={() => {
                         setNumDisplayedPages(numDisplayedPages + 1);

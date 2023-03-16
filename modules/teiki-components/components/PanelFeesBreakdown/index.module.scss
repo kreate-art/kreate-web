@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   background-color: #eef1f0;
   padding: 20px 24px;
@@ -19,7 +21,7 @@
 }
 
 .label {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
   opacity: 0.7;
 }
@@ -30,7 +32,7 @@
 }
 
 .value {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
 }
 
@@ -41,7 +43,7 @@
 }
 
 .totalHeader {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
 }
 
@@ -50,7 +52,7 @@
 }
 
 .totalValueInAda {
-  color: #006e46;
+  color: colors.$ink;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
@@ -60,7 +62,7 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-  color: rgba(0, 54, 44, 0.8);
+  color: colors.$ink80;
 }
 
 .loadingContainer {

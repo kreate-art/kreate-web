@@ -37,6 +37,7 @@ export default function ButtonGroup({ className, style, options }: Props) {
             disabled={options.buttonBackProject.disabled}
             onClick={options.buttonBackProject.onClick}
             size="large"
+            color="primary"
           />
         ) : null}
         {options.buttonUpdateProject.visible ? (

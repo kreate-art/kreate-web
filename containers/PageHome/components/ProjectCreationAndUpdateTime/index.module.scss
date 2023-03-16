@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   column-gap: 12px;
@@ -12,7 +14,7 @@
 
 .label {
   font-weight: 600;
-  color: #1f3e2f;
+  color: colors.$ink;
 
   .inverted & {
     color: white;
@@ -21,7 +23,7 @@
 
 .value {
   font-weight: 400;
-  color: #1f3e2fcc;
+  color: colors.$ink80;
 
   .inverted & {
     color: white;

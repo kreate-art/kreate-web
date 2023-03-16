@@ -7,7 +7,7 @@ export default function IconPlay() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M5 24V3.69231V0L24 12L5 24Z" fill="#00362C" />
+      <path d="M5 24V3.69231V0L24 12L5 24Z" fill="currentColor" />
     </svg>
   );
 }

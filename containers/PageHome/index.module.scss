@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   min-height: 100vh;
@@ -15,7 +17,7 @@
 }
 
 .slogan {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 900;
   margin: 64px auto 8px auto;
   max-width: 1440px;
@@ -71,7 +73,7 @@
   border: 1px solid rgba(31, 62, 47, 0.1);
   padding: 12px 16px;
   border-radius: 97px;
-  color: #1f3e2f;
+  color: colors.$ink;
   font-weight: bold;
 }
 
@@ -83,7 +85,7 @@
 
 .label {
   font-weight: 600;
-  color: #00362c;
+  color: colors.$ink;
   font-size: 14px;
   line-height: 21px;
   margin: 0;
@@ -101,23 +103,10 @@
   border-radius: 12px;
 }
 
-.defaultBackground {
-  background-image: url("./assets/background.svg");
-  background-size: cover;
-}
-
 .projectContainer {
   display: flex;
   gap: 48px;
   flex-direction: column;
-}
-
-.divider {
-  width: 100%;
-  border: 0;
-  height: 1px;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='2' stroke-dasharray='1%2c 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
-  margin-bottom: 48px;
 }
 
 .tableTopBackers {

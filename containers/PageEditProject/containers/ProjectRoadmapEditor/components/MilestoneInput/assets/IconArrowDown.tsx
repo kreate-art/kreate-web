@@ -11,7 +11,7 @@ export default function IconArrowDown() {
       <g clipPath="url(#clip0_1035_1104)">
         <path
           d="M8.94 9.72656L12 12.7799L15.06 9.72656L16 10.6666L12 14.6666L8 10.6666L8.94 9.72656Z"
-          fill="#1F3E2F"
+          fill="currentColor"
         />
       </g>
       <defs>

@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: block;
 }
@@ -5,15 +7,15 @@
 .ada {
   white-space: nowrap;
   font-weight: 700;
-  font-size: 32px;
-  line-height: 48px;
-  color: #00362c;
+  font-size: 20px;
+  line-height: 30px;
+  color: colors.$secondary;
 }
 
 .usd {
   white-space: nowrap;
   font-weight: 400;
   font-size: 14px;
-  line-height: 36px;
-  color: rgba(0, 54, 44, 0.8);
+  line-height: 28px;
+  color: colors.$secondary80;
 }

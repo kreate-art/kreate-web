@@ -53,7 +53,7 @@
 }
 
 .headerTable {
-  color: rgba(0, 54, 44, 0.8);
+  color: colors.$ink80;
   font-weight: 600;
   padding: 0 20px;
 }
@@ -61,7 +61,7 @@
 .item {
   border: none;
   padding: 0 20px;
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
 }
 

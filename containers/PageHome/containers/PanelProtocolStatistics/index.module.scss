@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   background: rgba(0, 54, 44, 0.1);
   padding: 24px;
@@ -11,7 +13,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 21px;
-  color: #1f3e2f;
+  color: colors.$ink;
 }
 
 .content {
