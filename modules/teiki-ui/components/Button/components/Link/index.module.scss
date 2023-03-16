@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   align-items: center;
@@ -8,17 +10,17 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 150%;
-  color: #30925e;
+  color: colors.$secondary;
   cursor: pointer;
   background-color: transparent;
   border-radius: 16px;
 
   &:hover {
-    color: #008a45cc;
+    color: colors.$secondary80;
   }
 
   &:focus-visible {
-    outline: #008a4580 solid 3px;
+    outline: colors.$secondary50 solid 3px;
   }
 
   &:disabled {

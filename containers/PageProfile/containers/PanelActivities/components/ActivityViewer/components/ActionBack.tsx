@@ -44,7 +44,7 @@ export default function ActionBack({ className, style, value }: Props) {
         <Typography.Div
           style={{
             paddingLeft: "10px",
-            borderLeft: "2px solid rgba(0, 110, 70, 0.3)",
+            borderLeft: "2px solid rgba(34, 34, 34, 0.3)",
           }}
           content={value.message}
           color="ink80"

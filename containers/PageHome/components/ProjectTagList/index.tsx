@@ -1,9 +1,10 @@
 import cx from "classnames";
+import Link from "next/link";
 import { CSSProperties } from "react";
 
 import styles from "./index.module.scss";
 
-import Chip from "@/modules/teiki-ui/components/Chip";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   className?: string;
@@ -27,10 +28,28 @@ export default function ProjectTagList({
       )}
       style={style}
     >
+      <Typography.Span
+        style={{ flex: "0 0 auto" }}
+        color="ink80"
+        content="Tags: "
+        size="bodyExtraSmall"
+        fontWeight="semibold"
+      />
       <div className={styles.data}>
         {value.length ? (
-          value.map((item) => (
-            <Chip content={item} key={item} className={styles.tag} />
+          value.map((tag, index) => (
+            <Link
+              style={{ display: "flex", color: "unset" }}
+              key={index}
+              href={`/search?${new URLSearchParams({ tag })}`}
+            >
+              <Typography.Span
+                content={"#" + tag}
+                size="bodyExtraSmall"
+                fontWeight="semibold"
+                color="ink"
+              />
+            </Link>
           ))
         ) : (
           <span className={styles.noTags}>no tags</span>

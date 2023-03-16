@@ -1,6 +1,7 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
-  background-image: url("./images/background.png");
-  background-size: cover;
+  background-color: colors.$secondary;
   width: 400px;
   max-width: 100%;
   display: flex;
