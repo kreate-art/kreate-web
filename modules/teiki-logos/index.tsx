@@ -1,13 +1,8 @@
-import { Network } from "lucid-cardano";
 import Image, { StaticImageData } from "next/image";
 
-import logoTeikiCompact from "./images/teiki/compact.svg";
-import logoTeikiFullBlackAlpha from "./images/teiki/full-black-alpha.svg";
-import logoTeikiFullBlackTestnet from "./images/teiki/full-black-testnet.svg";
-// import logoTeikiFullBlack from "./images/teiki/full-black.svg";
-import logoTeikiFullWhiteAlpha from "./images/teiki/full-white-alpha.svg";
-import logoTeikiFullWhiteTestnet from "./images/teiki/full-white-testnet.svg";
-// import logoTeikiFullWhite from "./images/teiki/full-white.svg";
+import logoKreateAlpha from "./images/kreate/alpha.svg";
+import logoKreateTestnet from "./images/kreate/testnet.svg";
+import logoKreateWhite from "./images/kreate/white.svg";
 import LogoWalletCardWallet from "./images/wallets/cardwallet.png";
 import LogoWalletEternl from "./images/wallets/eternl.png";
 import LogoWalletFlint from "./images/wallets/flint.svg";
@@ -20,7 +15,6 @@ import LogoWalletUnknown from "./images/wallets/unknown.svg";
 import { WalletName } from "@/modules/wallet/types";
 
 export {
-  logoTeikiCompact,
   LogoWalletCardWallet,
   LogoWalletEternl,
   LogoWalletFlint,
@@ -71,43 +65,50 @@ export function LogoWallet({
   );
 }
 
-export function LogoTeikiFull({
+export function LogoKreateFull({
   className,
   style,
-  color,
   network,
 }: {
   className?: string;
   style?: React.CSSProperties;
-  color: "black-with-green-initial" | "white-with-green-initial";
-  network: Network;
+  network: string;
 }) {
-  switch (color) {
-    case "black-with-green-initial":
+  switch (network) {
+    case "Mainnet":
       return (
         <Image
           className={className}
           style={style}
-          src={
-            network === "Mainnet"
-              ? logoTeikiFullBlackAlpha
-              : logoTeikiFullBlackTestnet
-          }
-          alt="logo teiki full black"
+          src={logoKreateAlpha}
+          alt="logo kreate full"
         />
       );
-    case "white-with-green-initial":
+    default:
       return (
         <Image
           className={className}
           style={style}
-          src={
-            network === "Mainnet"
-              ? logoTeikiFullWhiteAlpha
-              : logoTeikiFullWhiteTestnet
-          }
-          alt="logo teiki full white"
+          src={logoKreateTestnet}
+          alt="logo kreate full"
         />
       );
   }
+}
+
+export function LogoKreateWhite({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <Image
+      className={className}
+      style={style}
+      src={logoKreateWhite}
+      alt="logo kreate white"
+    />
+  );
 }

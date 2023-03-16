@@ -1,12 +1,10 @@
 import cx from "classnames";
 import * as React from "react";
 
-import { NEXT_PUBLIC_NETWORK } from "../../../../config/client";
-
 import { TEIKI_CONNECTION_LIST } from "./constants/teiki-connection-list";
 import styles from "./index.module.scss";
 
-import { LogoTeikiFull } from "@/modules/teiki-logos";
+import { LogoKreateWhite } from "@/modules/teiki-logos";
 import Divider from "@/modules/teiki-ui/components/Divider";
 
 type Props = {
@@ -20,13 +18,10 @@ const FooterPanel = ({ className, style }: Props) => {
       <div className={styles.upperContainer}>
         <div className={styles.teiki}>
           <div className={styles.logo}>
-            <LogoTeikiFull
-              color="white-with-green-initial"
-              network={NEXT_PUBLIC_NETWORK}
-            />
+            <LogoKreateWhite />
           </div>
           <Divider.Vertical />
-          <div className={styles.slogan}>Create with your Community</div>
+          <div className={styles.slogan}>Kreate with your Community</div>
         </div>
         <div className={styles.iconList}>
           {TEIKI_CONNECTION_LIST.map(

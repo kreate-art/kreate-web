@@ -12,7 +12,7 @@ import styles from "./index.module.scss";
 import { Message } from "./types";
 
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
-import { logoTeikiCompact } from "@/modules/teiki-logos";
+import { LogoKreateWhite } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 
 type Props = {
@@ -53,7 +53,7 @@ export default function SideBar({
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <Link href="/" className={styles.logoTeikiWrapper}>
-            <Image className={styles.logoTeiki} src={logoTeikiCompact} alt="" />
+            <LogoKreateWhite />
           </Link>
         </div>
         {!collapsed ? (
@@ -78,18 +78,20 @@ export default function SideBar({
         <Image className={styles.imageNiko} src={imageNiko} alt="niko" />
         <div className={styles.buttonGroup}>
           {/* <Button.Solid size="small" content="Mute" /> */}
-          <Button.Solid
-            size="small"
-            content="Guideline"
-            onClick={() => {
-              window.open(
-                NEXT_PUBLIC_NETWORK === "Mainnet"
-                  ? "https://docs.teiki.network/mainnet-guidelines/create-a-project"
-                  : "https://docs.testnet.teiki.network/testnet-guidelines/create-a-project",
-                "_blank"
-              );
-            }}
-          />
+          {!collapsed ? (
+            <Button.Solid
+              size="small"
+              content="Guideline"
+              onClick={() => {
+                window.open(
+                  NEXT_PUBLIC_NETWORK === "Mainnet"
+                    ? "https://docs.teiki.network/mainnet-guidelines/create-a-project"
+                    : "https://docs.testnet.teiki.network/testnet-guidelines/create-a-project",
+                  "_blank"
+                );
+              }}
+            />
+          ) : null}
         </div>
       </div>
     </div>

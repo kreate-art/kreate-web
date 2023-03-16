@@ -10,8 +10,9 @@ import IconGuideline from "./components/IconGuideline";
 import IconLeaf from "./components/IconLeaf";
 import styles from "./index.module.scss";
 
+import { NETWORK } from "@/modules/env/client";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
-import { LogoTeikiFull } from "@/modules/teiki-logos";
+import { LogoKreateFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Title from "@/modules/teiki-ui/components/Title";
@@ -130,10 +131,7 @@ function ProjectEditorLandingPage({ onClickGetStarted }: Props) {
           alignItems="center"
           gap="32px"
         >
-          <LogoTeikiFull
-            color="black-with-green-initial"
-            network={NEXT_PUBLIC_NETWORK}
-          />
+          <LogoKreateFull network={NETWORK} />
           <div className={styles.buttonNav}>
             <ButtonWalletNavbar />
           </div>
