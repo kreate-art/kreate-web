@@ -1,3 +1,4 @@
+import { JSONContent } from "@tiptap/core";
 import cx from "classnames";
 import * as React from "react";
 
@@ -66,7 +67,7 @@ export default function ProjectDetails({
         <div className={styles.richTextEditorContainer}>
           <RichTextEditor
             key={`${projectId}#benefits`}
-            value={benefits.perks}
+            value={benefits.perks || EMPTY_JSON_CONTENT}
             className={styles.richTextEditor}
           />
         </div>
@@ -80,3 +81,8 @@ export default function ProjectDetails({
     </div>
   );
 }
+
+const EMPTY_JSON_CONTENT: JSONContent = {
+  type: "doc",
+  content: [{ type: "paragraph" }],
+};

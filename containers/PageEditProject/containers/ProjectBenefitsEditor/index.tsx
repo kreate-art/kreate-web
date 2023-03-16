@@ -1,3 +1,5 @@
+import { JSONContent } from "@tiptap/core";
+
 import GrammarlyWrapper from "../../../../components/GrammarlyWrapper";
 
 import styles from "./index.module.scss";
@@ -22,7 +24,7 @@ export default function ProjectBenefitsEditor({ value, onChange }: Props) {
     <div className={styles.container}>
       <GrammarlyWrapper>
         <RichTextEditor
-          value={value.perks}
+          value={value.perks || EMPTY_JSON_CONTENT}
           onChange={(newPerks) => {
             onChange && onChange({ ...value, perks: newPerks });
           }}
@@ -32,3 +34,8 @@ export default function ProjectBenefitsEditor({ value, onChange }: Props) {
     </div>
   );
 }
+
+const EMPTY_JSON_CONTENT: JSONContent = {
+  type: "doc",
+  content: [{ type: "paragraph" }],
+};

@@ -39,7 +39,7 @@ function getBasicProgress(basic: ProjectBasics): ProgressScore {
 function getProjectBenefitsProgress(
   benefits: ProjectBenefits | undefined
 ): ProgressScore {
-  if (benefits == null) return 0.0;
+  if (benefits?.perks == null) return 0.0;
   const bodyContent = benefits.perks;
   const textContent = generateText(bodyContent, editorExtensions);
   return textContent.length > 100 ? 1.0 : 0.0;

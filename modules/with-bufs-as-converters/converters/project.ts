@@ -73,14 +73,16 @@ export function toProjectBasics<V>(codec: Codec<V>): ToFn<ProjectBasics, V> {
 export function fromProjectBenefits<V>(
   codec: Codec<V>
 ): FromFn<ProjectBenefits | undefined, V> {
-  return fromNullable(fromObject({ perks: fromJSONContent(codec) }));
+  return fromNullable(
+    fromObject({ perks: fromNullable(fromJSONContent(codec)) })
+  );
 }
 
 /** Converts `WithBufsAs<ProjectBenefits, V>` to `ProjectBenefits` */
 export function toProjectBenefits<V>(
   codec: Codec<V>
 ): ToFn<ProjectBenefits | undefined, V> {
-  return toNullable(toObject({ perks: toJSONContent(codec) }));
+  return toNullable(toObject({ perks: toNullable(toJSONContent(codec)) }));
 }
 
 /**

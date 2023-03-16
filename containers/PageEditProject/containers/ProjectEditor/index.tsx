@@ -1,5 +1,5 @@
 import { GrammarlyButton } from "@grammarly/editor-sdk-react";
-import { generateText } from "@tiptap/core";
+import { generateText, JSONContent } from "@tiptap/core";
 import awesomeDebouncePromise from "awesome-debounce-promise";
 import cx from "classnames";
 import * as React from "react";
@@ -192,7 +192,10 @@ export default function ProjectEditor({
     text:
       value.benefits == null
         ? ""
-        : generateText(value.benefits.perks, editorExtensions),
+        : generateText(
+            value.benefits.perks || EMPTY_JSON_CONTENT,
+            editorExtensions
+          ),
     alertNewModerationWarning,
   });
   useContentModeration({
@@ -458,3 +461,8 @@ export default function ProjectEditor({
     </div>
   );
 }
+
+const EMPTY_JSON_CONTENT: JSONContent = {
+  type: "doc",
+  content: [{ type: "paragraph" }],
+};

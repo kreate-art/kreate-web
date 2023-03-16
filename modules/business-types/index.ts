@@ -54,7 +54,7 @@ export type ProjectCommunity = {
 };
 
 export type ProjectBenefits = {
-  perks: JSONContent;
+  perks?: JSONContent;
 };
 
 // TODO: `roadmap` is temporarily hidden from the UI (not removed)
