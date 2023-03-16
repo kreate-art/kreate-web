@@ -118,7 +118,7 @@ async function getViewerStatus(
   activeStakingAmount?: bigint;
 } | null> {
   if (!viewerAddress) return null;
-  if (viewerAddress === ownerAddress) return { status: "owner" }; // A very big number
+  if (viewerAddress === ownerAddress) return { status: "owner" };
   const viewerActiveStakingAmount = await getTotalStakedByBacker(sql, {
     backerAddress: viewerAddress,
     projectId,

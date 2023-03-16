@@ -37,7 +37,7 @@ export default function TabUpdates({ className, style, value }: Props) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      {walletAuthHeaderInfo.status !== "authenticated" && (
+      {walletAuthHeaderInfo.status !== "authenticated" && value.length ? (
         <Button.Outline
           // TODO: Handle this properly
           content={
@@ -49,7 +49,7 @@ export default function TabUpdates({ className, style, value }: Props) {
           disabled={isDisabledLogin}
           style={{ width: "50%" }}
         />
-      )}
+      ) : null}
       {openedArticleIndex != null ? (
         <CommunityUpdateDetails
           key={openedArticleIndex}

@@ -96,7 +96,6 @@ export default function CommunityUpdateOverview({
               className={styles.exclusiveMessage}
               content={`Only member from Tier ${value.exclusive.tier} can view this post`}
             />
-            {/* <Title style={{ color: "#006E46" }} content="Sponsoring Teiki" /> */}
           </div>
         ) : (
           <div className={styles.linkContainer}>

@@ -65,7 +65,7 @@ export default function PageControl({
         active={value === 3}
         label="Benefits"
         icon={<IconRoadmap />} // Change to IconBenefits, need help from @sk-shachi
-        progressScore={progress.benefits}
+        progressScore={progress.tiers}
         onClick={() => onChange && onChange(3)}
       />
     </div>
