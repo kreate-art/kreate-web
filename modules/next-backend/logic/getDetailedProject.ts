@@ -263,6 +263,7 @@ export async function getDetailedProject(
         projectId,
         viewerAddress: params.authInfo?.address ?? null,
         ownerAddress,
+        tiers: tiers ?? [],
       }),
       // TODO: @sk-umiuma: implement these
       getBackingActivities(sql, {

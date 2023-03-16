@@ -91,7 +91,7 @@ export default function ModalPostAnnouncement({
   );
 
   const [isExclusive, setIsExclusive] = React.useState(false);
-  const [tierIndex, setTierIndex] = React.useState(0);
+  const [tierIndex, setTierIndex] = React.useState(1); // We won't have tier 0 for now.
 
   /**TODO: @sk-tenba: move this function to teiki module */
   const isBlankJsonContent = (value: JSONContent) => {
@@ -291,6 +291,7 @@ export default function ModalPostAnnouncement({
                   />
                 </Flex.Row>
                 <Flex.Col gap="12px">
+                  {/* TODO: Use `ProjectBenefitsTier` instead of hardcoded EXCLUSIVE_TIERS */}
                   <Typography.Div content="Tiers from:" size="heading6" />
                   <select
                     className={styles.select}
