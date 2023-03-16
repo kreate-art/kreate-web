@@ -1,61 +1,65 @@
 // Cardano web token
 
-import { Address, fromText, Lucid, SignedMessage } from "lucid-cardano";
-
-import { toJsonStable } from "../json-utils";
+import { Address, Lucid } from "lucid-cardano";
 
 import base64url from "@/modules/base64url";
+import { Base64 } from "@/modules/crypt/types";
 import { NETWORK } from "@/modules/env/client";
 
 const TTL = 30 * 86_400 * 1_000; // 30 days
-export const VERSION = 1;
+export const VERSION = 0;
 
-export type AuthMessage = {
+export type SavedAuthInfo = {
   version: number;
-  expiration: number;
-  message: string;
+  expiration: number; // UnixTime / 1000
+  token: {
+    payload: Base64;
+    key: Base64;
+    signature: Base64;
+  };
 };
 
-export type AuthToken = {
-  signed: SignedMessage;
-  payload: string;
-};
-
-export type AuthInfo = {
+export type AuthHeader = {
   address: Address;
   header: string;
 };
 
 // Sign a message
-export async function sign(lucid: Lucid) {
-  const authMessage: AuthMessage = {
+export async function sign(lucid: Lucid): Promise<SavedAuthInfo> {
+  const payload = {
     version: VERSION,
-    expiration: toExpirationTime(Date.now() + TTL),
     message: "Login to Teiki",
+    expiration: Math.trunc(Date.now() + TTL) / 1_000,
   };
-  const payload = toJsonStable(authMessage, undefined, 4);
-  const signed = await lucid
-    .newMessage(await lucid.wallet.address(), fromText(payload))
+  const payloadBytes = Buffer.from(
+    JSON.stringify(payload, undefined, 4),
+    "utf8"
+  );
+  const { key, signature } = await lucid
+    .newMessage(await lucid.wallet.address(), payloadBytes.toString("hex"))
     .sign();
-  return { signed, payload };
+  return {
+    version: payload.version,
+    expiration: payload.expiration,
+    token: {
+      payload: base64url.encode(payloadBytes),
+      signature: base64url.encode(Buffer.from(signature, "hex")),
+      key: base64url.encode(Buffer.from(key, "hex")),
+    },
+  };
 }
 
-export function constructAuthHeader({
-  token,
+export function constructHeader({
+  savedAuthInfo,
   address,
 }: {
-  token: AuthToken;
+  savedAuthInfo: SavedAuthInfo;
   address: Address;
 }) {
-  const payload = base64url.encode(token.payload);
-  const signature = base64url.encode(
-    JSON.stringify(token.signed, undefined, 0)
-  );
-  return `Token ${address}.${payload}.${signature}`;
-}
-
-export function toExpirationTime(date: number) {
-  return Math.floor(date / 1_000);
+  const {
+    token: { payload, key, signature },
+  } = savedAuthInfo;
+  return `Token ${address}.${payload}.${key}.${signature}`;
 }
 
 export function getStorageKey() {
