@@ -75,7 +75,7 @@ export default function PageProjectDetails({
     customUrl:
       typeof projectCustomUrl === "string" ? projectCustomUrl : undefined,
     preset: "full",
-    authInfo:
+    authHeader:
       walletAuthHeaderInfo.status === "authenticated"
         ? walletAuthHeaderInfo.info
         : undefined,

@@ -29,7 +29,7 @@ export default async function handler(
       "invalid preset"
     );
 
-    const authInfo = await authorizeRequest(req);
+    const authHeader = await authorizeRequest(req);
 
     const response = await getDetailedProject(db, {
       active: active === undefined ? undefined : active === "true",
@@ -37,7 +37,7 @@ export default async function handler(
       projectId,
       ownerAddress,
       preset,
-      authInfo,
+      authHeader,
     });
 
     sendJson(res.status(200), response);

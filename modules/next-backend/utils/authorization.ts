@@ -3,20 +3,14 @@ import { NextApiRequest } from "next";
 
 import { ClientError, CLIENT_AUTHORIZATION_ERROR_STATUS } from "../api/errors";
 
-import { AuthInfo } from "@/modules/authorization";
+import { AuthHeader } from "@/modules/authorization";
 
 export async function authorizeRequest(
   req: NextApiRequest
-): Promise<AuthInfo | undefined> {
+): Promise<AuthHeader | undefined> {
   const prefixError = "The authentication failed because of";
   const authHeader = req.headers["authorization"];
   if (!authHeader) return undefined;
-  // TODO: Delete this comment out
-  // ClientError.assert(
-  //   authHeader,
-  //   `${prefixError} missing 'Authorization' header`,
-  //   CLIENT_AUTHORIZATION_ERROR_STATUS
-  // );
 
   const [authScheme, authToken] = authHeader.split(" ", 2);
   ClientError.assert(
@@ -25,10 +19,11 @@ export async function authorizeRequest(
     CLIENT_AUTHORIZATION_ERROR_STATUS
   );
 
-  const [address, payloadB64, msg] = authToken.split(".");
-  const signed: SignedMessage = JSON.parse(
-    Buffer.from(msg, "base64url").toString("utf8")
-  );
+  const [address, payloadB64, keyB64, signatureB64] = authToken.split(".");
+  const signed: SignedMessage = {
+    key: Buffer.from(keyB64, "base64url").toString("hex"),
+    signature: Buffer.from(signatureB64, "base64url").toString("hex"),
+  };
   const payloadBuf = Buffer.from(payloadB64, "base64url");
   const { expiration } = JSON.parse(payloadBuf.toString("utf8"));
   ClientError.assert(
