@@ -7,9 +7,11 @@ export function useField$RequiredStake({ initial }: { initial: string }) {
   const parsed = parseLovelaceAmount(text);
   const error = parsed == null ? "Invalid number" : undefined;
 
+  const normalize = (text: string) => text.replace(/[^0-9.]+/g, "");
+
   // TODO: @sk-kitsune: we should also set onKeyDown at the call site
   const handleTextChange = (text: string) => {
-    setText(text.replace(/[^0-9.]+/g, ""));
+    setText(normalize(text));
   };
-  return { text, setText: handleTextChange, parsed, error };
+  return { text, setText: handleTextChange, normalize, parsed, error };
 }

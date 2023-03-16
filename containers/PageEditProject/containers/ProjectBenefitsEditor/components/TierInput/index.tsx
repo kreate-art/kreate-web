@@ -12,7 +12,10 @@ import IconDrag from "./icons/IconDrag";
 import IconTrash from "./icons/IconTrash";
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
+import {
+  formatLovelaceAmount,
+  parseLovelaceAmount,
+} from "@/modules/bigint-utils";
 import { ProjectBenefitsTier } from "@/modules/business-types";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -99,7 +102,10 @@ export default function TierInput({
                 onChange &&
                   onChange({
                     ...value,
-                    requiredStake: field$RequiredStake.parsed ?? 0,
+                    requiredStake:
+                      parseLovelaceAmount(
+                        field$RequiredStake.normalize(newValue)
+                      ) ?? 0,
                   });
               }}
               leftSlot={
