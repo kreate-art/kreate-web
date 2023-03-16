@@ -7,9 +7,15 @@ import IconDocumentCircle from "../../icons/IconDocumentCircle";
 
 import styles from "./index.module.scss";
 
-import { AnyProjectPost } from "@/modules/business-types";
+import {
+  AnyProjectPost,
+  LovelaceAmount,
+  ProjectBenefitsTier,
+} from "@/modules/business-types";
 import Button from "@/modules/teiki-ui/components/Button";
 import Chip from "@/modules/teiki-ui/components/Chip";
+import Divider from "@/modules/teiki-ui/components/Divider";
+import Flex from "@/modules/teiki-ui/components/Flex";
 import Title from "@/modules/teiki-ui/components/Title";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
@@ -17,14 +23,20 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: AnyProjectPost;
+  totalStaked?: LovelaceAmount;
+  tiers?: ProjectBenefitsTier[];
   onClickLearnMore?: () => void;
+  onClickBecomeMember?: () => void;
 };
 
 export default function CommunityUpdateOverview({
   className,
   style,
   value,
+  totalStaked,
+  tiers,
   onClickLearnMore,
+  onClickBecomeMember,
 }: Props) {
   const censorshipContents = value.censorship
     ? value.censorship
@@ -38,6 +50,7 @@ export default function CommunityUpdateOverview({
   const [isCensored, setIsCensored] = React.useState<boolean>(
     censorshipContents.length > 0
   );
+
   return (
     <article className={cx(styles.container, className)} style={style}>
       {isCensored ? (
@@ -88,21 +101,40 @@ export default function CommunityUpdateOverview({
         </div>
       </div>
       <hr className={styles.divider} />
-      <div className={styles.main}>
+      <Flex.Col gap="24px" className={styles.main}>
         <div className={styles.summary}>{value.summary}</div>
-        {value.exclusive ? (
-          <div className={styles.linkContainer}>
-            <Typography.Span
-              className={styles.exclusiveMessage}
-              content={`Only member from Tier ${value.exclusive.tier} can view this post`}
-            />
-          </div>
+        {value.exclusive &&
+        (!totalStaked ||
+          !tiers ||
+          totalStaked < tiers[value.exclusive.tier - 1].requiredStake) ? (
+          <>
+            <Divider.Horizontal />
+            <Flex.Row
+              justifyContent="space-between"
+              padding="12px 20px 12px 20px"
+              alignItems="center"
+              className={styles.box}
+            >
+              <Typography.Div
+                content={`Only member from Tier: ${value.exclusive.tier} can view this post`}
+                size="heading6"
+                color="green"
+              />
+              <Button.Solid
+                content="Become a Member"
+                color="primary"
+                size="small"
+                className={styles.member}
+                onClick={onClickBecomeMember}
+              />
+            </Flex.Row>
+          </>
         ) : (
           <div className={styles.linkContainer}>
             <Button.Link content="Read more" onClick={onClickLearnMore} />
           </div>
         )}
-      </div>
+      </Flex.Col>
     </article>
   );
 }
