@@ -5,15 +5,29 @@ import CommunityUpdateDetails from "./components/CommunityUpdateDetails";
 import CommunityUpdateOverview from "./components/CommunityUpdateOverview";
 import styles from "./index.module.scss";
 
-import { AnyProjectPost } from "@/modules/business-types";
+import {
+  AnyProjectPost,
+  LovelaceAmount,
+  ProjectBenefitsTier,
+} from "@/modules/business-types";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: AnyProjectPost[];
+  totalStaked?: LovelaceAmount;
+  tiers?: ProjectBenefitsTier[];
+  onClickBecomeMember?: () => void;
 };
 
-export default function TabUpdates({ className, style, value }: Props) {
+export default function TabUpdates({
+  className,
+  style,
+  value,
+  totalStaked,
+  tiers,
+  onClickBecomeMember,
+}: Props) {
   const [openedArticleIndex, setOpenedArticleIndex] = React.useState<
     number | null
   >(null);
@@ -44,7 +58,10 @@ export default function TabUpdates({ className, style, value }: Props) {
             // be defined.
             key={item.id || index}
             value={item}
+            totalStaked={totalStaked}
+            tiers={tiers}
             onClickLearnMore={() => setOpenedArticleIndex(index)}
+            onClickBecomeMember={onClickBecomeMember}
           />
         ))
       )}
