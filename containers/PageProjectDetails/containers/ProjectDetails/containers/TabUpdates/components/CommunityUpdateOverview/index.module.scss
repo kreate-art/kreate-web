@@ -112,7 +112,7 @@
 
 .exclusiveMessage {
   padding: 8px 12px;
-  color: #006E46;
+  color: #006e46;
   background: rgba(0, 110, 70, 0.1);
   border-radius: 65px;
   font-weight: 600;
@@ -120,3 +120,12 @@
   margin-top: 18px;
 }
 
+.box {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.member {
+  font-size: 12px;
+  line-height: 125%;
+}

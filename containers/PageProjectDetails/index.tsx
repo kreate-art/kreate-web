@@ -411,6 +411,8 @@ export default function PageProjectDetails({
                         announcements={project.announcements}
                         activities={project.activities}
                         activeTabIndex={activeTabIndex}
+                        totalStaked={totalStaked?.amount}
+                        tiers={project.tiers}
                         onChangeActiveTabIndex={(value) => {
                           history.pushState(null, "", TABS[value].hash);
                           setActiveTabIndex(value);
@@ -421,6 +423,7 @@ export default function PageProjectDetails({
                             item.scrollIntoView();
                           }
                         }}
+                        onClickBecomeMember={handleClickButtonBackProject}
                       />
                     </div>
                     <div className={styles.rightPanels}>
