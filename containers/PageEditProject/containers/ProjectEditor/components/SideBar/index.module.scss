@@ -8,7 +8,7 @@
   position: relative;
 
   &.collapsed {
-    max-width: 90px;
+    max-width: 120px;
   }
 }
 
@@ -23,7 +23,7 @@
 
 .headerLeft {
   flex: 0 0 auto;
-  width: 90px;
+  width: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,15 +80,12 @@
   padding: 0 24px 20px 24px;
   display: flex;
   overflow: hidden;
+  justify-content: center;
 }
 
 .imageNiko {
   width: 96px;
   height: auto;
-
-  .collapsed & {
-    transform: translateX(-24px);
-  }
 }
 
 .buttonGroup {
