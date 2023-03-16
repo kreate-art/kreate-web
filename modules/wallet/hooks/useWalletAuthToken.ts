@@ -82,7 +82,7 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
         });
       } catch (error) {
         if (isAbortError(error)) return;
-        console.error(error);
+        console.warn(error);
         await del(Auth.getStorageKey());
         setHeaderInfo({ status: "unauthenticated" });
       }
