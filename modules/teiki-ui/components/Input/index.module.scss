@@ -1,10 +1,12 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .input {
   border: none;
   background-color: white;
   padding: 16px 24px;
   outline: none;
   font-weight: 600;
-  color: #1f3e2f;
+  color: colors.$ink;
   width: 100%;
 
   &.error {
@@ -33,7 +35,7 @@
 }
 
 .label {
-  color: #1f3e2f;
+  color: colors.$ink;
   line-height: 21px;
   font-weight: 600;
   font-size: 14px;

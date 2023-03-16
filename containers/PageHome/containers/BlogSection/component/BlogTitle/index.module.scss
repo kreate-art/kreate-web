@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   justify-content: center;
@@ -5,7 +7,7 @@
 }
 
 .title {
-  color: #00362C;
+  color: colors.$secondary;
   font-size: 96px;
   line-height: 120px;
   font-weight: 900;

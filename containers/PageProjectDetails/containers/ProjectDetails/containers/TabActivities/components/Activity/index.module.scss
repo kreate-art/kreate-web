@@ -32,12 +32,12 @@
   width: 110px;
   font-size: 12px;
   font-weight: 400;
-  color: rgba(31, 62, 47, 0.5);
+  color: colors.$ink50;
 }
 
 .messageContainer {
   padding: 8px 20px;
-  background: rgba(0, 138, 69, 0.1);
+  background: colors.$ink10;
   border-radius: 12px;
   margin-top: 12px;
 }

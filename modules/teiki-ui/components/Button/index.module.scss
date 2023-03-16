@@ -40,13 +40,13 @@
   &.variantOutline {
     background-color: transparent;
     border-color: #00000019;
-    color: #1f3e2f;
+    color: colors.$ink;
   }
 
   &.variantTransparent {
     background-color: transparent;
     border-color: transparent;
-    color: #1f3e2f;
+    color: colors.$ink;
   }
 
   &:hover {

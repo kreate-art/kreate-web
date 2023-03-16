@@ -11,17 +11,30 @@ $white50: rgba($white, 0.5);
 $white30: rgba($white, 0.3);
 $white10: rgba($white, 0.1);
 
-$black: #000000;
+$black: #222222;
 $black80: rgba($black, 0.8);
 $black50: rgba($black, 0.5);
 $black30: rgba($black, 0.3);
 $black10: rgba($black, 0.1);
 
-$green: #006e46;
+// @deprecated: use $secondary instead
+$green: #222222;
 $green80: rgba($green, 0.8);
 $green50: rgba($green, 0.5);
 $green30: rgba($green, 0.3);
 $green10: rgba($green, 0.1);
+
+$primary: #ec5929;
+$primary80: rgba($primary, 0.8);
+$primary50: rgba($primary, 0.5);
+$primary30: rgba($primary, 0.3);
+$primary10: rgba($primary, 0.1);
+
+$secondary: #222222;
+$secondary80: rgba($secondary, 0.8);
+$secondary50: rgba($secondary, 0.5);
+$secondary30: rgba($secondary, 0.3);
+$secondary10: rgba($secondary, 0.1);
 
 $orange: #ff7a00;
 $orange80: rgba($orange, 0.8);
@@ -35,7 +48,7 @@ $red50: rgba($red, 0.5);
 $red30: rgba($red, 0.3);
 $red10: rgba($red, 0.1);
 
-$ink: #00362c;
+$ink: #222222;
 $ink80: rgba($ink, 0.8);
 $ink50: rgba($ink, 0.5);
 $ink30: rgba($ink, 0.3);

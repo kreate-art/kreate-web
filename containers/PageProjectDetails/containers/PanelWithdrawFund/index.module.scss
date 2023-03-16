@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   min-width: 50px;
   min-height: 50px;
@@ -8,9 +10,9 @@
   gap: 24px;
   background: radial-gradient(
     68.56% 67.65% at 68.56% 32.35%,
-    #256847 0%,
-    #213f30 82.95%,
-    #213f30 100%
+    #333333 0%,
+    #222222 82.95%,
+    #222222 100%
   );
 }
 
@@ -34,7 +36,7 @@
   justify-content: center;
   align-items: center;
   gap: 12px;
-  color: #00362c;
+  color: colors.$secondary;
   font-weight: 600;
   padding: 12px 24px;
   border-radius: 97px;

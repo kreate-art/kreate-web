@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .buttonWalletOptionsContainer {
   position: relative;
 }
@@ -7,7 +9,7 @@
   flex-direction: row;
   align-items: center;
   height: 48px;
-  border: 1px solid rgba(31, 62, 47, 0.1);
+  border: 1px solid colors.$secondary10;
   border-radius: 20px 20px 0 0;
   background-color: transparent;
   padding: 7px 16px;
@@ -38,7 +40,7 @@
 }
 
 .ada {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
   font-size: 12px;
   margin-left: 17px;
@@ -47,7 +49,7 @@
 .usd {
   font-weight: 400;
   font-size: 10px;
-  color: rgba(0, 54, 44, 0.8);
+  color: colors.$ink80;
   margin-left: 17px;
 }
 
@@ -61,7 +63,7 @@
 }
 
 .address {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
   margin-left: 10px;
 }
@@ -90,7 +92,7 @@
   margin-left: 40px;
   font-weight: 600;
   font-size: 14px;
-  color: #00362c;
+  color: colors.$ink;
   cursor: pointer;
   text-align: left;
 }

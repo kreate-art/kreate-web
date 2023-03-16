@@ -1,10 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: block;
-}
-
-.label {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 28px;
-  color: #00362c;
 }

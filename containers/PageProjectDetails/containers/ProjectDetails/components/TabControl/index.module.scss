@@ -31,14 +31,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(31, 62, 47, 0.8);
+  color: colors.$secondary;
 
   &.active {
-    color: rgba(31, 62, 47, 1);
+    color: colors.$secondary;
   }
 
   &.disabled {
-    color: rgba(16, 16, 16, 0.3);
+    color: colors.$secondary50;
   }
 }
 
@@ -50,8 +50,8 @@
   margin: 0;
 
   &.active {
-    background-color: colors.$green;
-    border-bottom: 1px solid colors.$green;
+    background-color: colors.$primary;
+    border-bottom: 1px solid colors.$primary;
   }
 }
 

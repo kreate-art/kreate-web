@@ -54,10 +54,10 @@ export default function PanelProjectOverview({
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Row flexWrap="wrap">
         <LeftColumn
-          gap="24px"
+          gap="20px"
           flex="1 1 500px"
           minWidth="0"
-          padding="56px 56px 56px 152px"
+          padding="56px 56px 48px 152px"
           position="relative"
         >
           <div className={styles.logoImage}>
@@ -66,7 +66,7 @@ export default function PanelProjectOverview({
               value={basics.logoImage || DEFAULT_LOGO_IMAGE}
             />
           </div>
-          <Flex.Col gap="20px">
+          <Flex.Col gap="16px">
             <TitleSloganViewer title={basics.title} slogan={basics.slogan} />
             <HistoryViewer value={{ ...history, match }} />
             <SocialChannelsViewer value={community.socialChannels} />
@@ -86,11 +86,10 @@ export default function PanelProjectOverview({
         when the parent div wraps. Fix this by extending `Flex.Row` */}
         <Divider.Vertical />
         <RightColumn flex="1 1 500px" minWidth="0">
-          <Flex.Cell flex="0 0 auto" padding="56px 56px 24px 56px">
+          <Flex.Cell flex="0 0 auto" padding="56px 56px 12px 56px">
             <ActiveStakeViewer value={stats.numLovelacesStaked ?? null} />
           </Flex.Cell>
-          <Divider.Horizontal />
-          <Flex.Cell flex="1 0 auto" padding="32px 56px">
+          <Flex.Cell flex="1 0 auto" padding="12px 56px 32px 56px">
             <OtherStatsViewer value={{ ...stats, ...history }} />
           </Flex.Cell>
           <Divider.Horizontal />

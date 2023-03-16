@@ -1,5 +1,5 @@
 .container {
-  background-color: green;
+  background-color: #222222;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -14,9 +14,9 @@
   background-image: url("./images/supporter-info-background.min.png"),
     radial-gradient(
       68.56% 67.65% at 68.56% 32.35%,
-      #256847 0%,
-      #213f30 82.95%,
-      #213f30 100%
+      #222222 0%,
+      #333333 82.95%,
+      #323232 100%
     );
 }
 

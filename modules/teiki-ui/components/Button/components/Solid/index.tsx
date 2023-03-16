@@ -12,6 +12,8 @@ const SIZE_TO_CLASS_NAME = {
 const COLOR_TO_CLASS_NAME = {
   green: styles.colorGreen,
   white: styles.colorWhite,
+  primary: styles.colorPrimary,
+  secondary: styles.colorSecondary,
 };
 
 type Props = {

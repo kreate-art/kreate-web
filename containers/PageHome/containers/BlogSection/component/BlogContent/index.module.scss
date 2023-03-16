@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   position: relative;
   display: block;
@@ -22,14 +24,14 @@
 }
 
 .posted {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
 }
 
 .dayPosted {
-  color: #00362c;
+  color: colors.$ink;
   font-weight: 400;
 }
 
