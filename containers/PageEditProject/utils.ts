@@ -39,11 +39,11 @@ function newProject(): Project {
       coverImages: [],
       logoImage: null,
     },
-    benefits: {},
     community: {
       socialChannels: [],
       frequentlyAskedQuestions: [],
     },
+    tiers: [],
   };
 }
 

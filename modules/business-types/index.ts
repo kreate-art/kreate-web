@@ -67,8 +67,7 @@ export type ProjectBenefitsTier = {
 };
 
 export type ProjectBenefits = {
-  perks?: never; // previously `perks: JSONContent`
-  tiers?: ProjectBenefitsTier[];
+  perks: JSONContent;
 };
 
 // TODO: `roadmap` is temporarily hidden from the UI (not removed)
@@ -76,8 +75,9 @@ export type Project = {
   description: ProjectDescription;
   basics: ProjectBasics;
   roadmap?: ProjectRoadmap;
-  benefits?: ProjectBenefits;
+  benefits?: never; // previously `benefits: ProjectBenefits`
   community: ProjectCommunity;
+  tiers?: ProjectBenefitsTier[];
 };
 
 interface IProjectPost {
@@ -341,7 +341,8 @@ export type DetailedProject = {
   id: ProjectId;
   description?: ProjectDescription;
   roadmap?: ProjectRoadmap; // Note: We are hiding Roadmap from UI, this field will be deprecated soon
-  benefits?: ProjectBenefits;
+  benefits?: never; // previously `benefits?: ProjectBenefits`
+  tiers?: ProjectBenefitsTier[];
   basics?: ProjectBasics;
   community?: ProjectCommunity;
   history?: ProjectGeneralInfo["history"];

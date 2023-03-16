@@ -348,7 +348,6 @@ export default function PageProjectDetails({
               {!project ||
               !project.basics ||
               !project.description ||
-              !project.benefits ||
               !project.community ||
               !project.history ||
               !project.categories ||
@@ -412,7 +411,6 @@ export default function PageProjectDetails({
                         description={project.description}
                         community={project.community}
                         announcements={project.announcements}
-                        benefits={project.benefits}
                         activities={project.activities}
                         activeTabIndex={activeTabIndex}
                         onChangeActiveTabIndex={(value) => {

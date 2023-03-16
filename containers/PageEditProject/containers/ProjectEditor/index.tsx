@@ -30,7 +30,7 @@ import styles from "./index.module.scss";
 import { getProjectProgressScores } from "./utils/project-progress";
 
 import { getDescriptionSentiment } from "@/modules/ai/sentiment-analysis";
-import { Project, ProjectBenefits } from "@/modules/business-types";
+import { Project } from "@/modules/business-types";
 import { useDebounce } from "@/modules/common-hooks/hooks/useDebounce";
 import { editorExtensions } from "@/modules/teiki-components/components/RichTextEditor/config";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -79,11 +79,6 @@ function renderModerationWarningLine(section: string, tags: string[]) {
       delisted and fined.
     </>
   );
-}
-
-// TODO: Clean up this later
-function emptyProjectBenefits(): ProjectBenefits {
-  return { tiers: [] };
 }
 
 /**
@@ -369,7 +364,12 @@ export default function ProjectEditor({
                 }}
               />
             ) : activeIndex === 3 ? (
-              <ProjectBenefitsEditor />
+              <ProjectBenefitsEditor
+                value={value?.tiers}
+                onChange={(newTiers) => {
+                  onChange && onChange({ ...value, tiers: newTiers });
+                }}
+              />
             ) : null}
             <GrammarlyButton
               style={{
