@@ -1,16 +1,22 @@
-import { Address, Lucid, SignedMessage, toText } from "lucid-cardano";
+import { Address, Lucid, SignedMessage } from "lucid-cardano";
 import { NextApiRequest } from "next";
 
 import { ClientError, CLIENT_AUTHORIZATION_ERROR_STATUS } from "../api/errors";
 
-export async function authorizeRequest(req: NextApiRequest) {
+import { AuthInfo } from "@/modules/authorization";
+
+export async function authorizeRequest(
+  req: NextApiRequest
+): Promise<AuthInfo | undefined> {
   const prefixError = "The authentication failed because of";
   const authHeader = req.headers["authorization"];
-  ClientError.assert(
-    authHeader,
-    `${prefixError} missing 'Authorization' header`,
-    CLIENT_AUTHORIZATION_ERROR_STATUS
-  );
+  if (!authHeader) return undefined;
+  // TODO: Delete this comment out
+  // ClientError.assert(
+  //   authHeader,
+  //   `${prefixError} missing 'Authorization' header`,
+  //   CLIENT_AUTHORIZATION_ERROR_STATUS
+  // );
 
   const [authScheme, authToken] = authHeader.split(" ", 2);
   ClientError.assert(
@@ -19,40 +25,38 @@ export async function authorizeRequest(req: NextApiRequest) {
     CLIENT_AUTHORIZATION_ERROR_STATUS
   );
 
-  const [address, payload, msg] = authToken.split(".");
-  const signedMessage: SignedMessage = JSON.parse(decodeURI(msg));
-  const { expiration } = JSON.parse(toText(payload));
+  const [address, payloadB64, msg] = authToken.split(".");
+  const signed: SignedMessage = JSON.parse(
+    Buffer.from(msg, "base64url").toString("utf8")
+  );
+  const payloadBuf = Buffer.from(payloadB64, "base64url");
+  const { expiration } = JSON.parse(payloadBuf.toString("utf8"));
   ClientError.assert(
     expiration,
     `${prefixError} invalid payload - missing expiration`,
     CLIENT_AUTHORIZATION_ERROR_STATUS
   );
   ClientError.assert(
-    expiration > Math.floor(Date.now()),
+    expiration > Date.now() / 1000,
     `${prefixError} token expired: ${expiration}`,
     CLIENT_AUTHORIZATION_ERROR_STATUS
   );
   ClientError.assert(
-    await verify({
-      address,
-      signedMessage,
-      payload,
-    }),
+    await verify({ address, signed, payload: payloadBuf.toString("hex") }),
     `${prefixError} unverified message`
   );
-
-  return address;
+  return { address, header: authHeader };
 }
 
 // Verify the message
 export async function verify({
   address,
-  signedMessage,
+  signed,
   payload,
 }: {
   address: Address;
-  signedMessage: SignedMessage;
+  signed: SignedMessage;
   payload: string;
 }): Promise<boolean> {
-  return (await Lucid.new()).verifyMessage(address, payload, signedMessage);
+  return (await Lucid.new()).verifyMessage(address, payload, signed);
 }

@@ -3,7 +3,7 @@ import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
 
-import { getAllAnnouncementsByProjectId } from "./getAllAnnouncementsByProjectId";
+import { getAllPostsByProjectId } from "./getAllPostsByProjectId";
 import { getAllProjectMilestoneSnapshots } from "./getAllProjectMilestoneSnapshots";
 import { getAllProjectUpdates } from "./getAllProjectUpdates";
 import {
@@ -16,6 +16,7 @@ import { getTopSupporter } from "./getTopSupporter";
 import { httpPostContentModeration } from "@/modules/ai/api/httpPostContentModeration";
 import { httpPostTagsRecommendation } from "@/modules/ai/api/httpPostTagsRecommendation";
 import { try$ } from "@/modules/async-utils";
+import { AuthInfo } from "@/modules/authorization";
 import {
   DetailedProject,
   Project,
@@ -42,6 +43,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
+  authInfo?: AuthInfo | undefined;
 };
 
 export type GetDetailedProject$Params = Params;
@@ -256,8 +258,10 @@ export async function getDetailedProject(
       topSupporters,
     ] = await Promise.all([
       // TODO: Use `getAllActivities` instead
-      getAllAnnouncementsByProjectId(sql, {
+      getAllPostsByProjectId(sql, {
         projectId,
+        viewerAddress: params.authInfo?.address ?? null,
+        ownerAddress,
       }),
       // TODO: @sk-umiuma: implement these
       getBackingActivities(sql, {

@@ -332,6 +332,7 @@ export function generateProjectCommunityUpdate({
     createdAt: faker.date.past().valueOf(),
     createdBy: generateAddress(),
     sequenceNumber: sequenceNumber ?? faker.datatype.number(10),
+    mediaCount: 0,
   };
 }
 

@@ -1,12 +1,9 @@
 import React from "react";
 import useSWR from "swr";
 
+import { AuthInfo } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
-import {
-  GetDetailedProject$Params,
-  GET_DETAILED_PROJECT__ERRORS,
-} from "@/modules/next-backend/logic/getDetailedProject";
 import {
   httpGetProject,
   httpGetProject$GetKey,
@@ -19,6 +16,27 @@ type Result = {
   mutate: () => void;
 };
 
+// Types taken from @/modules/next-backend/logic/getDetailedProject
+// We should NOT import a module from "backend" at "frontend"
+// I think we should have something like "@/modules/common-types" to
+// share types between BE & FE code.
+const ERRORS = {
+  NOT_FOUND: 48,
+} as const;
+
+export const GET_DETAILED_PROJECT__ERRORS = ERRORS;
+
+type Params = {
+  active?: boolean;
+  customUrl?: string;
+  projectId?: string;
+  ownerAddress?: string;
+  relevantAddress?: string;
+  preset: "minimal" | "basic" | "full";
+  authInfo?: AuthInfo | undefined;
+};
+
+export type GetDetailedProject$Params = Params;
 // NOTE: @sk-kitsune: This is the proper way to add more meaning to an error.
 export class ProjectNotFound extends DisplayableError {}
 

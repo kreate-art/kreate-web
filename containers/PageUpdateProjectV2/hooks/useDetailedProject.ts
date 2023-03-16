@@ -1,7 +1,7 @@
 import useSWR from "swr";
 
+import { AuthInfo } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
-import { GetDetailedProject$Params } from "@/modules/next-backend/logic/getDetailedProject";
 import {
   httpGetProject,
   httpGetProject$GetKey,
@@ -13,6 +13,20 @@ export type Params = {
   projectId?: string;
   ownerAddress?: string;
   preset?: "minimal" | "basic" | "full";
+};
+
+// Taken from "@/modules/next-backend/logic/getDetailedProject"
+// We should NOT import a module from "backend" at "frontend"
+// I think we should have something like "@/modules/common-types" to
+// share types between BE & FE code.
+type GetDetailedProject$Params = {
+  active?: boolean;
+  customUrl?: string;
+  projectId?: string;
+  ownerAddress?: string;
+  relevantAddress?: string;
+  preset: "minimal" | "basic" | "full";
+  authInfo?: AuthInfo | undefined;
 };
 
 type Result =
