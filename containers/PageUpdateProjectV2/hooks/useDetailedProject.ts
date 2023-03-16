@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-import { AuthInfo } from "@/modules/authorization";
+import { AuthHeader } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import {
   httpGetProject,
@@ -26,7 +26,7 @@ type GetDetailedProject$Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  authInfo?: AuthInfo | undefined;
+  authHeader?: AuthHeader | undefined;
 };
 
 type Result =

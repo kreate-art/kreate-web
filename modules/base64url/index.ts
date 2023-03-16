@@ -1,3 +1,5 @@
+import { Base64 } from "../crypt";
+
 function unescape(str: string) {
   return (str + "===".slice((str.length + 3) % 4))
     .replace(/-/g, "+")
@@ -8,12 +10,12 @@ function escape(str: string) {
   return str.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
-function encode(text: string, encoding?: BufferEncoding) {
-  return escape(Buffer.from(text, encoding || "utf8").toString("base64"));
+function encode(bytes: Buffer): Base64 {
+  return escape(bytes.toString("base64"));
 }
 
-function decode(b64: string, encoding?: BufferEncoding) {
-  return Buffer.from(unescape(b64), "base64").toString(encoding || "utf8");
+function decode(text: Base64): Buffer {
+  return Buffer.from(unescape(text), "base64");
 }
 
 const exports = { encode, decode, escape, unescape };
