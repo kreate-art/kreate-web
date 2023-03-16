@@ -46,6 +46,7 @@ export function newProjectAnnouncement(): ProjectAnnouncement {
       content: [{ type: "paragraph" }],
     },
     summary: "",
+    mediaCount: 0,
   };
 }
 

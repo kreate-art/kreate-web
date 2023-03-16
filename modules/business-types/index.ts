@@ -110,12 +110,14 @@ interface IProjectPost {
 // Mostly used for rendering
 export interface PublicProjectPost extends IProjectPost {
   body: JSONContent;
+  mediaCount: number;
   exclusive?: never;
 }
 
 // Decrypted body content, need to encrypt to transform to `PublicProjectPost`
 export interface ExclusiveProjectPost extends IProjectPost {
   body: CipherMeta & { ciphertext: CipherText<JSONContent> };
+  mediaCount: number;
   exclusive: { tier: number };
 }
 
@@ -131,6 +133,21 @@ export type ProjectAnnouncement = PublicProjectPost;
 
 /** @deprecated Please rename to `ProjectAnnouncement` */
 export type ProjectCommunityUpdate = ProjectAnnouncement;
+
+// TODO: The following code hardcodes tiers for quick demonstration
+// purposes. Will be replaced with creator's custom tiers afterward
+export const EXCLUSIVE_TIERS: Tier[] = [
+  { tier: 0, label: "Zero", requiredStake: 500_000 },
+  { tier: 1, label: "One", requiredStake: 1_000_000_000 },
+  { tier: 2, label: "Two", requiredStake: 2_000_000_000 },
+  { tier: 3, label: "Three", requiredStake: 3_000_000_000 },
+];
+
+export type Tier = {
+  tier: number;
+  label: string;
+  requiredStake: LovelaceAmount;
+};
 
 export type UnixTimestamp = number;
 export type ProjectId = string; // Hex
@@ -337,7 +354,7 @@ export type DetailedProject = {
   stats?: ProjectGeneralInfo["stats"];
   categories?: ProjectGeneralInfo["categories"];
   match?: ProjectGeneralInfo["match"];
-  announcements?: ProjectAnnouncement[];
+  announcements?: AnyProjectPost[];
   activities?: ProjectActivity[];
   topSupporters?: SupporterInfo[];
   censorship?: string[];

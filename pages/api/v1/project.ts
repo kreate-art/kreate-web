@@ -4,6 +4,7 @@ import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db } from "@/modules/next-backend/connections";
 import { getDetailedProject } from "@/modules/next-backend/logic/getDetailedProject";
+import { authorizeRequest } from "@/modules/next-backend/utils/authorization";
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,12 +29,15 @@ export default async function handler(
       "invalid preset"
     );
 
+    const authInfo = await authorizeRequest(req);
+
     const response = await getDetailedProject(db, {
       active: active === undefined ? undefined : active === "true",
       customUrl,
       projectId,
       ownerAddress,
       preset,
+      authInfo,
     });
 
     sendJson(res.status(200), response);
