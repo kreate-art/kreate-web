@@ -5,7 +5,7 @@ import { ProgressScore, ProjectProgressScores } from "../../../types";
 import {
   Project,
   ProjectBasics,
-  ProjectBenefits,
+  ProjectBenefitsTier,
   ProjectCommunity,
   ProjectDescription,
 } from "@/modules/business-types";
@@ -17,7 +17,7 @@ export function getProjectProgressScores(
   return {
     description: getDescriptionProgress(project.description),
     basics: getBasicProgress(project.basics),
-    benefits: getProjectBenefitsProgress(project.benefits),
+    tiers: getProjectTiersProgress(project.tiers),
     community: getCommunityProgress(project.community),
   };
 }
@@ -36,11 +36,12 @@ function getBasicProgress(basic: ProjectBasics): ProgressScore {
   );
 }
 
-function getProjectBenefitsProgress(
-  benefits: ProjectBenefits | undefined
+function getProjectTiersProgress(
+  benefits: ProjectBenefitsTier[] | undefined
 ): ProgressScore {
   if (benefits == null) return 0.0;
-  return 1.0;
+  console.log("[TIEREE]: ", benefits.length > 0 ? 1.0 : 0.0);
+  return benefits.length > 0 ? 1.0 : 0.0;
 }
 
 function getCommunityProgress(community: ProjectCommunity): ProgressScore {

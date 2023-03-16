@@ -110,7 +110,7 @@ export default function ProjectEditor({
   const isProjectIncomplete =
     projectProgressScores.description !== 1.0 ||
     projectProgressScores.basics !== 1.0 ||
-    projectProgressScores.benefits !== 1.0 ||
+    projectProgressScores.tiers !== 1.0 ||
     projectProgressScores.community !== 1.0;
   const { showMessage } = useToast();
 
@@ -137,7 +137,7 @@ export default function ProjectEditor({
   const customUrlUuid = React.useMemo(() => v4(), []);
   const tagsUuid = React.useMemo(() => v4(), []);
   const summaryUuid = React.useMemo(() => v4(), []);
-  const benefitsUUid = React.useMemo(() => v4(), []);
+  // const benefitsUUid = React.useMemo(() => v4(), []);
   const faqsUuid = React.useMemo(() => v4(), []);
 
   useContentModeration({
@@ -367,7 +367,7 @@ export default function ProjectEditor({
               <ProjectBenefitsEditor
                 value={value?.tiers}
                 onChange={(newTiers) => {
-                  onChange && onChange({ ...value, tiers: newTiers });
+                  onChange && onChange({ ...value, tiers: newTiers }); // TODO: Sort tiers before uploading to IPFS
                 }}
               />
             ) : null}

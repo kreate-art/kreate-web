@@ -9,8 +9,6 @@ import styles from "./index.module.scss";
 
 import {
   AnyProjectPost,
-  ProjectBenefits,
-  ProjectBenefitsTier,
   ProjectCommunity,
   ProjectDescription,
 } from "@/modules/business-types";
@@ -64,7 +62,7 @@ export default function ProjectDetails({
       ) : activeTabIndex == 1 ? ( // Benefits
         <div className={styles.richTextEditorContainer} />
       ) : activeTabIndex == 2 ? ( // Posts
-        <TabUpdates value={announcements} />
+        <TabUpdates value={announcements} /> // TODO: Prop `ProjectBenefitsTier` to get required ADA staked to view posts
       ) : activeTabIndex == 3 ? ( // FAQs
         <FAQs faqs={community.frequentlyAskedQuestions} />
       ) : activeTabIndex === 4 ? ( // Activities
