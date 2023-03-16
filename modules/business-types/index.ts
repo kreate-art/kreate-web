@@ -273,10 +273,10 @@ export function formatScope(scope: ProjectUpdateScope): string {
     case "logoImage":
       return "logo";
     case "sponsorship":
-      return `sponsorship to ${formatLovelaceAmount(scope.sponsorshipAmount, {
-        compact: true,
-        includeCurrencySymbol: true,
-      })}`;
+      return `the Teiki sponsorship to ${formatLovelaceAmount(
+        scope.sponsorshipAmount,
+        { compact: true, includeCurrencySymbol: true }
+      )}`;
     default:
       return "";
   }
@@ -316,6 +316,12 @@ export type ProjectActivityAction =
       type: "protocol_milestone_reached";
       projectTitle: string;
       milestonesSnapshot: number;
+      message: string | null;
+    }
+  | {
+      type: "project_creation";
+      projectTitle: string;
+      sponsorshipAmount: LovelaceAmount | null;
       message: string | null;
     };
 

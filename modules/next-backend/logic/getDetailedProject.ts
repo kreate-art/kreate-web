@@ -11,6 +11,7 @@ import {
   ProjectBackingActivity,
 } from "./getBackingActivitiesByProjectId";
 import { getBackingTags } from "./getBackingTags";
+import { getProjectCreationActivity } from "./getProjectCreationActivity";
 import { getTopSupporter } from "./getTopSupporter";
 
 import { httpPostContentModeration } from "@/modules/ai/api/httpPostContentModeration";
@@ -255,6 +256,7 @@ export async function getDetailedProject(
       projectUpdates,
       allProjectProtocolMilestoneSnapshots,
       topSupporters,
+      projectCreation,
     ] = await Promise.all([
       // TODO: Use `getAllActivities` instead
       getAllPostsByProjectId(sql, {
@@ -273,6 +275,7 @@ export async function getDetailedProject(
         projectId,
       }),
       getTopSupporter(sql, { projectId }),
+      getProjectCreationActivity(sql, { projectId }),
     ]);
 
     const activities = await backingDataToActivities(backingData);
@@ -322,6 +325,20 @@ export async function getDetailedProject(
         action,
       });
     });
+
+    if (projectCreation.error !== "no-project-found") {
+      const action: ProjectActivityAction = {
+        type: "project_creation",
+        projectTitle: project.basics?.title ?? ownerAddress,
+        sponsorshipAmount: projectCreation.sponsorshipAmount,
+        message: null,
+      };
+      activities.push({
+        createdAt: projectCreation.createdAt,
+        createdBy: ownerAddress,
+        action,
+      });
+    }
 
     let match: number | undefined = undefined;
     if (params.relevantAddress != null && project.basics != null) {
