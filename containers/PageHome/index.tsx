@@ -3,7 +3,6 @@ import * as React from "react";
 
 import Podcast from "../Podcast";
 
-import BlogSection from "./containers/BlogSection";
 import FooterPanel from "./containers/FooterPanel";
 import NavBar from "./containers/NavBar";
 import PanelProtocolStatistics from "./containers/PanelProtocolStatistics";
@@ -180,9 +179,6 @@ export default function PageHome({ className, style }: Props) {
               padding="narrow"
               descriptionMaxLines={4}
             />
-          </div>
-          <div className={styles.blockContainer}>
-            <BlogSection className={styles.blogSection} />
           </div>
         </main>
         <FooterPanel style={{ width: "100%" }} />
