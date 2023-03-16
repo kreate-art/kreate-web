@@ -1,8 +1,10 @@
 .container {
-  width: 100%;
-  font-weight: 900;
-  font-size: 90px;
-  line-height: 120px;
-  text-align: center;
-  color: #1e1e1e;
+  display: flex;
+  justify-content: center;
+}
+
+.kreateWYC {
+  flex: 1 1 0;
+  max-width: 982px;
+  height: auto;
 }
