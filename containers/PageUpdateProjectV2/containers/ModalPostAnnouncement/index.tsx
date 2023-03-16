@@ -11,7 +11,11 @@ import {
 } from "./utils";
 
 import { throw$, try$, tryUntil } from "@/modules/async-utils";
-import { LovelaceAmount, ProjectAnnouncement } from "@/modules/business-types";
+import {
+  EXCLUSIVE_TIERS,
+  PublicProjectPost,
+  Tier,
+} from "@/modules/business-types";
 import {
   formatAutoSaverStatus,
   useAutoSaver,
@@ -23,7 +27,7 @@ import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { useTxParams$CreatorUpdateProject } from "@/modules/next-backend-client/hooks/useTxParams$CreatorUpdateProject";
-import { ipfsAdd$WithBufsAs$Blob } from "@/modules/next-backend-client/utils/ipfsAdd$WithBufsAs$Blob";
+import { ipfsAdd$ProjectPost } from "@/modules/next-backend-client/utils/ipfsAdd$ProjectPost";
 import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
@@ -40,16 +44,6 @@ import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
 
-type Tier = { tier: number; label: string; requiredStake: LovelaceAmount };
-
-// TODO: The following code hardcodes tiers for quick demonstration
-// purposes. Will be replaced with creator's custom tiers afterward
-const EXCLUSIVE_TIERS: Tier[] = [
-  { tier: 1, label: "One", requiredStake: 1_000_000_000 },
-  { tier: 2, label: "Two", requiredStake: 2_000_000_000 },
-  { tier: 3, label: "Three", requiredStake: 3_000_000_000 },
-];
-
 function formatTier(tier: Tier) {
   return `Tier ${tier.tier}: ${tier.label}`;
 }
@@ -58,7 +52,7 @@ type Props = {
   open: boolean;
   projectId: string;
   labelAction: string;
-  onAction?: (value: ProjectAnnouncement) => void;
+  onAction?: (value: PublicProjectPost) => void;
   onSkip?: () => void;
   onSuccess?: () => void;
   onExit?: () => void;
@@ -134,9 +128,14 @@ export default function ModalPostAnnouncement({
       setStatusBarText("Uploading files to IPFS...");
       const announcementCid = await try$(
         async () => {
-          const blobWBA: WithBufsAs<ProjectAnnouncement, Blob> =
+          const blobWBA: WithBufsAs<PublicProjectPost, Blob> =
             await Converters.fromProjectAnnouncement(CodecBlob)(value);
-          const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);
+          const cid = await ipfsAdd$ProjectPost(
+            blobWBA,
+            isExclusive ? tierIndex : null
+          );
+          // TODO: @sk-yagi: Remove this console.log
+          console.log("[CID]: ", cid);
           return cid;
         },
         (cause) => throw$(new Error("failed to upload files", { cause }))
@@ -301,7 +300,7 @@ export default function ModalPostAnnouncement({
                     disabled={!isExclusive}
                   >
                     {EXCLUSIVE_TIERS.map((tier, index) => (
-                      <option value={index} key={index}>
+                      <option value={tier.tier} key={index}>
                         {formatTier(tier)}
                       </option>
                     ))}

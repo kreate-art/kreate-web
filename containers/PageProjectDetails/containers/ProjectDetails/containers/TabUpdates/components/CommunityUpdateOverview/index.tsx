@@ -7,7 +7,7 @@ import IconDocumentCircle from "../../icons/IconDocumentCircle";
 
 import styles from "./index.module.scss";
 
-import { ProjectAnnouncement } from "@/modules/business-types";
+import { AnyProjectPost } from "@/modules/business-types";
 import Button from "@/modules/teiki-ui/components/Button";
 import Chip from "@/modules/teiki-ui/components/Chip";
 import Title from "@/modules/teiki-ui/components/Title";
@@ -16,7 +16,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: ProjectAnnouncement;
+  value: AnyProjectPost;
   onClickLearnMore?: () => void;
 };
 
@@ -90,9 +90,16 @@ export default function CommunityUpdateOverview({
       <hr className={styles.divider} />
       <div className={styles.main}>
         <div className={styles.summary}>{value.summary}</div>
-        <div className={styles.linkContainer}>
-          <Button.Link content="Read more" onClick={onClickLearnMore} />
-        </div>
+        {value.exclusive ? (
+          <div>
+            Subscribe to access this content, you should reach tier{" "}
+            {value.exclusive.tier} to view
+          </div>
+        ) : (
+          <div className={styles.linkContainer}>
+            <Button.Link content="Read more" onClick={onClickLearnMore} />
+          </div>
+        )}
       </div>
     </article>
   );

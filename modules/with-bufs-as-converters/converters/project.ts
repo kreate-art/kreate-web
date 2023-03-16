@@ -18,6 +18,7 @@ import {
   ProjectBenefitsTier,
   ProjectDescription,
   ProjectImage,
+  PublicProjectPost,
 } from "@/modules/business-types";
 
 /** Converts `ProjectDescription` to `WithBufsAs<ProjectDescription, V>`. */
@@ -173,3 +174,12 @@ export function toProjectAnnouncement<V>(
 
 /** @deprecated Use `toProjectAnnouncement` instead. */
 export const toProjectCommunityUpdate = toProjectAnnouncement;
+
+/** Converts `WithBufsAs<PublicProjectPost, V>` To `PublicProjectPost` */
+export function toPublicProjectPost<V>(
+  codec: Codec<V>
+): ToFn<PublicProjectPost, V> {
+  return toObject<PublicProjectPost, V>({
+    body: toJSONContent(codec),
+  });
+}

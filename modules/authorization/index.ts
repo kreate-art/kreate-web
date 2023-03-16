@@ -1,9 +1,10 @@
 // Cardano web token
 
-import { Address, Lucid, SignedMessage, fromText } from "lucid-cardano";
+import { Address, fromText, Lucid, SignedMessage } from "lucid-cardano";
 
 import { toJsonStable } from "../json-utils";
 
+import base64url from "@/modules/base64url";
 import { NETWORK } from "@/modules/env/client";
 
 const TTL = 30 * 86_400 * 1_000; // 30 days
@@ -16,8 +17,13 @@ export type AuthMessage = {
 };
 
 export type AuthToken = {
-  signedMessage: SignedMessage;
+  signed: SignedMessage;
   payload: string;
+};
+
+export type AuthInfo = {
+  address: Address;
+  header: string;
 };
 
 // Sign a message
@@ -27,14 +33,11 @@ export async function sign(lucid: Lucid) {
     expiration: toExpirationTime(Date.now() + TTL),
     message: "Login to Teiki",
   };
-  const payload = fromText(toJsonStable(authMessage, undefined, 4));
-  const signedMessage = await lucid
-    .newMessage(await lucid.wallet.address(), payload)
+  const payload = toJsonStable(authMessage, undefined, 4);
+  const signed = await lucid
+    .newMessage(await lucid.wallet.address(), fromText(payload))
     .sign();
-  return {
-    signedMessage,
-    payload,
-  };
+  return { signed, payload };
 }
 
 export function constructAuthHeader({
@@ -44,9 +47,11 @@ export function constructAuthHeader({
   token: AuthToken;
   address: Address;
 }) {
-  return `Token ${address}.${token.payload}.${encodeURI(
-    JSON.stringify(token.signedMessage)
-  )}`;
+  const payload = base64url.encode(token.payload);
+  const signature = base64url.encode(
+    JSON.stringify(token.signed, undefined, 0)
+  );
+  return `Token ${address}.${payload}.${signature}`;
 }
 
 export function toExpirationTime(date: number) {
