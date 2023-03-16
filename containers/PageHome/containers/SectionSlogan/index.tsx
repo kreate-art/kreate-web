@@ -1,6 +1,8 @@
 import cx from "classnames";
+import Image from "next/image";
 import * as React from "react";
 
+import svgKreateWYC from "./assets/kreate-wyc.svg";
 import styles from "./index.module.scss";
 
 type Props = {
@@ -11,7 +13,12 @@ type Props = {
 export default function SectionSlogan({ className, style }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
-      Create with your Community
+      <Image
+        className={styles.kreateWYC}
+        src={svgKreateWYC}
+        alt="kreate with your community"
+        priority
+      />
     </div>
   );
 }
