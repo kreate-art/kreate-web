@@ -1,5 +1,7 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .searchResult {
-  color: #1f3e2f;
+  color: colors.$ink;
   font-weight: 600;
   font-size: 14px;
   border: none;
@@ -12,5 +14,5 @@
 }
 
 .slogan {
-  color: rgba(31, 62, 47, 0.5);
+  color: colors.$ink50;
 }

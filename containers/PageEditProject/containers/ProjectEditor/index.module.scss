@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .sidebar {
   position: fixed;
   left: 0;
@@ -16,7 +18,7 @@
 }
 
 .statusText {
-  color: #1f3e2f;
+  color: colors.$ink;
   min-width: 10em;
   flex: 10000 10000 0;
   padding: 5px 0;

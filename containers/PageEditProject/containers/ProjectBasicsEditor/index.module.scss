@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   background-color: white;
   border-radius: 10px 10px 0 0;
@@ -34,7 +36,7 @@
 .basicEditButton {
   margin-left: auto !important;
   background-color: rgba(31, 62, 47, 0) !important;
-  color: #1f3e2f !important;
+  color: colors.$ink !important;
   display: flex !important;
   flex-direction: row;
   align-items: center;

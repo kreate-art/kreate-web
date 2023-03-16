@@ -11,12 +11,12 @@
 
 .buttonWallet:disabled {
   // Note: @sk-tenba: this is to avoid the situation where the button wallet is blurred twice
-  color: #00362c;
+  color: colors.$secondary;
 }
 
 .buttonWallet:hover {
-  border: 1px solid rgba(0, 138, 69, 0.5);
-  box-shadow: 0 0 0 1px rgba(0, 138, 69, 0.5);
+  border: 1px solid colors.$secondary;
+  box-shadow: 0 0 0 1px colors.$secondary;
   cursor: pointer;
 }
 
@@ -29,15 +29,15 @@
 .heading {
   font-weight: 600;
   display: flex;
-  color: #00362c;
+  color: colors.$secondary;
   align-items: center;
   &.headingDimmed {
-    color: rgba(31, 62, 47, 0.8);
+    color: colors.$secondary50;
   }
 }
 
 .recommend {
-  background: rgba(0, 138, 69, 0.05);
+  background: colors.$secondary10;
   border-radius: 12px;
   display: flex;
   padding: 12px 16px;
@@ -48,10 +48,11 @@
 
 .iconRecommend {
   flex: 0 0 auto;
+  color: colors.$secondary;
 }
 
 .recommendText {
-  color: colors.$green;
+  color: colors.$secondary;
   text-align: left;
   line-height: 24px;
 }

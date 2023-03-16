@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .milestoneInput {
   background-color: rgba(31, 62, 47, 0.05);
   width: 100%;
@@ -108,7 +110,7 @@
 }
 
 .usdPrice {
-  color: #00362c;
+  color: colors.$ink;
   flex: 1 1 0;
   overflow: hidden;
 }

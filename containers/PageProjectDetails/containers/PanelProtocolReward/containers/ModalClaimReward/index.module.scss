@@ -1,13 +1,15 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .yourReward {
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(0, 54, 44, 0.8);
+  color: colors.$ink80;
 }
 
 .unclaimedAmount {
   font-weight: 700;
   font-size: 32px;
   line-height: 48px;
-  color: #00362c;
+  color: colors.$ink;
 }

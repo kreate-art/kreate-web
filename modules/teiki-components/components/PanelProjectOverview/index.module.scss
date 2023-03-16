@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: block;
   background: rgba(255, 255, 255, 0.8);
@@ -9,7 +11,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 28px;
-  color: #00362c;
+  color: colors.$ink80;
 
   @supports (-webkit-line-clamp: 6) {
     overflow: hidden;
@@ -29,9 +31,4 @@
   left: 56px;
   top: 56px;
   overflow: hidden;
-  filter: drop-shadow(0px 28px 11px rgba(0, 0, 0, 0.01))
-    drop-shadow(0px 16px 10px rgba(0, 0, 0, 0.05))
-    drop-shadow(0px 7px 7px rgba(0, 0, 0, 0.09))
-    drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1))
-    drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.1));
 }

@@ -6,16 +6,16 @@
 
 .checkbox {
   font-weight: 600;
-  color: #00362c;
+  color: colors.$secondary;
 }
 
 .notes {
-  background-color: rgba(0, 54, 44, 0.1);
+  background-color: colors.$ink10;
   padding: 16px 20px;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
-  color: #00362c;
+  color: colors.$secondary;
   border-radius: 8px;
 
   .title {
@@ -34,14 +34,14 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #00362c;
+  color: colors.$secondary;
 }
 
 .sponsorUsd {
   font-weight: 400;
   font-size: 12px;
   line-height: 24px;
-  color: rgba(0, 54, 44, 0.8);
+  color: colors.$ink80;
 }
 
 .errorBox {

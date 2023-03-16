@@ -33,10 +33,10 @@ export default function ActionBack({ className, style, value }: Props) {
             content="View transaction"
             size="heading6"
             style={{
-              color: "#00362C",
               textDecoration: "underline",
               marginLeft: "8px",
             }}
+            color="ink"
           />
         </Link>
       </Typography.Div>

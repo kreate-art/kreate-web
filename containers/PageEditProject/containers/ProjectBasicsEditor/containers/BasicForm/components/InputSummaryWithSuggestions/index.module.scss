@@ -1,8 +1,10 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   position: relative;
 
   textarea {
-    color: #00362c;
+    color: colors.$ink;
   }
 }
 
@@ -39,7 +41,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
-  color: rgba(0, 54, 44, 0.8);
+  color: colors.$ink80;
 }
 
 .popover {
@@ -48,7 +50,7 @@
   border-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  color: #00362c;
+  color: colors.$ink;
   display: flex;
   flex-direction: column;
   font-size: 14px;

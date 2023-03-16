@@ -24,11 +24,11 @@ export default function SocialChannelsViewer({
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <Flex.Row gap="12px">
+      <Flex.Row gap="12px" style={{ marginTop: "-4px", marginBottom: "-4px" }}>
         <Flex.Cell className={styles.label} flex="0 0 auto">
           {"Social: "}
         </Flex.Cell>
-        <Flex.Row gap="16px" flexWrap="wrap">
+        <Flex.Row gap="4px" flexWrap="wrap">
           {!entries.length ? (
             <span style={{ lineHeight: "40px", color: "rgba(0, 0, 0, 0.6)" }}>
               {"-"}
@@ -37,6 +37,8 @@ export default function SocialChannelsViewer({
             entries.map(({ url, isSafe, icon: Icon, tooltip }, index) => (
               <a
                 key={index}
+                // NOTE: @sk-kitsune: this hack is used because we don't have Button.Outline size="extraSmall" yet
+                style={{ transform: "scale(0.8)" }}
                 href={url}
                 onClick={(event) => {
                   if (isSafe) return;
@@ -48,14 +50,10 @@ export default function SocialChannelsViewer({
                 rel="noopener noreferrer"
                 title={tooltip}
               >
-                <Button.Solid
-                  style={{
-                    backgroundColor: "rgba(0, 0, 0, 0.05)",
-                    color: "rgba(0, 54, 44, 0.8)",
-                  }}
+                <Button.Outline
                   as="div"
                   icon={<Icon width="24" height="24" />}
-                  color="white"
+                  color="green"
                   size="small"
                   circular
                 />

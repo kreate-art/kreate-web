@@ -8,21 +8,21 @@ const IconPodcastMenu = () => (
   >
     <path
       d="M4.16602 14.667L15.8327 14.667"
-      stroke="#1F3E2F"
+      stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M4.16602 10.5H15.8327"
-      stroke="#1F3E2F"
+      stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M4.16602 6.33301L10.8327 6.33301"
-      stroke="#1F3E2F"
+      stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

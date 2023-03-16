@@ -1,7 +1,9 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
-  background-color: rgba(0, 138, 69, 0.05);
+  background-color: colors.$ink10;
   border-radius: 14px;
-  color: #30925e;
+  color: colors.$ink;
   display: inline-block;
   font-size: 12px;
   font-weight: 600;

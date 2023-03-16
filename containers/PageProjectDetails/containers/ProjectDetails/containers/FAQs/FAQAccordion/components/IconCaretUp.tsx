@@ -16,7 +16,7 @@ export default function IconCaretUp({ className, style }: Props) {
     >
       <path
         d="M8 14L12 10L16 14"
-        stroke="#00362C"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

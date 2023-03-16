@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   column-gap: 12px;
@@ -20,7 +22,7 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 25px;
-  color: #1f3e2f;
+  color: colors.$ink;
 
   .inverted & {
     color: #ffffff;
@@ -38,7 +40,7 @@
   font-weight: 700;
   font-size: 12px;
   line-height: 12px;
-  color: #1f3e2fcc;
+  color: colors.$ink80;
 
   .inverted & {
     color: #ffffffcc;
