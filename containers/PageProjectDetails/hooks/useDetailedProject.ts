@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 
-import { AuthInfo } from "@/modules/authorization";
+import { AuthHeader } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import {
@@ -33,7 +33,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  authInfo?: AuthInfo | undefined;
+  authHeader?: AuthHeader | undefined;
 };
 
 export type GetDetailedProject$Params = Params;

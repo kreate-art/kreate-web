@@ -1,4 +1,4 @@
-import { AuthInfo } from "@/modules/authorization";
+import { AuthHeader } from "@/modules/authorization";
 import { DetailedProject } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { fromJson } from "@/modules/json-utils";
@@ -29,7 +29,7 @@ type Params = {
   ownerAddress?: string;
   relevantAddress?: string;
   preset: "minimal" | "basic" | "full";
-  authInfo?: AuthInfo | undefined;
+  authHeader?: AuthHeader | undefined;
 };
 
 export type GetDetailedProject$Params = Params;
@@ -46,7 +46,7 @@ export async function httpGetProject({
   projectId,
   ownerAddress,
   preset,
-  authInfo,
+  authHeader,
 }: GetDetailedProject$Params): Promise<GetDetailedProject$Response> {
   const search = new URLSearchParams();
   // TODO: define toQuery$GetDetailedProject
@@ -56,7 +56,7 @@ export async function httpGetProject({
   if (ownerAddress) search.append("ownerAddress", ownerAddress);
   search.append("preset", preset);
 
-  const headers = authInfo ? { Authorization: authInfo.header } : undefined;
+  const headers = authHeader ? { Authorization: authHeader.header } : undefined;
 
   const response = await fetch(`/api/v1/project?${search.toString()}`, {
     headers,

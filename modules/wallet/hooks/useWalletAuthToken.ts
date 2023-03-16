@@ -4,7 +4,6 @@ import * as React from "react";
 import { WalletStatus } from "../types";
 
 import * as Auth from "@/modules/authorization";
-import { toExpirationTime } from "@/modules/authorization";
 import { isAbortError } from "@/modules/common-hooks/hooks/useAsyncComputation";
 import { assert } from "@/modules/common-utils";
 
@@ -15,7 +14,7 @@ import { assert } from "@/modules/common-utils";
  */
 
 export type WalletAuthHeaderInfo =
-  | { status: "authenticated"; info: Auth.AuthInfo }
+  | { status: "authenticated"; info: Auth.AuthHeader }
   | { status: "unauthenticated" }
   | { status: "not-ready" };
 
@@ -25,27 +24,27 @@ type Results = {
 };
 
 export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
-  const [tokenInfo, setTokenInfo] = React.useState<WalletAuthHeaderInfo>({
+  const [headerInfo, setHeaderInfo] = React.useState<WalletAuthHeaderInfo>({
     status: "not-ready",
   });
   // TODO: Abort?
   const authenticateWallet = async (): Promise<WalletAuthHeaderInfo> => {
     assert(walletStatus.status === "connected", "wallet is not connected");
-    const token = await Auth.sign(walletStatus.lucid);
+    const savedAuthInfo = await Auth.sign(walletStatus.lucid);
     const address = walletStatus.info.address;
-    const tokenInfo: WalletAuthHeaderInfo = {
+    const headerInfo: WalletAuthHeaderInfo = {
       status: "authenticated",
       info: {
         address,
-        header: Auth.constructAuthHeader({
-          token,
+        header: Auth.constructHeader({
+          savedAuthInfo,
           address,
         }),
       },
     };
-    set(Auth.getStorageKey(), token);
-    setTokenInfo(tokenInfo);
-    return tokenInfo;
+    set(Auth.getStorageKey(), savedAuthInfo);
+    setHeaderInfo(headerInfo);
+    return headerInfo;
   };
 
   React.useEffect(() => {
@@ -54,26 +53,29 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
 
     void (async () => {
       if (walletStatus.status !== "connected") {
-        setTokenInfo({ status: "not-ready" });
+        setHeaderInfo({ status: "not-ready" });
         return;
       }
       try {
         // TODO: Should look up using address. And
-        const token = (await get(Auth.getStorageKey())) as Auth.AuthToken;
+        const savedAuthInfo = (await get(
+          Auth.getStorageKey()
+        )) as Auth.SavedAuthInfo;
         signal.throwIfAborted();
-        const { version, expiration } = JSON.parse(token.payload);
+        const { version, expiration } = savedAuthInfo;
         assert(
-          version === Auth.VERSION && expiration > toExpirationTime(Date.now()),
+          version === Auth.VERSION &&
+            expiration > Math.trunc(Date.now()) / 1_000,
           "invalid stored wallet auth token"
         );
         const address = walletStatus.info.address;
         // TODO: Should return the whole header string instead
-        setTokenInfo({
+        setHeaderInfo({
           status: "authenticated",
           info: {
             address,
-            header: Auth.constructAuthHeader({
-              token,
+            header: Auth.constructHeader({
+              savedAuthInfo,
               address,
             }),
           },
@@ -82,7 +84,7 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
         if (isAbortError(error)) return;
         console.error(error);
         await del(Auth.getStorageKey());
-        setTokenInfo({ status: "unauthenticated" });
+        setHeaderInfo({ status: "unauthenticated" });
       }
     })();
 
@@ -91,5 +93,5 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
     };
   }, [walletStatus]);
 
-  return { walletAuthHeaderInfo: tokenInfo, authenticateWallet };
+  return { walletAuthHeaderInfo: headerInfo, authenticateWallet };
 }
