@@ -22,7 +22,6 @@ import {
   Project,
   ProjectActivity,
   ProjectActivityAction,
-  ProjectBenefits,
 } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
@@ -205,7 +204,7 @@ export async function getDetailedProject(
     totalRaisedFunds,
   } = row;
 
-  const { description, basics, roadmap, benefits, community } = await try$<
+  const { description, basics, roadmap, tiers, community } = await try$<
     Partial<Project>
   >(
     () => {
@@ -343,7 +342,7 @@ export async function getDetailedProject(
       description,
       roadmap,
       announcements,
-      benefits: benefits ?? emptyProjectBenefits(),
+      tiers,
       activities,
       topSupporters,
       match,
@@ -388,9 +387,4 @@ async function backingDataToActivities(
     })
   );
   return activities;
-}
-
-// TODO: Clean up this later
-function emptyProjectBenefits(): ProjectBenefits {
-  return { tiers: [] };
 }

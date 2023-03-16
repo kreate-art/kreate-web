@@ -10,6 +10,7 @@ import styles from "./index.module.scss";
 import {
   AnyProjectPost,
   ProjectBenefits,
+  ProjectBenefitsTier,
   ProjectCommunity,
   ProjectDescription,
 } from "@/modules/business-types";
@@ -22,7 +23,6 @@ type Props = {
   description: ProjectDescription;
   community: ProjectCommunity;
   announcements: AnyProjectPost[];
-  benefits: ProjectBenefits;
   activities: ProjectActivity[];
   activeTabIndex: number;
   onChangeActiveTabIndex: (value: number) => void;
@@ -42,7 +42,6 @@ export default function ProjectDetails({
   description,
   community,
   announcements,
-  benefits,
   activities,
   activeTabIndex,
   onChangeActiveTabIndex,
