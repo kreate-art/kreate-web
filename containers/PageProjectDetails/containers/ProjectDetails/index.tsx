@@ -9,6 +9,8 @@ import styles from "./index.module.scss";
 
 import {
   AnyProjectPost,
+  LovelaceAmount,
+  ProjectBenefitsTier,
   ProjectCommunity,
   ProjectDescription,
 } from "@/modules/business-types";
@@ -23,7 +25,10 @@ type Props = {
   announcements: AnyProjectPost[];
   activities: ProjectActivity[];
   activeTabIndex: number;
+  totalStaked?: LovelaceAmount;
+  tiers?: ProjectBenefitsTier[];
   onChangeActiveTabIndex: (value: number) => void;
+  onClickBecomeMember?: () => void;
 };
 
 export const TABS = [
@@ -42,7 +47,10 @@ export default function ProjectDetails({
   announcements,
   activities,
   activeTabIndex,
+  totalStaked,
+  tiers,
   onChangeActiveTabIndex,
+  onClickBecomeMember,
 }: Props) {
   return (
     <div className={cx(className, styles.container)}>
@@ -62,7 +70,12 @@ export default function ProjectDetails({
       ) : activeTabIndex == 1 ? ( // Benefits
         <div className={styles.richTextEditorContainer} />
       ) : activeTabIndex == 2 ? ( // Posts
-        <TabUpdates value={announcements} /> // TODO: Prop `ProjectBenefitsTier` to get required ADA staked to view posts
+        <TabUpdates
+          value={announcements}
+          totalStaked={totalStaked}
+          tiers={tiers}
+          onClickBecomeMember={onClickBecomeMember}
+        />
       ) : activeTabIndex == 3 ? ( // FAQs
         <FAQs faqs={community.frequentlyAskedQuestions} />
       ) : activeTabIndex === 4 ? ( // Activities
