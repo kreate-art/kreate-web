@@ -14,7 +14,6 @@ import {
   Project,
   ProjectAnnouncement,
   ProjectBasics,
-  ProjectBenefits,
   ProjectBenefitsTier,
   ProjectDescription,
   ProjectImage,
@@ -89,28 +88,6 @@ export function toProjectBenefitsTier<V>(
   });
 }
 
-/** Converts `ProjectBenefits` to `WithBufsAs<ProjectBenefits, V>`. */
-export function fromProjectBenefits<V>(
-  codec: Codec<V>
-): FromFn<ProjectBenefits | undefined, V> {
-  return fromNullable(
-    fromObject<ProjectBenefits, V>({
-      tiers: fromNullable(fromArray(fromProjectBenefitsTier(codec))),
-    })
-  );
-}
-
-/** Converts `WithBufsAs<ProjectBenefits, V>` to `ProjectBenefits` */
-export function toProjectBenefits<V>(
-  codec: Codec<V>
-): ToFn<ProjectBenefits | undefined, V> {
-  return toNullable(
-    toObject<ProjectBenefits, V>({
-      tiers: toNullable(toArray(toProjectBenefitsTier(codec))),
-    })
-  );
-}
-
 /**
  * Converts `Project` to `WithBufsAs<Project, V>`.
  *
@@ -125,7 +102,7 @@ export function fromProject<V>(codec: Codec<V>): FromFn<Project, V> {
   return fromObject<Project, V>({
     description: fromProjectDescription(codec),
     basics: fromProjectBasics(codec),
-    benefits: fromProjectBenefits(codec),
+    tiers: fromNullable(fromArray(fromProjectBenefitsTier(codec))),
   });
 }
 
@@ -142,15 +119,7 @@ export function toProject<V>(codec: Codec<V>): ToFn<Project, V> {
   return toObject<Project, V>({
     description: toProjectDescription(codec),
     basics: toProjectBasics(codec),
-    benefits: (data) => {
-      // TODO: Data formalization should be handled in the indexer
-      try {
-        return toProjectBenefits(codec)(data);
-      } catch (error) {
-        console.warn(error);
-        return { perks: { type: "doc", content: [{ type: "paragraph" }] } };
-      }
-    },
+    tiers: toNullable(toArray(toProjectBenefitsTier(codec))),
   });
 }
 

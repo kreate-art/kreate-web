@@ -1,5 +1,20 @@
 .container {
-  padding: 50px 10px;
-  border-radius: 10px;
-  background-color: white;
+  display: flex;
+  padding: 32px 32px 0% 32px;
+  gap: 24px;
+}
+
+.editContainer {
+  position: relative;
+  width: 58%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.previewContainer {
+  overflow-y: auto;
+  position: relative;
+  width: 42%;
 }
