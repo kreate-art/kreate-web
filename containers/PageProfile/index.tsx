@@ -13,9 +13,9 @@ import { useBalanceSummary } from "./hooks/useBalanceSummary";
 import styles from "./index.module.scss";
 
 import { UnixTimestamp } from "@/modules/business-types";
-import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
 import { useUser } from "@/modules/next-backend-client/hooks/useUser";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
+import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import MessageBox from "@/modules/teiki-ui/components/MessageBox";
@@ -26,7 +26,7 @@ type Props = {
 };
 
 export default function PageProfile({ className, style }: Props) {
-  useBodyClasses([styles.body]);
+  useDefaultBackground();
   const { walletStatus } = useAppContextValue$Consumer();
   const [lastTransactionSubmittedAt, setLastTransactionSubmittedAt] =
     React.useState<UnixTimestamp | undefined>(undefined);

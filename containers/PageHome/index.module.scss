@@ -17,7 +17,7 @@
 }
 
 .slogan {
-  margin: 24px 0 40px 0;
+  margin: 48px auto;
   max-width: 1440px;
   box-sizing: border-box;
 }
@@ -29,8 +29,8 @@
 }
 
 .twoColumnsWrapper {
-  margin: 0;
-  padding: 56px;
+  margin: 48px 0;
+  padding: 0 56px;
 }
 
 .twoColumns {
@@ -86,13 +86,12 @@
 .topBackersContainer {
   min-width: 50px;
   min-height: 50px;
-  padding: 32px 24px;
-  border-radius: 16px;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background-color: rgba(0, 54, 44, 0.1);
   border-radius: 12px;
+  border: 1px solid colors.$black10;
 }
 
 .projectContainer {
@@ -102,9 +101,7 @@
 }
 
 .tableTopBackers {
-  padding: 24px 20px;
-  border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
 }
 
 .sortButtonGroup {
@@ -116,4 +113,13 @@
 
 .blockContainer {
   padding: 0 56px;
+}
+
+.buttonActive {
+  background-color: colors.$secondary;
+  color: white;
+}
+
+.sectionSlogan {
+  margin: 48px 0;
 }

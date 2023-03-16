@@ -2,12 +2,10 @@
 
 .container {
   min-height: 50px;
-  background-color: white;
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px 32px;
+  gap: 8px;
+  padding: 24px 0;
 }
 
 .content {
@@ -21,5 +19,5 @@
   font-weight: 600;
   font-size: 12px;
   line-height: 12px;
-  color: rgba(31, 62, 47, 0.8);
+  color: colors.$ink80;
 }

@@ -102,8 +102,10 @@ export default function PageHome({ className, style }: Props) {
             <div className={styles.twoColumns}>
               <div className={styles.columnLeft}>
                 <div className={styles.sortButtonGroup}>
-                  <Button
-                    variant={activeFilterIndex === 0 ? "solid" : "outline"}
+                  <Button.Outline
+                    className={
+                      activeFilterIndex === 0 ? styles.buttonActive : undefined
+                    }
                     onClick={() => {
                       setActiveFilterIndex(0);
                       setNumDisplayedPages(1);
@@ -119,9 +121,11 @@ export default function PageHome({ className, style }: Props) {
                     }}
                     content="Trending"
                   /> */}
-                  <Button
+                  <Button.Outline
+                    className={
+                      activeFilterIndex === 2 ? styles.buttonActive : undefined
+                    }
                     disabled={walletStatus.status !== "connected"}
-                    variant={activeFilterIndex === 2 ? "solid" : "outline"}
                     onClick={() => {
                       setActiveFilterIndex(2);
                       setNumDisplayedPages(1);
@@ -169,7 +173,7 @@ export default function PageHome({ className, style }: Props) {
               </div>
             </div>
           </div>
-          <div className={styles.blockContainer}>
+          <div className={cx(styles.blockContainer, styles.sectionSlogan)}>
             <SponsorSlogan className={styles.slogan} />
             <ProjectCarousel
               className={styles.projectCarousel}
