@@ -91,13 +91,13 @@ export default function CommunityUpdateOverview({
       <div className={styles.main}>
         <div className={styles.summary}>{value.summary}</div>
         {value.exclusive ? (
-          <Typography.Div
-            className={styles.exclusiveMessage}
-            size="heading5"
-            fontWeight="semibold"
-            lineHeight="small"
-            content={`Subscribe to access this content, you should reach tier ${value.exclusive.tier} to view`}
-          />
+          <div className={styles.linkContainer}>
+            <Typography.Span
+              className={styles.exclusiveMessage}
+              content={`Only member from Tier ${value.exclusive.tier} can view this post`}
+            />
+            {/* <Title style={{ color: "#006E46" }} content="Sponsoring Teiki" /> */}
+          </div>
         ) : (
           <div className={styles.linkContainer}>
             <Button.Link content="Read more" onClick={onClickLearnMore} />
