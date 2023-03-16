@@ -5,6 +5,7 @@ import { Converters } from "..";
 import {
   AnyProjectPost,
   ExclusiveProjectPost,
+  ProjectBenefitsTier,
   PublicProjectPost,
 } from "@/modules/business-types";
 import * as crypt from "@/modules/crypt";
@@ -17,7 +18,11 @@ type Cid = string;
 
 export function decryptExclusivePost(
   excPost: WithBufsAs<ExclusiveProjectPost, crypt.CipherMeta & { cid: Cid }>,
-  tier: number | null
+  viewerStatus: {
+    status: "owner" | "backer";
+    activeStakingAmount?: bigint;
+  } | null,
+  projectTiers: ProjectBenefitsTier[]
 ): AnyProjectPost {
   const bodyCipherMeta$plainText = excPost.data.body;
   const bodyCipherMeta: crypt.CipherMeta = {
@@ -31,9 +36,19 @@ export function decryptExclusivePost(
 
   const requiredTier = excPost.data.exclusive.tier;
 
+  // Handle this properly, this may freak up the below code
+  if (requiredTier > projectTiers.length) {
+    console.warn("Tier out of bounds");
+  }
+
   // TODO: Hope @shuyshuy won't kill me because of this
   // Me didn't really want to use 3 types
-  if (!tier || tier < requiredTier) {
+  if (
+    !viewerStatus ||
+    (viewerStatus.status === "backer" &&
+      projectTiers[requiredTier - 1].requiredStake > // Let's assume that `requiredTier` >= 1...
+        (viewerStatus.activeStakingAmount ?? 0))
+  ) {
     const { body: _1, ...others } = excPost.data;
     const lockedPost: ExclusiveProjectPost = {
       ...others,
