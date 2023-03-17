@@ -1,5 +1,6 @@
 import { AddressDetails, Lucid } from "lucid-cardano";
 
+import * as Auth from "@/modules/authorization";
 import { Address, LovelaceAmount } from "@/modules/business-types";
 
 export type WalletName =
@@ -25,5 +26,10 @@ export type WalletInfo = {
 export type WalletStatus =
   | { status: "unknown" }
   | { status: "connecting"; walletName: WalletName }
-  | { status: "connected"; info: WalletInfo; lucid: Lucid }
+  | {
+      status: "connected";
+      info: WalletInfo;
+      lucid: Lucid;
+      authHeader: Auth.AuthHeader;
+    }
   | { status: "disconnected" };
