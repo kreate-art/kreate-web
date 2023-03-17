@@ -14,7 +14,7 @@ type Props = {
 export default function TeikiHead({
   title = "Kreate with your Community",
   description = "Kreate is a Web3 membership platform using advanced technologies to innovate engagement. Kreators make ample income from Members paying for exclusive benefits.",
-  imageUrl = `${HOST}/images/meta.png`,
+  imageUrl = `${HOST}/images/meta.png?v=1`,
   url = HOST,
 }: Props) {
   return (
