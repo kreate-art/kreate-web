@@ -131,6 +131,7 @@ export async function getAllActivities(
         (ru.contents #> '{data, basics, customUrl}' IS DISTINCT FROM ru.prev_contents #> '{data, basics, customUrl}') AS custom_url,
         (ru.contents #> '{data, basics, logoImage}' IS DISTINCT FROM ru.prev_contents #> '{data, basics, logoImage}') AS logo_image,
         (ru.contents #> '{data, basics, coverImages}' IS DISTINCT FROM ru.prev_contents #> '{data, basics, coverImages}') AS cover_images,
+        (COALESCE(ru.contents #> '{data, tiers}', '{}') IS DISTINCT FROM COALESCE(ru.prev_contents #> '{data, tiers}', '{}')) AS tiers,
         ( ru.sponsorship_until IS DISTINCT FROM ru.prev_sponsorship_until
             OR ru.sponsorship_amount IS DISTINCT FROM ru.prev_sponsorship_amount
         ) AS sponsorship
@@ -255,6 +256,7 @@ export async function getAllActivities(
         null::boolean AS cover_images,
         null::boolean AS logo_image,
         null::boolean AS community,
+        null::boolean AS tiers,
         null::boolean AS sponsorship,
         null::bigint AS sponsorship_amount
       FROM res_announcement ra
@@ -280,6 +282,7 @@ export async function getAllActivities(
         null::boolean AS cover_images,
         null::boolean AS logo_image,
         null::boolean AS community,
+        null::boolean AS tiers,
         null::boolean AS sponsorship,
         null::bigint AS sponsorship_amount
       FROM res_backing rb
@@ -305,6 +308,7 @@ export async function getAllActivities(
         null::boolean AS cover_images,
         null::boolean AS logo_image,
         null::boolean AS community,
+        null::boolean AS tiers,
         null::boolean AS sponsorship,
         null::bigint AS sponsorship_amount
       FROM res_milestone rm
@@ -330,6 +334,7 @@ export async function getAllActivities(
         ru.cover_images AS cover_images,
         ru.logo_image AS logo_image,
         ru.community AS community,
+        ru.tiers AS tiers,
         ru.sponsorship,
         ru.sponsorship_amount
       FROM res_update ru
@@ -355,6 +360,7 @@ export async function getAllActivities(
         null::boolean AS cover_images,
         null::boolean AS logo_image,
         null::boolean AS community,
+        null::boolean AS tiers,
         null::boolean AS sponsorship,
         rc.sponsorship_amount AS sponsorship_amount
       FROM res_creation rc
