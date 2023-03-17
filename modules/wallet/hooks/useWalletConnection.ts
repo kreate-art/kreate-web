@@ -1,5 +1,5 @@
 import { del, set } from "idb-keyval";
-import { Lucid, Network, Provider } from "lucid-cardano";
+import { Network, Provider } from "lucid-cardano";
 import * as React from "react";
 
 import { WalletStatus } from "../types";
@@ -27,20 +27,6 @@ export function useWalletConnection({ provider, network }: Params): Results {
     status: "unknown",
   }));
 
-  const authenticate = async (lucid: Lucid): Promise<Auth.AuthHeader> => {
-    const savedAuthInfo = await Auth.sign(lucid);
-    const address = await lucid.wallet.address();
-    const authHeader: Auth.AuthHeader = {
-      address,
-      header: Auth.constructHeader({
-        savedAuthInfo,
-        address,
-      }),
-    };
-    set(Auth.getStorageKey(), savedAuthInfo);
-    return authHeader;
-  };
-
   const connectWallet = async (walletName: string): Promise<WalletStatus> => {
     assert(walletStatus.status !== "connecting", "already connecting");
     try {
@@ -49,7 +35,17 @@ export function useWalletConnection({ provider, network }: Params): Results {
         provider,
         network,
       });
-      const authHeader = await authenticate(lucid);
+      let savedAuthInfo = await loadSavedAuthInfo();
+      savedAuthInfo = savedAuthInfo ? savedAuthInfo : await Auth.sign(lucid);
+      const address = await lucid.wallet.address();
+      const authHeader: Auth.AuthHeader = {
+        address,
+        header: Auth.constructHeader({
+          savedAuthInfo,
+          address,
+        }),
+      };
+      set(Auth.getStorageKey(), savedAuthInfo);
       setWalletStatus({ status: "connected", info, lucid, authHeader });
       return { status: "connected", info, lucid, authHeader };
     } catch (error) {
@@ -79,11 +75,6 @@ export function useWalletConnection({ provider, network }: Params): Results {
       const connected = await isWalletConnected(walletStatus.info.walletName);
       assert(connected, "wallet not connected");
 
-      const savedAuthInfo = await loadSavedAuthInfo();
-      assert(
-        savedAuthInfo != null && savedAuthInfo.expiration > Date.now() / 1_000,
-        "wallet not authenticated"
-      );
       const walletInfo = await ConnectionUtils.getWalletInfo(
         walletStatus.info.walletName,
         walletStatus.lucid
