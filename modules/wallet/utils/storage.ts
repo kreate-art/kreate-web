@@ -1,5 +1,9 @@
+import { get } from "idb-keyval";
+
 import { WalletInfo } from "../types";
 
+import { SavedAuthInfo } from "@/modules/authorization";
+import * as Auth from "@/modules/authorization";
 import { assert } from "@/modules/common-utils";
 import { fromJson, toJson } from "@/modules/json-utils";
 
@@ -46,6 +50,19 @@ export function loadWalletInfo(storageKey: string): WalletInfo | null {
     const obj = fromJson(text);
     assert(isWalletInfo(obj));
     return obj;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Loads wallet info from `Storage`.
+ *
+ * Returns `null` if not found.
+ */
+export async function loadSavedAuthInfo(): Promise<SavedAuthInfo | null> {
+  try {
+    return (await get(Auth.getStorageKey())) as Auth.SavedAuthInfo;
   } catch {
     return null;
   }
