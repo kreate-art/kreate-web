@@ -13,6 +13,9 @@ type Props = {
 };
 
 export default function Podcast({ podcastClassName }: Props) {
+  // FIXME: Revert this when the design is ready
+  return null;
+
   const router = useRouter();
   const { adaPriceInfo } = useAppContextValue$Consumer();
   const adaPrice = adaPriceInfo?.usd || null;
@@ -22,7 +25,7 @@ export default function Podcast({ podcastClassName }: Props) {
       <div className={podcastClassName}>
         <section className={styles.podcastControl}>
           <Grid className={styles.podcastElements}>
-            <Grid.Column
+            {/* <Grid.Column
               width={2}
               textAlign="center"
               verticalAlign="middle"
@@ -41,7 +44,7 @@ export default function Podcast({ podcastClassName }: Props) {
               </div>
             </Grid.Column>
 
-            {/* <Grid.Column
+            <Grid.Column
               width={10}
               textAlign="center"
               verticalAlign="middle"

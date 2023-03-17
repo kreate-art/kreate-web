@@ -125,7 +125,7 @@ export default function ProjectEditor({
   const { showMessage } = useToast();
 
   const startingLines = [
-    "Welcome to Teiki 🌱!",
+    "Welcome to Kreate!",
     "My name is Niko, the mascot.",
     "I will guide you through the profile editing process.",
     <span key={0}>
