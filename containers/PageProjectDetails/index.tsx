@@ -228,6 +228,7 @@ export default function PageProjectDetails({
       <ModalPostAnnouncement
         open
         projectId={project.id}
+        projectTiers={project.tiers ?? []}
         labelAction="Submit"
         onSuccess={() => {
           resolve();
