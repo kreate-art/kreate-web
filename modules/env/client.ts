@@ -103,3 +103,14 @@ export const IPFS_GATEWAY_ORIGIN = parseEnv({
   input: process.env.NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN,
   parser: parseBaseUrl(),
 });
+
+export const ALTERNATE_IPFS_GATEWAY_ORIGINS = parseEnv$Optional({
+  label: "NEXT_PUBLIC_ALTERNATE_IPFS_GATEWAY_ORIGINS",
+  input: process.env.NEXT_PUBLIC_ALTERNATE_IPFS_GATEWAY_ORIGINS,
+  parser: (text) => {
+    const purl = parseBaseUrl();
+    const pchild = (e: string) => purl(e.trim());
+    return text.split(",").map(pchild);
+  },
+  defaultValue: [],
+});

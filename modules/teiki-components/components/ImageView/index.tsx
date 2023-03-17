@@ -1,7 +1,6 @@
 import Image from "next/image";
 import * as React from "react";
 
-import { NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN } from "../../../../config/client";
 import { ImageErrorBoundary } from "../RichTextEditor/custom-nodes/Image/components/ImageErrorBoundary";
 
 import styles from "./index.module.scss";
@@ -9,6 +8,10 @@ import { Crop, Size } from "./types";
 import { shrinkRectToAspectRatio } from "./utils";
 
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
+import {
+  ALTERNATE_IPFS_GATEWAY_ORIGINS,
+  IPFS_GATEWAY_ORIGIN,
+} from "@/modules/env/client";
 
 type Props = {
   className?: string;
@@ -18,7 +21,10 @@ type Props = {
   crop: Crop;
 };
 
-const IPFS_GATEWAY_ORIGIN_PREFIX = NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN + "/";
+const IPFS_ORIGINS = [
+  IPFS_GATEWAY_ORIGIN,
+  ...ALTERNATE_IPFS_GATEWAY_ORIGINS,
+].map((o) => o + "/");
 
 export default function ImageView({ className, style, src, alt, crop }: Props) {
   const [target, setTarget] = React.useState<HTMLDivElement | null>(null);
@@ -32,11 +38,13 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
   // @sk-shishi: This is the "safest" option I have at the moment without messing up
   // all the usages of `CodecCid`.
   // The patched URL Must match the path in `middleware.ts`.
-  const patchedSrc =
-    process.env.NODE_ENV !== "development" &&
-    src.startsWith(IPFS_GATEWAY_ORIGIN_PREFIX)
-      ? "/_ipfs/" + src.slice(IPFS_GATEWAY_ORIGIN_PREFIX.length)
-      : src;
+  let patchedSrc = src;
+  if (process.env.NODE_ENV !== "development")
+    for (const origin of IPFS_ORIGINS)
+      if (src.startsWith(origin)) {
+        patchedSrc = "/_ipfs/" + src.slice(origin.length);
+        break;
+      }
 
   const computed = React.useMemo(() => {
     if (!targetSize) return undefined;
@@ -97,8 +105,9 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
               }}
               src={patchedSrc}
               alt={alt || ""}
-              width={computed.bgSize.w}
-              height={computed.bgSize.h}
+              // @sk-shishi: Just a quick fix, because `w` and `h` can be NaN
+              width={computed.bgSize.w || undefined}
+              height={computed.bgSize.h || undefined}
               onLoadingComplete={(img) => {
                 // NOTE: Sometimes, `img.complete` is `false`.
                 // In this case, we have to wait until it is true.
