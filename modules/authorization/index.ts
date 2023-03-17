@@ -6,7 +6,7 @@ import base64url from "@/modules/base64url";
 import { Base64 } from "@/modules/crypt/types";
 import { NETWORK } from "@/modules/env/client";
 
-const TTL = 30 * 86_400 * 1_000; // 30 days
+const TTL = 60 * 86_400 * 1_000; // 60 days
 export const VERSION = 0;
 
 export type SavedAuthInfo = {
