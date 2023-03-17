@@ -6,6 +6,7 @@ import IconAddressCard from "../../icons/IconAddressCard";
 import ButtonWalletOptions from "./containers/ButtonWalletOptions";
 import ModalConnectWallet from "./containers/ModalConnectWallet";
 import ModalMigrateFromLegacy from "./containers/ModalMigrateFromLegacy";
+import styles from "./index.module.scss";
 
 import { useModalPromises } from "@/modules/modal-promises";
 import { httpGetLegacyBacking } from "@/modules/next-backend-client/api/httpGetLegacyBacking";
@@ -39,6 +40,7 @@ export default function ButtonWalletNavbar() {
           icon={<IconAddressCard />}
           content="Connect Wallet"
           size="medium"
+          className={styles.btnConnectWallet}
           onClick={async () => {
             const modalResult = await modalPromises.showModal<WalletStatus>(
               (resolve, _reject) => (

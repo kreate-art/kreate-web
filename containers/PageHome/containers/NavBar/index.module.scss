@@ -3,6 +3,7 @@
   height: 80px;
   display: flex;
   justify-content: center;
+  background-color: #222;
 }
 
 .main {
@@ -27,4 +28,15 @@
 .grid {
   width: 300px;
   justify-content: center;
+}
+
+.button {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.button.button:hover {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #fff;
 }
