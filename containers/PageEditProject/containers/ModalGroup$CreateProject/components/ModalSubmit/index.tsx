@@ -14,6 +14,7 @@ import InputLovelaceAmount$Sponsor from "./components/InputLovelaceAmount$Sponso
 import styles from "./index.module.scss";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { sortedBy } from "@/modules/array-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { Project } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -99,6 +100,16 @@ export default function ModalSubmit({
       assert(walletStatus.status === "connected", "wallet not connected");
       assert(lovelaceAmount != null, "invalid inputs");
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
+
+      // Normalize the project tiers before being uploaded to IPFS
+      // For now, let's sort them by its `requiredStake`
+      if (project.tiers) {
+        const sortedProjectTiers = sortedBy(
+          project.tiers,
+          (item) => item.requiredStake
+        );
+        project.tiers = sortedProjectTiers;
+      }
 
       setStatusBarText("Uploading files to IPFS...");
       const projectWBA$Blob: WithBufsAs<Project, Blob> =

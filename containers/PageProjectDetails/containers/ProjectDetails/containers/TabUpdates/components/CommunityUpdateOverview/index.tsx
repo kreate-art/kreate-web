@@ -118,7 +118,7 @@ export default function CommunityUpdateOverview({
               <Typography.Div
                 content={`Only member from Tier: ${value.exclusive.tier} can view this post`}
                 size="heading6"
-                color="green"
+                color="primary"
               />
               <Button.Solid
                 content="Become a Member"
