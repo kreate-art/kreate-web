@@ -15,8 +15,8 @@
 }
 
 .buttonWallet:hover {
-  border: 1px solid colors.$secondary;
-  box-shadow: 0 0 0 1px colors.$secondary;
+  border: 1px solid rgba(0, 138, 69, 0.5);
+  box-shadow: 0 0 0 1px rgba(0, 138, 69, 0.5);
   cursor: pointer;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .recommend {
-  background: colors.$secondary10;
+  background: rgba(0, 138, 69, 0.05);
   border-radius: 12px;
   display: flex;
   padding: 12px 16px;
@@ -48,11 +48,9 @@
 
 .iconRecommend {
   flex: 0 0 auto;
-  color: colors.$secondary;
 }
 
 .recommendText {
-  color: colors.$secondary;
   text-align: left;
   line-height: 24px;
 }
