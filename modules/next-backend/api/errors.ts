@@ -62,7 +62,8 @@ export function catchClientError(
 ) {
   // TODO: Maybe Sentry
   console.error("[Client]", req.method, req.url, error);
-  sendJson(res.status(status), error.reason);
+  res.status(status);
+  res.headersSent || sendJson(res, error.reason);
 }
 
 export function catchServerError(
@@ -74,10 +75,12 @@ export function catchServerError(
 ) {
   // TODO: Sentry
   console.error("[Server]", req.method, req.url, error);
-  sendJson(res.status(status), {
-    _debug: {
-      message: message,
-      reason: error instanceof Error ? error.message : toJson(error),
-    },
-  });
+  res.status(status);
+  res.headersSent ||
+    sendJson(res, {
+      _debug: {
+        message: message,
+        reason: error instanceof Error ? error.message : toJson(error),
+      },
+    });
 }

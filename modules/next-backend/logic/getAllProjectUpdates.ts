@@ -1,4 +1,4 @@
-import { Cid } from "@teiki/protocol/types";
+import { Cid } from "@kreate/protocol/types";
 
 import { Sql } from "../db";
 import { CodecCid } from "../utils/CodecCid";

@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { HOST, KREATE_ENV } from "@/modules/env/client";
+import { HOST } from "@/modules/env/client";
 
 import {} from "../../../../config/client";
 
@@ -12,11 +12,9 @@ type Props = {
 };
 
 export default function TeikiHead({
-  title = "Teiki - Web3 membership platform",
-  description = "Teiki is a Web3 membership platform providing Metaverse & AI tools for Creators to run a subscription service. Teiki helps creators earn an income every five days from members paying for exclusive benefits.",
-  imageUrl = `${HOST}/images/meta-${
-    KREATE_ENV === "mainnet" ? "alpha" : "testnet"
-  }.png`,
+  title = "Kreate with your Community",
+  description = "Kreate is a Web3 membership platform using advanced technologies to innovate engagement. Kreators make ample income from Members paying for exclusive benefits.",
+  imageUrl = `${HOST}/images/meta.png?v=1`,
   url = HOST,
 }: Props) {
   return (

@@ -141,7 +141,7 @@ export default function PageHome({ className, style }: Props) {
                   <div className={styles.containerButtonLoadMore}>
                     <Button.Outline
                       icon={<IconLoadMore />}
-                      content="More Creators"
+                      content="More Kreators"
                       size="medium"
                       className={styles.buttonLoadMore}
                       onClick={() => {

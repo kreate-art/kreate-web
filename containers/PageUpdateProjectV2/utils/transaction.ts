@@ -1,7 +1,7 @@
 import {
   UpdateProjectParams,
   updateProjectTx,
-} from "@teiki/protocol/transactions/project/update";
+} from "@kreate/protocol/transactions/project/update";
 import { Lucid, TxComplete } from "lucid-cardano";
 
 import { LovelaceAmount } from "@/modules/business-types";
@@ -13,7 +13,7 @@ import { getReferenceTxTime } from "@/modules/protocol/utils";
  * After this step, field `txComplete` can be used to sign and submit by:
  *
  * ```
- * const txHash = await signAndSubmit(txComplete); // from "@teiki/protocol/helpers/lucid";
+ * const txHash = await signAndSubmit(txComplete); // from "@kreate/protocol/helpers/lucid";
  * await lucid.awaitTx(txHash);
  * ```
  */

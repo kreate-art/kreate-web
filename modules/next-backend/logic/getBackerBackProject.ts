@@ -1,5 +1,5 @@
-import * as S from "@teiki/protocol/schema";
-import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
+import * as S from "@kreate/protocol/schema";
+import { ProtocolParamsDatum } from "@kreate/protocol/schema/teiki/protocol";
 
 import { Sql } from "../db";
 import { EnrichedUtxo } from "../types";

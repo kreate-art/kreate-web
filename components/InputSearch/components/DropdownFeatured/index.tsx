@@ -17,7 +17,7 @@ export default function DropdownFeatured({ error, data, onClick }: Props) {
   return (
     <>
       <div className={styles.container}>
-        <Title className={styles.title}>FEATURED CREATORS</Title>
+        <Title className={styles.title}>FEATURED KREATORS</Title>
         <div className={styles.group}>
           {error
             ? "error"

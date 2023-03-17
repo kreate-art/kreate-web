@@ -1,16 +1,13 @@
-import Image from "next/image";
 import * as React from "react";
 
 import ButtonWalletNavbar from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar";
 
-import pngNiko300 from "./assets/niko-300.min.png";
 import Callout from "./components/Callout";
 import IconGuideline from "./components/IconGuideline";
 import IconLeaf from "./components/IconLeaf";
 import styles from "./index.module.scss";
 
 import { KREATE_ENV, NETWORK } from "@/modules/env/client";
-import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 import { LogoKreateFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -35,18 +32,18 @@ function Content({
         {KREATE_ENV === "mainnet" ? (
           <div>
             <Title size="h4" color="ink100">
-              1. Around 515 ₳ is needed to create a project.
+              1. Around 515 ₳ is needed to become a Kreator.
             </Title>
             <ul>
               <li className={styles.itemizedItem}>
-                500 ₳ as an on-chain pledge returned when the project is closed.
+                500 ₳ as an on-chain pledge returned when you leave.
               </li>
               <li className={styles.itemizedItem}>
                 The deposit is fined if deemed inappropriate due to
                 impersonation, etc.
               </li>
               <li className={styles.itemizedItem}>
-                10-15 ₳ in fixed fees. One can choose to spend more on advanced
+                10-15 ₳ in fixed fees. You can choose to spend more on advanced
                 features.
               </li>
             </ul>
@@ -95,6 +92,7 @@ function Content({
             onClick={onClickGetStarted}
             content="Get Started"
             icon={<IconLeaf />}
+            style={{ backgroundColor: "#EC5929" }}
           />
           <Button.Outline
             size="large"
@@ -120,7 +118,6 @@ type Props = {
 };
 
 function ProjectEditorLandingPage({ onClickGetStarted }: Props) {
-  useDefaultBackground();
   return (
     <div className={styles.container}>
       <nav className={styles.nav}>
@@ -140,7 +137,6 @@ function ProjectEditorLandingPage({ onClickGetStarted }: Props) {
         className={styles.content}
         onClickGetStarted={onClickGetStarted}
       />
-      <Image className={styles.niko} src={pngNiko300} alt="" />
     </div>
   );
 }

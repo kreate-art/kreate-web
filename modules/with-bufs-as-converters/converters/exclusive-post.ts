@@ -9,7 +9,7 @@ import {
   PublicProjectPost,
 } from "@/modules/business-types";
 import * as crypt from "@/modules/crypt";
-import { TEIKI_CONTENT_KEYS } from "@/modules/env/server";
+import { KREATE_CONTENT_KEYS } from "@/modules/env/server";
 import { fromJson } from "@/modules/json-utils";
 import { CodecCidCipher } from "@/modules/next-backend/utils/CodecCidCipher";
 import { WithBufsAs } from "@/modules/with-bufs-as";
@@ -89,7 +89,7 @@ export function decryptExclusivePost(
 }
 
 function decryptContent(cipherMeta: crypt.CipherMeta, encrypted: crypt.Base64) {
-  const { key } = crypt.selectKey(TEIKI_CONTENT_KEYS, cipherMeta.kid);
+  const { key } = crypt.selectKey(KREATE_CONTENT_KEYS, cipherMeta.kid);
   const decipher = crypt.createDecipher(
     key,
     Buffer.from(cipherMeta.iv, crypt.b64)

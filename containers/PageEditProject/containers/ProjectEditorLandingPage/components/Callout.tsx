@@ -13,28 +13,35 @@ export default function Callout(props: SVGProps<SVGSVGElement>) {
       <text
         x="64"
         y="83"
-        style={{ fontSize: "56px", fill: "#008A45 ", fontWeight: "900" }}
+        style={{ fontSize: "52px", fill: "#EC5929", fontWeight: "900" }}
       >
-        IT&apos;S EASY
+        IT&apos;S FUN
       </text>
       <text
-        x="350"
+        x="288"
         y="83"
-        style={{ fontSize: "56px", fill: "#00362C", fontWeight: "900" }}
+        style={{ fontSize: "52px", fill: "#222", fontWeight: "900" }}
       >
-        TO GET
+        TO
       </text>
       <text
         x="64"
         y="153"
-        style={{ fontSize: "56px", fill: "#00362C", fontWeight: "900" }}
+        style={{ fontSize: "52px", fill: "#222", fontWeight: "900" }}
       >
-        STARTED ON TEIKI
+        BECOME A
+      </text>
+      <text
+        x="352"
+        y="153"
+        style={{ fontSize: "52px", fill: "#EC5929", fontWeight: "900" }}
+      >
+        KREATOR
       </text>
       <path
         opacity="0.1"
         d="M4.76065e-05 16C2.13142e-05 7.16347 7.16347 0 16 0H633C641.837 0 649 7.16342 649 16L649 178.868C649.001 187.704 641.837 194.868 633 194.868H45.9198L0.000579809 227L22.4497 194.868H16.0005C7.164 194.868 0.000558495 187.704 0.000532203 178.868L4.76065e-05 16Z"
-        fill="#088B43"
+        fill="#EC5929"
       />
     </svg>
   );

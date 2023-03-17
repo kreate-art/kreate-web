@@ -1,4 +1,4 @@
-import { Hex } from "@teiki/protocol/types";
+import { Hex } from "@kreate/protocol/types";
 import { Address } from "lucid-cardano";
 import useSWR from "swr";
 

@@ -76,6 +76,7 @@ export default function NavBar({ className, style }: Props) {
             icon={<IconLeaf />}
             content="Your Page"
             size="medium"
+            className={styles.button}
             onClick={() => {
               router.push(`/k/${customUrl}`);
             }}
@@ -83,8 +84,9 @@ export default function NavBar({ className, style }: Props) {
         ) : (
           <Button.Outline
             icon={<IconPlusSquare />}
-            content="Create on Teiki"
+            content="Become a Kreator"
             size="medium"
+            className={styles.button}
             disabled={
               appContextValue.walletStatus.status === "connecting" ||
               appContextValue.walletStatus.status === "unknown" ||

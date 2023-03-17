@@ -3,9 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import * as crypt from "@/modules/crypt";
 import { HOST } from "@/modules/env/client";
 import {
-  TEIKI_CONTENT_DEFAULT_KEY_ID,
-  TEIKI_CONTENT_KEYS,
-  TEIKI_HMAC_SECRET,
+  KREATE_CONTENT_DEFAULT_KEY_ID,
+  KREATE_CONTENT_KEYS,
+  KREATE_HMAC_SECRET,
 } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -34,8 +34,8 @@ export default async function handler(
     });
 
     const { kid, key } = crypt.selectKey(
-      TEIKI_CONTENT_KEYS,
-      TEIKI_CONTENT_DEFAULT_KEY_ID
+      KREATE_CONTENT_KEYS,
+      KREATE_CONTENT_DEFAULT_KEY_ID
     );
     const iv = crypt.randomIv();
     const cipher = crypt.createCipher(key, iv);
@@ -74,7 +74,7 @@ function signIpfsUrl(
   ttl = 600
 ): { exp: string; sig: crypt.Base64 } {
   const exp = Math.round(Date.now() / 1000) + ttl;
-  const sig = crypt.hmacSign(TEIKI_HMAC_SECRET, {
+  const sig = crypt.hmacSign(KREATE_HMAC_SECRET, {
     json: { ...meta, cid, exp },
   });
   return { exp: exp.toString(), sig };

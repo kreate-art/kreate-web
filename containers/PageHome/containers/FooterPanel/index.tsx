@@ -1,4 +1,5 @@
 import cx from "classnames";
+import { useRouter } from "next/router";
 import * as React from "react";
 
 import { TEIKI_CONNECTION_LIST } from "./constants/teiki-connection-list";
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const FooterPanel = ({ className, style }: Props) => {
+  const router = useRouter();
   return (
     <div className={cx(className, styles.container)} style={style}>
       <div className={styles.upperContainer}>
@@ -39,9 +41,15 @@ const FooterPanel = ({ className, style }: Props) => {
       <div className={styles.lowerContainer}>
         <div>© 2023 Shinka Network</div>
         <div className={styles.routingPage}>
+          <span
+            className={styles.routingPageItem}
+            onClick={() => router.push(`/podcasts`)}
+          >
+            Podcasts
+          </span>
           <a
             className={styles.routingPageItem}
-            href="https://discord.io/teikinetwork"
+            href="https://discord.gg/4wv3MfKHdE"
             target="_blank"
             rel="noreferrer"
           >

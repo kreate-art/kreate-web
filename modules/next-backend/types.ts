@@ -1,6 +1,6 @@
-// This module is copied from @teiki-index/blob/main/src/types/chain.ts
+// This module is copied from @kreate-index/blob/main/src/types/chain.ts
 import * as O from "@cardano-ogmios/schema";
-import { Hex } from "@teiki/protocol/types";
+import { Hex } from "@kreate/protocol/types";
 import * as L from "lucid-cardano";
 
 export type Lovelace = bigint;

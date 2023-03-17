@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import * as crypt from "@/modules/crypt";
 import {
-  TEIKI_CONTENT_DEFAULT_KEY_ID,
-  TEIKI_CONTENT_KEYS,
+  KREATE_CONTENT_DEFAULT_KEY_ID,
+  KREATE_CONTENT_KEYS,
 } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -26,8 +26,8 @@ export default async function handler(
     });
 
     const { kid, key } = crypt.selectKey(
-      TEIKI_CONTENT_KEYS,
-      TEIKI_CONTENT_DEFAULT_KEY_ID
+      KREATE_CONTENT_KEYS,
+      KREATE_CONTENT_DEFAULT_KEY_ID
     );
     const iv = crypt.randomIv();
     const cipher = crypt.createCipher(key, iv);

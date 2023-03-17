@@ -1,4 +1,4 @@
-import { fromJson } from "@teiki/protocol/json";
+import { fromJson } from "@kreate/protocol/json";
 
 import { assert } from "@/modules/common-utils";
 import { TxParams$BackerUnbackProject } from "@/modules/next-backend/logic/getBackerUnbackProject";

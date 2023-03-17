@@ -4,9 +4,15 @@ import { fileTypeStream } from "file-type";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import * as crypt from "@/modules/crypt";
-import { TEIKI_CONTENT_KEYS, TEIKI_HMAC_SECRET } from "@/modules/env/server";
+import { KREATE_CONTENT_KEYS, KREATE_HMAC_SECRET } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { ipfs } from "@/modules/next-backend/connections";
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,14 +41,21 @@ export default async function handler(
     });
 
     const payload = { json: { cid, kid, iv, tag, aad, exp } };
-    ClientError.assert(sig === crypt.hmacSign(TEIKI_HMAC_SECRET, payload), {
+    ClientError.assert(sig === crypt.hmacSign(KREATE_HMAC_SECRET, payload), {
       _debug: "invalid signature",
     });
 
-    const { key } = crypt.selectKey(TEIKI_CONTENT_KEYS, kid);
+    const { key } = crypt.selectKey(KREATE_CONTENT_KEYS, kid);
     const decipher = crypt.createDecipher(key, Buffer.from(iv, crypt.b64));
     decipher.setAuthTag(Buffer.from(tag, crypt.b64));
     aad && decipher.setAAD(Buffer.from(aad, crypt.b64));
+
+    res.setHeader("Accept-Ranges", "none");
+    res.setHeader("Etag", `"${cid}"`);
+    res.setHeader(
+      "Cache-Control",
+      "private, max-age=3600, must-revalidate, immutable"
+    );
 
     const upstream = stream.Readable.from(
       ipfs.cat(`/ipfs/${cid}`, { timeout: 10_000 })
@@ -50,17 +63,23 @@ export default async function handler(
     upstream.on("error", (error) => apiCatch(req, res, error));
 
     const upstreamWithFt = await fileTypeStream(upstream.pipe(decipher));
-    res.setHeader("Etag", `"${cid}"`);
-    res.setHeader(
-      "Cache-Control",
-      "private, max-age=3600, must-revalidate, immutable"
-    );
     res.setHeader(
       "Content-Type",
       upstreamWithFt.fileType?.mime ?? "application/octet-stream"
     );
+
     await stream.promises.pipeline(upstreamWithFt, res);
+    res.status(200);
   } catch (error) {
+    if (
+      error instanceof Error &&
+      req.headers.range &&
+      // We will support proper streaming later...
+      error.message.includes("Unsupported state or unable to authenticate data")
+    ) {
+      console.error("...");
+      return res.status(200);
+    }
     apiCatch(req, res, error);
   }
 }

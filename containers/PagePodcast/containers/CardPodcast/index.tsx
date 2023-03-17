@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-import { NEXT_PUBLIC_TEIKI_CDN } from "../../../../config/client";
+import { NEXT_PUBLIC_KREATE_CDN } from "../../../../config/client";
 import { Result } from "../../hooks/useAllPodcasts";
 
 import DropdownSelect from "./components/DropdownSelect";
@@ -60,7 +60,7 @@ export default function CardPodcast({ title, data, podcastBackground }: Props) {
     if (data?.error !== null) return;
     const cid = data.data.podcasts.find((podcast) => podcast.id === id)?.cid;
     if (cid == null) return;
-    const url = `${NEXT_PUBLIC_TEIKI_CDN}/podcasts/${cid}.wav`;
+    const url = `${NEXT_PUBLIC_KREATE_CDN}/podcasts/${cid}.wav`;
     if (audioRef.current) {
       audioRef.current.src = url;
       audioRef.current

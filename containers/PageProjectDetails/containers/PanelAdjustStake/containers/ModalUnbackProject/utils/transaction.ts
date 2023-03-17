@@ -1,9 +1,9 @@
-import * as S from "@teiki/protocol/schema";
-import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
+import * as S from "@kreate/protocol/schema";
+import { ProjectDatum } from "@kreate/protocol/schema/teiki/project";
 import {
   PlantParams,
   plantTx,
-} from "@teiki/protocol/transactions/backing/plant";
+} from "@kreate/protocol/transactions/backing/plant";
 import { Address, Lucid, Tx, TxComplete } from "lucid-cardano";
 
 import { splitToLines } from "@/modules/array-utils";

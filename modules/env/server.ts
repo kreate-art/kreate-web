@@ -71,11 +71,11 @@ export const IPFS_HTTP_API_ORIGIN = IS_NEXT_BUILD
       defaultValue: "",
     });
 
-export const TEIKI_CONTENT_KEYS = IS_NEXT_BUILD
+export const KREATE_CONTENT_KEYS = IS_NEXT_BUILD
   ? never()
   : parseEnv$Optional<KeySet>({
-      label: "TEIKI_CONTENT_KEYS",
-      input: process.env.TEIKI_CONTENT_KEYS,
+      label: "KREATE_CONTENT_KEYS",
+      input: process.env.KREATE_CONTENT_KEYS,
       parser: (text) =>
         new Map(
           text.split(",").map((term) => {
@@ -87,26 +87,27 @@ export const TEIKI_CONTENT_KEYS = IS_NEXT_BUILD
       defaultValue: new Map(),
     });
 
-export const TEIKI_CONTENT_DEFAULT_KEY_ID = IS_NEXT_BUILD
+export const KREATE_CONTENT_DEFAULT_KEY_ID = IS_NEXT_BUILD
   ? never()
   : parseEnv$Optional({
-      label: "TEIKI_CONTENT_DEFAULT_KEY_ID",
-      input: process.env.TEIKI_CONTENT_DEFAULT_KEY_ID,
+      label: "KREATE_CONTENT_DEFAULT_KEY_ID",
+      input: process.env.KREATE_CONTENT_DEFAULT_KEY_ID,
       parser: parseStringByRegex(/^[ -~]+$/),
       defaultValue: undefined,
     });
 
-export const TEIKI_HMAC_SECRET = IS_NEXT_BUILD
+export const KREATE_HMAC_SECRET = IS_NEXT_BUILD
   ? never()
   : parseEnv({
-      label: "TEIKI_HMAC_SECRET",
-      input: process.env.TEIKI_HMAC_SECRET,
+      label: "KREATE_HMAC_SECRET",
+      input: process.env.KREATE_HMAC_SECRET,
       parser: (text) =>
         createSecretKey("hmac", parseStringByRegex(/^[ -~]+$/)(text)),
     });
 
 if (!IS_NEXT_BUILD) {
-  if (!TEIKI_CONTENT_KEYS.size) console.warn("! TEIKI_CONTENT_KEYS is not set");
-  if (!TEIKI_CONTENT_DEFAULT_KEY_ID)
-    console.warn("! TEIKI_CONTENT_DEFAULT_KEY_ID is not set");
+  if (!KREATE_CONTENT_KEYS.size)
+    console.warn("! KREATE_CONTENT_KEYS is not set");
+  if (!KREATE_CONTENT_DEFAULT_KEY_ID)
+    console.warn("! KREATE_CONTENT_DEFAULT_KEY_ID is not set");
 }
