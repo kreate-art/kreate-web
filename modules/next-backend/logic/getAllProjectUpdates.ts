@@ -12,7 +12,7 @@ import {
   PROJECT_UPDATE_SCOPE,
   UnixTimestamp,
 } from "@/modules/business-types";
-import { toJson } from "@/modules/json-utils";
+import { toJsonStable } from "@/modules/json-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 
@@ -121,13 +121,19 @@ function getAllUpdatedScopes(
   const results: ProjectUpdateScope[] = [];
   for (const [key, value] of Object.entries(a)) {
     if (key === "roadmap") continue; // TODO: @sk-umiuma: remove this when types are normalized
-    if (key === "description" || key === "community" || key === "benefits") {
-      if (toJson(value) !== toJson(b[key])) results.push({ type: key });
+    if (
+      key === "description" ||
+      key === "community" ||
+      key === "benefits" ||
+      key === "tiers"
+    ) {
+      if (toJsonStable(value) !== toJsonStable(b[key]))
+        results.push({ type: key });
     } else {
       for (const [keyBasics, valueBasics] of Object.entries(a.basics)) {
         if (
-          toJson(valueBasics) !==
-            toJson(b.basics[keyBasics as keyof ProjectBasics]) &&
+          toJsonStable(valueBasics) !==
+            toJsonStable(b.basics[keyBasics as keyof ProjectBasics]) &&
           PROJECT_UPDATE_SCOPE.includes(keyBasics as keyof ProjectBasics)
         )
           results.push({ type: keyBasics as keyof ProjectBasics });
