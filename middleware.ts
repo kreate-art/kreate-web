@@ -13,7 +13,7 @@ if (!/^(http|https):\/\/.*[^/]$/.test(IPFS_GATEWAY_ORIGIN))
       "'http://' or 'https://' and must not end with '/'"
   );
 
-console.log(`Interally route IPFS Gateway to: ${IPFS_GATEWAY_ORIGIN}`);
+// console.log(`Interally route IPFS Gateway to: ${IPFS_GATEWAY_ORIGIN}`);
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
