@@ -231,6 +231,7 @@ export const PROJECT_UPDATE_SCOPE = [
   "roadmap",
   "community",
   "sponsorship",
+  "tiers",
 ] as const;
 
 export type ProjectUpdateScope =
@@ -245,7 +246,8 @@ export type ProjectUpdateScope =
   | { type: "logoImage" }
   | { type: "roadmap" }
   | { type: "community" }
-  | { type: "sponsorship"; sponsorshipAmount: LovelaceAmount };
+  | { type: "sponsorship"; sponsorshipAmount: LovelaceAmount }
+  | { type: "tiers" };
 
 export function formatScope(scope: ProjectUpdateScope): string {
   switch (scope.type) {
@@ -276,6 +278,8 @@ export function formatScope(scope: ProjectUpdateScope): string {
         scope.sponsorshipAmount,
         { compact: true, includeCurrencySymbol: true }
       )}`;
+    case "tiers":
+      return "tiers";
     default:
       return "";
   }
