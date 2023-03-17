@@ -75,6 +75,7 @@ export default function PageUpdateProjectV2({
         <ModalPostAnnouncement
           open
           projectId={projectId}
+          projectTiers={project.tiers ?? []}
           labelAction="Continue"
           onAction={(value) => resolve({ type: "continue", value })}
           onExit={() => resolve({ type: "cancel" })}

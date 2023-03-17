@@ -18,6 +18,7 @@ export default function Demo() {
             projectId={
               "29ea395672ac5db2970d2baeaad27245a973be0bcfbfab8ef5f7d18c4bb3bda6"
             }
+            projectTiers={[]} // For demo purpose only, no need to populate here
             labelAction="Continue"
             onAction={() => resolve(undefined)}
             onExit={() => resolve(undefined)}
