@@ -256,6 +256,7 @@ export default function ModalSubmit({
         <Button.Solid
           content="Submit"
           onClick={handleSubmit}
+          style={{ backgroundColor: "#EC5929" }}
           disabled={
             txBreakdown === undefined || busy || project.basics.customUrl === ""
           }
