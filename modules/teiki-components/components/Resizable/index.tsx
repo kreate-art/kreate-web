@@ -9,6 +9,7 @@ type Props = {
   children?: React.ReactNode;
   defaultWidth?: string;
   canResizeHeight?: boolean;
+  canResizeWidth?: boolean;
 };
 
 export default function Resizable({
@@ -17,13 +18,21 @@ export default function Resizable({
   children,
   defaultWidth,
   canResizeHeight,
+  canResizeWidth,
 }: Props) {
   return (
     <div
       className={cx(styles.container, className)}
       style={{
         width: defaultWidth,
-        resize: canResizeHeight ? "both" : "horizontal",
+        resize:
+          canResizeHeight && canResizeWidth
+            ? "both"
+            : canResizeHeight
+            ? "vertical"
+            : canResizeWidth
+            ? "horizontal"
+            : "none",
         ...style,
       }}
     >

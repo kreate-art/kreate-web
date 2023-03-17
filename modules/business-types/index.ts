@@ -16,6 +16,10 @@ export type ProjectDescription = {
   body: JSONContent;
 };
 
+export type ProjectTierContents = {
+  body: JSONContent;
+};
+
 export type ProjectImage = {
   url: string;
   x: number;
@@ -60,10 +64,12 @@ export type ProjectCommunity = {
 export type ProjectBenefitsTier = {
   id: string;
   title: string;
-  description: string;
+  description?: never; // previously `description: string`
+  contents?: ProjectTierContents;
   banner?: ProjectImage;
   requiredStake: LovelaceAmount;
   benefits: string[];
+  maximumMembers?: number;
 };
 
 export type ProjectBenefits = {

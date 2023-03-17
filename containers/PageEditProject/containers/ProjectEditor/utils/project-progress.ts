@@ -40,7 +40,6 @@ function getProjectTiersProgress(
   benefits: ProjectBenefitsTier[] | undefined
 ): ProgressScore {
   if (benefits == null) return 0.0;
-  console.log("[TIEREE]: ", benefits.length > 0 ? 1.0 : 0.0);
   return benefits.length > 0 ? 1.0 : 0.0;
 }
 
