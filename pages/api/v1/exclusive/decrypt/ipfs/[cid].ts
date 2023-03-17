@@ -8,6 +8,12 @@ import { TEIKI_CONTENT_KEYS, TEIKI_HMAC_SECRET } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { ipfs } from "@/modules/next-backend/connections";
 
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -44,23 +50,36 @@ export default async function handler(
     decipher.setAuthTag(Buffer.from(tag, crypt.b64));
     aad && decipher.setAAD(Buffer.from(aad, crypt.b64));
 
+    res.setHeader("Accept-Ranges", "none");
+    res.setHeader("Etag", `"${cid}"`);
+    res.setHeader(
+      "Cache-Control",
+      "private, max-age=3600, must-revalidate, immutable"
+    );
+
     const upstream = stream.Readable.from(
       ipfs.cat(`/ipfs/${cid}`, { timeout: 10_000 })
     );
     upstream.on("error", (error) => apiCatch(req, res, error));
 
     const upstreamWithFt = await fileTypeStream(upstream.pipe(decipher));
-    res.setHeader("Etag", `"${cid}"`);
-    res.setHeader(
-      "Cache-Control",
-      "private, max-age=3600, must-revalidate, immutable"
-    );
     res.setHeader(
       "Content-Type",
       upstreamWithFt.fileType?.mime ?? "application/octet-stream"
     );
+
     await stream.promises.pipeline(upstreamWithFt, res);
+    res.status(200);
   } catch (error) {
+    if (
+      error instanceof Error &&
+      req.headers.range &&
+      // We will support proper streaming later...
+      error.message.includes("Unsupported state or unable to authenticate data")
+    ) {
+      console.error("...");
+      return res.status(200);
+    }
     apiCatch(req, res, error);
   }
 }
