@@ -39,7 +39,7 @@ export default function ProjectBenefitsEditor({ value, onChange }: Props) {
       {
         id: Uuid.v4(),
         title: tierName,
-        description: "Description",
+        contents: { body: { type: "doc", content: [{ type: "paragraph" }] } },
         banner: undefined,
         requiredStake: 0,
         benefits: [],
