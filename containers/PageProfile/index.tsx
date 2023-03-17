@@ -47,7 +47,7 @@ export default function PageProfile({ className, style }: Props) {
 
   return (
     <>
-      <TeikiHead title="Profile - Teiki" />
+      <TeikiHead title="Kreate Profile" />
       <div className={cx(styles.container, className)} style={style}>
         <nav>
           <NavBar />
