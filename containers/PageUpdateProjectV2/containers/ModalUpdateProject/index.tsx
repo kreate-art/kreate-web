@@ -23,6 +23,7 @@ import styles from "./index.module.scss";
 import { formatTimespanToExpiryDate } from "./utils";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { sortedBy } from "@/modules/array-utils";
 import { ResultT } from "@/modules/async-utils";
 import {
   formatLovelaceAmount,
@@ -153,6 +154,16 @@ export default function ModalUpdateProject({
       assert(walletStatus.status === "connected", "wallet not connected");
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
+      // Normalize the project tiers before being uploaded to IPFS
+      // For now, let's sort them by its `requiredStake`
+      if (project.tiers) {
+        const sortedProjectTiers = sortedBy(
+          project.tiers,
+          (item) => item.requiredStake
+        );
+        project.tiers = sortedProjectTiers;
+      }
+
       setStatusBarText("Uploading files to IPFS...");
       const projectWBA$Blob: WithBufsAs<Project, Blob> =
         await Converters.fromProject(CodecBlob)(project).catch((cause) => {
@@ -249,6 +260,7 @@ export default function ModalUpdateProject({
         <ModalPostAnnouncement
           open
           projectId={projectId}
+          projectTiers={project.tiers ?? []}
           labelAction="Continue"
           onAction={(value) => resolve({ type: "continue", value })}
           onExit={() => resolve({ type: "cancel" })}

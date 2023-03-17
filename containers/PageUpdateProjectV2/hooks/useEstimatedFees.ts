@@ -1,5 +1,6 @@
 import { buildTx } from "../utils/transaction";
 
+import { sortedBy } from "@/modules/array-utils";
 import { ResultT, try$ } from "@/modules/async-utils";
 import {
   LovelaceAmount,
@@ -63,6 +64,15 @@ export function useEstimatedFees({
 
       const newInformationCid = await try$(
         async () => {
+          // Normalize the project tiers before being uploaded to IPFS
+          // For now, let's sort them by its `requiredStake`
+          if (project.tiers) {
+            const sortedProjectTiers = sortedBy(
+              project.tiers,
+              (item) => item.requiredStake
+            );
+            project.tiers = sortedProjectTiers;
+          }
           const blobWBA: WithBufsAs<Project, Blob> =
             await Converters.fromProject(CodecBlob)(project);
           const cid = await ipfsAdd$WithBufsAs$Blob(blobWBA);

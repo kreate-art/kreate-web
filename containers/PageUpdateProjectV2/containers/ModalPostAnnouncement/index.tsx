@@ -11,10 +11,10 @@ import {
 } from "./utils";
 
 import { throw$, try$, tryUntil } from "@/modules/async-utils";
+import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import {
-  EXCLUSIVE_TIERS,
+  ProjectBenefitsTier,
   PublicProjectPost,
-  Tier,
 } from "@/modules/business-types";
 import {
   formatAutoSaverStatus,
@@ -44,14 +44,11 @@ import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Converters } from "@/modules/with-bufs-as-converters";
 import CodecBlob from "@/modules/with-bufs-as-converters/codecs/CodecBlob";
 
-function formatTier(tier: Tier) {
-  return `Tier ${tier.tier}: ${tier.label}`;
-}
-
 type Props = {
   open: boolean;
   projectId: string;
   labelAction: string;
+  projectTiers: ProjectBenefitsTier[];
   onAction?: (value: PublicProjectPost) => void;
   onSkip?: () => void;
   onSuccess?: () => void;
@@ -65,6 +62,7 @@ export default function ModalPostAnnouncement({
   open,
   projectId,
   labelAction,
+  projectTiers,
   onAction,
   onSkip,
   onSuccess,
@@ -291,7 +289,6 @@ export default function ModalPostAnnouncement({
                   />
                 </Flex.Row>
                 <Flex.Col gap="12px">
-                  {/* TODO: Use `ProjectBenefitsTier` instead of hardcoded EXCLUSIVE_TIERS */}
                   <Typography.Div content="Tiers from:" size="heading6" />
                   <select
                     className={styles.select}
@@ -300,9 +297,13 @@ export default function ModalPostAnnouncement({
                     }
                     disabled={!isExclusive}
                   >
-                    {EXCLUSIVE_TIERS.map((tier, index) => (
-                      <option value={tier.tier} key={index}>
-                        {formatTier(tier)}
+                    {projectTiers.map((tier, index) => (
+                      // Note that `index` starts from 0
+                      <option value={index + 1} key={index}>
+                        {`${tier.title}: ${formatLovelaceAmount(
+                          tier.requiredStake,
+                          { includeCurrencySymbol: true }
+                        )}`}
                       </option>
                     ))}
                   </select>
