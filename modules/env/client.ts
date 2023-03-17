@@ -7,6 +7,12 @@ import {
 } from "./utils/parsers";
 import { parseEnv, parseEnv$Optional } from "./utils/wrappers";
 
+export const KREATE_ENV = parseEnv({
+  label: "NEXT_PUBLIC_KREATE_ENV",
+  input: process.env.NEXT_PUBLIC_KREATE_ENV,
+  parser: parseEnum(["mainnet", "testnet"]),
+});
+
 export const HOST = parseEnv({
   label: "NEXT_PUBLIC_HOST",
   input: process.env.NEXT_PUBLIC_HOST,

@@ -3,14 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { NEXT_PUBLIC_NETWORK } from "../../../../../../config/client";
-
 import MessageView from "./components/MessageView";
 import WalletView from "./components/WalletView";
 import imageNiko from "./images/niko.png";
 import styles from "./index.module.scss";
 import { Message } from "./types";
 
+import { KREATE_ENV } from "@/modules/env/client";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { LogoKreateWhite } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -84,9 +83,9 @@ export default function SideBar({
               content="Guideline"
               onClick={() => {
                 window.open(
-                  NEXT_PUBLIC_NETWORK === "Mainnet"
-                    ? "https://docs.teiki.network/mainnet-guidelines/create-a-project"
-                    : "https://docs.testnet.teiki.network/testnet-guidelines/create-a-project",
+                  KREATE_ENV === "mainnet"
+                    ? "https://docs.kreate.community/mainnet-guidelines/create-a-project"
+                    : "https://docs.testnet.kreate.community/testnet-guidelines/create-a-project",
                   "_blank"
                 );
               }}

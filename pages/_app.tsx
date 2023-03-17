@@ -28,8 +28,6 @@ const provider = new Blockfrost(
   NEXT_PUBLIC_BLOCKFROST_PROJECT_ID
 );
 
-const network = NEXT_PUBLIC_NETWORK as Network;
-
 const fontInter = Inter({
   subsets: ["latin"],
   variable: "--font-default",
@@ -83,7 +81,10 @@ function withWalletNetworkWarning<P>(WrappedComponent: React.ComponentType<P>) {
 }
 
 function TeikiApp({ Component, pageProps }: AppProps) {
-  const appContextValue = useAppContextValue$Provider({ provider, network });
+  const appContextValue = useAppContextValue$Provider({
+    provider,
+    network: NEXT_PUBLIC_NETWORK as Network,
+  });
   const WrappedComponent = React.useMemo(
     () =>
       withToastContext(withModalPromises(withWalletNetworkWarning(Component))),

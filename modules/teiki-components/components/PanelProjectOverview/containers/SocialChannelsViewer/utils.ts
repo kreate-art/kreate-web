@@ -13,7 +13,7 @@ type Entry = {
 /**
  * Returns the hostname (after protocol, before path, without port)
  *
- * Example: `https://teiki.network:8080/about-us` -> `teiki.network`
+ * Example: `https://kreate.community:8080/about-us` -> `kreate.community`
  *
  * If `url` is invalid, returns `null`.
  */
@@ -27,7 +27,7 @@ function extractHostName(url: Url): string | null {
 }
 
 export function formatToEntry(url: Url): Entry {
-  // To support user inputs like `twitter.com/teikinetwork`
+  // To support user inputs like `twitter.com/kreate`
   if (!/^https?:\/\//i.test(url)) {
     url = "https://" + url;
   }
