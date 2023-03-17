@@ -10,7 +10,7 @@
 
 .inputContainerInactive {
   height: 48px;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 83px;
   display: flex;
   align-items: center;
@@ -28,7 +28,14 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.searchIcon {
+.searchIconInactive {
+  margin-left: 27px;
+  color: #fff;
+  width: 17.49px;
+  height: 17.49px;
+}
+
+.searchIconActive {
   margin-left: 27px;
   color: colors.$ink50;
   width: 17.49px;
@@ -39,7 +46,6 @@
   border: none;
   outline: none;
   padding-left: 15.51px;
-  color: colors.$ink80;
   font-size: 14px;
   font-weight: 600;
   line-height: 18px;
@@ -48,6 +54,7 @@
 
 .input::placeholder {
   font-weight: 600;
+  color: #fff;
 }
 
 .inputInactive {

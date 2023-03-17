@@ -44,7 +44,11 @@ export default function InputWithDropdown({
               onActive && onActive();
             }}
           >
-            <IconSearch className={styles.searchIcon} />
+            <IconSearch
+              className={
+                active ? styles.searchIconActive : styles.searchIconInactive
+              }
+            />
             <form
               onSubmit={(event) => {
                 event.preventDefault();
