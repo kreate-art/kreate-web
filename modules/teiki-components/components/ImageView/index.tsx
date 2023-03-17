@@ -26,6 +26,7 @@ const IPFS_ORIGINS = [
   ...ALTERNATE_IPFS_GATEWAY_ORIGINS,
 ].map((o) => o + "/");
 
+// TODO: All components should use `ImageView` instead of Next `Image`.
 export default function ImageView({ className, style, src, alt, crop }: Props) {
   const [target, setTarget] = React.useState<HTMLDivElement | null>(null);
   const [imageSize, setImageSize] = React.useState<Size | undefined>(undefined);
