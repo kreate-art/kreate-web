@@ -4,7 +4,7 @@ import { fileTypeStream } from "file-type";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import * as crypt from "@/modules/crypt";
-import { TEIKI_CONTENT_KEYS, TEIKI_HMAC_SECRET } from "@/modules/env/server";
+import { KREATE_CONTENT_KEYS, KREATE_HMAC_SECRET } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { ipfs } from "@/modules/next-backend/connections";
 
@@ -41,11 +41,11 @@ export default async function handler(
     });
 
     const payload = { json: { cid, kid, iv, tag, aad, exp } };
-    ClientError.assert(sig === crypt.hmacSign(TEIKI_HMAC_SECRET, payload), {
+    ClientError.assert(sig === crypt.hmacSign(KREATE_HMAC_SECRET, payload), {
       _debug: "invalid signature",
     });
 
-    const { key } = crypt.selectKey(TEIKI_CONTENT_KEYS, kid);
+    const { key } = crypt.selectKey(KREATE_CONTENT_KEYS, kid);
     const decipher = crypt.createDecipher(key, Buffer.from(iv, crypt.b64));
     decipher.setAuthTag(Buffer.from(tag, crypt.b64));
     aad && decipher.setAAD(Buffer.from(aad, crypt.b64));

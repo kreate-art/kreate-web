@@ -1,5 +1,5 @@
-import * as S from "@teiki/protocol/schema";
-import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
+import * as S from "@kreate/protocol/schema";
+import { ProtocolParamsDatum } from "@kreate/protocol/schema/teiki/protocol";
 import useSWR from "swr";
 
 import { httpGetTxParams$CreatorCreateProject } from "../api/httpGetTxParams$CreatorCreateProject";

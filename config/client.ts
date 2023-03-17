@@ -117,11 +117,11 @@ assert(
 );
 
 /** @deprecated - use modules/env/client.ts instead */
-export const NEXT_PUBLIC_TEIKI_CDN: string =
-  process.env.NEXT_PUBLIC_TEIKI_CDN || "";
+export const NEXT_PUBLIC_KREATE_CDN: string =
+  process.env.NEXT_PUBLIC_KREATE_CDN || "";
 assert(
-  /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_TEIKI_CDN),
-  "NEXT_PUBLIC_TEIKI_CDN must starts with " +
+  /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_KREATE_CDN),
+  "NEXT_PUBLIC_KREATE_CDN must starts with " +
     "'http://' or 'https://' and must not end with '/'"
 );
 

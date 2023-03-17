@@ -1,5 +1,5 @@
 {
-  "name": "teiki-web",
+  "name": "kreate-web",
   "version": "0.1.0",
   "scripts": {
     "build": "next build",
@@ -19,6 +19,7 @@
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "@grammarly/editor-sdk-react": "^2.2.0",
+    "@kreate/protocol": "github:kreate-community/kreate-protocol#100961d7ebb612dd9c8b0c070aafbea33e0eae21",
     "@next/font": "^13.0.5",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
@@ -26,7 +27,6 @@
     "@radix-ui/react-slot": "^1.0.1",
     "@radix-ui/react-toast": "^1.1.2",
     "@shinka-network/json-bigint": "^1.0.2",
-    "@teiki/protocol": "github:teiki-network/teiki-protocol#f6f3055276f3680e0330d7fe371054270551fc9e",
     "@tiptap/core": "^2.0.0-beta.199",
     "@tiptap/extension-color": "^2.0.0-beta.202",
     "@tiptap/extension-link": "^2.0.0-beta.204",
@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@cardano-ogmios/schema": "^5.6.0",
-    "@hyperionbt/helios": "^0.12.12",
+    "@hyperionbt/helios": "^0.13.3",
     "@types/busboy": "^1.5.0",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.14.6",

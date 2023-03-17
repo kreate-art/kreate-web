@@ -1,4 +1,4 @@
-import { Hex } from "@teiki/protocol/types";
+import { Hex } from "@kreate/protocol/types";
 
 import { Sql } from "../db";
 import { toLucidUtxo, ChainOutput } from "../types";

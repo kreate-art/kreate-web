@@ -1,7 +1,7 @@
-import * as S from "@teiki/protocol/schema";
-import { BackingDatum } from "@teiki/protocol/schema/teiki/backing";
-import { ProjectDatum } from "@teiki/protocol/schema/teiki/project";
-import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
+import * as S from "@kreate/protocol/schema";
+import { BackingDatum } from "@kreate/protocol/schema/teiki/backing";
+import { ProjectDatum } from "@kreate/protocol/schema/teiki/project";
+import { ProtocolParamsDatum } from "@kreate/protocol/schema/teiki/protocol";
 
 import { Sql } from "../db";
 

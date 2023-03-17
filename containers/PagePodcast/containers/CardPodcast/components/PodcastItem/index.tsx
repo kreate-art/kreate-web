@@ -3,7 +3,7 @@ import moment from "moment";
 import Link from "next/link";
 import React from "react";
 
-import { NEXT_PUBLIC_TEIKI_CDN } from "../../../../../../config/client";
+import { NEXT_PUBLIC_KREATE_CDN } from "../../../../../../config/client";
 import ProjectImageCropped from "../../../../../PageHome/components/ProjectImageCropped";
 import IconWarning from "../../../../../PageProjectDetails/components/IconWarning";
 
@@ -104,7 +104,7 @@ export default function PodcastItem({
           onClick={onClickViewProject}
         />
         <Link
-          href={`${NEXT_PUBLIC_TEIKI_CDN}/podcasts/${value.cid}.wav`}
+          href={`${NEXT_PUBLIC_KREATE_CDN}/podcasts/${value.cid}.wav`}
           target="_blank"
         >
           <Button.Outline

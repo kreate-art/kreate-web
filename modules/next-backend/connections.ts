@@ -1,4 +1,4 @@
-// TODO: Duplicated of teiki-index/src/db.ts
+// TODO: Duplicated of kreate-index/src/db.ts
 import Redis from "ioredis";
 import * as IpfsClient from "ipfs-http-client";
 import postgres from "postgres";

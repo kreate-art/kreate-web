@@ -1,4 +1,4 @@
-import { Hex } from "@teiki/protocol/types";
+import { Hex } from "@kreate/protocol/types";
 
 import {
   NEXT_PUBLIC_PROJECT_AT_MPH,

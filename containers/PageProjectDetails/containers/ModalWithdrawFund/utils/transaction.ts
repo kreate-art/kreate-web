@@ -1,9 +1,9 @@
-import * as S from "@teiki/protocol/schema";
-import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
+import * as S from "@kreate/protocol/schema";
+import { ProtocolParamsDatum } from "@kreate/protocol/schema/teiki/protocol";
 import {
   WithdrawFundsParams,
   withdrawFundsTx,
-} from "@teiki/protocol/transactions/project/withdraw-funds";
+} from "@kreate/protocol/transactions/project/withdraw-funds";
 import { Lucid, RewardAddress, TxComplete } from "lucid-cardano";
 
 import { LovelaceAmount } from "@/modules/business-types";
@@ -22,7 +22,7 @@ export type BuildTxResult = { txFee: LovelaceAmount; txComplete: TxComplete };
  * After this step, field `txComplete` can be used to sign and submit by:
  *
  * ```
- * const txHash = await signAndSubmit(txComplete); // from "@teiki/protocol/helpers/lucid";
+ * const txHash = await signAndSubmit(txComplete); // from "@kreate/protocol/helpers/lucid";
  * await lucid.awaitTx(txHash);
  * ```
  */

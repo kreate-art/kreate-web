@@ -1,4 +1,4 @@
-import { trimToSlot } from "@teiki/protocol/utils";
+import { trimToSlot } from "@kreate/protocol/utils";
 
 import { httpGetLatestBlock } from "./api/httpGetLatestBlock";
 

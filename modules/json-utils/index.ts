@@ -1,4 +1,3 @@
-// TODO: A duplication of teiki-web/modules/json-utils/index.ts
 import JsonBigFactory from "@shinka-network/json-bigint";
 import stableStringify from "safe-stable-stringify";
 
