@@ -9,7 +9,7 @@ export default function IconCaretDown() {
     >
       <path
         d="M13.3327 8.33398L9.99935 11.6673L6.66602 8.33398"
-        stroke="#00362C"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

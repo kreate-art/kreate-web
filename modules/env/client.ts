@@ -7,6 +7,12 @@ import {
 } from "./utils/parsers";
 import { parseEnv, parseEnv$Optional } from "./utils/wrappers";
 
+export const KREATE_ENV = parseEnv({
+  label: "NEXT_PUBLIC_KREATE_ENV",
+  input: process.env.NEXT_PUBLIC_KREATE_ENV,
+  parser: parseEnum(["mainnet", "testnet"]),
+});
+
 export const HOST = parseEnv({
   label: "NEXT_PUBLIC_HOST",
   input: process.env.NEXT_PUBLIC_HOST,
@@ -102,4 +108,15 @@ export const IPFS_GATEWAY_ORIGIN = parseEnv({
   label: "NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN",
   input: process.env.NEXT_PUBLIC_IPFS_GATEWAY_ORIGIN,
   parser: parseBaseUrl(),
+});
+
+export const ALTERNATE_IPFS_GATEWAY_ORIGINS = parseEnv$Optional({
+  label: "NEXT_PUBLIC_ALTERNATE_IPFS_GATEWAY_ORIGINS",
+  input: process.env.NEXT_PUBLIC_ALTERNATE_IPFS_GATEWAY_ORIGINS,
+  parser: (text) => {
+    const purl = parseBaseUrl();
+    const pchild = (e: string) => purl(e.trim());
+    return text.split(",").map(pchild);
+  },
+  defaultValue: [],
 });

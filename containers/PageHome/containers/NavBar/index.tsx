@@ -3,10 +3,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 
 import InputSearch from "../../../../components/InputSearch";
-import {
-  NEXT_PUBLIC_ENABLE_LEGACY,
-  NEXT_PUBLIC_NETWORK,
-} from "../../../../config/client";
+import { NEXT_PUBLIC_ENABLE_LEGACY } from "../../../../config/client";
 import useDetailedProject, {
   ProjectNotFound,
 } from "../../../PageProjectDetails/hooks/useDetailedProject";
@@ -19,12 +16,13 @@ import IconPlusSquare from "./icons/IconPlusSquare";
 import styles from "./index.module.scss";
 
 import { DisplayableError } from "@/modules/displayable-error";
+import { NETWORK } from "@/modules/env/client";
 import { useModalPromises } from "@/modules/modal-promises";
 import { httpGetLegacyBacking } from "@/modules/next-backend-client/api/httpGetLegacyBacking";
 import { httpGetProject } from "@/modules/next-backend-client/api/httpGetProject";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
-import { LogoTeikiFull } from "@/modules/teiki-logos";
+import { LogoKreateFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 import { WalletStatus } from "@/modules/wallet/types";
 
@@ -69,10 +67,7 @@ export default function NavBar({ className, style }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.main}>
         <div style={{ cursor: "pointer" }} onClick={() => router.push("/")}>
-          <LogoTeikiFull
-            color="black-with-green-initial"
-            network={NEXT_PUBLIC_NETWORK}
-          />
+          <LogoKreateFull network={NETWORK} />
         </div>
         <InputSearch className={styles.searchBar} />
         <ButtonWalletNavbar />

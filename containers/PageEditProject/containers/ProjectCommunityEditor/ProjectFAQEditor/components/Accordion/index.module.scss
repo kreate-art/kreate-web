@@ -1,5 +1,7 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
-  background-color: #eef1f0;
+  background-color: #22222210;
   border-radius: 12px;
   padding: 17.5px 24px;
 }
@@ -29,9 +31,8 @@
 }
 
 .content {
-  background-color: #eef1f0;
   font-size: 18px;
   border-radius: 10px;
-  color: #1f3e2f;
+  color: colors.$ink;
   margin-top: 17.5px;
 }

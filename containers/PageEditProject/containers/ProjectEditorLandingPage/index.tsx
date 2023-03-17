@@ -1,7 +1,6 @@
 import Image from "next/image";
 import * as React from "react";
 
-import { NEXT_PUBLIC_NETWORK } from "../../../../config/client";
 import ButtonWalletNavbar from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar";
 
 import pngNiko300 from "./assets/niko-300.min.png";
@@ -10,14 +9,15 @@ import IconGuideline from "./components/IconGuideline";
 import IconLeaf from "./components/IconLeaf";
 import styles from "./index.module.scss";
 
+import { KREATE_ENV, NETWORK } from "@/modules/env/client";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
-import { LogoTeikiFull } from "@/modules/teiki-logos";
+import { LogoKreateFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Title from "@/modules/teiki-ui/components/Title";
 
 // @sk-kitsune: move this function to a separated file, and clean it up.
-// Ideally, this component should not read NEXT_PUBLIC_NETWORK directly.
+// Ideally, this component should not read KREATE_ENV directly.
 // This component should be separated into Content.Mainnet and Content.Testnet.
 // The caller should conditionally render one among two components.
 // Currently, I have no time to do this refactoring.
@@ -32,7 +32,7 @@ function Content({
     <div className={className}>
       <Callout className={styles.callout} />
       <div className={styles.details}>
-        {NEXT_PUBLIC_NETWORK === "Mainnet" ? (
+        {KREATE_ENV === "mainnet" ? (
           <div>
             <Title size="h4" color="ink100">
               1. Around 515 ₳ is needed to create a project.
@@ -100,9 +100,9 @@ function Content({
             size="large"
             onClick={() => {
               window.open(
-                NEXT_PUBLIC_NETWORK === "Mainnet"
-                  ? "https://docs.teiki.network/mainnet-guidelines/create-a-project"
-                  : "https://docs.testnet.teiki.network/testnet-guidelines/create-a-project",
+                KREATE_ENV === "mainnet"
+                  ? "https://docs.kreate.community/mainnet-guidelines/create-a-project"
+                  : "https://docs.testnet.kreate.community/testnet-guidelines/create-a-project",
                 "_blank"
               );
             }}
@@ -130,10 +130,7 @@ function ProjectEditorLandingPage({ onClickGetStarted }: Props) {
           alignItems="center"
           gap="32px"
         >
-          <LogoTeikiFull
-            color="black-with-green-initial"
-            network={NEXT_PUBLIC_NETWORK}
-          />
+          <LogoKreateFull network={NETWORK} />
           <div className={styles.buttonNav}>
             <ButtonWalletNavbar />
           </div>

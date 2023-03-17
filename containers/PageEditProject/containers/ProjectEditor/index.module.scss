@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .sidebar {
   position: fixed;
   left: 0;
@@ -16,7 +18,7 @@
 }
 
 .statusText {
-  color: #1f3e2f;
+  color: colors.$ink;
   min-width: 10em;
   flex: 10000 10000 0;
   padding: 5px 0;
@@ -43,7 +45,7 @@
 
 .mainMain {
   flex: 1 1 0;
-  background-color: #eef1f0;
+  background-color: rgba(248, 248, 248, 1);
   overflow: auto;
   padding: 32px 48px;
   padding-bottom: 0;
@@ -51,7 +53,7 @@
 }
 
 .collapsedMain {
-  left: 90px;
+  left: 120px;
 }
 
 .buttonCollapseWrapper {

@@ -14,7 +14,7 @@ export default function SponsorSlogan({ className, style }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.slogan}>SPONSORS</div>
-      <div style={{ verticalAlign: "text-top" }}>
+      <div className={styles.icon} style={{ verticalAlign: "text-top" }}>
         <IconGreenStar />
       </div>
     </div>

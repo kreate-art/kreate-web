@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   border-radius: 16px;
   background-repeat: no-repeat;
@@ -25,7 +27,7 @@
 
 .title {
   padding: 8px 24px;
-  background-color: #1f3e2f;
+  background-color: colors.$ink;
   font-weight: 600;
   font-size: 32px;
   line-height: 48px;
@@ -35,7 +37,7 @@
 
 .description {
   padding: 8px 24px;
-  background-color: #1f3e2f;
+  background-color: colors.$ink;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -64,14 +66,14 @@
   border-radius: 16px;
   padding: 16px;
   height: 42px;
-  color: #1f3e2f;
+  color: colors.$ink;
   font-weight: 600;
   font-size: 14px;
 }
 
 .button.button.button {
   background-color: #fff;
-  color: #1f3e2f;
+  color: colors.$ink;
   height: fit-content;
   display: flex;
   align-items: center;
@@ -80,6 +82,7 @@
 }
 
 .playButton.playButton.playButton {
+  color: colors.$secondary;
   border-radius: 16px;
   background-color: #fff;
   width: 96px;

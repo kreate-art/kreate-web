@@ -16,7 +16,7 @@ export default function IconCaretDown({ className, style }: Props) {
     >
       <path
         d="M16 10L12 14L8 10"
-        stroke="#00362C"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

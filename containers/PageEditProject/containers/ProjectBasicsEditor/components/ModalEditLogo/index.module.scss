@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .logoBottomImage {
   width: 128px;
   height: 128px;
@@ -21,7 +23,7 @@
 .nikoMessage {
   font-size: 12px;
   line-height: 12px;
-  color: #00362c;
+  color: colors.$ink;
   opacity: 0.8;
   font-weight: 600;
 }
@@ -52,8 +54,8 @@
 
 .buttonAddImage {
   height: 92px;
-  border: 1px dashed rgba(0, 54, 44, 0.3);
-  color: #00362c;
+  border: 1px dashed colors.$ink30;
+  color: colors.$ink;
   border-radius: 15px;
   display: flex;
   justify-content: center;

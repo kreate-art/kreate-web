@@ -4,7 +4,6 @@ import * as React from "react";
 import Flex from "../../components/Flex";
 import ImpactfulNumber from "../../components/ImpactfulNumber";
 
-import IconRevenue from "./icons/IconRevenue";
 import styles from "./index.module.scss";
 
 import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
@@ -21,11 +20,7 @@ export default function ActiveStakeViewer({ className, style, value }: Props) {
   const { adaPriceInfo } = useAppContextValue$Consumer();
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <ImpactfulNumber
-        icon={<IconRevenue />}
-        label="Active Stake"
-        title={value?.toString()}
-      >
+      <ImpactfulNumber label="Active Stake" title={value?.toString()}>
         <Flex.Row gap="12px" alignItems="flex-end" flexWrap="wrap">
           <span className={styles.ada}>
             {value != null

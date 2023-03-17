@@ -11,7 +11,7 @@ export default function IconArrowUp() {
       <g clipPath="url(#clip0_1035_1110)">
         <path
           d="M8.94 14.2733L12 11.2199L15.06 14.2733L16 13.3333L12 9.33325L8 13.3333L8.94 14.2733Z"
-          fill="#1F3E2F"
+          fill="currentColor"
         />
       </g>
       <defs>

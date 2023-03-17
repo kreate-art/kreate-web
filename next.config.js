@@ -1,14 +1,61 @@
+const NODE_ENV = process.env.NODE_ENV;
+const KREATE_ENV = process.env.NEXT_PUBLIC_KREATE_ENV;
+
 // TODO: Remove 'unsafe-inline'. And stricter rules...
 // https://scotthelme.co.uk/content-security-policy-an-introduction/
-const CONTENT_SECURITY_POLICY = `
-  default-src 'self';
-  script-src 'self' 'unsafe-eval' https://*.grammarly.com/;
-  style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs/normalize/ https://cdn.jsdelivr.net/npm/react-responsive-carousel/ https://cdn.jsdelivr.net/npm/semantic-ui@2/ https://fonts.googleapis.com/css;
-  img-src 'self' blob: data: https://teiki.network https://*.teiki.network https://*.grammarly.com/;
-  media-src 'self' blob: data: https://teiki.network https://*.teiki.network;
-  font-src 'self' data: https://cdn.jsdelivr.net/npm/semantic-ui@2/ https://fonts.gstatic.com/s/lato/;
-  connect-src 'self' blob: data: https://teiki.network https://*.teiki.network https://*.blockfrost.io/api/ https://api.coingecko.com https://*.grammarly.com/ https://*.grammarly.io/ wss://*.grammarly.com/;
-`;
+// TODO: Tighten grammarly
+const CONTENT_SECURITY_POLICY = (() => {
+  const csp = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'", "'unsafe-eval'", "https://*.grammarly.com/"],
+    "style-src": [
+      "'self'",
+      "'unsafe-inline'",
+      "https://cdnjs.cloudflare.com/ajax/libs/normalize/",
+      "https://cdn.jsdelivr.net/npm/react-responsive-carousel/",
+      "https://cdn.jsdelivr.net/npm/semantic-ui@2/",
+      "https://fonts.googleapis.com/css",
+    ],
+    "img-src": ["'self'", "blob:", "data:", "https://*.grammarly.com/"],
+    "media-src": ["'self'", "blob:", "data:"],
+    "font-src": [
+      "'self'",
+      "data:",
+      "https://cdn.jsdelivr.net/npm/semantic-ui@2/",
+      "https://fonts.gstatic.com/s/lato/",
+    ],
+    "connect-src": [
+      "'self'",
+      "blob:",
+      "data:",
+      "https://*.blockfrost.io/api/",
+      "https://api.coingecko.com",
+      "https://*.grammarly.com/",
+      "https://*.grammarly.io/",
+      "wss://*.grammarly.com/",
+      "https://ai.kreate.community",
+    ],
+    "object-src": ["'none'"],
+  };
+  if (KREATE_ENV === "testnet") {
+    csp["media-src"].push("https://cdn.testnet.kreate.community");
+    csp["media-src"].push("https://ipfs.testnet.kreate.community");
+    csp["img-src"].push("https://ipfs.testnet.kreate.community");
+    // Legacy, @sk-yagi
+    csp["media-src"].push("https://ipfs-testnet.teiki.network");
+    csp["img-src"].push("https://ipfs-testnet.teiki.network");
+  }
+  if (KREATE_ENV === "mainnet") {
+    csp["media-src"].push("https://cdn.kreate.community");
+    csp["media-src"].push("https://ipfs.kreate.community");
+    csp["img-src"].push("https://ipfs.kreate.community");
+    // Legacy, @sk-yagi
+    csp["media-src"].push("https://ipfs.teiki.network");
+    csp["img-src"].push("https://ipfs.teiki.network");
+  }
+  return csp;
+})();
+
 const SECURITY_HEADERS = [
   {
     key: "Strict-Transport-Security",
@@ -16,7 +63,9 @@ const SECURITY_HEADERS = [
   },
   {
     key: "Content-Security-Policy",
-    value: CONTENT_SECURITY_POLICY.replace(/\s{2,}/g, " ").trim(),
+    value: Object.entries(CONTENT_SECURITY_POLICY)
+      .map(([key, values]) => `${key} ${values.join(" ")};`)
+      .join(" "),
   },
   {
     key: "X-Frame-Options",
@@ -63,16 +112,23 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.teiki.network",
-      },
-      ...(process.env.NODE_ENV === "development"
+      ...(NODE_ENV === "development"
+        ? [{ protocol: "http", hostname: "localhost" }]
+        : []),
+      ...(KREATE_ENV === "testnet"
         ? [
-            {
-              protocol: "http",
-              hostname: "localhost",
-            },
+            { protocol: "https", hostname: "testnet.kreate.community" },
+            { protocol: "https", hostname: "ipfs.testnet.kreate.community" },
+            // Legacy, @sk-yagi
+            { protocol: "https", hostname: "ipfs-testnet.teiki.network" },
+          ]
+        : []),
+      ...(KREATE_ENV === "mainnet"
+        ? [
+            { protocol: "https", hostname: "alpha.kreate.community" },
+            { protocol: "https", hostname: "ipfs.kreate.community" },
+            // Legacy, @sk-yagi
+            { protocol: "https", hostname: "ipfs.teiki.network" },
           ]
         : []),
     ],

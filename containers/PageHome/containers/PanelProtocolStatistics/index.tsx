@@ -1,5 +1,4 @@
 import cx from "classnames";
-import moment from "moment";
 import * as React from "react";
 
 import Card from "./components/Card";
@@ -7,6 +6,7 @@ import styles from "./index.module.scss";
 import { shortenNumber } from "./utils";
 
 import { ProtocolStatistics } from "@/modules/business-types";
+import Divider from "@/modules/teiki-ui/components/Divider";
 
 type Props = {
   className?: string;
@@ -48,6 +48,7 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Creators</Card.Legend>
           </Card>
+          <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
             {stats.numSupporters == null ? (
               <Card.Content>-</Card.Content>
@@ -58,6 +59,7 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Members</Card.Legend>
           </Card>
+          <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
             {stats.numPosts == null ? (
               <Card.Content>-</Card.Content>
@@ -66,6 +68,7 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Posts</Card.Legend>
           </Card>
+          <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
             {stats.numProtocolTransactions == null ? (
               <Card.Content>-</Card.Content>
@@ -74,6 +77,7 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Transactions</Card.Legend>
           </Card>
+          <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
             {stats.numLovelaceStakedActive == null ? (
               <Card.Content>-</Card.Content>
@@ -86,6 +90,7 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Active stake</Card.Legend>
           </Card>
+          <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
             {stats.numLovelaceRaised == null ? (
               <Card.Content>-</Card.Content>

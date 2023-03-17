@@ -33,10 +33,10 @@ export default function ActionUnback({ className, style, value }: Props) {
             content="View transaction"
             size="heading6"
             style={{
-              color: "#00362C",
               textDecoration: "underline",
               marginLeft: "8px",
             }}
+            color="ink"
           />
         </Link>
       </Typography.Div>
@@ -44,7 +44,7 @@ export default function ActionUnback({ className, style, value }: Props) {
         <Typography.Div
           style={{
             paddingLeft: "10px",
-            borderLeft: "2px solid rgba(0, 110, 70, 0.3)",
+            borderLeft: "2px solid rgba(34, 34, 34, 0.3)",
           }}
           content={value.message}
           color="ink80"

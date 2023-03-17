@@ -25,14 +25,14 @@ export default function TitleSloganViewer({
       <Flex.Col gap="4px">
         <Typography.H1
           size="heading2"
-          color="ink"
+          color="secondary"
           content={title}
           title={title}
           maxLines={2}
         />
         <Typography.Div
           size="heading4"
-          color="green"
+          color="ink80"
           content={slogan}
           title={slogan}
           maxLines={2}

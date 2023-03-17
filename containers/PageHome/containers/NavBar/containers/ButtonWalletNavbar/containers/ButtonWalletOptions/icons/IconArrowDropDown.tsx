@@ -10,7 +10,7 @@ export default function IconArrowDropDown() {
       <g clipPath="url(#clip0_3052_3365)">
         <path
           d="M6.175 7.1582L10 10.9749L13.825 7.1582L15 8.3332L10 13.3332L5 8.3332L6.175 7.1582Z"
-          fill="#00362C"
+          fill="currentColor"
         />
       </g>
       <defs>

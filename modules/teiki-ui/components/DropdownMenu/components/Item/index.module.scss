@@ -1,6 +1,8 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   border-radius: 8px;
-  color: #00362c;
+  color: colors.$ink;
   cursor: pointer;
   filter: brightness(1);
   font-size: 14px;
@@ -14,7 +16,7 @@
 
   &[data-highlighted] {
     color: white;
-    background-color: #008241;
+    background-color: colors.$secondary;
   }
 
   &[data-disabled] {

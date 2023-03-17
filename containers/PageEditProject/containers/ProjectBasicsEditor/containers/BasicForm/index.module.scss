@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .customUrlLeftSlot {
   padding: 0 0 0 24px;
   display: flex;
@@ -67,14 +69,14 @@
   background-color: white;
   border: 1px solid rgba(35, 41, 52, 0.1);
   border-radius: 16px;
-  color: #1f3e2f;
+  color: colors.$ink;
   display: inline-block;
   margin-top: 10px;
   margin-right: 10px;
 }
 
 .basicTag.basicTag.basicTag {
-  background-color: #1f3e2f;
+  background-color: colors.$ink;
   color: white;
   border-radius: 75px;
   padding: 2px 2px 4px 12px;
@@ -118,7 +120,7 @@
 
 .basicTextAreaSummary::placeholder {
   font-weight: 600;
-  color: #1f3e2f;
+  color: colors.$ink;
   font-size: 14px;
 }
 

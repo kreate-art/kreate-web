@@ -33,12 +33,12 @@
   width: 110px;
   font-size: 12px;
   font-weight: 400;
-  color: rgba(31, 62, 47, 0.5);
+  color: colors.$ink50;
 }
 
 .messageContainer {
   padding: 8px 20px;
-  background: rgba(0, 138, 69, 0.1);
+  background: colors.$ink10;
   border-radius: 12px;
   margin-top: 12px;
 }
@@ -73,7 +73,7 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-  color: #ff7a00;
+  color: colors.$ink50;
 }
 
 .censoredMessageButton {
@@ -85,6 +85,6 @@
   outline: none;
   background-color: transparent;
   cursor: pointer;
-  color: #00362c;
+  color: colors.$ink80;
   padding: 0;
 }

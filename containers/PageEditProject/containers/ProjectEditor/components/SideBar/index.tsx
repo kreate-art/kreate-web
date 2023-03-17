@@ -3,16 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { NEXT_PUBLIC_NETWORK } from "../../../../../../config/client";
-
 import MessageView from "./components/MessageView";
 import WalletView from "./components/WalletView";
 import imageNiko from "./images/niko.png";
 import styles from "./index.module.scss";
 import { Message } from "./types";
 
+import { KREATE_ENV } from "@/modules/env/client";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
-import { logoTeikiCompact } from "@/modules/teiki-logos";
+import { LogoKreateWhite } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 
 type Props = {
@@ -53,7 +52,7 @@ export default function SideBar({
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <Link href="/" className={styles.logoTeikiWrapper}>
-            <Image className={styles.logoTeiki} src={logoTeikiCompact} alt="" />
+            <LogoKreateWhite />
           </Link>
         </div>
         {!collapsed ? (
@@ -78,18 +77,20 @@ export default function SideBar({
         <Image className={styles.imageNiko} src={imageNiko} alt="niko" />
         <div className={styles.buttonGroup}>
           {/* <Button.Solid size="small" content="Mute" /> */}
-          <Button.Solid
-            size="small"
-            content="Guideline"
-            onClick={() => {
-              window.open(
-                NEXT_PUBLIC_NETWORK === "Mainnet"
-                  ? "https://docs.teiki.network/mainnet-guidelines/create-a-project"
-                  : "https://docs.testnet.teiki.network/testnet-guidelines/create-a-project",
-                "_blank"
-              );
-            }}
-          />
+          {!collapsed ? (
+            <Button.Solid
+              size="small"
+              content="Guideline"
+              onClick={() => {
+                window.open(
+                  KREATE_ENV === "mainnet"
+                    ? "https://docs.kreate.community/mainnet-guidelines/create-a-project"
+                    : "https://docs.testnet.kreate.community/testnet-guidelines/create-a-project",
+                  "_blank"
+                );
+              }}
+            />
+          ) : null}
         </div>
       </div>
     </div>

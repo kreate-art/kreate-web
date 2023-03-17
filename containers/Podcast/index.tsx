@@ -29,7 +29,7 @@ export default function Podcast({ podcastClassName }: Props) {
               className={styles.rightBorder}
             >
               <div className={styles.adaPrice}>
-                <span style={{ color: "#1F3E2F", marginRight: "4px" }}>
+                <span className={styles.label} style={{ marginRight: "4px" }}>
                   1 ADA ≈
                 </span>
 

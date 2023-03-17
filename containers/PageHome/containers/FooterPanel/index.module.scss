@@ -1,5 +1,7 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
-  background-color: #00362c;
+  background-color: colors.$secondary;
   color: white;
   width: 100%;
 }
@@ -68,7 +70,7 @@
   padding: 4px;
   border-radius: 50%;
   background-color: white;
-  color: #002e33;
+  color: colors.$secondary;
   display: flex;
   justify-content: center;
   align-items: center;

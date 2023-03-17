@@ -1,5 +1,7 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .tag {
-  color: #1f3e2f;
+  color: colors.$ink;
   font-weight: 600;
   line-height: 12px;
   padding: 8px 12px;

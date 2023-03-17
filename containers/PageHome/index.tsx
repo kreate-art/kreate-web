@@ -3,7 +3,6 @@ import * as React from "react";
 
 import Podcast from "../Podcast";
 
-import BlogSection from "./containers/BlogSection";
 import FooterPanel from "./containers/FooterPanel";
 import NavBar from "./containers/NavBar";
 import PanelProtocolStatistics from "./containers/PanelProtocolStatistics";
@@ -17,11 +16,12 @@ import { useTopSupporter } from "./hooks/useTopSupporter";
 import IconLoadMore from "./icons/IconLoadMore";
 import styles from "./index.module.scss";
 
-import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
 import TableTopBackers from "@/modules/teiki-components/components/TableTopBackers";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
+import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Button from "@/modules/teiki-ui/components/Button";
+import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 
 type Props = {
   className?: string;
@@ -29,7 +29,7 @@ type Props = {
 };
 
 export default function PageHome({ className, style }: Props) {
-  useBodyClasses([styles.defaultBackground]);
+  useDefaultBackground();
   const { walletStatus, lastSavedWalletInfo } = useAppContextValue$Consumer();
   const [activeFilterIndex, setActiveFilterIndex] = React.useState(0);
   const featuredProjectsResponse = useAllProjects({
@@ -102,8 +102,10 @@ export default function PageHome({ className, style }: Props) {
             <div className={styles.twoColumns}>
               <div className={styles.columnLeft}>
                 <div className={styles.sortButtonGroup}>
-                  <Button
-                    variant={activeFilterIndex === 0 ? "solid" : "outline"}
+                  <Button.Outline
+                    className={
+                      activeFilterIndex === 0 ? styles.buttonActive : undefined
+                    }
                     onClick={() => {
                       setActiveFilterIndex(0);
                       setNumDisplayedPages(1);
@@ -119,9 +121,11 @@ export default function PageHome({ className, style }: Props) {
                     }}
                     content="Trending"
                   /> */}
-                  <Button
+                  <Button.Outline
+                    className={
+                      activeFilterIndex === 2 ? styles.buttonActive : undefined
+                    }
                     disabled={walletStatus.status !== "connected"}
-                    variant={activeFilterIndex === 2 ? "solid" : "outline"}
                     onClick={() => {
                       setActiveFilterIndex(2);
                       setNumDisplayedPages(1);
@@ -129,16 +133,16 @@ export default function PageHome({ className, style }: Props) {
                     content="Recommended"
                   />
                 </div>
-
-                <hr className={styles.divider} />
+                <Divider$Horizontal$CustomDash
+                  style={{ marginBottom: "48px" }}
+                />
                 <div className={styles.projectContainer}>{projectLists}</div>
                 {!hasMore ? null : (
                   <div className={styles.containerButtonLoadMore}>
-                    <Button
+                    <Button.Outline
                       icon={<IconLoadMore />}
                       content="More Creators"
                       size="medium"
-                      variant="outline"
                       className={styles.buttonLoadMore}
                       onClick={() => {
                         setNumDisplayedPages(numDisplayedPages + 1);
@@ -169,7 +173,7 @@ export default function PageHome({ className, style }: Props) {
               </div>
             </div>
           </div>
-          <div className={styles.blockContainer}>
+          <div className={cx(styles.blockContainer, styles.sectionSlogan)}>
             <SponsorSlogan className={styles.slogan} />
             <ProjectCarousel
               className={styles.projectCarousel}
@@ -179,9 +183,6 @@ export default function PageHome({ className, style }: Props) {
               padding="narrow"
               descriptionMaxLines={4}
             />
-          </div>
-          <div className={styles.blockContainer}>
-            <BlogSection className={styles.blogSection} />
           </div>
         </main>
         <FooterPanel style={{ width: "100%" }} />

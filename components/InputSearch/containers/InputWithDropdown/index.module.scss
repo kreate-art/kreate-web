@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -28,7 +30,7 @@
 
 .searchIcon {
   margin-left: 27px;
-  color: rgba(31, 62, 47, 0.5);
+  color: colors.$ink50;
   width: 17.49px;
   height: 17.49px;
 }
@@ -37,7 +39,7 @@
   border: none;
   outline: none;
   padding-left: 15.51px;
-  color: rgba(31, 62, 47, 0.8);
+  color: colors.$ink80;
   font-size: 14px;
   font-weight: 600;
   line-height: 18px;
@@ -58,7 +60,7 @@
 }
 
 .searchInput::placeholder {
-  color: rgba(31, 62, 47, 0.8);
+  color: colors.$ink50;
 }
 
 .blurLayer {
