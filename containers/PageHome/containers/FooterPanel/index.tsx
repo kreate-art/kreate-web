@@ -41,7 +41,7 @@ const FooterPanel = ({ className, style }: Props) => {
         <div className={styles.routingPage}>
           <a
             className={styles.routingPageItem}
-            href="https://discord.io/teikinetwork"
+            href="https://discord.gg/n9wZZTY6XA"
             target="_blank"
             rel="noreferrer"
           >
