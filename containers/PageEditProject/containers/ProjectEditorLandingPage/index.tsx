@@ -1,16 +1,13 @@
-import Image from "next/image";
 import * as React from "react";
 
 import ButtonWalletNavbar from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar";
 
-import pngNiko300 from "./assets/niko-300.min.png";
 import Callout from "./components/Callout";
 import IconGuideline from "./components/IconGuideline";
 import IconLeaf from "./components/IconLeaf";
 import styles from "./index.module.scss";
 
 import { KREATE_ENV, NETWORK } from "@/modules/env/client";
-import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 import { LogoKreateFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -121,7 +118,6 @@ type Props = {
 };
 
 function ProjectEditorLandingPage({ onClickGetStarted }: Props) {
-  useDefaultBackground();
   return (
     <div className={styles.container}>
       <nav className={styles.nav}>
@@ -141,7 +137,6 @@ function ProjectEditorLandingPage({ onClickGetStarted }: Props) {
         className={styles.content}
         onClickGetStarted={onClickGetStarted}
       />
-      <Image className={styles.niko} src={pngNiko300} alt="" />
     </div>
   );
 }

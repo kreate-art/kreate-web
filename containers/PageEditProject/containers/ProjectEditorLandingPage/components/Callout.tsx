@@ -22,14 +22,21 @@ export default function Callout(props: SVGProps<SVGSVGElement>) {
         y="83"
         style={{ fontSize: "52px", fill: "#222", fontWeight: "900" }}
       >
-        TO GET
+        TO
       </text>
       <text
         x="64"
         y="153"
         style={{ fontSize: "52px", fill: "#222", fontWeight: "900" }}
       >
-        STARTED ON KREATE
+        BECOME A
+      </text>
+      <text
+        x="352"
+        y="153"
+        style={{ fontSize: "52px", fill: "#EC5929", fontWeight: "900" }}
+      >
+        KREATOR
       </text>
       <path
         opacity="0.1"
