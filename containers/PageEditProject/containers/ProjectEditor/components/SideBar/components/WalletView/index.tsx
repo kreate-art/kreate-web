@@ -45,6 +45,7 @@ export default function WalletView({ className, style, walletStatus }: Props) {
         <div className={cx(styles.container, className)} style={style}>
           <Button.Link
             content="Connect Wallet"
+            style={{ color: "#fff" }}
             onClick={() =>
               showModal<void>((resolve) => (
                 <ModalConnectWallet

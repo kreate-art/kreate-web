@@ -420,18 +420,21 @@ export default function ProjectEditor({
               <Button.Solid
                 content="Next: Basics"
                 size="medium"
+                style={{ backgroundColor: "#EC5929" }}
                 onClick={() => setActiveIndex(1)}
               />
             ) : activeIndex === 1 ? (
               <Button.Solid
                 content="Next: Community"
                 size="medium"
+                style={{ backgroundColor: "#EC5929" }}
                 onClick={() => setActiveIndex(2)}
               />
             ) : activeIndex === 2 ? (
               <Button.Solid
                 content="Next: Benefits"
                 size="medium"
+                style={{ backgroundColor: "#EC5929" }}
                 onClick={() => setActiveIndex(3)}
               />
             ) : activeIndex === 3 ? (
@@ -439,6 +442,7 @@ export default function ProjectEditor({
                 // TODO: use `ButtonAsync` because `onSubmit` is an async function
                 size="medium"
                 content="Submit"
+                style={{ backgroundColor: "#EC5929" }}
                 onClick={
                   isProjectIncomplete
                     ? () =>
