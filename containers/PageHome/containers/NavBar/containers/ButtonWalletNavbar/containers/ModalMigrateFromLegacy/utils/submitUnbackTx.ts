@@ -1,4 +1,4 @@
-import { signAndSubmit } from "@teiki/protocol/helpers/lucid";
+import { signAndSubmit } from "@kreate/protocol/helpers/lucid";
 import { Lucid } from "lucid-cardano";
 
 import * as UnbackTx from "../../../../../../../../PageProjectDetails/containers/PanelAdjustStake/containers/ModalUnbackProject/utils/transaction";

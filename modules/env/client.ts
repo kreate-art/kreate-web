@@ -98,9 +98,9 @@ export const GRAMMARLY_CLIENT_ID = parseEnv({
   parser: parseSlug(),
 });
 
-export const TEIKI_CDN = parseEnv({
-  label: "NEXT_PUBLIC_TEIKI_CDN",
-  input: process.env.NEXT_PUBLIC_TEIKI_CDN,
+export const KREATE_CDN = parseEnv({
+  label: "NEXT_PUBLIC_KREATE_CDN",
+  input: process.env.NEXT_PUBLIC_KREATE_CDN,
   parser: parseBaseUrl(),
 });
 

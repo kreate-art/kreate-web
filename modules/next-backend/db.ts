@@ -1,4 +1,4 @@
-// TODO: Duplicated of teiki-index/src/db.ts
+// TODO: Duplicated of kreate-index/src/db.ts
 import postgres from "postgres";
 
 import { fromJson, toJson } from "../json-utils";
@@ -9,7 +9,7 @@ export type SqlTypes = Record<string, postgres.PostgresType>;
 
 const POSTGRES_BASE_OPTIONS: postgres.Options<never> = {
   connection: {
-    application_name: "teiki/web",
+    application_name: "kreate/web",
   },
   // eslint-disable-next-line import/no-named-as-default-member
   transform: postgres.camel,

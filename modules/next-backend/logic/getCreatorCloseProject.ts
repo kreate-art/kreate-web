@@ -1,6 +1,6 @@
-import * as S from "@teiki/protocol/schema";
-import { ProtocolParamsDatum } from "@teiki/protocol/schema/teiki/protocol";
-import { ProjectScriptInfo } from "@teiki/protocol/transactions/project/finalize-close";
+import * as S from "@kreate/protocol/schema";
+import { ProtocolParamsDatum } from "@kreate/protocol/schema/teiki/protocol";
+import { ProjectScriptInfo } from "@kreate/protocol/transactions/project/finalize-close";
 import { UTxO } from "lucid-cardano";
 
 import { Sql } from "../db";

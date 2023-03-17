@@ -1,10 +1,10 @@
-import { compileProjectSvScript } from "@teiki/protocol/commands/compile-scripts";
-import { exportScript } from "@teiki/protocol/contracts/compile";
-import { constructProjectIdUsingBlake2b } from "@teiki/protocol/helpers/schema";
+import { compileProjectSvScript } from "@kreate/protocol/commands/compile-scripts";
+import { exportScript } from "@kreate/protocol/contracts/compile";
+import { constructProjectIdUsingBlake2b } from "@kreate/protocol/helpers/schema";
 import {
   createProjectTx,
   CreateProjectParams,
-} from "@teiki/protocol/transactions/project/create";
+} from "@kreate/protocol/transactions/project/create";
 import { Address, Lucid, Tx, TxComplete } from "lucid-cardano";
 
 import { tryUntil } from "@/modules/async-utils";
