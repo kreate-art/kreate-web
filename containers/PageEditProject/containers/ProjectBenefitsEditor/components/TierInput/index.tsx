@@ -1,14 +1,14 @@
 import cx from "classnames";
 import * as React from "react";
-import { arrayMove, List } from "react-movable";
 
+import GrammarlyWrapper from "../../../../../../components/GrammarlyWrapper";
 import IconArrowDropDown from "../../../ProjectCommunityEditor/ProjectFAQEditor/components/Accordion/icons/IconArrowDropDown";
-import { useField$RequiredStake } from "../../hooks/useField";
-import IconPlusSquare from "../../icons/IconPlusSquare";
+import {
+  useField$MaximumMembers,
+  useField$RequiredStake,
+} from "../../hooks/useField";
 
 import TierBanner from "./components/TierBanner";
-import TierBenefit from "./components/TierBenefit";
-import IconDrag from "./icons/IconDrag";
 import IconTrash from "./icons/IconTrash";
 import styles from "./index.module.scss";
 
@@ -17,7 +17,11 @@ import {
   parseLovelaceAmount,
 } from "@/modules/bigint-utils";
 import { ProjectBenefitsTier } from "@/modules/business-types";
+import Resizable from "@/modules/teiki-components/components/Resizable";
+import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
 import Button from "@/modules/teiki-ui/components/Button";
+import Checkbox from "@/modules/teiki-ui/components/Checkbox";
+import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Input from "@/modules/teiki-ui/components/Input";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -38,8 +42,15 @@ export default function TierInput({
   onDelete,
 }: Props) {
   const [isOpened, setIsOpened] = React.useState(true);
+  const [isLimited, setIsLimited] = React.useState(
+    value.maximumMembers != null
+  );
   const field$RequiredStake = useField$RequiredStake({
     initial: formatLovelaceAmount(value.requiredStake),
+  });
+  const field$MaximumMembers = useField$MaximumMembers({
+    initial:
+      value.maximumMembers != null ? value.maximumMembers.toString() : "",
   });
 
   return (
@@ -47,52 +58,59 @@ export default function TierInput({
       <Flex.Row
         justifyContent="space-between"
         padding="18px 16px"
+        alignItems="center"
         className={cx(styles.header, isOpened ? styles.open : null)}
       >
-        <Flex.Row gap="12px" alignItems="center">
-          <IconDrag />
-          <input
-            className={styles.textInput}
-            defaultValue={value.title}
-            onChange={(event) =>
-              onChange && onChange({ ...value, title: event.target.value })
-            }
-          />
-        </Flex.Row>
-        <Flex.Row gap="12px" alignItems="center">
-          <Typography.Div
-            size="bodySmall"
-            content={formatTierCount(value.benefits.length)}
-          />
-          <button
-            onClick={() => setIsOpened(!isOpened)}
-            className={styles.icon}
-          >
-            <IconArrowDropDown />
-          </button>
+        <Typography.Div content={value.title} size="heading6" />
+        <Flex.Row gap="8px" alignItems="center">
           <Button.Link content={<IconTrash />} onClick={onDelete} />
+          <Button.Link
+            content={<IconArrowDropDown />}
+            onClick={() => setIsOpened(!isOpened)}
+          />
         </Flex.Row>
       </Flex.Row>
       {isOpened && (
         <>
+          <Divider.Horizontal />
           <Flex.Col
             padding="20px 16px 32px 16px"
-            gap="16px"
+            gap="24px"
             className={styles.detail}
           >
-            <input
-              className={cx(styles.textInput, styles.description)}
-              defaultValue={value.description}
-              onChange={(event) =>
-                onChange &&
-                onChange({ ...value, description: event.target.value })
+            <Input
+              label="Tier name"
+              value={value.title}
+              onChange={(newTitle) =>
+                onChange && onChange({ ...value, title: newTitle })
               }
             />
+            <Flex.Col gap="12px">
+              <Typography.Div content="Tier description" size="heading6" />
+              <Resizable
+                canResizeHeight
+                style={{ width: "100%", minHeight: "100px" }}
+              >
+                <GrammarlyWrapper>
+                  <RichTextEditor
+                    value={value.contents?.body || EMPTY_JSON_CONTENT}
+                    onChange={(newBody) => {
+                      onChange &&
+                        onChange({
+                          ...value,
+                          contents: { body: newBody },
+                        });
+                    }}
+                    isBorderless={false}
+                  />
+                </GrammarlyWrapper>
+              </Resizable>
+            </Flex.Col>
             <TierBanner
               banner={value.banner}
-              onBannerChange={(newBanner) =>
-                onChange && onChange({ ...value, banner: newBanner })
-              }
+              onBannerChange={(newBanner) => {
+                onChange && onChange({ ...value, banner: newBanner });
+              }}
             />
             <Input
               className={styles.input}
@@ -108,20 +126,7 @@ export default function TierInput({
                       ) ?? 0,
                   });
               }}
-              leftSlot={
-                <Flex.Row
-                  justifyContent="center"
-                  alignItems="center"
-                  padding="0 0 0 12px"
-                  className={styles.left}
-                >
-                  <Typography.H6
-                    content="Staking from:"
-                    size="heading6"
-                    color="ink80"
-                  />
-                </Flex.Row>
-              }
+              label="Staking from"
               rightSlot={
                 <Flex.Row
                   justifyContent="center"
@@ -133,64 +138,35 @@ export default function TierInput({
                 </Flex.Row>
               }
             />
-            <Flex.Col className={styles.benefits}>
-              <List
-                values={value.benefits}
-                onChange={({ oldIndex, newIndex }) => {
+            <Flex.Col gap="12px">
+              <Checkbox
+                label="Limit the number of members"
+                value={isLimited}
+                onChange={() => {
+                  field$MaximumMembers.setText(isLimited ? "" : "0");
                   onChange &&
                     onChange({
                       ...value,
-                      benefits: arrayMove(value.benefits, oldIndex, newIndex),
+                      maximumMembers: isLimited ? 0 : undefined,
                     });
+                  setIsLimited(!isLimited);
                 }}
-                renderList={({ children, props }) => (
-                  <div {...props}>{children}</div>
-                )}
-                renderItem={({ value: benefit, index, props }) =>
-                  index !== undefined && (
-                    <div {...props}>
-                      <TierBenefit
-                        value={benefit}
-                        onChange={(newBenefit) =>
-                          onChange &&
-                          onChange({
-                            ...value,
-                            benefits: value.benefits.map((item, id) =>
-                              id === index ? newBenefit : item
-                            ),
-                          })
-                        }
-                        onDelete={() =>
-                          onChange &&
-                          onChange({
-                            ...value,
-                            benefits: value.benefits.filter(
-                              (_, id) => index !== id
-                            ),
-                          })
-                        }
-                      />
-                    </div>
-                  )
-                }
-                container={document.getElementById("overlay-container")}
               />
-              <Flex.Col padding="16px">
-                <Button.Outline
-                  content="Add Benefit"
-                  icon={<IconPlusSquare />}
-                  iconPosition="left"
-                  size="small"
-                  style={{ width: "fit-content" }}
-                  onClick={() => {
+              {isLimited && (
+                <Input
+                  disabled={!isLimited}
+                  value={field$MaximumMembers.text}
+                  onChange={(newValue) => {
+                    field$MaximumMembers.setText(newValue);
                     onChange &&
                       onChange({
                         ...value,
-                        benefits: [...value.benefits, "Benefit"],
+                        maximumMembers:
+                          Number(field$MaximumMembers.normalize(newValue)) ?? 0,
                       });
                   }}
                 />
-              </Flex.Col>
+              )}
             </Flex.Col>
           </Flex.Col>
         </>
@@ -199,8 +175,4 @@ export default function TierInput({
   );
 }
 
-function formatTierCount(count: number) {
-  if (count === 0) return "No Benefits";
-  if (count === 1) return "1 Benefit";
-  return `${count} Benefits`;
-}
+const EMPTY_JSON_CONTENT = { type: "doc", content: [{ type: "paragraph" }] };

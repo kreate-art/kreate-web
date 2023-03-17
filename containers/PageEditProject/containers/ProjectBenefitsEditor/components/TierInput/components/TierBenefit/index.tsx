@@ -6,8 +6,8 @@ import IconTrash from "../../icons/IconTrash";
 import styles from "./index.module.scss";
 
 import Button from "@/modules/teiki-ui/components/Button";
-import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
+import Input from "@/modules/teiki-ui/components/Input";
 
 type Props = {
   className?: string;
@@ -27,20 +27,19 @@ export default function TierBenefit({
   return (
     <div className={cx(className, styles.container)} style={style}>
       <Flex.Row
-        padding="20px 16px 20px 24px"
+        padding="16px 16px 0 16px"
         justifyContent="space-between"
-        gap="12px"
+        gap="16px"
         alignItems="center"
       >
         <IconDrag />
-        <input
-          className={styles.textInput}
+        <Input
           value={value}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(newValue) => onChange(newValue)}
+          style={{ width: "100%" }}
         />
         <Button.Link content={<IconTrash />} onClick={onDelete} />
       </Flex.Row>
-      <Divider.Horizontal />
     </div>
   );
 }

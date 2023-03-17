@@ -17,6 +17,7 @@ import {
   ProjectBenefitsTier,
   ProjectDescription,
   ProjectImage,
+  ProjectTierContents,
   PublicProjectPost,
 } from "@/modules/business-types";
 
@@ -70,12 +71,31 @@ export function toProjectBasics<V>(codec: Codec<V>): ToFn<ProjectBasics, V> {
   });
 }
 
+/** Converts `ProjectTierContents` to `WithBufsAs<ProjectTierContents, V>`. */
+export function fromProjectTierContents<V>(
+  codec: Codec<V>
+): FromFn<ProjectTierContents, V> {
+  return fromObject({
+    body: fromJSONContent(codec),
+  });
+}
+
+/** Converts `WithBufsAs<ProjectTierContents, V>` to `ProjectTierContents` */
+export function toProjectTierContents<V>(
+  codec: Codec<V>
+): ToFn<ProjectTierContents, V> {
+  return toObject({
+    body: toJSONContent(codec),
+  });
+}
+
 /** Converts `ProjectBenefitsTier` to `WithBufsAs<ProjectBenefitsTier, V>`. */
 export function fromProjectBenefitsTier<V>(
   codec: Codec<V>
 ): FromFn<ProjectBenefitsTier, V> {
   return fromObject<ProjectBenefitsTier, V>({
     banner: fromNullable(fromProjectImage(codec)),
+    contents: fromNullable(fromProjectTierContents(codec)),
   });
 }
 
@@ -85,6 +105,7 @@ export function toProjectBenefitsTier<V>(
 ): ToFn<ProjectBenefitsTier, V> {
   return toObject<ProjectBenefitsTier, V>({
     banner: toNullable(toProjectImage(codec)),
+    contents: toNullable(toProjectTierContents(codec)),
   });
 }
 

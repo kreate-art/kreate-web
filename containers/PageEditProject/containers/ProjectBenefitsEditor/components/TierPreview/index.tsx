@@ -2,12 +2,13 @@ import cx from "classnames";
 
 import WithAspectRatio from "../../../../../../components/WithAspectRatio";
 
-import IconEllipse from "./icons/IconEllipse";
 import styles from "./index.module.scss";
 
 import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { ProjectBenefitsTier, ProjectImage } from "@/modules/business-types";
+import { useDebounce } from "@/modules/common-hooks/hooks/useDebounce";
 import ImageView from "@/modules/teiki-components/components/ImageView";
+import RichTextViewer from "@/modules/teiki-components/components/RichTextViewer";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -28,6 +29,7 @@ type Props = {
 
 export default function TierPreview({ className, style, value }: Props) {
   const actualBanner = value.banner || DEFAULT_IMAGE;
+  const [value$Debounced] = useDebounce(value, { delay: 1000 });
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col padding="24px" gap="24px">
@@ -50,7 +52,7 @@ export default function TierPreview({ className, style, value }: Props) {
         </div>
         <Flex.Row gap="8px" alignItems="center">
           <Typography.Span
-            content="Contributed from"
+            content="Staking from"
             size="bodySmall"
             color="ink80"
           />
@@ -65,27 +67,12 @@ export default function TierPreview({ className, style, value }: Props) {
           <Typography.Span />
         </Flex.Row>
         <Divider.Horizontal />
-        <Typography.Div
-          content={value.description}
-          size="bodySmall"
-          color="ink80"
-          maxLines={2}
-        />
-        <Flex.Col gap="12px">
-          {value.benefits.map((benefit) => (
-            <>
-              <Flex.Row alignItems="center" gap="8px" flexGrow="1">
-                <IconEllipse />
-                <Typography.Div
-                  content={benefit}
-                  size="heading6"
-                  color="green"
-                  maxLines={1}
-                />
-              </Flex.Row>
-            </>
-          ))}
-        </Flex.Col>
+        {!value$Debounced.contents ? null : (
+          <RichTextViewer
+            value={value$Debounced.contents.body}
+            className={styles.richTextEditor}
+          />
+        )}
       </Flex.Col>
     </div>
   );
