@@ -4,7 +4,6 @@ const KREATE_ENV = process.env.NEXT_PUBLIC_KREATE_ENV;
 // TODO: Remove 'unsafe-inline'. And stricter rules...
 // https://scotthelme.co.uk/content-security-policy-an-introduction/
 // TODO: Tighten grammarly
-// TODO: Remove teiki.network (except legacy)
 const CONTENT_SECURITY_POLICY = (() => {
   const csp = {
     "default-src": ["'self'"],
@@ -35,8 +34,6 @@ const CONTENT_SECURITY_POLICY = (() => {
       "https://*.grammarly.io/",
       "wss://*.grammarly.com/",
       "https://ai.kreate.community",
-      // TODO: Remove after move
-      "https://ai.teiki.network",
     ],
     "object-src": ["'none'"],
   };
@@ -47,8 +44,6 @@ const CONTENT_SECURITY_POLICY = (() => {
     // Legacy, @sk-yagi
     csp["media-src"].push("https://ipfs-testnet.teiki.network");
     csp["img-src"].push("https://ipfs-testnet.teiki.network");
-    // TODO: Remove after move
-    csp["media-src"].push("https://cdn-testnet.teiki.network");
   }
   if (KREATE_ENV === "mainnet") {
     csp["media-src"].push("https://cdn.kreate.community");
@@ -57,8 +52,6 @@ const CONTENT_SECURITY_POLICY = (() => {
     // Legacy, @sk-yagi
     csp["media-src"].push("https://ipfs.teiki.network");
     csp["img-src"].push("https://ipfs.teiki.network");
-    // TODO: Remove after move
-    csp["media-src"].push("https://cdn.teiki.network");
   }
   return csp;
 })();
@@ -128,16 +121,12 @@ const nextConfig = {
             { protocol: "https", hostname: "ipfs.testnet.kreate.community" },
             // Legacy, @sk-yagi
             { protocol: "https", hostname: "ipfs-testnet.teiki.network" },
-            // TODO: Remove after move
-            { protocol: "https", hostname: "testnet.teiki.network" },
           ]
         : []),
       ...(KREATE_ENV === "mainnet"
         ? [
             { protocol: "https", hostname: "alpha.kreate.community" },
             { protocol: "https", hostname: "ipfs.kreate.community" },
-            // TODO: Remove after move
-            { protocol: "https", hostname: "alpha.teiki.network" },
             // Legacy, @sk-yagi
             { protocol: "https", hostname: "ipfs.teiki.network" },
           ]
