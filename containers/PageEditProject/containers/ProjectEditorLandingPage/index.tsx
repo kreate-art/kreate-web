@@ -35,18 +35,18 @@ function Content({
         {KREATE_ENV === "mainnet" ? (
           <div>
             <Title size="h4" color="ink100">
-              1. Around 515 ₳ is needed to create a project.
+              1. Around 515 ₳ is needed to become a Kreator.
             </Title>
             <ul>
               <li className={styles.itemizedItem}>
-                500 ₳ as an on-chain pledge returned when the project is closed.
+                500 ₳ as an on-chain pledge returned when you leave.
               </li>
               <li className={styles.itemizedItem}>
                 The deposit is fined if deemed inappropriate due to
                 impersonation, etc.
               </li>
               <li className={styles.itemizedItem}>
-                10-15 ₳ in fixed fees. One can choose to spend more on advanced
+                10-15 ₳ in fixed fees. You can choose to spend more on advanced
                 features.
               </li>
             </ul>
@@ -95,6 +95,7 @@ function Content({
             onClick={onClickGetStarted}
             content="Get Started"
             icon={<IconLeaf />}
+            style={{ backgroundColor: "#EC5929" }}
           />
           <Button.Outline
             size="large"
