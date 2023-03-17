@@ -38,18 +38,23 @@ export default function ProjectTagList({
       <div className={styles.data}>
         {value.length ? (
           value.map((tag, index) => (
-            <Link
-              style={{ display: "flex", color: "unset" }}
-              key={index}
-              href={`/search?${new URLSearchParams({ tag })}`}
-            >
-              <Typography.Span
-                content={"#" + tag}
-                size="bodyExtraSmall"
-                fontWeight="semibold"
-                color="ink"
-              />
-            </Link>
+            <>
+              <Link
+                style={{ display: "flex", color: "unset" }}
+                key={index}
+                href={`/search?${new URLSearchParams({ tag })}`}
+              >
+                <Typography.Span
+                  content={"#" + tag}
+                  size="bodyExtraSmall"
+                  fontWeight="semibold"
+                  color="ink"
+                />
+              </Link>
+              {index !== value.length - 1 && (
+                <span style={{ color: "rgba(34, 34, 34, 0.5)" }}>/</span>
+              )}
+            </>
           ))
         ) : (
           <span className={styles.noTags}>no tags</span>
