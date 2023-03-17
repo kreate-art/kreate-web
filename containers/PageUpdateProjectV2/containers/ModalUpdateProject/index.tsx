@@ -484,6 +484,7 @@ export default function ModalUpdateProject({
         <Button.Solid
           content="Update Project"
           disabled={busy || txBreakdown === undefined}
+          style={{ backgroundColor: "#EC5929" }}
           onClick={handleSubmit}
         />
       </Modal.Actions>
