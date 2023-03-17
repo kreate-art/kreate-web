@@ -2,12 +2,11 @@
 
 .container {
   width: 100%;
-  background-color: colors.$ink10;
+  background-color: #fff;
   border-radius: 12px;
 }
 
 .header {
-  background-color: colors.$ink10;
   border-radius: 12px;
   &.open {
     border-radius: 12px 12px 0 0;
@@ -24,13 +23,10 @@
   background-color: #fff;
 }
 
-.input > div {
-  border-radius: 12px;
-}
-
 .benefits {
   background-color: #fff;
-  border-radius: 12px;
+  border: 1px solid #e9e9e9;
+  border-radius: 4px;
 }
 
 .textInput {

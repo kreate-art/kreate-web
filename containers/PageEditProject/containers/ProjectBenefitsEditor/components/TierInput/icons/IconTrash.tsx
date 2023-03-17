@@ -1,48 +1,29 @@
 export default function IconTrash() {
   return (
     <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
     >
-      <rect width="32" height="32" rx="16" fill="#F74055" fillOpacity="0.1" />
-      <path
-        d="M18 14L18 21"
-        stroke="#F74055"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14 14L14 21"
-        stroke="#F74055"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M22 10H10V24C10 24.5523 10.4477 25 11 25H21C21.5523 25 22 24.5523 22 24V10Z"
-        stroke="#F74055"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 10H24"
-        stroke="#F74055"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M19 7H13C12.4477 7 12 7.44772 12 8V10H20V8C20 7.44772 19.5523 7 19 7Z"
-        stroke="#F74055"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <rect width="24" height="24" rx="12" fill="#F74055" fillOpacity="0.1" />
+      <g clipPath="url(#clip0_16744_43308)">
+        <path
+          d="M8.00065 16.6667C8.00065 17.4 8.60065 18 9.33398 18H14.6673C15.4007 18 16.0007 17.4 16.0007 16.6667V8.66667H8.00065V16.6667ZM16.6673 6.66667H14.334L13.6673 6H10.334L9.66732 6.66667H7.33398V8H16.6673V6.66667Z"
+          fill="#F74055"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_16744_43308">
+          <rect
+            width="16"
+            height="16"
+            fill="white"
+            transform="translate(4 4)"
+          />
+        </clipPath>
+      </defs>
     </svg>
   );
 }
