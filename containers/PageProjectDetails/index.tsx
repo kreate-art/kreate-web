@@ -329,13 +329,13 @@ export default function PageProjectDetails({
                   />
                   {/**TODO: @sk-tenba: more accurate content description */}
                   <Typography.Div className={styles.censoredItemDescription}>
-                    This project contains {censorshipContents.join(", ")}{" "}
+                    This kreator provides {censorshipContents.join(", ")}{" "}
                     content which may be inappropriate for some audiences and
                     children
                   </Typography.Div>
                   <Button.Outline
                     className={styles.censoredItemButton}
-                    content="I understand and want to view the project"
+                    content="I understand and want to see"
                     onClick={() => setIsUncensored(true)}
                   />
                 </div>

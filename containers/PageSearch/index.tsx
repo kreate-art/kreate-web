@@ -186,7 +186,7 @@ export default function PageSearch() {
                   <div className={styles.containerButtonLoadMore}>
                     <Button
                       icon={<IconLoadMore />}
-                      content="More Creators"
+                      content="More Kreators"
                       size="medium"
                       variant="outline"
                       className={styles.buttonLoadMore}

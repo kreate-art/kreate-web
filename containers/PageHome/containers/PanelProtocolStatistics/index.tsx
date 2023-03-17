@@ -101,7 +101,7 @@ export default function PanelProtocolStatistics({
                 {" ₳"}
               </Card.Content>
             )}
-            <Card.Legend>Total Creator Income</Card.Legend>
+            <Card.Legend>Total Kreator Income</Card.Legend>
           </Card>
         </div>
         {/* <div className={styles.cardGroup}>
