@@ -49,7 +49,7 @@ const FooterPanel = ({ className, style }: Props) => {
           </span>
           <a
             className={styles.routingPageItem}
-            href="https://discord.gg/n9wZZTY6XA"
+            href="https://discord.gg/4wv3MfKHdE"
             target="_blank"
             rel="noreferrer"
           >
