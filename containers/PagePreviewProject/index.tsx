@@ -74,7 +74,7 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
       <Section style={{ margin: "64px 0" }}>
         <Typography.Div
           style={{ marginBottom: "24px" }}
-          content="Project Card"
+          content="Creator Card"
           size="heading5"
           color="ink"
         />
@@ -90,7 +90,7 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
       <Section>
         <Typography.Div
           style={{ marginBottom: "24px" }}
-          content="Project Details"
+          content="Creator Page"
           size="heading5"
           color="ink"
         />
