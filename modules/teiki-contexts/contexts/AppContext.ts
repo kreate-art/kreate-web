@@ -14,6 +14,7 @@ import {
   UseWalletNetworkWarning$Result,
 } from "@/modules/wallet/hooks/useWalletNetworkWarning";
 import { WalletInfo, WalletStatus } from "@/modules/wallet/types";
+import { loadSavedAuthInfo } from "@/modules/wallet/utils/storage";
 
 const WALLET_REFRESH_INTERVAL = 5000;
 
@@ -89,6 +90,24 @@ export function useAppContextValue$Provider({
     if (walletStatus.status !== "connected") return;
     const timerId = setInterval(() => refreshWallet(), WALLET_REFRESH_INTERVAL);
     return () => clearInterval(timerId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletStatus.status]);
+
+  React.useEffect(() => {
+    if (walletStatus.status !== "connected") return;
+    void (async () => {
+      try {
+        const savedAuthInfo = await loadSavedAuthInfo();
+        if (
+          savedAuthInfo == null ||
+          savedAuthInfo.expiration < Date.now() / 1_000
+        ) {
+          await authenticateWallet();
+        }
+      } catch {
+        disconnectWallet();
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [walletStatus.status]);
 
