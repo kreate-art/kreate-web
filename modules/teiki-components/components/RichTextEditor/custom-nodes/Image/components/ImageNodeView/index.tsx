@@ -10,6 +10,7 @@ import { ImageErrorBoundary } from "../ImageErrorBoundary";
 import styles from "./index.module.scss";
 
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
+import { patchIpfsUrl } from "@/modules/common-utils";
 
 export function ImageNodeView({
   editor,
@@ -77,7 +78,7 @@ export function ImageNodeView({
           <ImageErrorBoundary>
             <Image
               className={styles.image}
-              src={src}
+              src={patchIpfsUrl(src) ?? src}
               alt={alt}
               title={title}
               width={width || 0}

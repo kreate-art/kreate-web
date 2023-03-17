@@ -8,10 +8,7 @@ import { Crop, Size } from "./types";
 import { shrinkRectToAspectRatio } from "./utils";
 
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
-import {
-  ALTERNATE_IPFS_GATEWAY_ORIGINS,
-  IPFS_GATEWAY_ORIGIN,
-} from "@/modules/env/client";
+import { patchIpfsUrl } from "@/modules/common-utils";
 
 type Props = {
   className?: string;
@@ -20,11 +17,6 @@ type Props = {
   alt?: string;
   crop: Crop;
 };
-
-const IPFS_ORIGINS = [
-  IPFS_GATEWAY_ORIGIN,
-  ...ALTERNATE_IPFS_GATEWAY_ORIGINS,
-].map((o) => o + "/");
 
 // TODO: All components should use `ImageView` instead of Next `Image`.
 export default function ImageView({ className, style, src, alt, crop }: Props) {
@@ -36,16 +28,7 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
     setTarget(target);
   }, []);
 
-  // @sk-shishi: This is the "safest" option I have at the moment without messing up
-  // all the usages of `CodecCid`.
-  // The patched URL Must match the path in `middleware.ts`.
-  let patchedSrc = src;
-  if (process.env.NODE_ENV !== "development")
-    for (const origin of IPFS_ORIGINS)
-      if (src.startsWith(origin)) {
-        patchedSrc = "/_ipfs/" + src.slice(origin.length);
-        break;
-      }
+  const patchedSrc = patchIpfsUrl(src) ?? src;
 
   const computed = React.useMemo(() => {
     if (!targetSize) return undefined;
