@@ -1,7 +1,8 @@
-import { get, set, del } from "idb-keyval";
+import { set, del } from "idb-keyval";
 import * as React from "react";
 
 import { WalletStatus } from "../types";
+import { loadSavedAuthInfo } from "../utils/storage";
 
 import * as Auth from "@/modules/authorization";
 import { isAbortError } from "@/modules/common-hooks/hooks/useAsyncComputation";
@@ -58,9 +59,8 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
       }
       try {
         // TODO: Should look up using address. And
-        const savedAuthInfo = (await get(
-          Auth.getStorageKey()
-        )) as Auth.SavedAuthInfo;
+        const savedAuthInfo = await loadSavedAuthInfo();
+        assert(savedAuthInfo != null, "Not found saved authorization info");
         signal.throwIfAborted();
         const { version, expiration } = savedAuthInfo;
         assert(
@@ -82,7 +82,6 @@ export function useWalletAuthHeader(walletStatus: WalletStatus): Results {
         });
       } catch (error) {
         if (isAbortError(error)) return;
-        console.warn(error);
         await del(Auth.getStorageKey());
         setHeaderInfo({ status: "unauthenticated" });
       }
