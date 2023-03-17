@@ -83,7 +83,7 @@ export default function BasicForm({
           placeholder="name"
           leftSlot={
             <div className={styles.customUrlLeftSlot}>
-              <Title content="teiki.network/p/" />
+              <Title content="kreate.community/k/" />
             </div>
           }
           paddingLeft="narrow"

@@ -1,9 +1,8 @@
 import Head from "next/head";
 
-import {
-  NEXT_PUBLIC_HOST,
-  NEXT_PUBLIC_NETWORK,
-} from "../../../../config/client";
+import { HOST, KREATE_ENV } from "@/modules/env/client";
+
+import {} from "../../../../config/client";
 
 type Props = {
   title?: string;
@@ -15,10 +14,10 @@ type Props = {
 export default function TeikiHead({
   title = "Teiki - Web3 membership platform",
   description = "Teiki is a Web3 membership platform providing Metaverse & AI tools for Creators to run a subscription service. Teiki helps creators earn an income every five days from members paying for exclusive benefits.",
-  imageUrl = `${NEXT_PUBLIC_HOST}/images/meta-${
-    NEXT_PUBLIC_NETWORK === "Mainnet" ? "alpha" : "testnet"
+  imageUrl = `${HOST}/images/meta-${
+    KREATE_ENV === "mainnet" ? "alpha" : "testnet"
   }.png`,
-  url = NEXT_PUBLIC_HOST,
+  url = HOST,
 }: Props) {
   return (
     <Head>
