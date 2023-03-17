@@ -26,6 +26,7 @@ export default function TagsViewer({ className, style, value }: Props) {
           fontWeight="semibold"
           color="ink80"
           content="Tags: "
+          style={{ minWidth: "32px" }}
         />
         <Flex.Row flexWrap="wrap" gap="12px 8px">
           {!value.length ? (
