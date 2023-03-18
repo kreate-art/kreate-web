@@ -3,6 +3,7 @@ import stream from "node:stream";
 import { fileTypeStream } from "file-type";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { noop } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import { KREATE_CONTENT_KEYS, KREATE_HMAC_SECRET } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
@@ -77,7 +78,7 @@ export default async function handler(
         res.setHeader("Content-Range", `bytes */${size}`);
         throw new ClientError({ _debug: "out of range" }, 426);
       }
-      const u = await ipfsUpstream(cid, decipher, controller, end + 1);
+      const u = await fetchIpfsUpstream(cid, decipher, signal, end + 1);
       res.setHeader("Content-Length", end - start + 1);
       res.setHeader("Content-Range", `bytes ${start}-${end}/${size}`);
       res.setHeader("Content-Type", u.contentType);
@@ -85,7 +86,7 @@ export default async function handler(
       const slice = sliceTransform(start, end, { signal });
       await stream.promises.pipeline(u.upstream, slice, res, { signal });
     } else {
-      const u = await ipfsUpstream(cid, decipher, controller);
+      const u = await fetchIpfsUpstream(cid, decipher, signal);
       res.setHeader("Content-Length", size);
       res.setHeader("Content-Type", u.contentType);
       res.status(200);
@@ -106,6 +107,7 @@ export default async function handler(
     )
       return;
     if (code === "ABORT_ERR") {
+      console.log(error);
       const cause = (error as Error).cause ?? error;
       apiCatch(req, res, cause);
     } else {
@@ -121,23 +123,20 @@ function isNonEmptyString(value: unknown): value is string {
   return !!value && typeof value === "string";
 }
 
-async function ipfsUpstream(
+async function fetchIpfsUpstream(
   cid: string,
   decipher: stream.Transform,
-  controller: AbortController,
-  maxBytes?: number
+  signal: AbortSignal,
+  length?: number
 ) {
   // Because of of encryption, we cannot seek upstream based on requested Range
   // However, I still limit the `length`, just in case we mess up something.
   const ipfsStream = stream.Readable.from(
-    ipfs.cat(`/ipfs/${cid}`, {
-      timeout: IPFS_TIMEOUT,
-      signal: controller.signal,
-      length: maxBytes,
-    })
-  ).on("error", (error) => controller.abort(error));
-
-  const upstream = await fileTypeStream(ipfsStream.pipe(decipher));
+    ipfs.cat(`/ipfs/${cid}`, { timeout: IPFS_TIMEOUT, signal, length })
+  );
+  const upstream = await fileTypeStream(
+    stream.pipeline(ipfsStream, decipher, noop)
+  );
   const contentType = upstream.fileType?.mime ?? "application/octet-stream";
   return { upstream, contentType };
 }
@@ -168,7 +167,7 @@ function parseRange(
   } else throw new ClientError({ _debug: "invalid range" });
 }
 
-// https://deno.land/std@0.180.0/streams/byte_slice_stream.ts?source
+// Inspired from: https://deno.land/std@0.180.0/streams/byte_slice_stream.ts?source
 function sliceTransform(
   start: number,
   end: number,

@@ -1,3 +1,5 @@
+import stream from "node:stream";
+
 import { NextApiRequest, NextApiResponse } from "next";
 
 import * as crypt from "@/modules/crypt";
@@ -32,9 +34,15 @@ export default async function handler(
     const iv = crypt.randomIv();
     const cipher = crypt.createCipher(key, iv);
 
-    const chunks: Uint8Array[] = [];
-    for await (const chunk of req.pipe(cipher)) chunks.push(chunk);
-    const ciphertext = Buffer.concat(chunks).toString(crypt.b64);
+    const ciphertext = await stream.promises.pipeline(
+      req,
+      cipher,
+      async (source) => {
+        const chunks: Uint8Array[] = [];
+        for await (const chunk of source) chunks.push(chunk);
+        return Buffer.concat(chunks).toString(crypt.b64);
+      }
+    );
 
     const meta: crypt.CipherMeta = {
       enc: "proto",
