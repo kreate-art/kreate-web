@@ -25,7 +25,6 @@ export async function pinToIpfs(
     let numProcessedFiles = 0;
 
     const bb = busboy({ headers: req.headers });
-
     bb.on("file", (name, file) => {
       if (name !== "data") {
         reject(new Error("name must be 'data'"));
@@ -42,6 +41,7 @@ export async function pinToIpfs(
       if (numProcessedFiles !== 1) reject(new Error("accept exactly one file"));
     });
     bb.on("error", reject);
+
     req.pipe(bb);
   });
 }

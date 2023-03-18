@@ -18,7 +18,7 @@ import {
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
-    sizeLimit: "50mb",
+    sizeLimit: "50mb", // FIXME: Useless...
   },
 };
 
@@ -71,7 +71,7 @@ export default async function handler(
 function signIpfsUrl(
   cid: Cid,
   meta: Omit<crypt.CipherMeta, "enc">,
-  ttl = 600
+  ttl = 1000000
 ): { exp: string; sig: crypt.Base64 } {
   const exp = Math.round(Date.now() / 1000) + ttl;
   const sig = crypt.hmacSign(KREATE_HMAC_SECRET, {
