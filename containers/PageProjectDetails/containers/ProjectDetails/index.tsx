@@ -15,7 +15,7 @@ import {
   ProjectDescription,
 } from "@/modules/business-types";
 import { ProjectActivity } from "@/modules/business-types";
-import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
+import RichTextViewer from "@/modules/teiki-components/components/RichTextViewer";
 
 type Props = {
   className?: string;
@@ -61,7 +61,7 @@ export default function ProjectDetails({
       />
       {activeTabIndex == 0 ? ( // About
         <div className={styles.richTextEditorContainer}>
-          <RichTextEditor
+          <RichTextViewer
             key={`${projectId}#description`}
             value={description.body}
             className={styles.richTextEditor}
