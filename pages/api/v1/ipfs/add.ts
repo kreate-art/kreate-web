@@ -7,7 +7,7 @@ import { pinToIpfs } from "@/modules/next-backend/logic/postIpfsPin";
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
-    sizeLimit: "50mb",
+    sizeLimit: "50mb", // FIXME: Useless...
   },
 };
 
