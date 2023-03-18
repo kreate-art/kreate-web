@@ -40,3 +40,11 @@ export function patchIpfsUrl(url: string): string | undefined {
       if (url.startsWith(origin)) return "/_ipfs/" + url.slice(origin.length);
   return undefined;
 }
+
+export function noop() {
+  /* ignored */
+}
+
+export async function noop$async() {
+  /* ignored */
+}
