@@ -4,9 +4,11 @@ import React from "react";
 import Tier from "./containers/Tier";
 import styles from "./index.module.scss";
 
+import { joinWithSeparator } from "@/modules/array-utils";
 import { ProjectBenefitsTier } from "@/modules/business-types";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import Button from "@/modules/teiki-ui/components/Button";
+import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 
 type Props = {
@@ -38,18 +40,26 @@ export default function PanelBenefits({
       <Flex.Col gap="12px" className={styles.box}>
         {(showAll ? items : [items[0]]).map((tiers, index) => (
           <Flex.Row className={styles.row} key={index}>
-            {tiers.map((tier, index) => (
-              <Tier
-                value={tier}
-                key={index}
-                style={{
-                  flex: "1 1",
-                  minWidth: `${100 / numVisibleItems}%`,
-                  maxWidth: `${100 / numVisibleItems}%`,
-                }}
-                onClickBecomeMember={onClickBecomeMember}
-              />
-            ))}
+            {joinWithSeparator(
+              tiers.map((tier, index) => (
+                <Tier
+                  value={tier}
+                  key={index}
+                  style={{
+                    flex: "1 1",
+                    // NOTE: The subtracted pixels are meant to make space for the dividers
+                    minWidth: `calc(${100 / numVisibleItems}% - ${
+                      numVisibleItems - 1
+                    }px)`,
+                    maxWidth: `calc(${100 / numVisibleItems}% - ${
+                      numVisibleItems - 1
+                    }px)`,
+                  }}
+                  onClickBecomeMember={onClickBecomeMember}
+                />
+              )),
+              <Divider.Vertical />
+            )}
           </Flex.Row>
         ))}
         {showAll || items.length < 2 ? null : (
