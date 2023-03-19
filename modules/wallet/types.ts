@@ -30,6 +30,5 @@ export type WalletStatus =
       status: "connected";
       info: WalletInfo;
       lucid: Lucid;
-      authHeader: Auth.AuthHeader;
     }
   | { status: "disconnected" };
