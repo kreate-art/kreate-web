@@ -23,6 +23,7 @@ import ModalWithdrawSuccess from "./containers/ModalWithdrawSuccess";
 import PanelActivities from "./containers/PanelActivities";
 import PanelAdjustStake from "./containers/PanelAdjustStake";
 import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUnbackSuccess";
+import PanelBenefits from "./containers/PanelBenefits";
 import PanelProtocolReward from "./containers/PanelProtocolReward";
 import PanelTopBackers from "./containers/PanelTopBackers";
 import PanelWithdrawFund from "./containers/PanelWithdrawFund";
@@ -401,6 +402,14 @@ export default function PageProjectDetails({
                       }}
                     />
                   </div>
+
+                  {!project.tiers ? null : (
+                    <PanelBenefits
+                      value={project.tiers}
+                      onClickBecomeMember={handleClickButtonBackProject}
+                    />
+                  )}
+
                   <div className={styles.detailsStatsPanels}>
                     <div className={styles.mainPanels}>
                       <ProjectDetails
