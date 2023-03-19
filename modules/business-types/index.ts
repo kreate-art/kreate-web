@@ -221,7 +221,7 @@ export function formatScope(scope: ProjectUpdateScope): string {
     case "logoImage":
       return "logo";
     case "sponsorship":
-      return `the Teiki sponsorship to ${formatLovelaceAmount(
+      return `the Kreate sponsorship to ${formatLovelaceAmount(
         scope.sponsorshipAmount,
         { compact: true, includeCurrencySymbol: true }
       )}`;

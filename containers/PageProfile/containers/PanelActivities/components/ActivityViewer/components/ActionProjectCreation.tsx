@@ -26,7 +26,7 @@ export default function ActionProjectCreation({
             <Typography.Span
               size="bodySmall"
               lineHeight="medium"
-              content={`, with a Teiki sponsorship of `}
+              content={` with a Kreate sponsorship of `}
               color="ink80"
             />
             <Typography.Span size="heading6">
