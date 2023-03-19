@@ -313,7 +313,7 @@ export default function ModalUpdateProject({
               <Flex.Col gap="20px">
                 {detailedProject.sponsorshipAmount == null ? (
                   <>
-                    <Typography.Div content="Sponsor Teiki" size="heading6" />
+                    <Typography.Div content="Sponsor Kreate" size="heading6" />
                     <MessageBox
                       title="Sponsors are auto-listed in the homepage for more exposure."
                       description="Sponsorship can be renewed monthly. Inappropriate sponsors can still be hidden, delisted, and fined the pledge."

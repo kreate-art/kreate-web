@@ -155,7 +155,7 @@ export default function NavBar({ className, style }: Props) {
               } catch (error) {
                 const displayableError = DisplayableError.from(
                   error,
-                  "Failed to create on Teiki"
+                  "Failed to become a Kreator"
                 );
                 showMessage({
                   title: displayableError.title,
