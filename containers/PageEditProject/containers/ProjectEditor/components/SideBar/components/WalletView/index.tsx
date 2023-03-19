@@ -6,10 +6,11 @@ import AddressView from "../AddressView";
 
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
+import { formatUsdAmount } from "@/modules/bigint-utils";
 import { useModalPromises } from "@/modules/modal-promises";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { LogoWallet } from "@/modules/teiki-logos";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import { WalletStatus } from "@/modules/wallet/types";
@@ -72,9 +73,10 @@ export default function WalletView({ className, style, walletStatus }: Props) {
       <Divider.Vertical color="white-10" style={{ margin: "4px 0" }} />
       <div className={styles.walletBalance}>
         <div className={styles.ada}>
-          {formatLovelaceAmount(walletStatus.info.lovelaceAmount, {
-            includeCurrencySymbol: true,
-          })}
+          <AssetViewer.Ada.Standard
+            as="span"
+            lovelaceAmount={walletStatus.info.lovelaceAmount}
+          />
         </div>
         <div className={styles.usd}>
           {adaPriceInUsd != null

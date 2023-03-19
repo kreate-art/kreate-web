@@ -1,4 +1,5 @@
 // Unicode characters
+export const USD_SYMBOL = "\u0024";
 export const EN_DASH = "\u2013"; // "–"
 export const ADA_SYMBOL = "\u20B3"; // "₳"
 export const ALMOST_EQUAL_TO = "\u2248"; // "≈"

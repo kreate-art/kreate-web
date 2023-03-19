@@ -67,7 +67,7 @@ export default function TableTopBackers({ className, style, value }: Props) {
               />
             </div>
             <div className={styles.columnLovelaceAmount}>
-              <AssetViewer.Ada.Compact
+              <AssetViewer.Usd.FromAda
                 as="div"
                 size="bodySmall"
                 color="ink"

@@ -232,6 +232,12 @@ export default function PanelBackingProjects({
                     as="span"
                     lovelaceAmount={totalLovelaceAmount$InWallet}
                   />
+                  <span>{" ("}</span>
+                  <AssetViewer.Usd.FromAda
+                    as="span"
+                    lovelaceAmount={totalLovelaceAmount$InWallet}
+                  />
+                  <span>{")"}</span>
                 </Typography.Div>
               </Flex.Col>
             </Flex.Row>
@@ -272,7 +278,12 @@ export default function PanelBackingProjects({
                       as="span"
                       lovelaceAmount={item.backedAmount}
                     />
-                    <Typography.Span content=" " />
+                    <span>{" ("}</span>
+                    <AssetViewer.Usd.FromAda
+                      as="span"
+                      lovelaceAmount={item.backedAmount}
+                    />
+                    <span>{")"}</span>
                   </Typography.Div>
                 </Flex.Col>
                 <Button.Outline

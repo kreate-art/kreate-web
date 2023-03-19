@@ -12,7 +12,7 @@ const COLOR_TO_CLASS_NAME = {
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  title?: string;
+  title?: React.ReactNode;
   description?: string;
   color?: keyof typeof COLOR_TO_CLASS_NAME;
 };

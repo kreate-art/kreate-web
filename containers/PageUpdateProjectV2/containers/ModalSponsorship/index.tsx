@@ -119,14 +119,17 @@ export default function ModalSponsorship({
               <Flex.Col gap="20px">
                 <Flex.Row justifyContent="space-between">
                   <Flex.Row gap="4px" alignItems="center">
-                    <Typography.Span
-                      content={`(${formatLovelaceAmount(
-                        currentSponsorship ?? 0,
-                        { compact: true }
-                      )} ₳ / month)`}
-                      size="heading6"
-                      color="ink80"
-                    />
+                    <Typography.Span size="heading6" color="ink80">
+                      <Typography.Span
+                        content={`(${formatLovelaceAmount(
+                          currentSponsorship ?? 0,
+                          { compact: true }
+                        )} ₳ / month)`}
+                        size="heading6"
+                        color="ink80"
+                      />
+                      <Typography.Span content=" / month" />
+                    </Typography.Span>
                   </Flex.Row>
                   <Flex.Row alignItems="center" gap="8px">
                     <IconClock />

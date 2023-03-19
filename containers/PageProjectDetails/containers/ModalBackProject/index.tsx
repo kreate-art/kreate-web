@@ -233,7 +233,7 @@ export default function ModalBackProject({
                       content="With this stake amount, you help the creator earn "
                       size="bodySmall"
                     />
-                    <AssetViewer.Ada.Compact
+                    <AssetViewer.Usd.FromAda
                       as="span"
                       approx={true}
                       lovelaceAmount={
@@ -249,10 +249,7 @@ export default function ModalBackProject({
                       fontWeight="bold"
                       color="green"
                     />
-                    <Typography.Span
-                      content=" every 5 days."
-                      size="bodySmall"
-                    />
+                    <Typography.Span content=" monthly." size="bodySmall" />
                   </Typography.Div>
                 </Flex.Row>
                 <Divider.Horizontal />

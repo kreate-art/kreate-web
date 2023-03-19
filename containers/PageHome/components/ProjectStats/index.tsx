@@ -5,7 +5,7 @@ import { ProjectGeneralInfo } from "../../../../modules/business-types";
 import styles from "./index.module.scss";
 import { shortenNumber } from "./utils";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 
 type Props = {
   className?: string;
@@ -31,17 +31,20 @@ export default function ProjectStats({
     >
       <div className={styles.box}>
         <div className={styles.value}>
-          {value.numLovelacesRaised != null ? (
-            <>
-              {"≈ "}
-              {shortenNumber(value.numLovelacesRaised, { shift: -6 })}
-              {" ₳"}
-            </>
-          ) : (
-            "-"
-          )}
+          <AssetViewer.Usd.FromAda
+            as="span"
+            lovelaceAmount={
+              value.numLovelacesRaised
+                ? /** NOTE: @sk-tenba:
+                   * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                   */
+                  (BigInt(value.numLovelacesRaised) / BigInt(12000)) *
+                  BigInt(35)
+                : undefined
+            }
+          />
         </div>
-        <div className={styles.legend}>Total income</div>
+        <div className={styles.legend}>Monthly income</div>
       </div>
       <div className={styles.box}>
         <div className={styles.value}>
@@ -53,15 +56,10 @@ export default function ProjectStats({
       </div>
       <div className={styles.box}>
         <div className={styles.value}>
-          {value.numLovelacesStaked != null ? (
-            <>
-              {"≈ "}
-              {shortenNumber(value.numLovelacesStaked, { shift: -6 })}
-              {" ₳"}
-            </>
-          ) : (
-            "-"
-          )}
+          <AssetViewer.Usd.FromAda
+            as="span"
+            lovelaceAmount={value.numLovelacesStaked}
+          />
         </div>
         <div className={styles.legend}>Active stake</div>
       </div>

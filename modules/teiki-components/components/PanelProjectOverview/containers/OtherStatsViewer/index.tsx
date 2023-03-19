@@ -6,7 +6,8 @@ import ImpactfulNumber from "../../components/ImpactfulNumber";
 
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { formatUsdAmount } from "@/modules/bigint-utils";
 import { ProjectGeneralInfo } from "@/modules/business-types";
 
 type Props = {
@@ -43,6 +44,7 @@ const FREQUENCY_CONFIG = [
 ];
 
 export default function OtherStatsViewer({ className, style, value }: Props) {
+  const adaPriceInfo = useAdaPriceInfo();
   const frequency =
     value.updatedAt == null ||
     value.createdAt == null ||
@@ -73,12 +75,23 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
           content={frequency ? frequency.label : "-"}
         />
         <ImpactfulNumber
-          label="Total income"
+          label="Monthly income"
           content={
-            value.numLovelacesRaised != null
-              ? formatLovelaceAmount(
-                  value.numLovelacesRaised, //
-                  { includeCurrencySymbol: true }
+            value.numLovelacesRaised != null && adaPriceInfo != null
+              ? formatUsdAmount(
+                  {
+                    lovelaceAmount:
+                      /** NOTE: @sk-tenba:
+                       * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                       */
+                      (BigInt(value.numLovelacesRaised) / BigInt(12000)) *
+                      BigInt(35),
+                    adaPriceInUsd: adaPriceInfo.usd,
+                  }, //
+                  {
+                    includeCurrencySymbol: true,
+                    includeAlmostEqualToSymbol: true,
+                  }
                 )
               : "-"
           }

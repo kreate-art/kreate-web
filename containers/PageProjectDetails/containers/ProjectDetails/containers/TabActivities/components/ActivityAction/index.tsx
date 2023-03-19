@@ -43,6 +43,24 @@ export default function ActivityAction({ className, style, value }: Props) {
                 lovelaceAmount={value.lovelaceAmount}
               />
             </Typography.Span>
+            <Typography.Span
+              color="ink80"
+              size="bodySmall"
+              lineHeight="medium"
+              content=" ("
+            />
+            <Typography.Span size="heading6" color="green">
+              <AssetViewer.Usd.FromAda
+                as="span"
+                lovelaceAmount={value.lovelaceAmount}
+              />
+            </Typography.Span>
+            <Typography.Span
+              color="ink80"
+              size="bodySmall"
+              lineHeight="medium"
+              content=")"
+            />
           </Typography.Div>
         </Link>
       );
@@ -64,12 +82,30 @@ export default function ActivityAction({ className, style, value }: Props) {
               lineHeight="medium"
               content=" unstaked "
             />
-            <Typography.Span size="heading6">
+            <Typography.Span size="heading6" color="green">
               <AssetViewer.Ada.Standard
                 as="span"
                 lovelaceAmount={value.lovelaceAmount}
               />
             </Typography.Span>
+            <Typography.Span
+              color="ink80"
+              size="bodySmall"
+              lineHeight="medium"
+              content=" ("
+            />
+            <Typography.Span size="heading6" color="green">
+              <AssetViewer.Usd.FromAda
+                as="span"
+                lovelaceAmount={value.lovelaceAmount}
+              />
+            </Typography.Span>
+            <Typography.Span
+              color="ink80"
+              size="bodySmall"
+              lineHeight="medium"
+              content=")"
+            />
           </Typography.Div>
         </Link>
       );
@@ -167,10 +203,8 @@ export default function ActivityAction({ className, style, value }: Props) {
             color="ink80"
           />
           {value.sponsorshipAmount ? (
-            <>
+            <Typography.Span size="bodySmall" lineHeight="medium">
               <Typography.Span
-                size="bodySmall"
-                lineHeight="medium"
                 content={` with a Kreate sponsorship of `}
                 color="ink80"
               />
@@ -180,13 +214,21 @@ export default function ActivityAction({ className, style, value }: Props) {
                   lovelaceAmount={value.sponsorshipAmount}
                 />
               </Typography.Span>
+              <Typography.Span content={` (`} color="ink80" />
+              <Typography.Span size="heading6" color="green">
+                <AssetViewer.Usd.FromAda
+                  as="span"
+                  lovelaceAmount={value.sponsorshipAmount}
+                />
+              </Typography.Span>
+              <Typography.Span content={` )`} color="ink80" />
               <Typography.Span
                 size="bodySmall"
                 lineHeight="medium"
                 content={`/month`}
                 color="ink80"
               />
-            </>
+            </Typography.Span>
           ) : null}
         </Typography.Div>
       );

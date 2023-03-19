@@ -28,6 +28,14 @@ export default function ActionUnback({ className, style, value }: Props) {
           fontWeight="semibold"
           color="ink"
         />
+        <span>{" ("}</span>
+        <AssetViewer.Usd.FromAda
+          as="span"
+          lovelaceAmount={value.lovelaceAmount}
+          fontWeight="semibold"
+          color="ink"
+        />
+        <span>{")"}</span>
         <Link href={getExplorerUrl(value.createdTx)} target="_blank">
           <Typography.Span
             content="View transaction"

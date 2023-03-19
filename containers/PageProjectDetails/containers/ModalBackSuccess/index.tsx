@@ -6,8 +6,8 @@ import IconHouseCheck from "./icons/IconHouseCheck";
 import imageSuccess from "./images/success.png";
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
@@ -20,7 +20,6 @@ type Props = {
   onClose?: () => void;
   // props for displaying
   lovelaceAmount?: LovelaceAmount;
-  projectName?: string;
 };
 
 export default function ModalSuccess({
@@ -29,7 +28,6 @@ export default function ModalSuccess({
   open,
   onClose,
   lovelaceAmount,
-  projectName,
 }: Props) {
   return (
     <Modal
@@ -57,10 +55,17 @@ export default function ModalSuccess({
             <div className={styles.backedAmount}>
               <span>{"You have staked "}</span>
               <span className={styles.emphasis}>
-                {formatLovelaceAmount(lovelaceAmount, {
-                  includeCurrencySymbol: true,
-                })}
+                <AssetViewer.Ada.Standard
+                  as="span"
+                  lovelaceAmount={lovelaceAmount}
+                />
               </span>
+              <span>{" ("}</span>
+              <AssetViewer.Usd.FromAda
+                as="span"
+                lovelaceAmount={lovelaceAmount}
+              />
+              <span>{")"}</span>
             </div>
           ) : null}
           <Button.Solid

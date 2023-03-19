@@ -6,9 +6,10 @@ import IconClose from "./icons/IconClose";
 import styles from "./index.module.scss";
 
 import { rankOf, sortedBy } from "@/modules/array-utils";
-import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
+import { formatUsdAmount } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Input from "@/modules/teiki-ui/components/Input";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -162,10 +163,16 @@ export default function InputLovelaceAmount$Sponsor({
             <span>
               <span>Your Balance: </span>
               <span style={{ fontWeight: "700" }}>
-                {formatLovelaceAmount(
-                  walletStatus.info.lovelaceAmount, //
-                  { includeCurrencySymbol: true }
-                )}
+                <AssetViewer.Ada.Standard
+                  as="span"
+                  lovelaceAmount={walletStatus.info.lovelaceAmount}
+                />
+                <span>{" ("}</span>
+                <AssetViewer.Usd.FromAda
+                  as="span"
+                  lovelaceAmount={walletStatus.info.lovelaceAmount}
+                />
+                <span>{")"}</span>
               </span>
             </span>
           ) : (
@@ -199,14 +206,16 @@ export default function InputLovelaceAmount$Sponsor({
                     />
                     <Typography.Div maxLines={1} className={styles.amount}>
                       <Typography.Span
-                        content={formatLovelaceAmount(
-                          item.sponsorshipAmount ?? 0,
-                          { compact: true }
-                        )}
-                        size="heading6"
+                        content={
+                          <AssetViewer.Ada.Standard
+                            as="span"
+                            lovelaceAmount={item.sponsorshipAmount ?? 0}
+                          />
+                        }
+                        size="bodySmall"
                       />
                       <Typography.Span
-                        content=" ₳ / month"
+                        content=" / month"
                         size="bodySmall"
                         color="ink80"
                       />

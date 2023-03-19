@@ -92,12 +92,12 @@ export function formatUsdAmount(
   if (typeof usd === "number") {
     return (
       (options.includeAlmostEqualToSymbol ? "≈ " : "") +
+      (options.includeCurrencySymbol ? "$" : "") +
       Intl.NumberFormat("en-US", {
         notation: options.compact ? "compact" : "standard",
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-      }).format(usd) +
-      (options.includeCurrencySymbol ? " USD" : "")
+      }).format(usd)
     );
   }
 

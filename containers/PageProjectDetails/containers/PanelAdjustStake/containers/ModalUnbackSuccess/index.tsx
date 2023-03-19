@@ -4,8 +4,8 @@ import IconHouseCheck from "./icons/IconHouseCheck";
 import nikoCongrats from "./images/niko-congrats.png";
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import Title from "@/modules/teiki-ui/components/Title";
@@ -20,7 +20,6 @@ type Props = {
 export default function ModalUnbackSuccess({
   open,
   unbackedAmountLovelace,
-  projectName,
   onClose,
 }: Props) {
   return (
@@ -40,11 +39,16 @@ export default function ModalUnbackSuccess({
         <div className={styles.congratsContent}>
           <span>You have withdrawn </span>
           <span className={styles.lovelaceWithdrawn}>
-            {unbackedAmountLovelace != null
-              ? formatLovelaceAmount(unbackedAmountLovelace, {
-                  includeCurrencySymbol: true,
-                })
-              : null}
+            <AssetViewer.Ada.Standard
+              as="span"
+              lovelaceAmount={unbackedAmountLovelace}
+            />
+            <span>{" ("}</span>
+            <AssetViewer.Usd.FromAda
+              as="span"
+              lovelaceAmount={unbackedAmountLovelace}
+            />
+            <span>{")"}</span>
           </span>
         </div>
         <Button.Solid

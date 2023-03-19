@@ -7,7 +7,8 @@ import { WITHDRAWAL_STATUS_TO_TEXT } from "./constants";
 import styles from "./index.module.scss";
 import { WithdrawalList } from "./types";
 
-import { formatLovelaceAmount, sumBigInt } from "@/modules/bigint-utils";
+import { sumLovelaceAmount } from "@/modules/bigint-utils";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 
 type Props = {
   isModalOpened: boolean;
@@ -64,7 +65,10 @@ export default function ModalViewWithdrawals({
                   )}
                 </td>
                 <td className={styles.item}>
-                  {formatLovelaceAmount(withdrawal.numLovelaceWithdrawn)} ₳
+                  <AssetViewer.Usd.FromAda
+                    as="span"
+                    lovelaceAmount={withdrawal.numLovelaceWithdrawn}
+                  />
                 </td>
                 <td
                   style={{
@@ -82,14 +86,14 @@ export default function ModalViewWithdrawals({
       <Modal.Actions>
         <div className={styles.totalWithdrawnContainer}>
           <span className={styles.totalWithdrawn}>
-            {formatLovelaceAmount(
-              sumBigInt(
+            <AssetViewer.Usd.FromAda
+              as="span"
+              lovelaceAmount={sumLovelaceAmount(
                 WITHDRAWALS_HISTORY.withdrawals.map((withdrawal) =>
                   BigInt(withdrawal.numLovelaceWithdrawn)
                 )
-              )
-            )}{" "}
-            ₳
+              )}
+            />
           </span>
           <div className={styles.totalWithdrawnText}>
             Total withdrawn to date
