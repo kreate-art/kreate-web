@@ -257,6 +257,7 @@ export async function getDetailedProject(
       allProjectProtocolMilestoneSnapshots,
       topSupporters,
       projectCreation,
+      // tiersActiveMember, @sk-umiuma: Use it however you want
     ] = await Promise.all([
       // TODO: Use `getAllActivities` instead
       getAllPostsByProjectId(sql, {
@@ -277,6 +278,7 @@ export async function getDetailedProject(
       }),
       getTopSupporter(sql, { projectId }),
       getProjectCreationActivity(sql, { projectId }),
+      // getActiveTierMember(sql, { projectId }),
     ]);
 
     const activities = await backingDataToActivities(backingData);
