@@ -177,7 +177,7 @@ export default function PanelBackingProjects({
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col>
         <Flex.Cell padding="20px 32px">
-          <Typography.Div size="heading5" color="ink" content="Your Creators" />
+          <Typography.Div size="heading5" color="ink" content="Your Kreators" />
         </Flex.Cell>
         <Divider.Horizontal />
         <Flex.Row
