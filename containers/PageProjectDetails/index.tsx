@@ -402,14 +402,12 @@ export default function PageProjectDetails({
                       }}
                     />
                   </div>
-
                   {!project.tiers ? null : (
                     <PanelBenefits
                       value={project.tiers}
                       onClickBecomeMember={handleClickButtonBackProject}
                     />
                   )}
-
                   <div className={styles.detailsStatsPanels}>
                     <div className={styles.mainPanels}>
                       <ProjectDetails
