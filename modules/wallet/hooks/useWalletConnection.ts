@@ -1,10 +1,9 @@
-import { del, set } from "idb-keyval";
+import { del } from "idb-keyval";
 import { Network, Provider } from "lucid-cardano";
 import * as React from "react";
 
 import { WalletStatus } from "../types";
 import * as ConnectionUtils from "../utils/connection";
-import { loadSavedAuthInfo } from "../utils/storage";
 
 import * as Auth from "@/modules/authorization";
 import { assert } from "@/modules/common-utils";
@@ -35,19 +34,8 @@ export function useWalletConnection({ provider, network }: Params): Results {
         provider,
         network,
       });
-      let savedAuthInfo = await loadSavedAuthInfo();
-      savedAuthInfo = savedAuthInfo ? savedAuthInfo : await Auth.sign(lucid);
-      const address = await lucid.wallet.address();
-      const authHeader: Auth.AuthHeader = {
-        address,
-        header: Auth.constructHeader({
-          savedAuthInfo,
-          address,
-        }),
-      };
-      set(Auth.getStorageKey(), savedAuthInfo);
-      setWalletStatus({ status: "connected", info, lucid, authHeader });
-      return { status: "connected", info, lucid, authHeader };
+      setWalletStatus({ status: "connected", info, lucid });
+      return { status: "connected", info, lucid };
     } catch (error) {
       setWalletStatus({ status: "disconnected" });
       throw error;
