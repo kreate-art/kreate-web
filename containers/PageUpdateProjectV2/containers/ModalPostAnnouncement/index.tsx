@@ -33,6 +33,7 @@ import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import Button from "@/modules/teiki-ui/components/Button";
+import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Input from "@/modules/teiki-ui/components/Input";
 import Modal from "@/modules/teiki-ui/components/Modal";
@@ -274,40 +275,47 @@ export default function ModalPostAnnouncement({
               />
             </fieldset>
             <fieldset className={styles.fieldset}>
-              <Title content="Exclusive content?" />
+              <Title content="Who can see this post?" />
               <Flex.Col className={styles.box} gap="24px">
                 <Flex.Row gap="32px">
                   <RadioButton
-                    label="No"
+                    label="Public"
                     value={!isExclusive}
                     onChange={() => setIsExclusive(false)}
                   />
-                  <RadioButton
-                    label="Yes"
-                    value={isExclusive}
-                    onChange={() => setIsExclusive(true)}
-                  />
+                  {projectTiers.length === 0 ? null : (
+                    <RadioButton
+                      label="Select Tier"
+                      value={isExclusive}
+                      onChange={() => setIsExclusive(true)}
+                    />
+                  )}
                 </Flex.Row>
-                <Flex.Col gap="12px">
-                  <Typography.Div content="Tiers from:" size="heading6" />
-                  <select
-                    className={styles.select}
-                    onChange={(event) =>
-                      setTierIndex(Number(event.target.value))
-                    }
-                    disabled={!isExclusive}
-                  >
-                    {projectTiers.map((tier, index) => (
-                      // Note that `index` starts from 0
-                      <option value={index + 1} key={index}>
-                        {`${tier.title}: ${formatLovelaceAmount(
-                          tier.requiredStake,
-                          { includeCurrencySymbol: true }
-                        )}`}
-                      </option>
-                    ))}
-                  </select>
-                </Flex.Col>
+                {projectTiers.length === 0 ? null : (
+                  <>
+                    <Divider.Horizontal />
+                    <Flex.Col gap="12px">
+                      <Typography.Div content="Tiers from:" size="heading6" />
+                      <select
+                        className={styles.select}
+                        onChange={(event) =>
+                          setTierIndex(Number(event.target.value))
+                        }
+                        disabled={!isExclusive}
+                      >
+                        {projectTiers.map((tier, index) => (
+                          // Note that `index` starts from 0
+                          <option value={index + 1} key={index}>
+                            {`${tier.title}: ${formatLovelaceAmount(
+                              tier.requiredStake,
+                              { includeCurrencySymbol: true }
+                            )}`}
+                          </option>
+                        ))}
+                      </select>
+                    </Flex.Col>
+                  </>
+                )}
               </Flex.Col>
             </fieldset>
           </form>

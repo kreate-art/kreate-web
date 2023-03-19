@@ -1,3 +1,5 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
   position: relative;
@@ -26,7 +28,7 @@
   background-color: transparent;
   position: relative;
   &.checked {
-    background-color: #008241;
+    background-color: colors.$ink;
     border: 1px solid transparent;
   }
   &.unchecked {
