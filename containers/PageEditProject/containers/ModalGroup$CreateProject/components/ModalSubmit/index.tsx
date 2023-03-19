@@ -199,7 +199,7 @@ export default function ModalSubmit({
       <Modal.Content padding="none" className={styles.modalContent}>
         <Flex.Row alignItems="stretch" flexWrap="wrap">
           <Flex.Col flex="10000 10000 294px" padding="32px 48px" gap="24px">
-            <Typography.Div content="Sponsor Teiki" size="heading6" />
+            <Typography.Div content="Sponsor Kreate" size="heading6" />
             <MessageBox
               title="Sponsors are auto-listed in the homepage for more exposure."
               description="Sponsorship can be renewed monthly. Inappropriate sponsors can still be hidden, delisted, and fined the pledge."

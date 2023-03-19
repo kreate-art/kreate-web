@@ -6,14 +6,13 @@ import { toJson } from "@/modules/json-utils";
 
 const DEFAULT_CLIENT_ERROR_STATUS = 400;
 const DEFAULT_SERVER_ERROR_STATUS = 500;
-export const CLIENT_AUTHORIZATION_ERROR_STATUS = 401;
 
 export class ClientError extends Error {
   reason: unknown;
   status: number;
 
   constructor(reason: unknown, status = DEFAULT_CLIENT_ERROR_STATUS) {
-    super(toJson({ status, reason }));
+    super(toJson(reason));
     this.reason = reason;
     this.status = status;
   }
@@ -45,28 +44,29 @@ export function apiCatch(
   req: NextApiRequest,
   res: NextApiResponse,
   error: unknown,
-  clientErrorStatus?: number,
-  serverErrorStatus?: number,
-  serverErrorMessage?: string
+  server?: {
+    status: number;
+    message: string;
+  }
 ) {
-  if (error instanceof ClientError)
-    catchClientError(req, res, error, clientErrorStatus);
-  else catchServerError(req, res, error, serverErrorStatus, serverErrorMessage);
+  if (error instanceof ClientError) catchClientError(req, res, error);
+  else catchServerError(req, res, error, server?.status, server?.message);
 }
 
-export function catchClientError(
+function catchClientError(
   req: NextApiRequest,
   res: NextApiResponse,
-  error: ClientError,
-  status = DEFAULT_CLIENT_ERROR_STATUS
+  error: ClientError
 ) {
   // TODO: Maybe Sentry
   console.error("[Client]", req.method, req.url, error);
-  res.status(status);
-  res.headersSent || sendJson(res, error.reason);
+  const status = error.status;
+  if (res.headersSent)
+    console.warn(`[!] Too late for error response [${status}]...`);
+  else sendJson(res.status(status), error.reason);
 }
 
-export function catchServerError(
+function catchServerError(
   req: NextApiRequest,
   res: NextApiResponse,
   error: unknown,
@@ -75,9 +75,10 @@ export function catchServerError(
 ) {
   // TODO: Sentry
   console.error("[Server]", req.method, req.url, error);
-  res.status(status);
-  res.headersSent ||
-    sendJson(res, {
+  if (res.headersSent)
+    console.warn(`[!] Too late for error response [${status}]...`);
+  else
+    sendJson(res.status(status), {
       _debug: {
         message: message,
         reason: error instanceof Error ? error.message : toJson(error),

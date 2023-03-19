@@ -1,5 +1,8 @@
+import stream from "node:stream";
+
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { noop } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import { HOST } from "@/modules/env/client";
 import {
@@ -18,7 +21,6 @@ import {
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
-    sizeLimit: "50mb",
   },
 };
 
@@ -40,7 +42,9 @@ export default async function handler(
     const iv = crypt.randomIv();
     const cipher = crypt.createCipher(key, iv);
 
-    const pinned = await pinToIpfs(req, (file) => file.pipe(cipher));
+    const pinned = await pinToIpfs(req, (file) =>
+      stream.pipeline(file, cipher, noop)
+    );
 
     const meta: Omit<crypt.CipherMeta, "enc"> = {
       kid,
@@ -71,7 +75,7 @@ export default async function handler(
 function signIpfsUrl(
   cid: Cid,
   meta: Omit<crypt.CipherMeta, "enc">,
-  ttl = 600
+  ttl = 3600 // 1 hour
 ): { exp: string; sig: crypt.Base64 } {
   const exp = Math.round(Date.now() / 1000) + ttl;
   const sig = crypt.hmacSign(KREATE_HMAC_SECRET, {
