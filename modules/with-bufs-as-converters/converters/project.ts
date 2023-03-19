@@ -114,7 +114,15 @@ export function toProject<V>(codec: Codec<V>): ToFn<Project, V> {
   return toObject<Project, V>({
     description: toProjectDescription(codec),
     basics: toProjectBasics(codec),
-    benefits: toProjectBenefits(codec),
+    benefits: (data) => {
+      // TODO: Data formalization should be handled in the indexer
+      try {
+        return toProjectBenefits(codec)(data);
+      } catch (error) {
+        console.warn(error);
+        return { perks: { type: "doc", content: [{ type: "paragraph" }] } };
+      }
+    },
   });
 }
 
