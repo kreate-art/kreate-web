@@ -4,17 +4,24 @@ import * as React from "react";
 import { AdaPriceInfo, useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { assert } from "@/modules/common-utils";
 import { useLastSavedWalletInfo } from "@/modules/wallet/hooks/useLastSavedWalletInfo";
+import {
+  WalletAuthHeaderInfo,
+  useWalletAuthHeader,
+} from "@/modules/wallet/hooks/useWalletAuthHeader";
 import { useWalletConnection } from "@/modules/wallet/hooks/useWalletConnection";
 import {
   useWalletNetworkWarning,
   UseWalletNetworkWarning$Result,
 } from "@/modules/wallet/hooks/useWalletNetworkWarning";
 import { WalletInfo, WalletStatus } from "@/modules/wallet/types";
+import { loadSavedAuthInfo } from "@/modules/wallet/utils/storage";
 
 const WALLET_REFRESH_INTERVAL = 5000;
 
 export type AppContextValue = {
   walletStatus: WalletStatus;
+  walletAuthHeaderInfo: WalletAuthHeaderInfo;
+  authenticateWallet: () => Promise<WalletAuthHeaderInfo>;
   connectWallet: (walletName: string) => Promise<WalletStatus>;
   disconnectWallet: () => void;
   lastSavedWalletInfo: WalletInfo | null;
@@ -28,6 +35,8 @@ function error<T>(message: string): T {
 
 export const AppContext = React.createContext<AppContextValue>({
   walletStatus: { status: "unknown" },
+  walletAuthHeaderInfo: { status: "not-ready" },
+  authenticateWallet: () => error("app context not injected"),
   connectWallet: () => error("app context not injected"),
   disconnectWallet: () => error("app context not injected"),
   lastSavedWalletInfo: null,
@@ -53,6 +62,8 @@ export function useAppContextValue$Provider({
   const lastSavedWalletInfo = useLastSavedWalletInfo(walletStatus);
 
   const walletNetworkWarning = useWalletNetworkWarning(walletStatus);
+  const { walletAuthHeaderInfo, authenticateWallet } =
+    useWalletAuthHeader(walletStatus);
 
   React.useEffect(() => {
     // When `status` is `"unknown"` (usually when the components are newly
@@ -78,7 +89,26 @@ export function useAppContextValue$Provider({
   React.useEffect(() => {
     if (walletStatus.status !== "connected") return;
     const timerId = setInterval(() => refreshWallet(), WALLET_REFRESH_INTERVAL);
+
     return () => clearInterval(timerId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletStatus.status]);
+
+  React.useEffect(() => {
+    if (walletStatus.status !== "connected") return;
+    void (async () => {
+      try {
+        const savedAuthInfo = await loadSavedAuthInfo();
+        if (
+          savedAuthInfo == null ||
+          savedAuthInfo.expiration < Date.now() / 1_000
+        ) {
+          await authenticateWallet();
+        }
+      } catch {
+        disconnectWallet();
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [walletStatus.status]);
 
@@ -86,6 +116,8 @@ export function useAppContextValue$Provider({
 
   return {
     walletStatus,
+    walletAuthHeaderInfo,
+    authenticateWallet,
     connectWallet,
     disconnectWallet,
     lastSavedWalletInfo:
