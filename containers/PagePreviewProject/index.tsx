@@ -4,6 +4,7 @@ import useSWR from "swr";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import ProjectListItem from "../PageHome/containers/ProjectList/components/ProjectListItem";
 import PanelActivities from "../PageProjectDetails/containers/PanelActivities";
+import PanelBenefits from "../PageProjectDetails/containers/PanelBenefits";
 import PanelTopBackers from "../PageProjectDetails/containers/PanelTopBackers";
 import ProjectDetails from "../PageProjectDetails/containers/ProjectDetails";
 import useDetailedProject from "../PageProjectDetails/hooks/useDetailedProject";
@@ -124,6 +125,7 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                   }}
                 />
               </div>
+              {!project.tiers ? null : <PanelBenefits value={project.tiers} />}
               <div className={styles.detailsStatsPanels}>
                 <div className={styles.mainPanels}>
                   <ProjectDetails

@@ -75,7 +75,7 @@ export default function Tier({
         </Flex.Row>
         <Button.Solid
           content="Become a member"
-          size="medium"
+          size="large"
           color="primary"
           style={{ width: "100%" }}
           onClick={onClickBecomeMember}

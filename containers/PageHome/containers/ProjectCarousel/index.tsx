@@ -39,7 +39,7 @@ export default function ProjectCarousel({
         "loading"
       ) : (
         <Carousel gap="medium" maxItemWidth={maxItemWidth ?? 900}>
-          {data.projects.slice(0, 2).map((project) => (
+          {data.projects.map((project) => (
             <ProjectCard
               key={project.id}
               value={project}
