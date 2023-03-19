@@ -1,6 +1,7 @@
 import { JSONContent } from "@tiptap/core";
 import { EditorContent, useEditor } from "@tiptap/react";
 import cx from "classnames";
+import React from "react";
 
 import BubbleMenuOnImageSelection from "./components/BubbleMenuOnImageSelection";
 import BubbleMenuOnTableSelection from "./components/BubbleMenuOnTableSelection";
@@ -38,6 +39,19 @@ export default function RichTextEditor({
     },
     editable,
   });
+
+  // https://github.com/ueberdosis/tiptap/issues/2403
+  React.useEffect(() => {
+    if (!editor) return;
+    editor.on("update", ({ editor }) => {
+      if (!onChange) return;
+      const newValue = toLazyJSONContent(() => editor.getJSON());
+      onChange(newValue);
+    });
+    return () => {
+      editor.off("update");
+    };
+  }, [editor, onChange]);
 
   // for debugging purpose only
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
