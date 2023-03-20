@@ -104,9 +104,9 @@ export default function CommunityUpdateOverview({
       <Flex.Col gap="24px" className={styles.main}>
         <div className={styles.summary}>{value.summary}</div>
         {value.exclusive &&
-        (!totalStaked ||
-          !tiers ||
-          totalStaked < tiers[value.exclusive.tier - 1].requiredStake) ? (
+        tiers &&
+        value.exclusive.tier <= tiers.length &&
+        (totalStaked ?? 0) < tiers[value.exclusive.tier - 1].requiredStake ? (
           <>
             <Divider.Horizontal />
             <Flex.Row
@@ -116,7 +116,11 @@ export default function CommunityUpdateOverview({
               className={styles.box}
             >
               <Typography.Div
-                content={`Only member from Tier: ${value.exclusive.tier} can view this post`}
+                content={`Only member from Tier ${
+                  value.exclusive.tier +
+                  ": " +
+                  tiers[value.exclusive.tier - 1].title
+                } can view this post`}
                 size="heading6"
                 color="primary"
               />
