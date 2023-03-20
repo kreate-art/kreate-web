@@ -90,14 +90,17 @@ export function formatUsdAmount(
   } = {}
 ): string {
   if (typeof usd === "number") {
+    const isNegative = usd < 0;
+    const displayUsd = usd < 0 ? -usd : usd;
     return (
       (options.includeAlmostEqualToSymbol ? "≈ " : "") +
+      (isNegative ? "-" : "") +
       (options.includeCurrencySymbol ? "$" : "") +
       Intl.NumberFormat("en-US", {
         notation: options.compact ? "compact" : "standard",
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-      }).format(usd)
+      }).format(displayUsd)
     );
   }
 

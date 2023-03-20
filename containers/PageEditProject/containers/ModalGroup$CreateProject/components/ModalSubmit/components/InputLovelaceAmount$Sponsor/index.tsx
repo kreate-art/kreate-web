@@ -139,7 +139,7 @@ export default function InputLovelaceAmount$Sponsor({
         }
       />
       <DescriptionGroup className={styles.descriptionGroup}>
-        <LeftDescription>
+        <LeftDescription className={styles.leftDescription}>
           {!value ? (
             <span>&nbsp;</span>
           ) : inlineError ? (

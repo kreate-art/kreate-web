@@ -43,13 +43,13 @@ export default function ModalUnbackSuccess({
               as="span"
               lovelaceAmount={unbackedAmountLovelace}
             />
-            <span>{" ("}</span>
-            <AssetViewer.Usd.FromAda
-              as="span"
-              lovelaceAmount={unbackedAmountLovelace}
-            />
-            <span>{")"}</span>
           </span>
+          <span>{" ("}</span>
+          <AssetViewer.Usd.FromAda
+            as="span"
+            lovelaceAmount={unbackedAmountLovelace}
+          />
+          <span>{")"}</span>
         </div>
         <Button.Solid
           className={styles.buttonBack}
