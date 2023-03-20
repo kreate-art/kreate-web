@@ -80,12 +80,14 @@ export default function HistoryViewerV2({
           ) : null}
 
           {match != null ? (
-            <Typography.Div
-              size="bodyExtraSmall"
-              fontWeight="semibold"
-              color="ink80"
-              content={`${Math.round(match * 100)}% Match`}
-            />
+            <Typography.Div>
+              <Typography.Span
+                size="bodyExtraSmall"
+                fontWeight="semibold"
+                color="ink80"
+                content={`${Math.round(match * 100)}% Match`}
+              />
+            </Typography.Div>
           ) : null}
         </JoinWithSeparator>
       </Flex.Row>
