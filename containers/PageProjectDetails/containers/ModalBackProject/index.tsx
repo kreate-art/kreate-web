@@ -51,6 +51,7 @@ type Props = {
   projectId: string;
   projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   stakingAmount?: LovelaceAmount;
+  initialAmount?: LovelaceAmount;
   onCancel?: () => void;
   onSuccess?: (event: SuccessEvent) => void;
 };
@@ -63,6 +64,7 @@ export default function ModalBackProject({
   projectId,
   projectTiers,
   stakingAmount,
+  initialAmount,
   onCancel,
   onSuccess,
 }: Props) {
@@ -83,6 +85,7 @@ export default function ModalBackProject({
 
   const fieldLovelaceAmount = useField$LovelaceAmount({
     maxLovelaceAmount,
+    initialAmount,
   });
 
   const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({

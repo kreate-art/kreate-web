@@ -16,11 +16,17 @@ export function useField$Message() {
 }
 
 export function useField$LovelaceAmount({
+  initialAmount,
   maxLovelaceAmount,
 }: {
+  initialAmount?: LovelaceAmount;
   maxLovelaceAmount: LovelaceAmount | undefined;
 }) {
-  const [text, setText] = React.useState("");
+  const [text, setText] = React.useState(
+    initialAmount != null
+      ? formatLovelaceAmount(initialAmount, { compact: false })
+      : ""
+  );
   const parsed = parseLovelaceAmount(text);
   const error =
     parsed == null

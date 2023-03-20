@@ -67,6 +67,7 @@ export default function TierInput({
           <Button.Link
             content={<IconArrowDropDown />}
             onClick={() => setIsOpened(!isOpened)}
+            style={{ transform: isOpened ? "scaleY(1)" : "scaleY(-1)" }}
           />
         </Flex.Row>
       </Flex.Row>
