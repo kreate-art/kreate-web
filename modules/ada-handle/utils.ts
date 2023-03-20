@@ -1,6 +1,8 @@
+import { Address } from "../business-types";
+
 import { httpGetAdaHandle } from "@/modules/next-backend-client/api/httpGetAdaHandle";
 
-const ADA_HANDLE_REFRESH_INTERVAL = 200;
+const BATCHING_DELAY = 200;
 const BATCH_LIMIT = 16;
 
 type QueueItem = {
@@ -8,17 +10,19 @@ type QueueItem = {
   address: string;
 };
 
+type Handle = string;
 const queue: QueueItem[] = [];
-const handles: Map<string, string> = new Map();
+const addressToHandle: Map<Address, Handle> = new Map();
 
 function scheduleExecution() {
   setTimeout(() => {
     run();
-  }, ADA_HANDLE_REFRESH_INTERVAL);
+  }, BATCHING_DELAY);
 }
 
 export async function run() {
   const itemsToExecute = queue.splice(0, BATCH_LIMIT);
+  if (!itemsToExecute.length) return;
   if (queue.length > 0) {
     scheduleExecution();
   }
@@ -26,7 +30,7 @@ export async function run() {
     new Set(
       itemsToExecute
         .map(({ address }) => address)
-        .filter((address) => !handles.has(address))
+        .filter((address) => !addressToHandle.has(address))
     )
   );
   if (filteredItems.length === 0) {
@@ -41,12 +45,12 @@ export async function run() {
         ? `$${results[address][results[address].length - 1]}`
         : address;
     resolve(handle);
-    handles.set(address, handle);
+    addressToHandle.set(address, handle);
   });
 }
 
 export async function getAdaHandle(address: string): Promise<string> {
-  const fetchedHandle = handles.get(address);
+  const fetchedHandle = addressToHandle.get(address);
   if (fetchedHandle) {
     return fetchedHandle;
   }
