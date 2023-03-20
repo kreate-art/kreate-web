@@ -7,6 +7,7 @@ import IconDocumentCircle from "../../icons/IconDocumentCircle";
 
 import styles from "./index.module.scss";
 
+import { sumLovelaceAmount } from "@/modules/bigint-utils";
 import {
   AnyProjectPost,
   LovelaceAmount,
@@ -26,7 +27,7 @@ type Props = {
   totalStaked?: LovelaceAmount;
   tiers?: ProjectBenefitsTier[];
   onClickLearnMore?: () => void;
-  onClickBecomeMember?: () => void;
+  onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function CommunityUpdateOverview({
@@ -50,6 +51,7 @@ export default function CommunityUpdateOverview({
   const [isCensored, setIsCensored] = React.useState<boolean>(
     censorshipContents.length > 0
   );
+  const actualStakingAmount = totalStaked ?? 0;
 
   return (
     <article className={cx(styles.container, className)} style={style}>
@@ -106,7 +108,7 @@ export default function CommunityUpdateOverview({
         {value.exclusive &&
         tiers &&
         value.exclusive.tier <= tiers.length &&
-        (totalStaked ?? 0) < tiers[value.exclusive.tier - 1].requiredStake ? (
+        actualStakingAmount < tiers[value.exclusive.tier - 1].requiredStake ? (
           <>
             <Divider.Horizontal />
             <Flex.Row
@@ -129,7 +131,15 @@ export default function CommunityUpdateOverview({
                 color="primary"
                 size="small"
                 className={styles.member}
-                onClick={onClickBecomeMember}
+                onClick={() =>
+                  onClickBecomeMember &&
+                  onClickBecomeMember(
+                    sumLovelaceAmount([
+                      tiers[value.exclusive.tier - 1].requiredStake,
+                      -actualStakingAmount,
+                    ])
+                  )
+                }
               />
             </Flex.Row>
           </>
