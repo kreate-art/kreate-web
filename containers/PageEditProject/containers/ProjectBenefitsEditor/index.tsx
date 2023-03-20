@@ -43,6 +43,7 @@ export default function ProjectBenefitsEditor({ value, onChange }: Props) {
         banner: undefined,
         requiredStake: 0,
         benefits: [],
+        maximumMembers: null,
       },
     ]);
   }
