@@ -1,8 +1,7 @@
-import { Cid } from "@teiki/protocol/types";
-
 import { assert } from "@/modules/common-utils";
 import { CipherMeta } from "@/modules/crypt/types";
 import { fromJson } from "@/modules/json-utils";
+import { Cid } from "@/modules/next-backend/utils/CodecCidCipher";
 
 type Response = CipherMeta & { cid: Cid };
 
