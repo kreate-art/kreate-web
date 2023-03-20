@@ -505,7 +505,7 @@ export default function PageProjectDetails({
                           value={project.activities}
                           onClickAllActivities={() => {
                             history.pushState(null, "", "#activities");
-                            setActiveTabIndex(4);
+                            setActiveTabIndex(3);
                             const item = document.getElementById("activities");
                             if (item) {
                               item.scrollIntoView();

@@ -147,7 +147,7 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                   />
                   <PanelActivities
                     value={originalDetailedProject?.activities || []}
-                    onClickAllActivities={() => setActiveTabIndex(4)}
+                    onClickAllActivities={() => setActiveTabIndex(3)}
                     id={undefined}
                   />
                 </div>
