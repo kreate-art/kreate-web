@@ -1,3 +1,5 @@
+import { JSONContent } from "@tiptap/core";
+
 import { NEXT_PUBLIC_AI_URL } from "../../../config/client";
 import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
@@ -24,6 +26,8 @@ import {
   Project,
   ProjectActivity,
   ProjectActivityAction,
+  ProjectBenefitsTier,
+  ProjectId,
 } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { WithBufsAs } from "@/modules/with-bufs-as";
@@ -359,7 +363,23 @@ export async function getDetailedProject(
       match = recommend[0];
     }
 
-    const tiersWithActiveMemberCount = tiers?.map((tier) => ({
+    const fallbackTier = fallbackTiers.get(projectId);
+    const tiers$Fallback: ProjectBenefitsTier[] | undefined =
+      tiers != null
+        ? tiers
+        : fallbackTier == null
+        ? undefined
+        : [
+            {
+              id: "default",
+              title: "Member",
+              contents: { body: fallbackTier },
+              requiredStake: 5_000_000,
+              benefits: [],
+              maximumMembers: null,
+            },
+          ];
+    const tiersWithActiveMemberCount = tiers$Fallback?.map((tier) => ({
       ...tier,
       activeMemberCount: tiersActiveMember.find(
         (value) => value.tierId === tier.id
@@ -416,3 +436,773 @@ async function backingDataToActivities(
   );
   return activities;
 }
+
+const fallbackTiers = new Map<ProjectId, JSONContent>([
+  [
+    "0e149ccc2bc71165bf4eb28366b85c5791f62bb34b2d1c3cff895d63b86824fc",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Members staking at least 1000 ADA for a year will get early access to the game when it is restarted (TBD).",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "f175855cf8b4eb481d050d9e457a209a69fd6f05229f02c5d3a507fefafcd0f9",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Members staking 10,000 ADA for three years can request a product for us to build. You can keep requesting until we agree on something plausible, as we cannot build a rocket in three years!",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "8878844e2c8e2b0ded9613750b2d0ef912be40a50221dd21126bae622a1b1c12",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Supporters of Fat Cats that have staked towards the project via Teiki will receive one or more of the following:",
+              type: "text",
+            },
+          ],
+        },
+        { type: "paragraph", attrs: { textAlign: "left" } },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "• Whitelist spot or spots",
+              type: "text",
+              marks: [
+                { type: "bold" },
+                { type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } },
+              ],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "• Private Zeppelin",
+              type: "text",
+              marks: [{ type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "• Private Train Cart",
+              type: "text",
+              marks: [{ type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "• Royal Card",
+              type: "text",
+              marks: [{ type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } }],
+            },
+            { type: "hardBreak" },
+            {
+              type: "hardBreak",
+              marks: [{ type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } }],
+            },
+            {
+              text: "• $DUCATS tokens",
+              type: "text",
+              marks: [{ type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "• Other rewards",
+              type: "text",
+              marks: [{ type: "textStyle", attrs: { color: "rgb(0, 0, 0)" } }],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "755756faa35765c0a12a397c86113eb26ed13a08c83d31ede7b9609ef97efc03",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "heading",
+          attrs: { level: 1, textAlign: "left" },
+          content: [{ text: "Benefits", type: "text" }],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "After we hit our fundraising goal, 500,000 $DEMU tokens will be distributed to all supporters of DEMU, in proportion to the amount supported. The tokens will be airdropped. This is currently the only way to obtain $DEMU tokens. ",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "96368c752b1eebb48c358061628144cdfa9aaeb87c8497542ca1e964fd540820",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "heading",
+          attrs: { level: 1, textAlign: "left" },
+          content: [
+            {
+              text: "Subscribe to OpShin!",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Monthly subscription options for OpShin are coming soon to the platform!",
+              type: "text",
+              marks: [{ type: "italic" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Stake the following minimum amounts to get these benefits:",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 2, textAlign: "left" },
+          content: [
+            {
+              text: "Python Pal - 15 ADA/month (250 ADA Stake)",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Thank you for supporting OpShin and your fellow Python Pals on Cardano! You get:",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "Patron",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                    { text: " role in Discord", type: "text" },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 2, textAlign: "left" },
+          content: [
+            {
+              text: "Anacondas for ADA - 60 ADA/month (1,000 ADA Stake)",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "ADA development for all! Thank you for supporting OpShin and your fellow Python Pals on Cardano! You get:",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Patron role in Discord", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "Mention in the release notes",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 2, textAlign: "left" },
+          content: [
+            {
+              text: "Cobra Commander - 90 ADA/month (1,500 ADA Stake)",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "For the serious sneks in our ecosystem. Maximize the value you get out of our toolchain by educating yourself! Get this tier and you get:",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Patron role in Discord", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "Mention in the release notes", type: "text" },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "Access to Udemy course upon release",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 2, textAlign: "left" },
+          content: [
+            {
+              text: "King Snake - 240 ADA/month (3,995 ADA Stake)",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "You can build without limits, but it’s still easier not to build alone. Learn from the best so you can build ",
+              type: "text",
+            },
+            { text: "your", type: "text", marks: [{ type: "italic" }] },
+            { text: " best. Get this tier and you get:", type: "text" },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Patron role in Discord", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "Mention in the release notes", type: "text" },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "Access to Udemy course upon release",
+                      type: "text",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "Priority Support",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 2, textAlign: "left" },
+          content: [
+            {
+              text: "Professional Python - 300 ADA/month (5,000 ADA Stake)",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Professional team-players and Project builders should sign up for this tier. In addition to ",
+              type: "text",
+            },
+            {
+              text: "all of the benefits for the previous tiers",
+              type: "text",
+              marks: [{ type: "italic" }],
+            },
+            { text: ", you get ", type: "text" },
+            {
+              text: "priority access to the following services:",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "One hour pair-programming ", type: "text" },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "One hour consulting/mentorship ", type: "text" },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Code review ", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Workshop for your team ", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Contracting", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "Services for One-time Payments", type: "text" },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 1, textAlign: "left" },
+          content: [
+            {
+              text: "Services for One-time Payments",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            { text: "Send ADA to ", type: "text" },
+            { text: "$opshin", type: "text", marks: [{ type: "bold" }] },
+            {
+              text: " with a note for the following services:",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "Shout-out on Twitter - ", type: "text" },
+                    {
+                      text: "75 ADA",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "Mention in release notes - ", type: "text" },
+                    {
+                      text: "150 ADA",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "Life-time access to Udemy course upon release -",
+                      type: "text",
+                    },
+                    {
+                      text: " 300 ADA",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "One hour pair-programming - ", type: "text" },
+                    {
+                      text: "445 ADA",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    {
+                      text: "One hour consulting/mentorship - ",
+                      type: "text",
+                    },
+                    {
+                      text: "445 ADA",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [
+                    { text: "Workshop for your team - ", type: "text" },
+                    {
+                      text: "1195 ADA",
+                      type: "text",
+                      marks: [{ type: "bold" }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "heading",
+          attrs: { level: 1, textAlign: "left" },
+          content: [
+            {
+              text: "Other Services (DM to assess size!)",
+              type: "text",
+              marks: [{ type: "bold" }],
+            },
+          ],
+        },
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Code review", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Contracting", type: "text" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  attrs: { textAlign: "left" },
+                  content: [{ text: "Join your companies Chat", type: "text" }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "82ca817919eb8a2857ba794b0eb85001980ca7f8032e7bed4084277c4d53af78",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Members will get free airdrops with each minting batch. The more and longer you stake, the rarer NFTs you get!",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  [
+    "1a5343834782954552a7e29d19dbddca9a88944e0ffadac8aa67399893e0a330",
+    {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Kreate members can join our recurrent calls for progress updates, feature requests, and more.",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "Kreate members also get early access to new platform features and benefits.",
+              type: "text",
+            },
+          ],
+        },
+        {
+          type: "paragraph",
+          attrs: { textAlign: "left" },
+          content: [
+            {
+              text: "The more and longer you stake, the more land you get reserved in the Kreataverse as well.",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+]);
