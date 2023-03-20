@@ -74,29 +74,36 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
           label="Update frequency"
           content={frequency ? frequency.label : "-"}
         />
-        <ImpactfulNumber
-          label="Monthly income"
-          content={
-            value.numLovelacesRaised != null && adaPriceInfo != null
-              ? formatUsdAmount(
-                  {
-                    lovelaceAmount:
-                      /** NOTE: @sk-tenba:
-                       * monthly income = numLovelacesStaked / 100 * 3.5 / 12
-                       */
-                      (BigInt(value.numLovelacesRaised) / BigInt(12000)) *
-                      BigInt(35),
-                    adaPriceInUsd: adaPriceInfo.usd,
-                  }, //
-                  {
-                    includeCurrencySymbol: true,
-                    includeAlmostEqualToSymbol: true,
-                  }
-                )
-              : "-"
-          }
-          title={value.numLovelacesRaised?.toString()}
-        />
+        {value.numLovelacesStaked != null ? (
+          <ImpactfulNumber
+            label="Monthly income"
+            content={
+              adaPriceInfo != null
+                ? formatUsdAmount(
+                    {
+                      lovelaceAmount:
+                        /** NOTE: @sk-tenba:
+                         * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                         */
+                        (BigInt(value.numLovelacesStaked) * BigInt(35)) /
+                        BigInt(12000),
+                      adaPriceInUsd: adaPriceInfo.usd,
+                    }, //
+                    {
+                      includeCurrencySymbol: true,
+                      includeAlmostEqualToSymbol: true,
+                    }
+                  )
+                : "-"
+            }
+            title={
+              (
+                (BigInt(value.numLovelacesStaked) * BigInt(35)) /
+                BigInt(12000)
+              ).toString() + " lovelaces"
+            }
+          />
+        ) : null}
       </Flex.Col>
     </div>
   );

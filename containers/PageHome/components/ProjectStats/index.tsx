@@ -34,12 +34,12 @@ export default function ProjectStats({
           <AssetViewer.Usd.FromAda
             as="span"
             lovelaceAmount={
-              value.numLovelacesRaised
+              value.numLovelacesStaked
                 ? /** NOTE: @sk-tenba:
                    * monthly income = numLovelacesStaked / 100 * 3.5 / 12
                    */
-                  (BigInt(value.numLovelacesRaised) / BigInt(12000)) *
-                  BigInt(35)
+                  (BigInt(value.numLovelacesStaked) * BigInt(35)) /
+                  BigInt(12000)
                 : undefined
             }
           />

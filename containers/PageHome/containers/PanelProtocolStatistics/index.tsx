@@ -94,18 +94,18 @@ export default function PanelProtocolStatistics({
           </Card>
           <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
-            {stats.numLovelaceRaised == null ? (
+            {stats.numLovelaceStakedActive == null ? (
               <Card.Content>-</Card.Content>
             ) : (
-              <Card.Content title={stats.numLovelaceRaised.toString()}>
+              <Card.Content title={stats.numLovelaceStakedActive.toString()}>
                 <AssetViewer.Usd.FromAda
                   as="span"
                   lovelaceAmount={
                     /** NOTE: @sk-tenba:
                      * monthly income = numLovelacesStaked / 100 * 3.5 / 12
                      */
-                    (BigInt(stats.numLovelaceRaised) / BigInt(12000)) *
-                    BigInt(35)
+                    (BigInt(stats.numLovelaceStakedActive) * BigInt(35)) /
+                    BigInt(12000)
                   }
                 />
               </Card.Content>
