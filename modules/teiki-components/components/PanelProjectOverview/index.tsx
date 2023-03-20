@@ -8,7 +8,7 @@ import Flex from "./components/Flex";
 import ActiveStakeViewer from "./containers/ActiveStakeViewer";
 import BadgesViewer from "./containers/BadgesViewer";
 import ButtonGroup from "./containers/ButtonGroup";
-import HistoryViewer from "./containers/HistoryViewer";
+import HistoryViewerV2 from "./containers/HistoryViewerV2";
 import OtherStatsViewer from "./containers/OtherStatsViewer";
 import SocialChannelsViewer from "./containers/SocialChannelsViewer";
 import TagsViewer from "./containers/TagsViewer";
@@ -68,7 +68,7 @@ export default function PanelProjectOverview({
           </div>
           <Flex.Col gap="16px">
             <TitleSloganViewer title={basics.title} slogan={basics.slogan} />
-            <HistoryViewer value={{ ...history, match }} />
+            <HistoryViewerV2 value={history} match={match} />
             <SocialChannelsViewer value={community.socialChannels} />
             <TagsViewer value={basics.tags} />
           </Flex.Col>
