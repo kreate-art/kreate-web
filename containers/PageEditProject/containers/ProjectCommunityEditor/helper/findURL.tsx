@@ -1,16 +1,16 @@
-import IconDiscord from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconDiscord";
-import IconFacebook from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconFacebook";
-import IconGithub from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconGithub";
-import IconInstagram from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconInstagram";
-import IconLink from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconLink";
-import IconLinkedIn from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconLinkedin";
-import IconMedium from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconMedium";
-import IconPinterest from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconPinterest";
-import IconReddit from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconReddit";
-import IconSnapchat from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconSnapchat";
-import IconTelegram from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconTelegram";
-import IconTwitter from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconTwitter";
-import IconYoutube from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/icons/IconYoutube";
+import IconDiscord from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconDiscord";
+import IconFacebook from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconFacebook";
+import IconGithub from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconGithub";
+import IconInstagram from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconInstagram";
+import IconLink from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconLink";
+import IconLinkedIn from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconLinkedin";
+import IconMedium from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconMedium";
+import IconPinterest from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconPinterest";
+import IconReddit from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconReddit";
+import IconSnapchat from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconSnapchat";
+import IconTelegram from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconTelegram";
+import IconTwitter from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconTwitter";
+import IconYoutube from "@/modules/teiki-components/components/PanelProjectOverview/containers/SocialChannelsViewer/components/ButtonSocialChannel/icons/IconYoutube";
 
 const matcher: {
   key: string;
