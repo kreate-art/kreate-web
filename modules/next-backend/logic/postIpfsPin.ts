@@ -41,13 +41,12 @@ export async function pinToIpfs(
 
     const bb = busboy({
       headers: req.headers,
-      limits: { fields: 0, files: 1, parts: 1, fileSize: FILE_SIZE_LIMIT },
+      limits: { fields: 0, files: 1, fileSize: FILE_SIZE_LIMIT },
     })
       .on("file", (_name, file: BusboyFile, _info) =>
         store(file).then(resolve, reject)
       )
       .on("limit", () => reject(error("file size limit exceeded: rejected")))
-      .on("partsLimit", () => reject(error("only allow 1 part")))
       .on("filesLimit", () => reject(error("only allow 1 file")))
       .on("fieldsLimit", () => reject(error("only allow files")))
       .on("error", reject);

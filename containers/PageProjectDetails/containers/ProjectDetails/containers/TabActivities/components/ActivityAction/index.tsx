@@ -171,7 +171,7 @@ export default function ActivityAction({ className, style, value }: Props) {
               <Typography.Span
                 size="bodySmall"
                 lineHeight="medium"
-                content={`, with a Teiki sponsorship of `}
+                content={` with a Kreate sponsorship of `}
                 color="ink80"
               />
               <Typography.Span size="heading6" color="green">
