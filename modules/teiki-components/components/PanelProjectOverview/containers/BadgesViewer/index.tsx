@@ -1,15 +1,11 @@
 import cx from "classnames";
 import * as React from "react";
 
-import Flex from "../../components/Flex";
-
-import IconClosed from "./icons/IconClosed";
-import IconFeatured from "./icons/IconFeatured";
-import IconSponsor from "./icons/IconSponsor";
 import styles from "./index.module.scss";
 
 import { ProjectGeneralInfo } from "@/modules/business-types";
-import Title from "@/modules/teiki-ui/components/Title";
+import Badge from "@/modules/teiki-components/components/Badge";
+import Flex from "@/modules/teiki-ui/components/Flex";
 
 type Props = {
   className?: string;
@@ -21,36 +17,9 @@ export default function BadgesViewer({ className, style, value }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Row gap="12px" flexWrap="wrap">
-        {value.closed ? (
-          <Flex.Row
-            className={styles.sponsorBadge}
-            gap="12px"
-            alignItems="center"
-          >
-            <IconClosed />
-            <Title style={{ color: "#00362C" }} content="Closed" />
-          </Flex.Row>
-        ) : null}
-        {value.featured ? (
-          <Flex.Row
-            className={styles.featuredBadge}
-            gap="12px"
-            alignItems="center"
-          >
-            <IconFeatured />
-            <Title style={{ color: "#D200E4" }} content="Featured Creator" />
-          </Flex.Row>
-        ) : null}
-        {value.sponsor ? (
-          <Flex.Row
-            className={styles.sponsorBadge}
-            gap="12px"
-            alignItems="center"
-          >
-            <IconSponsor />
-            <Title style={{ color: "#006E46" }} content="Sponsoring Kreate" />
-          </Flex.Row>
-        ) : null}
+        {value.closed ? <Badge.Closed /> : null}
+        {value.featured ? <Badge.Featured /> : null}
+        {value.sponsor ? <Badge.Sponsor /> : null}
       </Flex.Row>
     </div>
   );
