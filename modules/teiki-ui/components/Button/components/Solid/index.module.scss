@@ -24,6 +24,20 @@
 }
 
 // height, border-radius, padding
+.sizeExtraSmall {
+  height: 32px;
+  border-radius: 16px;
+  padding: 4px 8px;
+  min-width: 48px;
+  font-size: 12px;
+
+  &.circular {
+    min-width: 32px;
+    width: 32px;
+    padding: 0;
+  }
+}
+
 .sizeSmall {
   height: 40px;
   border-radius: 20px;
@@ -128,4 +142,5 @@
   height: 24px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }

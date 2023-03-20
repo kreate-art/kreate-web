@@ -4,6 +4,7 @@ import * as React from "react";
 import styles from "./index.module.scss";
 
 const SIZE_TO_CLASS_NAME = {
+  extraSmall: styles.sizeExtraSmall,
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
   large: styles.sizeLarge,

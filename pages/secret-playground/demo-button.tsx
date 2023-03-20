@@ -73,12 +73,14 @@ export default function DemoButton() {
   const [iconPosition, setIconPosition] = React.useState<"left" | "right">(
     "left"
   );
-  const [size, setSize] = React.useState<"small" | "medium" | "large">(
-    "medium"
-  );
+  const [size, setSize] = React.useState<
+    "extraSmall" | "small" | "medium" | "large"
+  >("medium");
   const [circular, setCircular] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
-  const [color, setColor] = React.useState<"green" | "white">("green");
+  const [color, setColor] = React.useState<
+    "green" | "white" | "primary" | "secondary"
+  >("green");
 
   return (
     <article style={{ margin: "auto", maxWidth: "800px" }}>
@@ -109,7 +111,12 @@ export default function DemoButton() {
           />
           <Select
             label="Size"
-            options={{ small: "small", medium: "medium", large: "large" }}
+            options={{
+              extraSmall: "extraSmall",
+              small: "small",
+              medium: "medium",
+              large: "large",
+            }}
             value={size}
             onChange={setSize}
           />
@@ -117,7 +124,12 @@ export default function DemoButton() {
         <Form.Group>
           <Select
             label="Color"
-            options={{ green: "green", white: "white" }}
+            options={{
+              green: "green",
+              white: "white",
+              primary: "primary",
+              secondary: "secondary",
+            }}
             value={color}
             onChange={setColor}
           />
@@ -177,6 +189,7 @@ export default function DemoButton() {
             size={size}
             circular={circular}
             disabled={disabled}
+            color={color}
           />
         </div>
       </Resizable>
