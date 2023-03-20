@@ -120,7 +120,6 @@ export default function PanelBackingProjects({
     backerAddress: Address;
     backedAmount: LovelaceAmount;
   }) => {
-    console.log(projectTiers, backedAmount);
     type ModalUnbackProject$ModalResult =
       | { type: "cancel" }
       | { type: "success"; unbackLovelaceAmount: LovelaceAmount };
