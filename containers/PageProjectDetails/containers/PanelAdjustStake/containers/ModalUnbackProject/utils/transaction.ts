@@ -126,10 +126,14 @@ export async function buildTxRaw({
   };
 
   const tx = await try$(
-    () =>
-      plantTx(lucid, plantParams) //
-        .addSigner(plantParams.backingInfo.backerAddress)
-        .attachMetadata(674, { msg: splitToLines(message, 64) }),
+    () => {
+      const tx = plantTx(lucid, plantParams) //
+        .addSigner(plantParams.backingInfo.backerAddress);
+
+      return message.length
+        ? tx.attachMetadata(674, { msg: splitToLines(message, 64) })
+        : tx;
+    },
     (error) => {
       switch (error instanceof Error ? error.message : undefined) {
         case "Invalid unstake time":

@@ -15,7 +15,7 @@ import { getReferenceTxTime } from "@/modules/protocol/utils";
 export type BuildTxParams = {
   lucid: Lucid;
   lovelaceAmount: LovelaceAmount;
-  message: string; // TODO: @sk-saru attach to metadata in the next PR
+  message: string;
   txParams: TxParams$BackerBackProject;
 };
 
@@ -106,10 +106,10 @@ export async function buildTxRaw({
     txTime,
   };
 
-  let tx = plantTx(lucid, plantParams);
-  tx = tx
-    .addSigner(plantParams.backingInfo.backerAddress)
-    .attachMetadata(674, { msg: splitToLines(message, 64) });
+  const tx = plantTx(lucid, plantParams) //
+    .addSigner(plantParams.backingInfo.backerAddress);
 
-  return tx;
+  return message.length
+    ? tx.attachMetadata(674, { msg: splitToLines(message, 64) })
+    : tx;
 }
