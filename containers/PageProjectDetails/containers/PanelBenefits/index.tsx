@@ -12,7 +12,7 @@ import Flex from "@/modules/teiki-ui/components/Flex";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: ProjectBenefitsTier[];
+  value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   onClickBecomeMember?: () => void;
 };
 
