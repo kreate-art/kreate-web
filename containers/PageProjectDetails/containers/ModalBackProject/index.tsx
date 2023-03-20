@@ -237,12 +237,12 @@ export default function ModalBackProject({
                       as="span"
                       approx={true}
                       lovelaceAmount={
+                        /** NOTE: @sk-tenba:
+                         * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                         */
                         fieldLovelaceAmount.parsed
-                          ? (((BigInt(fieldLovelaceAmount.parsed) *
-                              ASSUMED_ROA) /
-                              MULTIPLIER) *
-                              EPOCH_LENGTH_IN_DAYS) /
-                            YEAR_LENGTH_IN_DAYS
+                          ? (BigInt(fieldLovelaceAmount.parsed) * BigInt(35)) /
+                            BigInt(12000)
                           : undefined
                       }
                       size="heading6"
