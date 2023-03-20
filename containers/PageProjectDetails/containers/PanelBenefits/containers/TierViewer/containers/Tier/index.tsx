@@ -1,7 +1,8 @@
 import cx from "classnames";
 
-import WithAspectRatio from "../../../../../../components/WithAspectRatio";
+import WithAspectRatio from "../../../../../../../../components/WithAspectRatio";
 
+import IconUserGroup from "./icons/IconUserGroup";
 import styles from "./index.module.scss";
 
 import { formatLovelaceAmount } from "@/modules/bigint-utils";
@@ -80,6 +81,16 @@ export default function Tier({
           style={{ width: "100%" }}
           onClick={onClickBecomeMember}
         />
+        {value.maximumMembers == null ? null : (
+          <Flex.Row alignItems="center" gap="12px">
+            <IconUserGroup />
+            <Typography.Div
+              content={`${value.maximumMembers} limited members`}
+              color="red"
+              size="heading6"
+            />
+          </Flex.Row>
+        )}
         {!value.contents ? null : (
           <RichTextViewer
             value={value.contents.body}

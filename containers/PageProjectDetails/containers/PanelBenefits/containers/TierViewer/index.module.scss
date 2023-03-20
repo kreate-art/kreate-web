@@ -1,0 +1,24 @@
+.container {
+  display: grid;
+  background-color: #fff;
+}
+
+.tier {
+  border: 1px solid rgba(34, 34, 34, 0.1);
+
+  &.topLeft {
+    border-top-left-radius: 16px;
+  }
+
+  &.topRight {
+    border-top-right-radius: 16px;
+  }
+
+  &.bottomLeft {
+    border-bottom-left-radius: 16px;
+  }
+
+  &.bottomRight {
+    border-bottom-right-radius: 16px;
+  }
+}
