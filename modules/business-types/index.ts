@@ -69,7 +69,7 @@ export type ProjectBenefitsTier = {
   banner?: ProjectImage;
   requiredStake: LovelaceAmount;
   benefits: string[];
-  maximumMembers?: number;
+  maximumMembers: number | null;
 };
 
 export type ProjectBenefits = {
