@@ -233,26 +233,23 @@ export default function ModalBackProject({
                       content="With this stake amount, you help the creator earn "
                       size="bodySmall"
                     />
-                    <AssetViewer.Ada.Compact
+                    <AssetViewer.Usd.FromAda
                       as="span"
                       approx={true}
                       lovelaceAmount={
+                        /** NOTE: @sk-tenba:
+                         * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                         */
                         fieldLovelaceAmount.parsed
-                          ? (((BigInt(fieldLovelaceAmount.parsed) *
-                              ASSUMED_ROA) /
-                              MULTIPLIER) *
-                              EPOCH_LENGTH_IN_DAYS) /
-                            YEAR_LENGTH_IN_DAYS
+                          ? (BigInt(fieldLovelaceAmount.parsed) * BigInt(35)) /
+                            BigInt(12000)
                           : undefined
                       }
                       size="heading6"
                       fontWeight="bold"
                       color="green"
                     />
-                    <Typography.Span
-                      content=" every 5 days."
-                      size="bodySmall"
-                    />
+                    <Typography.Span content=" monthly." size="bodySmall" />
                   </Typography.Div>
                 </Flex.Row>
                 <Divider.Horizontal />

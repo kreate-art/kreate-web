@@ -49,7 +49,7 @@ export default function PanelYourAssets({
             alignItems="center"
           >
             <Image className={styles.svgAda} src={svgAda} alt="ada" />
-            <AssetViewer.Ada.Standard
+            <AssetViewer.Ada.Compact
               as="div"
               lovelaceAmount={lovelaceAmount}
               size="heading4"

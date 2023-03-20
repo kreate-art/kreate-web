@@ -40,6 +40,24 @@ export default function ActionProjectCreation({
             <Typography.Span
               size="bodySmall"
               lineHeight="medium"
+              content={` (`}
+              color="ink80"
+            />
+            <AssetViewer.Usd.FromAda
+              as="span"
+              lovelaceAmount={value.sponsorshipAmount}
+              fontWeight="semibold"
+              color="ink"
+            />
+            <Typography.Span
+              size="bodySmall"
+              lineHeight="medium"
+              content={`)`}
+              color="ink80"
+            />
+            <Typography.Span
+              size="bodySmall"
+              lineHeight="medium"
               content={`/month`}
               color="ink80"
             />

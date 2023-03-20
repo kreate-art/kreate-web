@@ -1,3 +1,4 @@
+import cx from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
 
@@ -33,7 +34,10 @@ export default function ButtonWalletOptions({
     <div className={styles.buttonWalletOptionsContainer}>
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className={styles.buttonWalletOptions}
+        className={cx(
+          styles.buttonWalletOptions,
+          showDropdown ? styles.showDropdown : null
+        )}
         style={{
           borderRadius: showDropdown ? "20px 20px 0 0" : "20px",
         }}
@@ -56,7 +60,7 @@ export default function ButtonWalletOptions({
               </div>
             </div>
           </div>
-          <div className={styles.lineButtonWalletNavbar} />
+          <Divider.Vertical color={showDropdown ? "black-10" : "white-10"} />
           <div className={styles.walletInfo}>
             <div className={styles.assets}>
               <div className={styles.ada}>

@@ -6,7 +6,8 @@ import ImpactfulNumber from "../../components/ImpactfulNumber";
 
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { formatUsdAmount } from "@/modules/bigint-utils";
 import { ProjectGeneralInfo } from "@/modules/business-types";
 
 type Props = {
@@ -43,6 +44,7 @@ const FREQUENCY_CONFIG = [
 ];
 
 export default function OtherStatsViewer({ className, style, value }: Props) {
+  const adaPriceInfo = useAdaPriceInfo();
   const frequency =
     value.updatedAt == null ||
     value.createdAt == null ||
@@ -72,18 +74,36 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
           label="Update frequency"
           content={frequency ? frequency.label : "-"}
         />
-        <ImpactfulNumber
-          label="Total income"
-          content={
-            value.numLovelacesRaised != null
-              ? formatLovelaceAmount(
-                  value.numLovelacesRaised, //
-                  { includeCurrencySymbol: true }
-                )
-              : "-"
-          }
-          title={value.numLovelacesRaised?.toString()}
-        />
+        {value.numLovelacesStaked != null ? (
+          <ImpactfulNumber
+            label="Monthly income"
+            content={
+              adaPriceInfo != null
+                ? formatUsdAmount(
+                    {
+                      lovelaceAmount:
+                        /** NOTE: @sk-tenba:
+                         * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                         */
+                        (BigInt(value.numLovelacesStaked) * BigInt(35)) /
+                        BigInt(12000),
+                      adaPriceInUsd: adaPriceInfo.usd,
+                    }, //
+                    {
+                      includeCurrencySymbol: true,
+                      includeAlmostEqualToSymbol: true,
+                    }
+                  )
+                : "-"
+            }
+            title={
+              (
+                (BigInt(value.numLovelacesStaked) * BigInt(35)) /
+                BigInt(12000)
+              ).toString() + " lovelaces"
+            }
+          />
+        ) : null}
       </Flex.Col>
     </div>
   );

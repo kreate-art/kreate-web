@@ -24,7 +24,11 @@ import { formatTimespanToExpiryDate } from "./utils";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { ResultT } from "@/modules/async-utils";
-import { formatLovelaceAmount, sumTxBreakdown } from "@/modules/bigint-utils";
+import {
+  formatLovelaceAmount,
+  formatUsdAmount,
+  sumTxBreakdown,
+} from "@/modules/bigint-utils";
 import {
   LovelaceAmount,
   Project,

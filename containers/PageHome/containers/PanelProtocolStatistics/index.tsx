@@ -6,6 +6,7 @@ import styles from "./index.module.scss";
 import { shortenNumber } from "./utils";
 
 import { ProtocolStatistics } from "@/modules/business-types";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Divider from "@/modules/teiki-ui/components/Divider";
 
 type Props = {
@@ -83,25 +84,33 @@ export default function PanelProtocolStatistics({
               <Card.Content>-</Card.Content>
             ) : (
               <Card.Content title={stats.numLovelaceStakedActive.toString()}>
-                {"≈ "}
-                {shortenNumber(stats.numLovelaceStakedActive, { shift: -6 })}
-                {" ₳"}
+                <AssetViewer.Usd.FromAda
+                  as="span"
+                  lovelaceAmount={stats.numLovelaceStakedActive}
+                />
               </Card.Content>
             )}
             <Card.Legend>Active stake</Card.Legend>
           </Card>
           <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
-            {stats.numLovelaceRaised == null ? (
+            {stats.numLovelaceStakedActive == null ? (
               <Card.Content>-</Card.Content>
             ) : (
-              <Card.Content title={stats.numLovelaceRaised.toString()}>
-                {"≈ "}
-                {shortenNumber(stats.numLovelaceRaised, { shift: -6 })}
-                {" ₳"}
+              <Card.Content title={stats.numLovelaceStakedActive.toString()}>
+                <AssetViewer.Usd.FromAda
+                  as="span"
+                  lovelaceAmount={
+                    /** NOTE: @sk-tenba:
+                     * monthly income = numLovelacesStaked / 100 * 3.5 / 12
+                     */
+                    (BigInt(stats.numLovelaceStakedActive) * BigInt(35)) /
+                    BigInt(12000)
+                  }
+                />
               </Card.Content>
             )}
-            <Card.Legend>Total Kreator Income</Card.Legend>
+            <Card.Legend>Total Monthly Income</Card.Legend>
           </Card>
         </div>
         {/* <div className={styles.cardGroup}>

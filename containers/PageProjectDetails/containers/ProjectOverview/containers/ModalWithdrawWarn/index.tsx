@@ -1,6 +1,7 @@
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import Flex from "@/modules/teiki-components/components/PanelProjectOverview/components/Flex";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -23,6 +24,7 @@ export default function ModalWithdrawWarn({
   onCancel,
   onClick,
 }: Props) {
+  const adaPriceInfo = useAdaPriceInfo();
   return (
     <Modal
       className={styles.container}
@@ -47,7 +49,20 @@ export default function ModalWithdrawWarn({
             title={`You have ${formatLovelaceAmount(
               withdrawableFundLovelaceAmount,
               { compact: true, includeCurrencySymbol: true }
-            )} unwithdrawn!`}
+            )} (${
+              adaPriceInfo
+                ? formatUsdAmount(
+                    {
+                      lovelaceAmount: withdrawableFundLovelaceAmount,
+                      adaPriceInUsd: adaPriceInfo.usd,
+                    },
+                    {
+                      includeAlmostEqualToSymbol: true,
+                      includeCurrencySymbol: true,
+                    }
+                  )
+                : "-"
+            }) unwithdrawn!`}
             description="You must withdraw all income before closing."
           />
         </fieldset>

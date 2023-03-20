@@ -33,7 +33,7 @@
   padding: 20px;
   position: absolute;
   float: left;
-  top: 68px;
+  top: 85px;
   border-radius: 4px;
   gap: 20px;
   z-index: 999;
@@ -55,4 +55,8 @@
 
 .amount {
   flex: 0 0 auto;
+}
+
+.leftDescription {
+  flex: 1 1 0;
 }

@@ -35,6 +35,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 import httpGetBackingActivitiesByTxHash from "@/modules/next-backend-client/api/httpGetBackingActivitiesByTxHash";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import Flex from "@/modules/teiki-ui/components/Flex";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 
 type SuccessEvent = {
   unbackLovelaceAmount: LovelaceAmount;
@@ -270,9 +271,10 @@ export default function ModalUnbackProject({
               <div className={styles.totalBacking}>
                 <span>Your backing: </span>
                 <span className={styles.backedAmount}>
-                  {formatLovelaceAmount(backedAmount, {
-                    includeCurrencySymbol: true,
-                  })}
+                  <AssetViewer.Ada.Standard
+                    as="span"
+                    lovelaceAmount={backedAmount}
+                  />
                 </span>
               </div>
             </div>
