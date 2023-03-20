@@ -1,3 +1,5 @@
+import { MINUS_SIGN } from "../teiki-ui/components/AssetViewer/constants";
+
 import { LovelaceAmount, MicroTeikiAmount } from "@/modules/business-types";
 
 const NON_BREAKING_SPACE = "\u00A0";
@@ -94,7 +96,7 @@ export function formatUsdAmount(
     const displayUsd = usd < 0 ? -usd : usd;
     return (
       (options.includeAlmostEqualToSymbol ? "≈ " : "") +
-      (isNegative ? "-" : "") +
+      (isNegative ? MINUS_SIGN : "") +
       (options.includeCurrencySymbol ? "$" : "") +
       Intl.NumberFormat("en-US", {
         notation: options.compact ? "compact" : "standard",
