@@ -5,8 +5,11 @@ import WithAspectRatio from "../../../../../../../../components/WithAspectRatio"
 import IconUserGroup from "./icons/IconUserGroup";
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
-import { ProjectBenefitsTier } from "@/modules/business-types";
+import {
+  formatLovelaceAmount,
+  sumLovelaceAmount,
+} from "@/modules/bigint-utils";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import RichTextViewer from "@/modules/teiki-components/components/RichTextViewer";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -17,15 +20,19 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: ProjectBenefitsTier & { activeMemberCount?: number };
-  onClickBecomeMember?: () => void;
+  stakingAmount?: LovelaceAmount;
+  onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function Tier({
   className,
   style,
   value,
+  stakingAmount,
   onClickBecomeMember,
 }: Props) {
+  const actualStakingAmount = stakingAmount ?? 0;
+
   return (
     <div className={cx(className, styles.container)} style={style}>
       <Flex.Col
@@ -73,7 +80,17 @@ export default function Tier({
             size="large"
             color="primary"
             style={{ width: "100%" }}
-            onClick={onClickBecomeMember}
+            onClick={() =>
+              onClickBecomeMember &&
+              onClickBecomeMember(
+                value.requiredStake <= actualStakingAmount
+                  ? undefined
+                  : sumLovelaceAmount([
+                      value.requiredStake,
+                      -actualStakingAmount,
+                    ])
+              )
+            }
             disabled={
               value.maximumMembers != null &&
               (value.activeMemberCount || 0) >= value.maximumMembers

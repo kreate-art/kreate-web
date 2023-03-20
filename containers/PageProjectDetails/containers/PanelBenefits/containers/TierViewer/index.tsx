@@ -3,14 +3,15 @@ import cx from "classnames";
 import Tier from "./containers/Tier";
 import styles from "./index.module.scss";
 
-import { ProjectBenefitsTier } from "@/modules/business-types";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
+  stakingAmount?: LovelaceAmount;
   numColumn: number;
-  onClickBecomeMember?: () => void;
+  onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function TierViewer({
@@ -18,6 +19,7 @@ export default function TierViewer({
   style,
   value,
   numColumn,
+  stakingAmount,
   onClickBecomeMember,
 }: Props) {
   const numRow = Math.ceil(value.length / numColumn);
@@ -34,6 +36,7 @@ export default function TierViewer({
         <>
           <Tier
             value={item}
+            stakingAmount={stakingAmount}
             onClickBecomeMember={onClickBecomeMember}
             className={cx(
               styles.tier,
