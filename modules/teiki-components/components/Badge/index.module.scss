@@ -1,0 +1,21 @@
+.container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.containerFeatured {
+  background-color: rgba(236, 89, 41, 0.1);
+  color: rgba(236, 89, 41, 1);
+}
+
+.containerSponsor {
+  background-color: rgba(0, 110, 70, 0.1);
+  color: rgba(0, 110, 70, 1);
+}
+
+.containerClosed {
+  background-color: rgba(34, 34, 34, 0.1);
+  color: rgba(34, 34, 34, 1);
+}
