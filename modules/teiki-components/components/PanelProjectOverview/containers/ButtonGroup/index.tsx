@@ -35,7 +35,10 @@ export default function ButtonGroup({ className, style, options }: Props) {
                 : "Become a Member"
             }
             disabled={options.buttonBackProject.disabled}
-            onClick={options.buttonBackProject.onClick}
+            onClick={() =>
+              options.buttonBackProject.onClick &&
+              options.buttonBackProject.onClick()
+            }
             size="large"
             color="primary"
           />
