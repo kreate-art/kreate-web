@@ -27,9 +27,9 @@ export type AuthHeader = {
 // Sign a message
 export async function sign(lucid: Lucid): Promise<SavedAuthInfo> {
   const payload = {
+    message: "Identify your wallet for exclusive benefits on Kreate",
+    expiration: Math.trunc((Date.now() + TTL) / 1_000),
     version: VERSION,
-    message: "Login to Teiki",
-    expiration: Math.trunc(Date.now() + TTL) / 1_000,
   };
   const payloadBytes = Buffer.from(
     JSON.stringify(payload, undefined, 4),
