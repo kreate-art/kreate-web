@@ -1,7 +1,8 @@
 import { buildTxRaw } from "../utils/transaction";
 
 import { try$, throw$ } from "@/modules/async-utils";
-import { LovelaceAmount } from "@/modules/business-types";
+import { sumLovelaceAmount } from "@/modules/bigint-utils";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
 import { DisplayableError } from "@/modules/displayable-error";
 import { toJson } from "@/modules/json-utils";
@@ -11,7 +12,9 @@ import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/A
 type Params = {
   txParamsResult?: UseTxParams$BackerBackProject$Result;
   projectId: string;
+  projectTiers: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   lovelaceAmount?: LovelaceAmount;
+  stakingAmount: LovelaceAmount;
   message?: string;
   disabled?: boolean;
 };
@@ -24,7 +27,9 @@ export type TxBreakdown = {
 export function useEstimatedFees({
   txParamsResult,
   projectId,
+  projectTiers,
   lovelaceAmount,
+  stakingAmount,
   message,
   disabled,
 }: Params): [TxBreakdown | undefined, unknown] {
@@ -58,6 +63,22 @@ export function useEstimatedFees({
         title: "Transaction parameters invalid",
         cause: txParamsResult,
       });
+
+      const currentTier = amountToTier(stakingAmount, projectTiers);
+      const newTier = amountToTier(
+        sumLovelaceAmount([stakingAmount, lovelaceAmount]),
+        projectTiers
+      );
+
+      // TODO: Temporary error to prevent users from entering
+      // a fully filled member tier.
+      DisplayableError.assert(
+        newTier == null ||
+          newTier.maximumMembers == null ||
+          newTier === currentTier ||
+          (newTier.activeMemberCount ?? 0) < newTier.maximumMembers,
+        { title: "Failed" }
+      );
 
       const tx = await buildTxRaw({
         lucid: walletStatus.lucid,
@@ -96,4 +117,12 @@ export function useEstimatedFees({
       disabled,
     ]
   );
+}
+
+function amountToTier(
+  amount: LovelaceAmount,
+  tiers: (ProjectBenefitsTier & { activeMemberCount?: number })[]
+) {
+  if (!tiers.length || amount < tiers[0].requiredStake) return null;
+  return tiers.filter((tier) => amount >= tier.requiredStake).at(-1);
 }
