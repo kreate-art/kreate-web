@@ -118,9 +118,7 @@ export default function CommunityUpdateOverview({
               className={styles.box}
             >
               <Typography.Div
-                content={`Only member from Tier ${
-                  value.exclusive.tier +
-                  ": " +
+                content={`Only members from tier ${
                   tiers[value.exclusive.tier - 1].title
                 } can view this post`}
                 size="heading6"

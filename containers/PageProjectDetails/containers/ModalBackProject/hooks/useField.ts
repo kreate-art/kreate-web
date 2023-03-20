@@ -24,7 +24,10 @@ export function useField$LovelaceAmount({
 }) {
   const [text, setText] = React.useState(
     initialAmount != null
-      ? formatLovelaceAmount(initialAmount, { compact: false })
+      ? formatLovelaceAmount(initialAmount, {
+          compact: false,
+          excludeThousandsSeparator: true,
+        })
       : ""
   );
   const parsed = parseLovelaceAmount(text);
