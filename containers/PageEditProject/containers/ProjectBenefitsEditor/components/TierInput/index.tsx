@@ -85,32 +85,11 @@ export default function TierInput({
                 onChange && onChange({ ...value, title: newTitle })
               }
             />
-            <Flex.Col gap="12px">
-              <Typography.Div content="Tier description" size="heading6" />
-              <Resizable
-                canResizeHeight
-                style={{ width: "100%", minHeight: "100px" }}
-              >
-                <GrammarlyWrapper>
-                  <RichTextEditor
-                    value={value.contents?.body || EMPTY_JSON_CONTENT}
-                    onChange={(newBody) => {
-                      onChange &&
-                        onChange({
-                          ...value,
-                          contents: { body: newBody },
-                        });
-                    }}
-                    isBorderless={false}
-                  />
-                </GrammarlyWrapper>
-              </Resizable>
-            </Flex.Col>
             <TierBanner
               banner={value.banner}
-              onBannerChange={(newBanner) => {
-                onChange && onChange({ ...value, banner: newBanner });
-              }}
+              onBannerChange={(newBanner) =>
+                onChange && onChange({ ...value, banner: newBanner })
+              }
             />
             <Input
               className={styles.input}
@@ -139,6 +118,27 @@ export default function TierInput({
               }
             />
             <Flex.Col gap="12px">
+              <Typography.Div content="Tier description" size="heading6" />
+              <Resizable
+                canResizeHeight
+                style={{ width: "100%", minHeight: "100px" }}
+              >
+                <GrammarlyWrapper>
+                  <RichTextEditor
+                    value={value.contents?.body || EMPTY_JSON_CONTENT}
+                    onChange={(newBody) => {
+                      onChange &&
+                        onChange({
+                          ...value,
+                          contents: { body: newBody },
+                        });
+                    }}
+                    isBorderless={false}
+                  />
+                </GrammarlyWrapper>
+              </Resizable>
+            </Flex.Col>
+            <Flex.Col gap="12px">
               <Checkbox
                 label="Limit the number of members"
                 value={isLimited}
@@ -147,7 +147,7 @@ export default function TierInput({
                   onChange &&
                     onChange({
                       ...value,
-                      maximumMembers: isLimited ? 0 : undefined,
+                      maximumMembers: isLimited ? null : 0,
                     });
                   setIsLimited(!isLimited);
                 }}
