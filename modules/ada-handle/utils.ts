@@ -3,6 +3,10 @@ import { Address } from "../business-types";
 import { httpGetAdaHandle } from "@/modules/next-backend-client/api/httpGetAdaHandle";
 
 const BATCHING_DELAY = 200;
+/**NOTE: @sk-tenba: Since the length of address is 104
+ * and the upperbound for the url length is 2000,
+ * 16 is appropriate for batch limit
+ * */
 const BATCH_LIMIT = 16;
 
 type QueueItem = {
