@@ -1,7 +1,6 @@
 import cx from "classnames";
 
 import Tier from "./containers/Tier";
-
 import styles from "./index.module.scss";
 
 import { ProjectBenefitsTier } from "@/modules/business-types";
@@ -9,7 +8,7 @@ import { ProjectBenefitsTier } from "@/modules/business-types";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: ProjectBenefitsTier[];
+  value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   numColumn: number;
   onClickBecomeMember?: () => void;
 };
