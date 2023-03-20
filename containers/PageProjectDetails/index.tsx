@@ -23,6 +23,7 @@ import ModalWithdrawSuccess from "./containers/ModalWithdrawSuccess";
 import PanelActivities from "./containers/PanelActivities";
 import PanelAdjustStake from "./containers/PanelAdjustStake";
 import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUnbackSuccess";
+import PanelProjectOverviewV2 from "./containers/PanelProjectOverviewV2";
 import PanelProtocolReward from "./containers/PanelProtocolReward";
 import PanelTopBackers from "./containers/PanelTopBackers";
 import PanelWithdrawFund from "./containers/PanelWithdrawFund";
@@ -393,6 +394,16 @@ export default function PageProjectDetails({
                           disabled: !!project.history.closedAt,
                           onClick: handleClickButtonCloseProject,
                         },
+                      }}
+                    />
+                  </div>
+                  <div className={styles.sectionOverview}>
+                    <PanelProjectOverviewV2
+                      project={{
+                        basics: project.basics,
+                        history: project.history,
+                        community: project.community,
+                        categories: project.categories,
                       }}
                     />
                   </div>

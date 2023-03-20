@@ -1,0 +1,32 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: block;
+  border-radius: 16px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.title {
+  margin-top: 56px;
+}
+
+.slogan {
+  margin-top: 8px;
+}
+
+.history {
+  margin-top: 20px;
+}
+
+.socialChannels {
+  margin-top: 12px;
+}
+
+.tags {
+  margin-top: 8px;
+}

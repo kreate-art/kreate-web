@@ -15,19 +15,27 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: ProjectBasics["tags"]; // string[]
+  hideLabel?: boolean;
 };
 
-export default function TagsViewer({ className, style, value }: Props) {
+export default function TagsViewer({
+  className,
+  style,
+  value,
+  hideLabel,
+}: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Row gap="12px">
-        <Typography.Div
-          size="bodyExtraSmall"
-          fontWeight="semibold"
-          color="ink80"
-          content="Tags: "
-          style={{ minWidth: "32px" }}
-        />
+        {hideLabel ? null : (
+          <Typography.Div
+            size="bodyExtraSmall"
+            fontWeight="semibold"
+            color="ink80"
+            content="Tags: "
+            style={{ minWidth: "32px" }}
+          />
+        )}
         <Flex.Row flexWrap="wrap" gap="12px 8px">
           {!value.length ? (
             <span style={{ color: "rgba(0, 0, 0, 0.6)" }}>{"-"}</span>
