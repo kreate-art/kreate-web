@@ -3,6 +3,7 @@ import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
 
+import { getActiveTierMember } from "./getActiveTierMember";
 import { getAllPostsByProjectId } from "./getAllPostsByProjectId";
 import { getAllProjectMilestoneSnapshots } from "./getAllProjectMilestoneSnapshots";
 import { getAllProjectUpdates } from "./getAllProjectUpdates";
@@ -257,7 +258,7 @@ export async function getDetailedProject(
       allProjectProtocolMilestoneSnapshots,
       topSupporters,
       projectCreation,
-      // tiersActiveMember, @sk-umiuma: Use it however you want
+      tiersActiveMember,
     ] = await Promise.all([
       // TODO: Use `getAllActivities` instead
       getAllPostsByProjectId(sql, {
@@ -278,7 +279,7 @@ export async function getDetailedProject(
       }),
       getTopSupporter(sql, { projectId }),
       getProjectCreationActivity(sql, { projectId }),
-      // getActiveTierMember(sql, { projectId }),
+      getActiveTierMember(sql, { projectId }),
     ]);
 
     const activities = await backingDataToActivities(backingData);
@@ -358,11 +359,18 @@ export async function getDetailedProject(
       match = recommend[0];
     }
 
+    const tiersWithActiveMemberCount = tiers?.map((tier) => ({
+      ...tier,
+      activeMemberCount: tiersActiveMember.find(
+        (value) => value.tierId === tier.id
+      )?.totalActiveMember,
+    }));
+
     Object.assign(project, {
       description,
       roadmap,
       announcements,
-      tiers,
+      tiers: tiersWithActiveMemberCount,
       activities,
       topSupporters,
       match,

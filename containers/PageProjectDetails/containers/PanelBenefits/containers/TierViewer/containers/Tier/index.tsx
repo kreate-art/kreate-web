@@ -24,7 +24,7 @@ const DEFAULT_IMAGE: ProjectImage = {
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: ProjectBenefitsTier;
+  value: ProjectBenefitsTier & { activeMemberCount?: number };
   onClickBecomeMember?: () => void;
 };
 
@@ -74,23 +74,33 @@ export default function Tier({
             fontWeight="bold"
           />
         </Flex.Row>
-        <Button.Solid
-          content="Become a member"
-          size="large"
-          color="primary"
-          style={{ width: "100%" }}
-          onClick={onClickBecomeMember}
-        />
-        {value.maximumMembers == null ? null : (
+        <Flex.Col gap="16px" alignItems="center" style={{ width: "100%" }}>
+          <Button.Solid
+            content="Become a member"
+            size="large"
+            color="primary"
+            style={{ width: "100%" }}
+            onClick={onClickBecomeMember}
+            disabled={
+              value.maximumMembers != null &&
+              (value.activeMemberCount || 0) >= value.maximumMembers
+            }
+          />
           <Flex.Row alignItems="center" gap="12px">
             <IconUserGroup />
             <Typography.Div
-              content={`${value.maximumMembers} limited members`}
-              color="red"
+              content={
+                value.maximumMembers
+                  ? `${value.activeMemberCount || 0}/${
+                      value.maximumMembers
+                    } limited members`
+                  : `${value.activeMemberCount || 0} members`
+              }
+              color={value.maximumMembers ? "red" : undefined}
               size="heading6"
             />
           </Flex.Row>
-        )}
+        </Flex.Col>
         {!value.contents ? null : (
           <RichTextViewer
             value={value.contents.body}

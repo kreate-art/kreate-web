@@ -343,7 +343,7 @@ export type DetailedProject = {
   description?: ProjectDescription;
   roadmap?: ProjectRoadmap; // Note: We are hiding Roadmap from UI, this field will be deprecated soon
   benefits?: never; // previously `benefits?: ProjectBenefits`
-  tiers?: ProjectBenefitsTier[];
+  tiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   basics?: ProjectBasics;
   community?: ProjectCommunity;
   history?: ProjectGeneralInfo["history"];
