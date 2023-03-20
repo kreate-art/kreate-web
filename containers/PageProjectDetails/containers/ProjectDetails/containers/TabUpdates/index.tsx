@@ -51,19 +51,25 @@ export default function TabUpdates({
           }
         />
       ) : (
-        value.map((item, index) => (
-          <CommunityUpdateOverview
-            // NOTE: sk-kitsune: Using index as a fallback value is for
-            // extra robustness only. In reality, item.id should always
-            // be defined.
-            key={item.id || index}
-            value={item}
-            totalStaked={totalStaked}
-            tiers={tiers}
-            onClickLearnMore={() => setOpenedArticleIndex(index)}
-            onClickBecomeMember={onClickBecomeMember}
-          />
-        ))
+        value
+          .filter(
+            (item) =>
+              !item.exclusive ||
+              (item.exclusive && item.exclusive.tier <= (tiers?.length ?? 0)) // We ignore exclusive posts whose `requiredTier` is out of current project tier list bounds
+          )
+          .map((item, index) => (
+            <CommunityUpdateOverview
+              // NOTE: sk-kitsune: Using index as a fallback value is for
+              // extra robustness only. In reality, item.id should always
+              // be defined.
+              key={item.id || index}
+              value={item}
+              totalStaked={totalStaked}
+              tiers={tiers}
+              onClickLearnMore={() => setOpenedArticleIndex(index)}
+              onClickBecomeMember={onClickBecomeMember}
+            />
+          ))
       )}
     </div>
   );
