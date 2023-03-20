@@ -31,7 +31,7 @@ export const REDIS_URL = IS_NEXT_BUILD
   : parseEnv({
       label: "REDIS_URL",
       input: process.env.REDIS_URL,
-      parser: parseStringByRegex(/^redis:.*$/),
+      parser: parseStringByRegex(/^.+$/),
     });
 
 export const REDIS_USERNAME = parseEnv$Optional({
