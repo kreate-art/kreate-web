@@ -4,7 +4,7 @@ import React from "react";
 import TierViewer from "./containers/TierViewer";
 import styles from "./index.module.scss";
 
-import { ProjectBenefitsTier } from "@/modules/business-types";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -13,13 +13,15 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
-  onClickBecomeMember?: () => void;
+  stakingAmount?: LovelaceAmount;
+  onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function PanelBenefits({
   className,
   style,
   value,
+  stakingAmount,
   onClickBecomeMember,
 }: Props) {
   const [showAll, setShowAll] = React.useState(false);
@@ -37,6 +39,7 @@ export default function PanelBenefits({
       <Flex.Col gap="12px" className={styles.box}>
         <TierViewer
           value={showAll ? value : value.slice(0, numVisibleItems)}
+          stakingAmount={stakingAmount}
           numColumn={numVisibleItems}
           onClickBecomeMember={onClickBecomeMember}
         />

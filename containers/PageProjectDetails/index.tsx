@@ -121,7 +121,9 @@ export default function PageProjectDetails({
   const withdrawableFundLovelaceAmount =
     project?.stats?.numLovelacesAvailable ?? BigInt(0);
 
-  const handleClickButtonBackProject = async () => {
+  const handleClickButtonBackProject = async (
+    initialAmount?: LovelaceAmount
+  ) => {
     if (!project || !project.basics || totalStaked == null) return;
     const basics = project.basics;
 
@@ -146,6 +148,7 @@ export default function PageProjectDetails({
               projectId={project.id}
               projectTiers={project.tiers}
               stakingAmount={totalStaked?.amount}
+              initialAmount={initialAmount}
               onCancel={() => resolve({ type: "cancel" })}
               onSuccess={(event) => resolve({ type: "success", event })}
             />
@@ -406,6 +409,7 @@ export default function PageProjectDetails({
                   {!project.tiers ? null : (
                     <PanelBenefits
                       value={project.tiers}
+                      stakingAmount={totalStaked?.amount}
                       onClickBecomeMember={handleClickButtonBackProject}
                     />
                   )}
