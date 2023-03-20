@@ -3,7 +3,7 @@ import IconLeaf from "./icons/IconLeaf";
 import IconWithdraw from "./icons/IconWithdraw";
 import styles from "./index.module.scss";
 
-import { LovelaceAmount } from "@/modules/business-types";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 import { useModalPromises } from "@/modules/modal-promises";
 import { ProjectStatus } from "@/modules/next-backend-client/api/httpGetTxParams$BackerUnbackProject";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
@@ -15,6 +15,7 @@ type Props = {
   projectId?: string;
   backerAddress?: string;
   projectStatus: ProjectStatus;
+  projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   openModalBackProject?: () => void;
   preview?: boolean;
   backedAmount?: LovelaceAmount;
@@ -27,8 +28,8 @@ type Props = {
 export default function PanelAdjustStake({
   projectName = "",
   projectId = "",
-  backerAddress = "",
   projectStatus,
+  projectTiers,
   openModalBackProject,
   preview = false,
   backedAmount,
@@ -78,6 +79,7 @@ export default function PanelAdjustStake({
                   projectName={projectName}
                   projectId={projectId}
                   backedAmount={backedAmount ? backedAmount : 0}
+                  projectTiers={projectTiers}
                   projectStatus={projectStatus}
                   onCancel={() => resolve({ type: "cancel" })}
                   onSuccess={(event) =>

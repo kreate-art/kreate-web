@@ -4,6 +4,7 @@ import { DetailedProject } from "@/modules/business-types";
 import { toJson } from "@/modules/json-utils";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { db } from "@/modules/next-backend/connections";
+import { getActiveTierMember } from "@/modules/next-backend/logic/getActiveTierMember";
 import { getBackedProjectsByBacker } from "@/modules/next-backend/logic/getBackedProjectsByBacker";
 import { getDetailedProject } from "@/modules/next-backend/logic/getDetailedProject";
 import { getProjectTeikiRewardsByBacker } from "@/modules/next-backend/logic/getProjectTeikiRewardsByBacker";
@@ -31,9 +32,23 @@ export default async function handler(
     const detailedBackedProjects = await Promise.all(
       backedProjects.map(async (item) => {
         const project = Converters.toProject(CodecCid)(item.contents);
+        const tiersActiveMember = await getActiveTierMember(db, {
+          projectId: item.projectId,
+        });
+        const tiersWithActiveMemberCount = project.tiers?.map((tier) => {
+          const activeMember = tiersActiveMember.find(
+            (value) => value.tierId === tier.id
+          )?.totalActiveMember;
+          return {
+            ...tier,
+            activeMemberCount:
+              activeMember == null ? undefined : Number(activeMember),
+          };
+        });
         const detailedProject: DetailedProject = {
           id: item.projectId,
           basics: project.basics,
+          tiers: tiersWithActiveMemberCount,
         };
         const teikiRewards = await getProjectTeikiRewardsByBacker(db, {
           backerAddress: address,

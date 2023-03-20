@@ -13,7 +13,7 @@ import { buildTx, BuildTxParams } from "./utils/transaction";
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
-import { LovelaceAmount } from "@/modules/business-types";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import httpGetBackingActivitiesByTxHash from "@/modules/next-backend-client/api/httpGetBackingActivitiesByTxHash";
@@ -49,7 +49,8 @@ type Props = {
   open: boolean;
   projectName: string;
   projectId: string;
-  isBacking: boolean;
+  projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
+  stakingAmount?: LovelaceAmount;
   onCancel?: () => void;
   onSuccess?: (event: SuccessEvent) => void;
 };
@@ -60,7 +61,8 @@ export default function ModalBackProject({
   open,
   projectName,
   projectId,
-  isBacking,
+  projectTiers,
+  stakingAmount,
   onCancel,
   onSuccess,
 }: Props) {
@@ -86,7 +88,9 @@ export default function ModalBackProject({
   const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({
     txParamsResult,
     projectId,
+    projectTiers: projectTiers ?? [],
     lovelaceAmount: fieldLovelaceAmount.parsed,
+    stakingAmount: stakingAmount ?? 0,
     message: fieldMessage.parsed,
     disabled: busy,
   });
@@ -194,7 +198,9 @@ export default function ModalBackProject({
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
           <Typography.Span
-            content={`${isBacking ? "Stake More" : "Become a Member"}: `}
+            content={`${
+              stakingAmount != null ? "Stake More" : "Become a Member"
+            }: `}
             color="ink"
           />
           <Typography.Span content={projectName} />
