@@ -10,6 +10,7 @@ import ImageView from "@/modules/teiki-components/components/ImageView";
 const SIZE_TO_CLASS_NAME = {
   small: styles.sizeSmall,
   medium: styles.sizeMedium,
+  large: styles.sizeLarge,
 };
 
 const SHADOW_TO_CLASS_NAME = {

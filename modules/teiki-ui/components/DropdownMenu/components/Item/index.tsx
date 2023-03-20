@@ -7,11 +7,21 @@ type Props = {
   content?: React.ReactNode;
   children?: React.ReactNode;
   onSelect?: () => void;
+  disabled?: boolean;
 };
 
-export default function Item({ content, children = content, onSelect }: Props) {
+export default function Item({
+  content,
+  children = content,
+  onSelect,
+  disabled,
+}: Props) {
   return (
-    <DropdownMenu.Item className={styles.container} onSelect={onSelect}>
+    <DropdownMenu.Item
+      className={styles.container}
+      onSelect={onSelect}
+      disabled={disabled}
+    >
       {children}
     </DropdownMenu.Item>
   );
