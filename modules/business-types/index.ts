@@ -143,6 +143,28 @@ export type ProjectCommunityUpdate = ProjectAnnouncement;
 export type UnixTimestamp = number;
 export type ProjectId = string; // Hex
 
+export type ProjectHistory = {
+  createdBy?: Address;
+  createdAt?: UnixTimestamp;
+  updatedAt?: UnixTimestamp;
+  closedAt?: UnixTimestamp;
+  delistedAt?: UnixTimestamp;
+};
+
+export type ProjectStats = {
+  numSupporters?: number;
+  numLovelacesStaked?: LovelaceAmount;
+  numLovelacesWithdrawn?: LovelaceAmount;
+  numLovelacesAvailable?: LovelaceAmount;
+  numLovelacesRaised?: LovelaceAmount;
+  averageMillisecondsBetweenProjectUpdates?: number;
+};
+
+export type ProjectCategories = {
+  featured?: boolean;
+  sponsor?: boolean;
+};
+
 export type ProjectGeneralInfo = {
   // NOTE: @sk-kitsune: Most of the fields here are optional. Reasons:
   //
@@ -153,25 +175,9 @@ export type ProjectGeneralInfo = {
   id: ProjectId;
   basics: ProjectBasics;
   community: ProjectCommunity;
-  history: {
-    createdBy?: Address;
-    createdAt?: UnixTimestamp;
-    updatedAt?: UnixTimestamp;
-    closedAt?: UnixTimestamp;
-    delistedAt?: UnixTimestamp;
-  };
-  stats: {
-    numSupporters?: number;
-    numLovelacesStaked?: LovelaceAmount;
-    numLovelacesWithdrawn?: LovelaceAmount;
-    numLovelacesAvailable?: LovelaceAmount;
-    numLovelacesRaised?: LovelaceAmount;
-    averageMillisecondsBetweenProjectUpdates?: number;
-  };
-  categories: {
-    featured?: boolean;
-    sponsor?: boolean;
-  };
+  history: ProjectHistory;
+  stats: ProjectStats;
+  categories: ProjectCategories;
   match?: number;
   censorship: string[];
   // This should be grouped into its own field
