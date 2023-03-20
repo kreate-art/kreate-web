@@ -27,6 +27,20 @@
 }
 
 // height, border-radius, padding
+.sizeExtraSmall {
+  height: 32px;
+  border-radius: 16px;
+  padding: 4px 8px;
+  min-width: 48px;
+  font-size: 12px;
+
+  &.circular {
+    min-width: 32px;
+    width: 32px;
+    padding: 0;
+  }
+}
+
 .sizeSmall {
   height: 40px;
   border-radius: 20px;
@@ -82,6 +96,18 @@
   color: colors.$white;
 }
 
+.colorPrimary {
+  border-color: colors.$primary30;
+  background-color: transparent;
+  color: colors.$primary;
+}
+
+.colorSecondary {
+  border-color: colors.$secondary10;
+  background-color: transparent;
+  color: colors.$secondary;
+}
+
 .container:hover:not(:disabled) {
   color: white;
   background-color: colors.$green;
@@ -129,4 +155,5 @@
   height: 24px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
