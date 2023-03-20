@@ -9,15 +9,15 @@ export async function getActiveTierMember(sql: Sql, { projectId }: Params) {
     {
       totalActiveMember: bigint;
       tier: number;
-      tier_id: string;
-      maxTierMember: number;
+      tierId: string;
+      maxTierMember: number | null;
     }[]
   >`
     WITH staked_tier_info AS (
       SELECT
-        (arr.obj ->> 'requiredStake')::bigint AS staked_at_least,
-        (arr.obj ->> 'id') AS tier_id,
-        (arr.obj ->> 'maximumMembers') AS max_tier_member,
+        (arr.obj -> 'requiredStake')::bigint AS staked_at_least,
+        (arr.obj -> 'id') AS tier_id,
+        (arr.obj -> 'maximumMembers') AS max_tier_member,
         arr.tier AS tier,
         b.backer_address,
         sum(b.backing_amount)::bigint AS staked_total
@@ -26,7 +26,17 @@ export async function getActiveTierMember(sql: Sql, { projectId }: Params) {
         INNER JOIN ipfs.project_info pi2 ON pd.information_cid = pi2.cid
         INNER JOIN chain."output" o ON o.id = pd.id
         INNER JOIN chain.backing b ON b.project_id = pd.project_id,
-        jsonb_array_elements((pi2.contents #> '{data, tiers}')) with ordinality arr(obj, tier)
+        jsonb_array_elements((
+          COALESCE (
+            pi2.contents #> '{data, tiers}',
+            '[{
+              "requiredStake": 5000000,
+              "tier": 1,
+              "id": "default",
+              "maximumMembers": null
+            }]'
+          )
+        )) with ordinality arr(obj, tier)
         WHERE o.spent_slot IS NULL AND pd.project_id = ${projectId}
         GROUP BY
           b.backer_address,
