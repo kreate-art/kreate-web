@@ -9,7 +9,7 @@ import {
   formatUsdAmount,
   sumTxBreakdown,
 } from "@/modules/bigint-utils";
-import { LovelaceAmount } from "@/modules/business-types";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 
 import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesBreakdown";
 import * as AppContext from "@/modules/teiki-contexts/contexts/AppContext";
@@ -46,6 +46,7 @@ type Props = {
   projectName: string;
   projectId: string;
   projectStatus: ProjectStatus;
+  projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   backedAmount: LovelaceAmount;
   onCancel: () => void;
   onSuccess: (event: SuccessEvent) => void;
@@ -55,6 +56,7 @@ export default function ModalUnbackProject({
   open,
   projectName,
   projectId,
+  projectTiers,
   backedAmount,
   projectStatus,
   onCancel,
@@ -91,6 +93,8 @@ export default function ModalUnbackProject({
     message: fieldMessage.parsed,
     projectStatus,
     txParamsResult,
+    projectTiers: projectTiers ?? [],
+    stakingAmount: backedAmount ?? 0,
     disabled: busy,
   });
 

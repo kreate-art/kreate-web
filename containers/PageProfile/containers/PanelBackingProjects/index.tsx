@@ -12,7 +12,11 @@ import ModalUnbackSuccess from "../../../PageProjectDetails/containers/PanelAdju
 import IconMore from "./icons/IconMore";
 import styles from "./index.module.scss";
 
-import { Address, LovelaceAmount } from "@/modules/business-types";
+import {
+  Address,
+  LovelaceAmount,
+  ProjectBenefitsTier,
+} from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { useModalPromises } from "@/modules/modal-promises";
 import { HttpGetUser$DetailedBackedProject } from "@/modules/next-backend-client/api/httpGetUser";
@@ -59,16 +63,19 @@ export default function PanelBackingProjects({
     const backedAmount = item.numLovelacesBacked;
     const color = colorPalette[index % colorPalette.length];
     const logoImage = item.project.basics?.logoImage;
-    return { projectId, projectTitle, backedAmount, color, logoImage };
+    const tiers = item.project.tiers;
+    return { projectId, projectTitle, backedAmount, color, logoImage, tiers };
   });
 
   const handleBackMore = async ({
     projectTitle,
     projectId,
+    projectTiers,
     backedAmount,
   }: {
     projectTitle: string;
     projectId: string;
+    projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
     backedAmount: LovelaceAmount;
   }) => {
     if (walletStatus.status !== "connected") return;
@@ -81,7 +88,8 @@ export default function PanelBackingProjects({
           open
           projectName={projectTitle}
           projectId={projectId}
-          isBacking={backedAmount > 0}
+          stakingAmount={backedAmount}
+          projectTiers={projectTiers}
           onCancel={() => resolve({ type: "cancel" })}
           onSuccess={(event) => resolve({ type: "success", event })}
         />
@@ -97,6 +105,7 @@ export default function PanelBackingProjects({
     projectTitle,
     projectId,
     projectStatus,
+    projectTiers,
     backedAmount,
   }: {
     projectTitle: string;
@@ -107,9 +116,11 @@ export default function PanelBackingProjects({
       | "pre-delisted"
       | "closed"
       | "delisted";
+    projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
     backerAddress: Address;
     backedAmount: LovelaceAmount;
   }) => {
+    console.log(projectTiers, backedAmount);
     type ModalUnbackProject$ModalResult =
       | { type: "cancel" }
       | { type: "success"; unbackLovelaceAmount: LovelaceAmount };
@@ -121,6 +132,7 @@ export default function PanelBackingProjects({
           projectId={projectId}
           backedAmount={backedAmount}
           projectStatus={projectStatus}
+          projectTiers={projectTiers}
           onCancel={() => resolve({ type: "cancel" })}
           onSuccess={(event) =>
             resolve({
@@ -293,6 +305,7 @@ export default function PanelBackingProjects({
                     handleBackMore({
                       projectId: item.projectId,
                       projectTitle: item.projectTitle || "",
+                      projectTiers: item.tiers,
                       backedAmount: item.backedAmount,
                     })
                   }
@@ -310,6 +323,7 @@ export default function PanelBackingProjects({
                         projectTitle: item.projectTitle,
                         projectId: item.projectId,
                         projectStatus: "active", // TODO: @sk-kitsune: fetch from backend this info
+                        projectTiers: item.tiers,
                         backerAddress: walletStatus.info.address,
                         backedAmount: item.backedAmount,
                       });

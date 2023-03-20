@@ -1,7 +1,8 @@
 import { buildTx } from "../utils/transaction";
 
 import { ResultT, try$ } from "@/modules/async-utils";
-import { LovelaceAmount } from "@/modules/business-types";
+import { sumLovelaceAmount } from "@/modules/bigint-utils";
+import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
 import { DisplayableError } from "@/modules/displayable-error";
 import { toJson } from "@/modules/json-utils";
@@ -13,7 +14,9 @@ type Params = {
   unbackLovelaceAmount: LovelaceAmount | undefined;
   message: string | undefined;
   projectStatus: ProjectStatus;
+  projectTiers: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   txParamsResult: UseTxParams$BackerUnbackProject$Result | undefined;
+  stakingAmount: LovelaceAmount;
   disabled?: boolean;
 };
 
@@ -33,7 +36,9 @@ export function useEstimatedFees(
         message,
         unbackLovelaceAmount,
         projectStatus,
+        projectTiers,
         txParamsResult,
+        stakingAmount,
         disabled,
       } = params;
 
@@ -64,6 +69,22 @@ export function useEstimatedFees(
         title: "Transaction parameters invalid",
         cause: params.txParamsResult,
       });
+
+      const currentTier = amountToTier(stakingAmount, projectTiers);
+      const newTier = amountToTier(
+        sumLovelaceAmount([stakingAmount, -unbackLovelaceAmount]),
+        projectTiers
+      );
+
+      // TODO: Temporary error to prevent users from entering
+      // a fully filled member tier.
+      DisplayableError.assert(
+        newTier == null ||
+          newTier.maximumMembers == null ||
+          newTier === currentTier ||
+          (newTier.activeMemberCount ?? 0) < newTier.maximumMembers,
+        { title: "Failed" }
+      );
 
       const { txFee } = await try$(
         async () =>
@@ -102,4 +123,12 @@ export function useEstimatedFees(
   } else {
     return undefined;
   }
+}
+
+function amountToTier(
+  amount: LovelaceAmount,
+  tiers: (ProjectBenefitsTier & { activeMemberCount?: number })[]
+) {
+  if (!tiers.length || amount < tiers[0].requiredStake) return null;
+  return tiers.filter((tier) => amount >= tier.requiredStake).at(-1);
 }

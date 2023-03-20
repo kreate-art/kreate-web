@@ -144,7 +144,8 @@ export default function PageProjectDetails({
               open
               projectName={basics.title}
               projectId={project.id}
-              isBacking={!!totalStaked?.amount}
+              projectTiers={project.tiers}
+              stakingAmount={totalStaked?.amount}
               onCancel={() => resolve({ type: "cancel" })}
               onSuccess={(event) => resolve({ type: "success", event })}
             />
@@ -458,6 +459,7 @@ export default function PageProjectDetails({
                           <PanelAdjustStake
                             projectName={project.basics.title}
                             projectId={project.id}
+                            projectTiers={project.tiers}
                             projectStatus={
                               project.history.closedAt
                                 ? "closed"
