@@ -239,7 +239,7 @@ export default function ModalBackProject({
                   </Flex.Col>
                   <Typography.Div>
                     <Typography.Span
-                      content="With this stake amount, you help the creator earn "
+                      content="With this stake amount, you help the kreator earn "
                       size="bodySmall"
                     />
                     <AssetViewer.Usd.FromAda
