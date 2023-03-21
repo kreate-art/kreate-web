@@ -1,6 +1,7 @@
 import cx from "classnames";
 
 import WithAspectRatio from "../../../../../../../../components/WithAspectRatio";
+import { MINIMUM_BACKING_AMOUNT } from "../../../../../ModalBackProject/constants";
 
 import IconUserGroup from "./icons/IconUserGroup";
 import styles from "./index.module.scss";
@@ -34,6 +35,10 @@ export default function Tier({
   onClickBecomeMember,
 }: Props) {
   const actualStakingAmount = stakingAmount ?? 0;
+  const actualRequiredAmount = sumLovelaceAmount([
+    value.requiredStake,
+    -actualStakingAmount,
+  ]);
 
   return (
     <div className={cx(className, styles.container)} style={style}>
@@ -88,10 +93,9 @@ export default function Tier({
                 onClickBecomeMember(
                   value.requiredStake <= actualStakingAmount
                     ? undefined
-                    : sumLovelaceAmount([
-                        value.requiredStake,
-                        -actualStakingAmount,
-                      ])
+                    : MINIMUM_BACKING_AMOUNT > actualRequiredAmount
+                    ? MINIMUM_BACKING_AMOUNT
+                    : actualRequiredAmount
                 )
               }
               disabled={
