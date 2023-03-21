@@ -107,7 +107,11 @@ export default function PanelProjectOverviewV2({
           <Divider$Horizontal$CustomDash />
         </Section>
         <Section textAlign="left" marginTop="20px" marginBottom="20px">
-          <Typography.Div content={basics.summary} color="ink80" />
+          <Typography.Div
+            style={{ whiteSpace: "pre-wrap" }}
+            content={basics.summary}
+            color="ink80"
+          />
         </Section>
         <Section>
           <Flex.Row justifyContent="center">

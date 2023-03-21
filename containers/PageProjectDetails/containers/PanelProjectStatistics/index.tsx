@@ -46,31 +46,45 @@ export default function PanelProjectStatistics({
           <Typography.Div
             size="heading4"
             color="secondary"
-            content={members ? members.toLocaleString() : EN_DASH}
+            content={
+              members != null ? members.toLocaleString("en-US") : EN_DASH
+            }
           />
-          <Typography.Div color="secondary" size="bodySmall">
-            members
-          </Typography.Div>
+          <Typography.Div
+            color="secondary"
+            size="bodySmall"
+            content="members"
+          />
         </Col>
         <Col>
           <Typography.Div
             size="heading4"
             color="secondary"
-            content={totalPosts ? totalPosts.toLocaleString() : EN_DASH}
+            content={
+              totalPosts != null ? totalPosts.toLocaleString("en-US") : EN_DASH
+            }
           />
-          <Typography.Div color="secondary" size="bodySmall">
-            total posts
-          </Typography.Div>
+          <Typography.Div
+            color="secondary"
+            size="bodySmall"
+            content="total posts"
+          />
         </Col>
         <Col>
           <Typography.Div
             size="heading4"
             color="secondary"
-            content={exclusivePosts ? exclusivePosts.toLocaleString() : EN_DASH}
+            content={
+              exclusivePosts != null
+                ? exclusivePosts.toLocaleString("en-US")
+                : EN_DASH
+            }
           />
-          <Typography.Div color="secondary" size="bodySmall">
-            exclusive posts
-          </Typography.Div>
+          <Typography.Div
+            color="secondary"
+            size="bodySmall"
+            content="exclusive posts"
+          />
         </Col>
         <Col>
           <Typography.Div size="heading4" color="secondary">
@@ -79,9 +93,11 @@ export default function PanelProjectStatistics({
               lovelaceAmount={lovelaceStake}
             />
           </Typography.Div>
-          <Typography.Div color="secondary" size="bodySmall">
-            total ADA stake
-          </Typography.Div>
+          <Typography.Div
+            color="secondary"
+            size="bodySmall"
+            content="total ADA stake"
+          />
         </Col>
         <Col>
           <Typography.Div size="heading4" color="secondary">
@@ -97,9 +113,11 @@ export default function PanelProjectStatistics({
               }
             />
           </Typography.Div>
-          <Typography.Div color="secondary" size="bodySmall">
-            monthly income
-          </Typography.Div>
+          <Typography.Div
+            color="secondary"
+            size="bodySmall"
+            content="monthly income"
+          />
         </Col>
       </Flex.Row>
     </div>
