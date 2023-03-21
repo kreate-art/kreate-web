@@ -4,6 +4,9 @@ import { NextApiRequest } from "next";
 import { ClientError, CLIENT_AUTHORIZATION_ERROR_STATUS } from "../api/errors";
 
 import { AuthHeader } from "@/modules/authorization";
+import { cached } from "@/modules/common-utils";
+
+const lucid = cached(() => Lucid.new());
 
 export async function authorizeRequest(
   req: NextApiRequest
@@ -53,5 +56,5 @@ export async function verify({
   signed: SignedMessage;
   payload: string;
 }): Promise<boolean> {
-  return (await Lucid.new()).verifyMessage(address, payload, signed);
+  return (await lucid()).verifyMessage(address, payload, signed);
 }

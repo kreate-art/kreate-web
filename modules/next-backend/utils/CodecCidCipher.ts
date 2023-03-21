@@ -49,15 +49,25 @@ export const CodecCidCipher: Codec<CipherMeta$Cid> = {
   },
 };
 
-// TODO: Export to a new module
-function signIpfsUrl(
+type IpfsUrlPayload = Omit<crypt.CipherMeta, "enc"> & { cid: Cid; exp: number };
+
+export function signIpfsUrl(
   cid: Cid,
   meta: Omit<crypt.CipherMeta, "enc">,
   ttl = 600
 ): { exp: string; sig: crypt.Base64 } {
   const exp = Math.round(Date.now() / 1000) + ttl;
-  const sig = crypt.hmacSign(KREATE_CONTENT_HMAC_SECRET, {
-    json: { ...meta, cid, exp },
-  });
+  const sig = sign({ ...meta, cid, exp });
   return { exp: exp.toString(), sig };
+}
+
+export function verifyIpfsUrl(
+  signature: crypt.Base64,
+  payload: IpfsUrlPayload
+): boolean {
+  return signature === sign(payload);
+}
+
+function sign(payload: IpfsUrlPayload) {
+  return crypt.hmacSign(256, KREATE_CONTENT_HMAC_SECRET, { json: payload });
 }
