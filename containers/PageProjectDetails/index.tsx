@@ -514,9 +514,7 @@ export default function PageProjectDetails({
                             item.scrollIntoView();
                           }
                         }}
-                        onClickBecomeMember={() =>
-                          handleClickButtonBackProject(undefined)
-                        }
+                        onClickBecomeMember={handleClickButtonBackProject}
                       />
                     </div>
                     <div className={styles.rightPanels}>

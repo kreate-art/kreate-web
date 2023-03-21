@@ -17,7 +17,7 @@ type Props = {
   value: AnyProjectPost[];
   totalStaked?: LovelaceAmount;
   tiers?: ProjectBenefitsTier[];
-  onClickBecomeMember?: () => void;
+  onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function TabUpdates({
