@@ -21,6 +21,7 @@ type Props = {
   style?: React.CSSProperties;
   value: ProjectBenefitsTier & { activeMemberCount?: number };
   stakingAmount?: LovelaceAmount;
+  isUserCreator?: boolean;
   onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
@@ -29,6 +30,7 @@ export default function Tier({
   style,
   value,
   stakingAmount,
+  isUserCreator,
   onClickBecomeMember,
 }: Props) {
   const actualStakingAmount = stakingAmount ?? 0;
@@ -75,27 +77,29 @@ export default function Tier({
           />
         </Flex.Row>
         <Flex.Col gap="16px" alignItems="center" style={{ width: "100%" }}>
-          <Button.Solid
-            content="Become a member"
-            size="large"
-            color="primary"
-            style={{ width: "100%" }}
-            onClick={() =>
-              onClickBecomeMember &&
-              onClickBecomeMember(
-                value.requiredStake <= actualStakingAmount
-                  ? undefined
-                  : sumLovelaceAmount([
-                      value.requiredStake,
-                      -actualStakingAmount,
-                    ])
-              )
-            }
-            disabled={
-              value.maximumMembers != null &&
-              (value.activeMemberCount || 0) >= value.maximumMembers
-            }
-          />
+          {isUserCreator ? null : (
+            <Button.Solid
+              content="Become a member"
+              size="large"
+              color="primary"
+              style={{ width: "100%" }}
+              onClick={() =>
+                onClickBecomeMember &&
+                onClickBecomeMember(
+                  value.requiredStake <= actualStakingAmount
+                    ? undefined
+                    : sumLovelaceAmount([
+                        value.requiredStake,
+                        -actualStakingAmount,
+                      ])
+                )
+              }
+              disabled={
+                value.maximumMembers != null &&
+                (value.activeMemberCount || 0) >= value.maximumMembers
+              }
+            />
+          )}
           <Flex.Row alignItems="center" gap="12px">
             <IconUserGroup />
             <Typography.Div
