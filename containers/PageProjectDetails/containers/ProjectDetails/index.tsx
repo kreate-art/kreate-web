@@ -28,7 +28,7 @@ type Props = {
   totalStaked?: LovelaceAmount;
   tiers?: ProjectBenefitsTier[];
   onChangeActiveTabIndex: (value: number) => void;
-  onClickBecomeMember?: () => void;
+  onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export const TABS = [
