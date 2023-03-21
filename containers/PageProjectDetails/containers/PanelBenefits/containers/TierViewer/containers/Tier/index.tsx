@@ -106,7 +106,6 @@ export default function Tier({
           <Typography.Span content="Staking from" size="bodySmall" />
           <Typography.Span
             content={formatLovelaceAmount(value.requiredStake, {
-              compact: true,
               includeCurrencySymbol: true,
             })}
             size="heading4"
