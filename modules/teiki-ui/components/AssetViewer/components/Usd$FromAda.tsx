@@ -19,7 +19,7 @@ type Props = {
 
 const numberFormat = new Intl.NumberFormat("en-US", {
   notation: "compact",
-  minimumFractionDigits: 2,
+  minimumFractionDigits: 0,
   maximumFractionDigits: 2,
 });
 

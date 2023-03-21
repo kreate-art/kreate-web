@@ -26,7 +26,7 @@ export function formatLovelaceAmount(
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/format#using_format_with_a_string
   let result = Intl.NumberFormat("en-US", {
     notation: options.compact ? "compact" : "standard",
-    minimumFractionDigits: options.useMaxPrecision ? 6 : 2,
+    minimumFractionDigits: options.useMaxPrecision ? 6 : 0,
     maximumFractionDigits: options.useMaxPrecision ? 6 : 2,
   }).format(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,7 +49,7 @@ export function formatMicroTeikiAmount(
 ) {
   let result = Intl.NumberFormat("en-US", {
     notation: "standard",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   }).format(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,7 +100,7 @@ export function formatUsdAmount(
       (options.includeCurrencySymbol ? "$" : "") +
       Intl.NumberFormat("en-US", {
         notation: options.compact ? "compact" : "standard",
-        minimumFractionDigits: 2,
+        minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       }).format(displayUsd)
     );

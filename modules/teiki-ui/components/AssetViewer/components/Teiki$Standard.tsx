@@ -11,7 +11,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 
 const numberFormat$Default = new Intl.NumberFormat("en-US", {
   notation: "standard",
-  minimumFractionDigits: 2,
+  minimumFractionDigits: 0,
   maximumFractionDigits: 2,
 });
 
