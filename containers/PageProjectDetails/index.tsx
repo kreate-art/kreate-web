@@ -475,9 +475,8 @@ export default function PageProjectDetails({
                     members={project.stats.numSupporters}
                     totalPosts={project.announcements.length}
                     exclusivePosts={
-                      project.announcements.filter(
-                        (post) => typeof post.exclusive === "object"
-                      ).length
+                      project.announcements.filter((post) => post.isExclusive)
+                        .length
                     }
                     lovelaceStake={project.stats.numLovelacesStaked}
                   />

@@ -100,6 +100,7 @@ export async function getAllPostsByProjectId(
         anyProjectAnnouncement.createdAt = row.time?.valueOf();
         const censorship = MODERATION_TAGS.filter((t) => row[t]);
         anyProjectAnnouncement.censorship = censorship;
+        anyProjectAnnouncement.isExclusive = isExclusive;
         return anyProjectAnnouncement;
       } catch (error) {
         return undefined;
