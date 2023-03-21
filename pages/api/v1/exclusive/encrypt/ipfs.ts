@@ -8,7 +8,7 @@ import { HOST } from "@/modules/env/client";
 import {
   KREATE_CONTENT_DEFAULT_KEY_ID,
   KREATE_CONTENT_KEYS,
-  KREATE_HMAC_SECRET,
+  KREATE_CONTENT_HMAC_SECRET,
 } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -78,7 +78,7 @@ function signIpfsUrl(
   ttl = 3600 // 1 hour
 ): { exp: string; sig: crypt.Base64 } {
   const exp = Math.round(Date.now() / 1000) + ttl;
-  const sig = crypt.hmacSign(KREATE_HMAC_SECRET, {
+  const sig = crypt.hmacSign(KREATE_CONTENT_HMAC_SECRET, {
     json: { ...meta, cid, exp },
   });
   return { exp: exp.toString(), sig };

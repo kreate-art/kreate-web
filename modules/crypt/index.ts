@@ -35,8 +35,8 @@ export function selectKey(
 export function createSecretKey(keyType: KeyType, keyText: string): Key {
   // TOOD: Validate base64...
   const keyBuffer = Buffer.from(keyText, b64);
-  if (keyType === "content") {
-    assert(keyBuffer.length === 16, "Content key must be 16 bytes");
+  if (keyType === "cipher") {
+    assert(keyBuffer.length === 16, "Cipher key must be 16 bytes");
     return crypto.createSecretKey(keyBuffer);
   } else {
     assert(keyBuffer.length >= 32, "HMAC key must be at least 32 bytes");

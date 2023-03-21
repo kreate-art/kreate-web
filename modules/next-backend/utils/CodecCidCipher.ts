@@ -1,6 +1,6 @@
 import * as crypt from "@/modules/crypt/";
 import { HOST } from "@/modules/env/client";
-import { KREATE_HMAC_SECRET } from "@/modules/env/server";
+import { KREATE_CONTENT_HMAC_SECRET } from "@/modules/env/server";
 import { WithBufsAs } from "@/modules/with-bufs-as";
 import { Codec, CodecError, Url } from "@/modules/with-bufs-as-converters";
 
@@ -56,7 +56,7 @@ function signIpfsUrl(
   ttl = 600
 ): { exp: string; sig: crypt.Base64 } {
   const exp = Math.round(Date.now() / 1000) + ttl;
-  const sig = crypt.hmacSign(KREATE_HMAC_SECRET, {
+  const sig = crypt.hmacSign(KREATE_CONTENT_HMAC_SECRET, {
     json: { ...meta, cid, exp },
   });
   return { exp: exp.toString(), sig };

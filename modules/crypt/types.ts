@@ -4,7 +4,7 @@ export const b64 = "base64url";
 
 export type Base64 = string;
 
-export type KeyType = "content" | "hmac";
+export type KeyType = "cipher" | "hmac";
 export type KeyId = string;
 export type CipherText<_ = unknown> = Base64;
 

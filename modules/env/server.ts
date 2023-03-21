@@ -81,7 +81,7 @@ export const KREATE_CONTENT_KEYS = IS_NEXT_BUILD
           text.split(",").map((term) => {
             const [kid, keyText] = term.trim().split(":", 2);
             assert(kid, "Content key id must be specified");
-            return [kid, createSecretKey("content", keyText)];
+            return [kid, createSecretKey("cipher", keyText)];
           })
         ),
       defaultValue: new Map(),
@@ -96,11 +96,11 @@ export const KREATE_CONTENT_DEFAULT_KEY_ID = IS_NEXT_BUILD
       defaultValue: undefined,
     });
 
-export const KREATE_HMAC_SECRET = IS_NEXT_BUILD
+export const KREATE_CONTENT_HMAC_SECRET = IS_NEXT_BUILD
   ? never()
   : parseEnv({
-      label: "KREATE_HMAC_SECRET",
-      input: process.env.KREATE_HMAC_SECRET,
+      label: "KREATE_CONTENT_HMAC_SECRET",
+      input: process.env.KREATE_CONTENT_HMAC_SECRET,
       parser: (text) =>
         createSecretKey("hmac", parseStringByRegex(/^[ -~]+$/)(text)),
     });
