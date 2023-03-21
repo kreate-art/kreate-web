@@ -370,7 +370,7 @@ export default function PageProjectDetails({
                       community={project.community}
                       options={{
                         buttonBackProject: {
-                          visible: !isUserCreator,
+                          visible: false,
                           isBacking: !!totalStaked?.amount,
                           disabled:
                             !!project.history.closedAt ||
@@ -378,7 +378,6 @@ export default function PageProjectDetails({
                             totalStaked == null,
                           onClick: () =>
                             handleClickButtonBackProject(undefined),
-                          priority: true,
                         },
                         buttonUpdateProject: {
                           visible: isUserCreator,

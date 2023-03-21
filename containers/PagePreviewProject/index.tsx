@@ -113,10 +113,14 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
                       isBacking: false,
                       disabled: false,
                     },
-                    buttonUpdateProject: { visible: true, disabled: false },
-                    buttonShare: { visible: true, disabled: false },
-                    buttonPostUpdate: { visible: true, disabled: false },
-                    buttonCloseProject: { visible: true, disabled: false },
+                    buttonUpdateProject: { visible: false, disabled: false },
+                    buttonShare: {
+                      visible: true,
+                      disabled: false,
+                      priority: true,
+                    },
+                    buttonPostUpdate: { visible: false, disabled: false },
+                    buttonCloseProject: { visible: false, disabled: false },
                   }}
                 />
               </div>

@@ -81,6 +81,7 @@ export default function Toolbar({ className, style, options }: Props) {
             content="Post"
             onClick={options.buttonPostUpdate.onClick}
             disabled={options.buttonPostUpdate.disabled}
+            color="primary"
           />
         ) : null}
         {buttonCloseProject$Placement === "toolbar" ? (
