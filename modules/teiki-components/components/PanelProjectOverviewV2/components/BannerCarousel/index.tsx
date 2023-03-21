@@ -1,6 +1,8 @@
 import cx from "classnames";
 import * as React from "react";
 
+import { DEFAULT_IMAGE_URL } from "../../../../../../containers/PageHome/components/ProjectImageCropped/constants";
+
 import styles from "./index.module.scss";
 
 import { range } from "@/modules/array-utils";
@@ -44,7 +46,6 @@ export default function BannerCarousel({
   }, [currentIndex, interval, items.length]);
 
   const numBoxes = items.length + 1;
-
   return (
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.window}>
@@ -65,7 +66,13 @@ export default function BannerCarousel({
                   src={items[index].src}
                   crop={items[index].crop}
                 />
-              ) : null}
+              ) : (
+                <ImageView
+                  style={{ width: "100%", height: "100%" }}
+                  src={DEFAULT_IMAGE_URL}
+                  crop={{ x: 0, y: 0, w: 1, h: 1 }}
+                />
+              )}
             </div>
           ))}
         </div>
