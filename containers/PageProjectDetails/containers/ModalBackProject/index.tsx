@@ -32,11 +32,6 @@ import TextArea from "@/modules/teiki-ui/components/TextArea";
 import Title from "@/modules/teiki-ui/components/Title";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
-const ASSUMED_ROA = BigInt(35000);
-const MULTIPLIER = BigInt(1000000);
-const EPOCH_LENGTH_IN_DAYS = BigInt(5);
-const YEAR_LENGTH_IN_DAYS = BigInt(365);
-
 type SuccessEvent = {
   lovelaceAmount: LovelaceAmount;
 };

@@ -24,6 +24,7 @@ import PanelActivities from "./containers/PanelActivities";
 import PanelAdjustStake from "./containers/PanelAdjustStake";
 import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUnbackSuccess";
 import PanelBenefits from "./containers/PanelBenefits";
+import PanelProjectStatistics from "./containers/PanelProjectStatistics";
 import PanelProtocolReward from "./containers/PanelProtocolReward";
 import PanelTopBackers from "./containers/PanelTopBackers";
 import PanelWithdrawFund from "./containers/PanelWithdrawFund";
@@ -406,6 +407,16 @@ export default function PageProjectDetails({
                       }}
                     />
                   </div>
+                  <PanelProjectStatistics
+                    members={project.stats.numSupporters}
+                    totalPosts={project.announcements.length}
+                    exclusivePosts={
+                      project.announcements.filter(
+                        (post) => typeof post.exclusive === "object"
+                      ).length
+                    }
+                    lovelaceStake={project.stats.numLovelacesStaked}
+                  />
                   {!project.tiers ? null : (
                     <PanelBenefits
                       value={project.tiers}
