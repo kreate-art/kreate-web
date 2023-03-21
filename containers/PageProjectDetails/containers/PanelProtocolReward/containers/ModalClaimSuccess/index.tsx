@@ -4,11 +4,11 @@ import * as React from "react";
 import imageNiko from "./images/niko.png";
 import styles from "./index.module.scss";
 
-import { getExplorerUrl } from "@/modules/common-utils";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import Typography from "@/modules/teiki-ui/components/Typography";
+import { getExplorerUrl } from "@/modules/urls";
 
 type Props = {
   open: boolean;

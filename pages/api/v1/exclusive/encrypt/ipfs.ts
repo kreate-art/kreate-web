@@ -8,15 +8,11 @@ import { HOST } from "@/modules/env/client";
 import {
   KREATE_CONTENT_DEFAULT_KEY_ID,
   KREATE_CONTENT_KEYS,
-  KREATE_CONTENT_HMAC_SECRET,
 } from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import {
-  Cid,
-  PinResult,
-  pinToIpfs,
-} from "@/modules/next-backend/logic/postIpfsPin";
+import { PinResult, pinToIpfs } from "@/modules/next-backend/logic/postIpfsPin";
+import { signIpfsUrl } from "@/modules/next-backend/utils/CodecCidCipher";
 
 export const config = {
   api: {
@@ -69,17 +65,4 @@ export default async function handler(
   } catch (error) {
     apiCatch(req, res, error);
   }
-}
-
-// TODO: Export to a new module
-function signIpfsUrl(
-  cid: Cid,
-  meta: Omit<crypt.CipherMeta, "enc">,
-  ttl = 3600 // 1 hour
-): { exp: string; sig: crypt.Base64 } {
-  const exp = Math.round(Date.now() / 1000) + ttl;
-  const sig = crypt.hmacSign(KREATE_CONTENT_HMAC_SECRET, {
-    json: { ...meta, cid, exp },
-  });
-  return { exp: exp.toString(), sig };
 }

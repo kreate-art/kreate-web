@@ -10,7 +10,7 @@ import { ImageErrorBoundary } from "../ImageErrorBoundary";
 import styles from "./index.module.scss";
 
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
-import { patchIpfsUrl } from "@/modules/common-utils";
+import { patchIpfsUrl } from "@/modules/urls";
 
 export function ImageNodeView({
   editor,
