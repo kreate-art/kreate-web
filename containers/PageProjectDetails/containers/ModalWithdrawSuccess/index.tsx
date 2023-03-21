@@ -4,11 +4,11 @@ import Link from "next/link";
 import imageSuccess from "./images/success.png";
 import styles from "./index.module.scss";
 
-import { getExplorerUrl } from "@/modules/common-utils";
 import Flex from "@/modules/teiki-components/components/PanelProjectOverview/components/Flex";
 import Button from "@/modules/teiki-ui/components/Button";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import Title from "@/modules/teiki-ui/components/Title";
+import { getExplorerUrl } from "@/modules/urls";
 
 type Props = {
   open: boolean;

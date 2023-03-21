@@ -14,7 +14,7 @@ export const IS_NEXT_BUILD = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
 
 // never() is something that will never be accessed
 // We use `never` as the default type for `T` since we want to use the other type in the branch condition.
-function never<T = never>(): T {
+export function never<T = never>(): T {
   return undefined as T;
 }
 

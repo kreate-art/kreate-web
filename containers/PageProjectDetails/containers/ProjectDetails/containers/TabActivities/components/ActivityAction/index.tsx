@@ -5,11 +5,11 @@ import * as React from "react";
 import styles from "./index.module.scss";
 
 import { formatScope, ProjectActivityAction } from "@/modules/business-types";
-import { getExplorerUrl } from "@/modules/common-utils";
 import { useTxParams$CreatorCreateProject } from "@/modules/next-backend-client/hooks/useTxParams$CreatorCreateProject";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
+import { getExplorerUrl } from "@/modules/urls";
 
 type Props = {
   className?: string;
