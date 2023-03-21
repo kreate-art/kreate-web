@@ -9,20 +9,24 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
+  currentTier: (ProjectBenefitsTier & { activeMemberCount?: number }) | null;
   stakingAmount?: LovelaceAmount;
   numColumn: number;
   isUserCreator?: boolean;
   onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
+  onClickDowngrade?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function TierViewer({
   className,
   style,
   value,
+  currentTier,
   numColumn,
   stakingAmount,
   isUserCreator,
   onClickBecomeMember,
+  onClickDowngrade,
 }: Props) {
   const numRow = Math.ceil(value.length / numColumn);
 
@@ -38,9 +42,11 @@ export default function TierViewer({
         <>
           <Tier
             value={item}
+            currentTier={currentTier}
             stakingAmount={stakingAmount}
             isUserCreator={isUserCreator}
             onClickBecomeMember={onClickBecomeMember}
+            onClickDowngrade={onClickDowngrade}
             className={cx(
               styles.tier,
               // top-left: the first item

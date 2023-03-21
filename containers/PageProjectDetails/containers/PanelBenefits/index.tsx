@@ -16,6 +16,7 @@ type Props = {
   stakingAmount?: LovelaceAmount;
   isUserCreator?: boolean;
   onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
+  onClickDowngrade?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function PanelBenefits({
@@ -25,12 +26,15 @@ export default function PanelBenefits({
   stakingAmount,
   isUserCreator,
   onClickBecomeMember,
+  onClickDowngrade,
 }: Props) {
   const [showAll, setShowAll] = React.useState(false);
   const [containerElement, setContainerElement] =
     React.useState<HTMLDivElement | null>(null);
   const containerSize = useElementSize(containerElement);
   const numVisibleItems = containerSize ? Math.ceil(containerSize.w / 600) : 1;
+  const currentTier =
+    stakingAmount != null ? amountToTier(stakingAmount, value) : null;
 
   return (
     <div
@@ -41,10 +45,12 @@ export default function PanelBenefits({
       <Flex.Col gap="12px" className={styles.box}>
         <TierViewer
           value={showAll ? value : value.slice(0, numVisibleItems)}
+          currentTier={currentTier}
           stakingAmount={stakingAmount}
           numColumn={numVisibleItems}
           isUserCreator={isUserCreator}
           onClickBecomeMember={onClickBecomeMember}
+          onClickDowngrade={onClickDowngrade}
         />
         {showAll || value.length <= numVisibleItems ? null : (
           <Button.Link
@@ -56,4 +62,13 @@ export default function PanelBenefits({
       </Flex.Col>
     </div>
   );
+}
+
+function amountToTier(
+  amount: LovelaceAmount,
+  tiers: (ProjectBenefitsTier & { activeMemberCount?: number })[]
+) {
+  const satisfiedTiers = tiers.filter((tier) => amount >= tier.requiredStake);
+  const currentTier = satisfiedTiers.at(-1);
+  return currentTier == null ? null : currentTier;
 }

@@ -24,8 +24,11 @@ export async function getActiveTierMember(sql: Sql, { projectId }: Params) {
       FROM
         chain.project_detail pd
         INNER JOIN ipfs.project_info pi2 ON pd.information_cid = pi2.cid
-        INNER JOIN chain."output" o ON o.id = pd.id
-        INNER JOIN chain.backing b ON b.project_id = pd.project_id,
+        INNER JOIN chain.output o ON o.id = pd.id
+        INNER JOIN (
+          SELECT * FROM chain.backing b INNER JOIN chain.output o ON b.id = o.id
+          WHERE o.spent_slot IS NULL
+        ) as b ON b.project_id = pd.project_id,
         jsonb_array_elements((
           COALESCE (
             pi2.contents #> '{data, tiers}',

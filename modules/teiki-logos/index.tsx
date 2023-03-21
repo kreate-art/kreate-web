@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 
-import logoKreateAlpha from "./images/kreate/alpha.svg";
+import logoKreateBeta from "./images/kreate/beta.svg";
 import logoKreateTestnet from "./images/kreate/testnet.svg";
 import logoKreateWhite from "./images/kreate/white.svg";
 import LogoWalletCardWallet from "./images/wallets/cardwallet.png";
@@ -80,7 +80,7 @@ export function LogoKreateFull({
         <Image
           className={className}
           style={style}
-          src={logoKreateAlpha}
+          src={logoKreateBeta}
           alt="logo kreate full"
         />
       );

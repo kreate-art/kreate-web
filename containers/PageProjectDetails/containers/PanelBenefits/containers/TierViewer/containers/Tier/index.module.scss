@@ -1,3 +1,11 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  &.current {
+    border: 1px solid colors.$primary;
+  }
+}
+
 .bannerContainer {
   width: 100%;
   position: relative;
