@@ -111,6 +111,15 @@ interface IProjectPost {
    * `censorship` indicates list of inappropriate fields.
    */
   censorship?: string[];
+
+  // Is this content exclusive (regardless of tiers)?
+  // FIXME: These interfaces & types are horrible.
+  // For instance, `PublicProjectPost` implies pure public posts,
+  //   but decrypted exclusive posts use the same type,
+  //   making counting exclusive posts in the frontend wrong,
+  //   hence this temporary hack.
+  // We MUST refactor.
+  isExclusive?: boolean;
 }
 
 // Mostly used for rendering
