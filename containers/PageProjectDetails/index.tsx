@@ -9,7 +9,6 @@ import ModalPostAnnouncement from "../PageUpdateProjectV2/containers/ModalPostAn
 import Podcast from "../Podcast";
 
 import FooterPanel from "./../PageHome/containers/FooterPanel";
-import Backdrop from "./components/Backdrop";
 import IconLoading from "./components/IconLoading";
 import IconWarning from "./components/IconWarning";
 import ModalBackProject, {
@@ -40,7 +39,7 @@ import styles from "./index.module.scss";
 import { LovelaceAmount } from "@/modules/business-types";
 import { useLocationHash } from "@/modules/common-hooks/hooks/useLocationHash";
 import { useModalPromises } from "@/modules/modal-promises";
-import PanelProjectOverview from "@/modules/teiki-components/components/PanelProjectOverview";
+import PanelProjectOverviewV2 from "@/modules/teiki-components/components/PanelProjectOverviewV2";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -123,7 +122,7 @@ export default function PageProjectDetails({
     project?.stats?.numLovelacesAvailable ?? BigInt(0);
 
   const handleClickButtonBackProject = async (
-    initialAmount?: LovelaceAmount
+    initialAmount: LovelaceAmount | undefined
   ) => {
     if (!project || !project.basics || totalStaked == null) return;
     const basics = project.basics;
@@ -362,16 +361,11 @@ export default function PageProjectDetails({
               project.announcements === undefined ||
               project.activities === undefined ? null : (
                 <div className={styles.content}>
-                  <Backdrop
-                    className={styles.backdrop}
-                    coverImages={project?.basics?.coverImages}
-                  />
                   <div className={styles.header}>
-                    <PanelProjectOverview
+                    <PanelProjectOverviewV2
                       basics={project.basics}
                       history={project.history}
                       categories={project.categories}
-                      stats={project.stats}
                       match={match}
                       community={project.community}
                       options={{
@@ -382,7 +376,9 @@ export default function PageProjectDetails({
                             !!project.history.closedAt ||
                             walletStatus.status !== "connected" ||
                             totalStaked == null,
-                          onClick: handleClickButtonBackProject,
+                          onClick: () =>
+                            handleClickButtonBackProject(undefined),
+                          priority: true,
                         },
                         buttonUpdateProject: {
                           visible: isUserCreator,
@@ -393,11 +389,13 @@ export default function PageProjectDetails({
                           visible: true,
                           disabled: !!project.history.closedAt,
                           onClick: handleClickButtonShare,
+                          priority: true,
                         },
                         buttonPostUpdate: {
                           visible: isUserCreator,
                           disabled: !!project.history.closedAt,
                           onClick: handleClickButtonPostUpdate,
+                          priority: true,
                         },
                         buttonCloseProject: {
                           visible: isUserCreator,
@@ -449,7 +447,9 @@ export default function PageProjectDetails({
                             item.scrollIntoView();
                           }
                         }}
-                        onClickBecomeMember={handleClickButtonBackProject}
+                        onClickBecomeMember={() =>
+                          handleClickButtonBackProject(undefined)
+                        }
                       />
                     </div>
                     <div className={styles.rightPanels}>
@@ -485,7 +485,7 @@ export default function PageProjectDetails({
                             backerAddress={walletStatus.info.address}
                             openModalBackProject={() =>
                               handleClickButtonBackProject &&
-                              handleClickButtonBackProject()
+                              handleClickButtonBackProject(undefined)
                             }
                             backedAmount={totalStaked?.amount}
                             onUnbackSuccess={(
