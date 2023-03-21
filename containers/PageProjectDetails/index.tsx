@@ -418,6 +418,7 @@ export default function PageProjectDetails({
                     <PanelBenefits
                       value={project.tiers}
                       stakingAmount={totalStaked?.amount}
+                      isUserCreator={isUserCreator}
                       onClickBecomeMember={handleClickButtonBackProject}
                     />
                   )}

@@ -14,6 +14,7 @@ type Props = {
   style?: React.CSSProperties;
   value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   stakingAmount?: LovelaceAmount;
+  isUserCreator?: boolean;
   onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
@@ -22,6 +23,7 @@ export default function PanelBenefits({
   style,
   value,
   stakingAmount,
+  isUserCreator,
   onClickBecomeMember,
 }: Props) {
   const [showAll, setShowAll] = React.useState(false);
@@ -41,6 +43,7 @@ export default function PanelBenefits({
           value={showAll ? value : value.slice(0, numVisibleItems)}
           stakingAmount={stakingAmount}
           numColumn={numVisibleItems}
+          isUserCreator={isUserCreator}
           onClickBecomeMember={onClickBecomeMember}
         />
         {showAll || value.length <= numVisibleItems ? null : (

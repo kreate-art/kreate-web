@@ -11,6 +11,7 @@ type Props = {
   value: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   stakingAmount?: LovelaceAmount;
   numColumn: number;
+  isUserCreator?: boolean;
   onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
 };
 
@@ -20,6 +21,7 @@ export default function TierViewer({
   value,
   numColumn,
   stakingAmount,
+  isUserCreator,
   onClickBecomeMember,
 }: Props) {
   const numRow = Math.ceil(value.length / numColumn);
@@ -37,6 +39,7 @@ export default function TierViewer({
           <Tier
             value={item}
             stakingAmount={stakingAmount}
+            isUserCreator={isUserCreator}
             onClickBecomeMember={onClickBecomeMember}
             className={cx(
               styles.tier,
