@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+}
+
+.content {
+  .maxWidthMedium & {
+    max-width: 654px;
+  }
+
+  .maxWidthSmall & {
+    max-width: 576px;
+  }
+}
+
+.content {
+  .textAlignLeft & {
+    text-align: left;
+  }
+
+  .textAlignCenter & {
+    text-align: center;
+  }
+}

@@ -11,13 +11,12 @@ import useDetailedProject from "../PageProjectDetails/hooks/useDetailedProject";
 import { loadProjectFromBrowserStorage } from "../PageUpdateProjectV2/utils/storage";
 import Podcast from "../Podcast";
 
-import Backdrop from "./components/Backdrop";
 import Section from "./components/Section";
 import styles from "./index.module.scss";
 
 import { ProjectGeneralInfo } from "@/modules/business-types";
 import useComputationOnMount from "@/modules/common-hooks/hooks/useComputationOnMount";
-import PanelProjectOverview from "@/modules/teiki-components/components/PanelProjectOverview";
+import PanelProjectOverviewV2 from "@/modules/teiki-components/components/PanelProjectOverviewV2";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
@@ -101,16 +100,12 @@ export default function PagePreviewProject({ storageId, projectId }: Props) {
         <main className={styles.main}>
           {project && projectGeneralInfo ? (
             <div className={styles.content}>
-              <Backdrop
-                className={styles.backdrop}
-                coverImages={project?.basics?.coverImages}
-              />
               <div className={styles.header}>
-                <PanelProjectOverview
+                <PanelProjectOverviewV2
                   basics={projectGeneralInfo.basics}
                   history={projectGeneralInfo.history}
                   categories={projectGeneralInfo.categories}
-                  stats={projectGeneralInfo.stats}
+                  match={undefined}
                   community={projectGeneralInfo.community}
                   options={{
                     buttonBackProject: {
