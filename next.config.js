@@ -41,6 +41,7 @@ const CONTENT_SECURITY_POLICY = (() => {
     csp["media-src"].push("https://cdn.testnet.kreate.community");
     csp["media-src"].push("https://ipfs.testnet.kreate.community");
     csp["img-src"].push("https://ipfs.testnet.kreate.community");
+    csp["connect-src"].push("https://ipfs.testnet.kreate.community");
     // Legacy, @sk-yagi
     csp["media-src"].push("https://ipfs-testnet.teiki.network");
     csp["img-src"].push("https://ipfs-testnet.teiki.network");
@@ -49,6 +50,7 @@ const CONTENT_SECURITY_POLICY = (() => {
     csp["media-src"].push("https://cdn.kreate.community");
     csp["media-src"].push("https://ipfs.kreate.community");
     csp["img-src"].push("https://ipfs.kreate.community");
+    csp["connect-src"].push("https://ipfs.kreate.community");
     // Legacy, @sk-yagi
     csp["media-src"].push("https://ipfs.teiki.network");
     csp["img-src"].push("https://ipfs.teiki.network");
