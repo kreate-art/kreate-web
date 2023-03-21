@@ -472,7 +472,10 @@ export default function PageProjectDetails({
                                 : "active"
                             }
                             backerAddress={walletStatus.info.address}
-                            openModalBackProject={handleClickButtonBackProject}
+                            openModalBackProject={() =>
+                              handleClickButtonBackProject &&
+                              handleClickButtonBackProject()
+                            }
                             backedAmount={totalStaked?.amount}
                             onUnbackSuccess={(
                               projectName,
