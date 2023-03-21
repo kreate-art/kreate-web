@@ -47,7 +47,7 @@ export default function PanelProtocolStatistics({
                 {stats.numProjects}
               </Card.Content>
             )}
-            <Card.Legend>Creators</Card.Legend>
+            <Card.Legend>Kreators</Card.Legend>
           </Card>
           <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
