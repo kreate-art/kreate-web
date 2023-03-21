@@ -48,6 +48,7 @@ type Props = {
   projectStatus: ProjectStatus;
   projectTiers?: (ProjectBenefitsTier & { activeMemberCount?: number })[];
   backedAmount: LovelaceAmount;
+  initialAmount?: LovelaceAmount;
   onCancel: () => void;
   onSuccess: (event: SuccessEvent) => void;
 };
@@ -58,6 +59,7 @@ export default function ModalUnbackProject({
   projectId,
   projectTiers,
   backedAmount,
+  initialAmount,
   projectStatus,
   onCancel,
   onSuccess,
@@ -70,6 +72,7 @@ export default function ModalUnbackProject({
   const fieldMessage = useField$Message();
   const fieldUnbackLovelaceAmount = useField$UnbackLovelaceAmount({
     max: backedAmount,
+    initialAmount,
   });
 
   const txParamsResult = useTxParams$BackerUnbackProject({

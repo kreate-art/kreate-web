@@ -21,6 +21,7 @@ import ModalWithdrawFund, {
 import ModalWithdrawSuccess from "./containers/ModalWithdrawSuccess";
 import PanelActivities from "./containers/PanelActivities";
 import PanelAdjustStake from "./containers/PanelAdjustStake";
+import ModalUnbackProject from "./containers/PanelAdjustStake/containers/ModalUnbackProject";
 import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUnbackSuccess";
 import PanelBenefits from "./containers/PanelBenefits";
 import PanelProjectStatistics from "./containers/PanelProjectStatistics";
@@ -158,6 +159,72 @@ export default function PageProjectDetails({
         mutateTotalStaked && mutateTotalStaked();
         await showModal<void>((resolve) => (
           <ModalBackSuccess open={true} onClose={resolve} />
+        ));
+        return;
+      }
+      default:
+        return showMessage({ title: "Wallet is not ready.", color: "danger" });
+    }
+  };
+
+  const handleClickButtonUnbackProject = async (
+    initialAmount: LovelaceAmount | undefined
+  ) => {
+    if (!project || !project.basics || !project.history || totalStaked == null)
+      return;
+    const basics = project.basics;
+    const history = project.history;
+
+    switch (walletStatus.status) {
+      case "disconnected":
+        return void showModal<void>((resolve) => (
+          <ModalConnectWallet
+            open
+            onCancel={() => resolve()}
+            onSuccess={() => resolve()}
+          />
+        ));
+      case "connected": {
+        type ModalUnbackProject$ModalResult =
+          | { type: "cancel" }
+          | { type: "success"; unbackLovelaceAmount: LovelaceAmount };
+        const modalUnbackProject$ModalResult =
+          await showModal<ModalUnbackProject$ModalResult>((resolve) => (
+            <ModalUnbackProject
+              open
+              projectName={basics.title}
+              projectId={project.id}
+              backedAmount={totalStaked?.amount ? totalStaked?.amount : 0}
+              initialAmount={initialAmount}
+              projectTiers={project.tiers}
+              projectStatus={
+                history.closedAt
+                  ? "closed"
+                  : history.delistedAt
+                  ? "delisted"
+                  : "active"
+              }
+              onCancel={() => resolve({ type: "cancel" })}
+              onSuccess={(event) =>
+                resolve({
+                  type: "success",
+                  unbackLovelaceAmount: event.unbackLovelaceAmount,
+                })
+              }
+            />
+          ));
+        if (modalUnbackProject$ModalResult.type !== "success") return;
+        mutateProject();
+        mutateTotalStaked && mutateTotalStaked();
+        await showModal<void>((resolve) => (
+          <ModalUnbackSuccess
+            open={true}
+            onClose={resolve}
+            unbackedAmountLovelace={
+              modalUnbackProject$ModalResult.unbackLovelaceAmount
+            }
+            projectName={basics.title}
+          />
         ));
         return;
       }
@@ -420,6 +487,7 @@ export default function PageProjectDetails({
                       stakingAmount={totalStaked?.amount}
                       isUserCreator={isUserCreator}
                       onClickBecomeMember={handleClickButtonBackProject}
+                      onClickDowngrade={handleClickButtonUnbackProject}
                     />
                   )}
                   <div className={styles.detailsStatsPanels}>
@@ -472,9 +540,6 @@ export default function PageProjectDetails({
                       "connected" ? null : !isUserCreator ? (
                         totalStaked?.amount ? (
                           <PanelAdjustStake
-                            projectName={project.basics.title}
-                            projectId={project.id}
-                            projectTiers={project.tiers}
                             projectStatus={
                               project.history.closedAt
                                 ? "closed"
@@ -482,29 +547,15 @@ export default function PageProjectDetails({
                                 ? "delisted"
                                 : "active"
                             }
-                            backerAddress={walletStatus.info.address}
                             openModalBackProject={() =>
                               handleClickButtonBackProject &&
                               handleClickButtonBackProject(undefined)
                             }
+                            openModalUnbackProject={() =>
+                              handleClickButtonUnbackProject &&
+                              handleClickButtonUnbackProject(undefined)
+                            }
                             backedAmount={totalStaked?.amount}
-                            onUnbackSuccess={(
-                              projectName,
-                              unbackedAmountLovelace
-                            ) => {
-                              mutateProject();
-                              mutateTotalStaked && mutateTotalStaked();
-                              void showModal((resolve) => (
-                                <ModalUnbackSuccess
-                                  open={true}
-                                  unbackedAmountLovelace={
-                                    unbackedAmountLovelace
-                                  }
-                                  projectName={projectName}
-                                  onClose={() => resolve(undefined)}
-                                />
-                              ));
-                            }}
                           />
                         ) : null
                       ) : withdrawableFundLovelaceAmount > 0 ? (

@@ -21,27 +21,34 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: ProjectBenefitsTier & { activeMemberCount?: number };
+  currentTier: ProjectBenefitsTier | null;
   stakingAmount?: LovelaceAmount;
   isUserCreator?: boolean;
   onClickBecomeMember?: (initialAmount?: LovelaceAmount) => void;
+  onClickDowngrade?: (initialAmount?: LovelaceAmount) => void;
 };
 
 export default function Tier({
   className,
   style,
   value,
+  currentTier,
   stakingAmount,
   isUserCreator,
   onClickBecomeMember,
+  onClickDowngrade,
 }: Props) {
   const actualStakingAmount = stakingAmount ?? 0;
-  const actualRequiredAmount = sumLovelaceAmount([
-    value.requiredStake,
-    -actualStakingAmount,
-  ]);
 
   return (
-    <div className={cx(className, styles.container)} style={style}>
+    <div
+      className={cx(
+        className,
+        styles.container,
+        currentTier?.id === value.id ? styles.current : null
+      )}
+      style={style}
+    >
       <Flex.Col
         gap="20px"
         padding="32px"
@@ -84,23 +91,44 @@ export default function Tier({
         <Flex.Col gap="16px" alignItems="center" style={{ width: "100%" }}>
           {isUserCreator ? null : (
             <Button.Solid
-              content="Become a member"
+              content={
+                currentTier == null
+                  ? "Become a member"
+                  : value.requiredStake < currentTier.requiredStake
+                  ? "Downgrade"
+                  : value.requiredStake > currentTier.requiredStake
+                  ? "Upgrade"
+                  : "Stake more"
+              }
               size="large"
               color="primary"
               style={{ width: "100%" }}
               onClick={() =>
-                onClickBecomeMember &&
-                onClickBecomeMember(
-                  value.requiredStake <= actualStakingAmount
-                    ? undefined
-                    : MINIMUM_BACKING_AMOUNT > actualRequiredAmount
-                    ? MINIMUM_BACKING_AMOUNT
-                    : actualRequiredAmount
-                )
+                currentTier != null &&
+                value.requiredStake < currentTier.requiredStake
+                  ? onClickDowngrade &&
+                    onClickDowngrade(
+                      sumLovelaceAmount([
+                        actualStakingAmount,
+                        -value.requiredStake,
+                      ])
+                    )
+                  : onClickBecomeMember &&
+                    onClickBecomeMember(
+                      value.requiredStake <= actualStakingAmount
+                        ? undefined
+                        : clampToMinimum(
+                            sumLovelaceAmount([
+                              value.requiredStake,
+                              -actualStakingAmount,
+                            ])
+                          )
+                    )
               }
               disabled={
                 value.maximumMembers != null &&
-                (value.activeMemberCount || 0) >= value.maximumMembers
+                (value.activeMemberCount || 0) >= value.maximumMembers &&
+                currentTier?.id !== value.id
               }
             />
           )}
@@ -128,4 +156,8 @@ export default function Tier({
       </Flex.Col>
     </div>
   );
+}
+
+function clampToMinimum(amount: LovelaceAmount) {
+  return amount < MINIMUM_BACKING_AMOUNT ? MINIMUM_BACKING_AMOUNT : amount;
 }

@@ -1,6 +1,10 @@
 import * as React from "react";
 
-import { parseLovelaceAmount, sumLovelaceAmount } from "@/modules/bigint-utils";
+import {
+  formatLovelaceAmount,
+  parseLovelaceAmount,
+  sumLovelaceAmount,
+} from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 
 export function useField$Message() {
@@ -16,11 +20,20 @@ export function useField$Message() {
 }
 
 export function useField$UnbackLovelaceAmount({
+  initialAmount,
   max,
 }: {
+  initialAmount?: LovelaceAmount;
   max?: LovelaceAmount;
 }) {
-  const [text, setText] = React.useState("");
+  const [text, setText] = React.useState(
+    initialAmount != null
+      ? formatLovelaceAmount(initialAmount, {
+          compact: false,
+          excludeThousandsSeparator: true,
+        })
+      : ""
+  );
   const parsed = parseLovelaceAmount(text);
   const error =
     parsed == null || parsed === BigInt(0)
