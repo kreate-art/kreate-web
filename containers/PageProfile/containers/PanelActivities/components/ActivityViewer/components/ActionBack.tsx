@@ -2,11 +2,11 @@ import Link from "next/link";
 import * as React from "react";
 
 import { ProjectActivityAction } from "@/modules/business-types";
-import { getExplorerUrl } from "@/modules/common-utils";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
+import { getExplorerUrl } from "@/modules/urls";
 
 type Props = {
   className?: string;

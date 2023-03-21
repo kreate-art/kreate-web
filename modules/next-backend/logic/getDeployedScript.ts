@@ -1,12 +1,12 @@
 import { Hex } from "@kreate/protocol/types";
 
 import { Sql } from "../db";
-import { toLucidUtxo, ChainOutputWithScript } from "../types";
+import { toLucidUtxo, ChainOutputWithScript, EnrichedUtxo } from "../types";
 
 export async function getDeployedScriptUtxo(
   sql: Sql,
   { scriptHash }: { scriptHash: Hex }
-) {
+): Promise<EnrichedUtxo | null> {
   const results = await sql<ChainOutputWithScript[]>`
     SELECT
       o.*,
@@ -21,7 +21,6 @@ export async function getDeployedScriptUtxo(
       AND s.script_hash = ${scriptHash}
     LIMIT
       1
-`;
-
+  `;
   return results.length ? toLucidUtxo(results[0]) : null;
 }

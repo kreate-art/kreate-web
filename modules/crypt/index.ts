@@ -18,8 +18,6 @@ export type KeySet = Map<KeyId, Key>;
 const ENC_ALGO = "aes-128-gcm" as const;
 // We only need 12 bytes (instead of 16) for GCM
 const ENC_IV_LEN = 12 as const;
-// We use SHA-256 since it is shorter and enough for our use-cases
-const HMAC_ALGO = "sha256" as const;
 
 // Throw errors if key is not specified
 export function selectKey(
@@ -39,7 +37,7 @@ export function createSecretKey(keyType: KeyType, keyText: string): Key {
     assert(keyBuffer.length === 16, "Cipher key must be 16 bytes");
     return crypto.createSecretKey(keyBuffer);
   } else {
-    assert(keyBuffer.length >= 32, "HMAC key must be at least 32 bytes");
+    assert(keyBuffer.length == 32, "HMAC key must be 32 bytes");
     return crypto.createSecretKey(keyBuffer);
   }
 }
@@ -64,8 +62,12 @@ export function createDecipher(
   return crypto.createDecipheriv(ENC_ALGO, key, iv, options);
 }
 
-export function createHmac(key: Key, options?: stream.TransformOptions) {
-  return crypto.createHmac(HMAC_ALGO, key, options);
+export function createHmac(
+  size: 256 | 512,
+  key: Key,
+  options?: stream.TransformOptions
+) {
+  return crypto.createHmac(`sha${size}`, key, options);
 }
 
 export function randomIv() {
@@ -73,10 +75,11 @@ export function randomIv() {
 }
 
 export function hmacSign(
+  size: 256 | 512,
   key: Key,
   data: BinaryLike | { json: ValidJsonTypes }
 ): Base64 {
-  const hmac = createHmac(key);
+  const hmac = createHmac(size, key);
   if (typeof data === "string") hmac.update(data, "utf8");
   else if ("json" in data)
     hmac.update(toJsonStable(data.json, undefined, 0), "utf8");

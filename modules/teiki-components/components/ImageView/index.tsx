@@ -8,7 +8,7 @@ import { Crop, Size } from "./types";
 import { shrinkRectToAspectRatio } from "./utils";
 
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
-import { patchIpfsUrl } from "@/modules/common-utils";
+import { patchIpfsUrl } from "@/modules/urls";
 
 type Props = {
   className?: string;
