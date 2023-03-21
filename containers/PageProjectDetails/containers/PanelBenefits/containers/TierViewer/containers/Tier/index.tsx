@@ -2,6 +2,7 @@ import cx from "classnames";
 
 import WithAspectRatio from "../../../../../../../../components/WithAspectRatio";
 import { MINIMUM_BACKING_AMOUNT } from "../../../../../ModalBackProject/constants";
+import { PADDING_LOVELACE_AMOUNT } from "../../../../../ModalBackProject/constants";
 
 import IconUserGroup from "./icons/IconUserGroup";
 import styles from "./index.module.scss";
@@ -11,8 +12,13 @@ import {
   sumLovelaceAmount,
 } from "@/modules/bigint-utils";
 import { LovelaceAmount, ProjectBenefitsTier } from "@/modules/business-types";
+import {
+  isAbortError,
+  useAsyncComputation,
+} from "@/modules/common-hooks/hooks/useAsyncComputation";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import RichTextViewer from "@/modules/teiki-components/components/RichTextViewer";
+import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -39,6 +45,25 @@ export default function Tier({
   onClickDowngrade,
 }: Props) {
   const actualStakingAmount = stakingAmount ?? 0;
+  const { walletStatus } = useAppContextValue$Consumer();
+  const walletLovelaceAmount =
+    walletStatus.status === "connected"
+      ? walletStatus.info.lovelaceAmount
+      : undefined;
+  const maxLovelaceAmount = useAsyncComputation(
+    { walletLovelaceAmount },
+    async ({ walletLovelaceAmount }) => {
+      if (!walletLovelaceAmount) {
+        return undefined;
+      }
+      try {
+        return BigInt(walletLovelaceAmount) - BigInt(PADDING_LOVELACE_AMOUNT);
+      } catch (e) {
+        if (isAbortError(e)) throw e;
+        return undefined;
+      }
+    }
+  );
 
   return (
     <div
@@ -126,9 +151,14 @@ export default function Tier({
                     )
               }
               disabled={
-                value.maximumMembers != null &&
-                (value.activeMemberCount || 0) >= value.maximumMembers &&
-                currentTier?.id !== value.id
+                (value.maximumMembers != null &&
+                  (value.activeMemberCount || 0) >= value.maximumMembers &&
+                  currentTier?.id !== value.id) ||
+                value.requiredStake >
+                  sumLovelaceAmount([
+                    actualStakingAmount,
+                    maxLovelaceAmount ?? 0,
+                  ])
               }
             />
           )}
