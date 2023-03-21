@@ -8,7 +8,7 @@ import IconArrowRightCircle from "../../icons/IconArrowRightCircle";
 import styles from "./index.module.scss";
 
 import { AnyProjectPost } from "@/modules/business-types";
-import RichTextEditor from "@/modules/teiki-components/components/RichTextEditor";
+import RichTextViewer from "@/modules/teiki-components/components/RichTextViewer";
 import Button from "@/modules/teiki-ui/components/Button";
 import Chip from "@/modules/teiki-ui/components/Chip";
 import Divider from "@/modules/teiki-ui/components/Divider";
@@ -77,11 +77,7 @@ export default function CommunityUpdateDetails({
       <div className={styles.main}>
         {/* TODO: @sk-kitsune: we should use a proper id */}
         {!value.exclusive && (
-          <RichTextEditor
-            key={value.createdAt}
-            value={value.body}
-            isBorderless
-          />
+          <RichTextViewer key={value.createdAt} value={value.body} />
         )}
       </div>
       <Divider.Horizontal />
