@@ -5,7 +5,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { noop } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
-import { KREATE_CONTENT_KEYS, KREATE_CONTENT_HMAC_SECRET } from "@/modules/env/server";
+import {
+  KREATE_CONTENT_KEYS,
+  KREATE_CONTENT_HMAC_SECRET,
+} from "@/modules/env/server";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { ipfs } from "@/modules/next-backend/connections";
 
@@ -47,9 +50,12 @@ export default async function handler(
     });
 
     const payload = { json: { cid, kid, iv, tag, aad, exp } };
-    ClientError.assert(sig === crypt.hmacSign(KREATE_CONTENT_HMAC_SECRET, payload), {
-      _debug: "invalid signature",
-    });
+    ClientError.assert(
+      sig === crypt.hmacSign(KREATE_CONTENT_HMAC_SECRET, payload),
+      {
+        _debug: "invalid signature",
+      }
+    );
 
     const { key } = crypt.selectKey(KREATE_CONTENT_KEYS, kid);
     const decipher = crypt.createDecipher(key, Buffer.from(iv, crypt.b64), {
