@@ -150,14 +150,15 @@ export default function Tier({
                     )
               }
               disabled={
-                (value.maximumMembers != null &&
+                walletStatus.status !== "disconnected" &&
+                ((value.maximumMembers != null &&
                   (value.activeMemberCount || 0) >= value.maximumMembers &&
                   currentTier?.id !== value.id) ||
-                value.requiredStake >
-                  sumLovelaceAmount([
-                    actualStakingAmount,
-                    maxLovelaceAmount ?? 0,
-                  ])
+                  value.requiredStake >
+                    sumLovelaceAmount([
+                      actualStakingAmount,
+                      maxLovelaceAmount ?? 0,
+                    ]))
               }
             />
           )}
