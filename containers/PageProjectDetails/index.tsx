@@ -406,13 +406,13 @@ export default function PageProjectDetails({
                       }}
                     />
                   </div>
-                  {!project.tiers ? null : (
+                  {project.tiers && !isUserCreator ? (
                     <PanelBenefits
                       value={project.tiers}
                       stakingAmount={totalStaked?.amount}
                       onClickBecomeMember={handleClickButtonBackProject}
                     />
-                  )}
+                  ) : null}
                   <div className={styles.detailsStatsPanels}>
                     <div className={styles.mainPanels}>
                       <ProjectDetails
