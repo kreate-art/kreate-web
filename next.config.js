@@ -125,7 +125,7 @@ const nextConfig = {
         : []),
       ...(KREATE_ENV === "mainnet"
         ? [
-            { protocol: "https", hostname: "alpha.kreate.community" },
+            { protocol: "https", hostname: "beta.kreate.community" },
             { protocol: "https", hostname: "ipfs.kreate.community" },
             // Legacy, @sk-yagi
             { protocol: "https", hostname: "ipfs.teiki.network" },
