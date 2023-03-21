@@ -120,14 +120,24 @@ export interface PublicProjectPost extends IProjectPost {
   exclusive?: never;
 }
 
-// Decrypted body content, need to encrypt to transform to `PublicProjectPost`
+// Exclusive, cannot be decrypted
 export interface ExclusiveProjectPost extends IProjectPost {
   body: CipherMeta & { ciphertext: CipherText<JSONContent> };
   mediaCount: number;
   exclusive: { tier: number };
 }
 
-export type AnyProjectPost = PublicProjectPost | ExclusiveProjectPost;
+// Exclusive but can be decrypted
+export interface DecryptedExclusiveProjectPost extends IProjectPost {
+  body: JSONContent;
+  mediaCount: number;
+  exclusive: { tier: number };
+}
+
+export type AnyProjectPost =
+  | PublicProjectPost
+  | ExclusiveProjectPost
+  | DecryptedExclusiveProjectPost;
 
 // For IPFS Storage
 export type AnyProjectPostWithBufs =

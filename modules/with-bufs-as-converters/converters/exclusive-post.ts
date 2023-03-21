@@ -4,6 +4,7 @@ import { Converters } from "..";
 
 import {
   AnyProjectPost,
+  DecryptedExclusiveProjectPost,
   ExclusiveProjectPost,
   ProjectBenefitsTier,
   PublicProjectPost,
@@ -85,7 +86,12 @@ export function decryptExclusivePost(
     fooWithBufsAsPublicPost
   );
 
-  return plainPublicPost;
+  const result: DecryptedExclusiveProjectPost = {
+    exclusive: { tier: requiredTier },
+    ...plainPublicPost,
+  };
+
+  return result;
 }
 
 function decryptContent(cipherMeta: crypt.CipherMeta, encrypted: crypt.Base64) {
