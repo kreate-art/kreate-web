@@ -1,39 +1,30 @@
-import { randomUUID } from "crypto";
-
 import { NextApiRequest, NextApiResponse } from "next";
-import sharp from "sharp";
 
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import {
-  KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
   KOLOURS_HMAC_SECRET,
+  KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
 } from "@/modules/env/kolours/server";
 import {
+  calculateDiscountedFee,
   ExtraParams,
-  getDiscount,
+  fetchDiscount,
+  getExpirationTime,
   Kolour,
   parseKolour,
   parseReferral,
 } from "@/modules/kolours/common";
 import {
   calculateKolourFee,
+  generateKolourImageCid,
   getUnavailableKolours,
   KolourEntry,
   KolourQuotation,
-  KOLOUR_IMAGE_CID_PREFIX,
-  KOLOUR_IMAGE_LOCK_PREFIX,
 } from "@/modules/kolours/kolour";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, ipfs, redis } from "@/modules/next-backend/connections";
-import locking from "@/modules/next-backend/locking";
-
-const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
-  width: 128,
-  height: 128,
-  channels: 3,
-};
 
 type Response = {
   quotation: KolourQuotation;
@@ -88,7 +79,7 @@ export default async function handler(
     });
 
     const extra: ExtraParams = { referral };
-    const discount = referral ? await getDiscount(db, referral) : undefined;
+    const discount = referral ? await fetchDiscount(db, referral) : undefined;
 
     const quotation: KolourQuotation = {
       kolours: Object.fromEntries(
@@ -122,41 +113,8 @@ async function quoteKolour(
   kolour: Kolour,
   discount?: bigint
 ): Promise<KolourEntry> {
-  const fees = calculateKolourFee(kolour, discount);
-  const cid = await generateKolourImageCid(kolour);
-  return { ...fees, image: `ipfs://${cid}` };
-}
-
-async function generateKolourImageCid(kolour: Kolour) {
-  const cidKey = KOLOUR_IMAGE_CID_PREFIX + kolour;
-  let cachedCid = await redis.get(cidKey);
-  if (cachedCid) return cachedCid;
-
-  const imageLockKey = KOLOUR_IMAGE_LOCK_PREFIX + kolour;
-  const imageLock = await locking.acquire(imageLockKey, randomUUID(), {
-    ttl: 5,
-  });
-  try {
-    // Fetch again, just in case the image was already processed, better use WATCH
-    cachedCid = await redis.get(cidKey);
-    if (cachedCid) return cachedCid;
-    const image = await sharp({
-      create: { ...IMAGE_OPTIONS, background: `#${kolour}` },
-    })
-      .png({ colors: 2 })
-      .toBuffer();
-    const { cid } = await ipfs.add(image, { pin: true });
-    const cidStr = cid.toString();
-    await redis.set(cidKey, cidStr, "EX", 86400); // 1 day
-    return cidStr;
-  } finally {
-    imageLock.release();
-  }
-}
-
-function getExpirationTime(): number {
-  let unixSecs = Math.trunc(Date.now() / 1000);
-  // Less signature leak
-  unixSecs -= unixSecs % 60;
-  return unixSecs + 6666666;
+  const listedFee = calculateKolourFee(kolour);
+  const fee = calculateDiscountedFee(listedFee, discount);
+  const cid = await generateKolourImageCid(redis, ipfs, kolour);
+  return { fee, listedFee, image: `ipfs://${cid}` };
 }

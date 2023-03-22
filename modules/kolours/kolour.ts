@@ -1,9 +1,21 @@
+import { randomUUID } from "crypto";
+
+import { Redis } from "ioredis";
+import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
 import { Address } from "lucid-cardano";
+import sharp from "sharp";
 
 import { ExtraParams, Kolour } from "./common";
 
 import { Sql } from "@/modules/next-backend/db";
+import locking from "@/modules/next-backend/locking";
 import { Lovelace } from "@/modules/next-backend/types";
+
+const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
+  width: 128,
+  height: 128,
+  channels: 3,
+};
 
 export type KolourEntry = {
   fee: Lovelace;
@@ -18,18 +30,11 @@ export type KolourQuotation = {
   expiration: number; // Unix Timestamp in seconds
 } & ExtraParams;
 
-export function calculateKolourFee(
-  kolour: Kolour,
-  discount?: bigint // Multiplied by 1E4
-): { fee: Lovelace; listedFee: Lovelace } {
+export function calculateKolourFee(kolour: Kolour): Lovelace {
   // TODO: Finalize price formula ;)
-  const listedFee = BigInt(
+  return BigInt(
     Buffer.from(kolour, "hex").reduce((sum, v) => sum + v * 1_000, 2_000_000)
   );
-  const fee = discount
-    ? listedFee - (listedFee * discount) / BigInt(10000)
-    : listedFee;
-  return { fee, listedFee };
 }
 
 export async function areKoloursAvailable(
@@ -58,6 +63,41 @@ export async function getUnavailableKolours(
       AND status <> 'expired';
   `;
   return new Set(rows.map((r) => r.kolour));
+}
+
+export async function generateKolourImageCid(
+  redis: Redis,
+  ipfs: IPFSHTTPClient,
+  kolour: Kolour
+) {
+  const cidKey = KOLOUR_IMAGE_CID_PREFIX + kolour;
+  let cachedCid = await redis.get(cidKey);
+  if (cachedCid) return cachedCid;
+
+  const imageLockKey = KOLOUR_IMAGE_LOCK_PREFIX + kolour;
+  const imageLock = await locking.acquire(imageLockKey, randomUUID(), {
+    ttl: 5,
+  });
+  try {
+    // Fetch again, just in case the image was already processed, better use WATCH
+    cachedCid = await redis.get(cidKey);
+    if (cachedCid) return cachedCid;
+    const image = await createKolourImage(kolour);
+    const { cid } = await ipfs.add(image, { pin: true });
+    const cidStr = cid.toString();
+    await redis.set(cidKey, cidStr, "EX", 86400); // 1 day
+    return cidStr;
+  } finally {
+    imageLock.release();
+  }
+}
+
+export async function createKolourImage(kolour: Kolour): Promise<Buffer> {
+  return sharp({
+    create: { ...IMAGE_OPTIONS, background: `#${kolour}` },
+  })
+    .png({ colors: 2 })
+    .toBuffer();
 }
 
 export const KOLOUR_IMAGE_CID_PREFIX = "ko:kolour:img:";
