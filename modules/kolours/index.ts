@@ -7,13 +7,14 @@ export const QUOTATION_TTL = 600; // 10 minutes
 
 export type Kolour = string; // RRGGBB
 
-export type KolourListing = {
+export type KolourEntry = {
   fee: Lovelace;
+  listedFee: Lovelace;
   image: string; // ipfs://<cid>
 };
 
 export type KolourQuotation = {
-  kolours: Record<Kolour, KolourListing>;
+  kolours: Record<Kolour, KolourEntry>;
   userAddress: Address;
   feeAddress: Address;
   expiration: number; // Unix Timestamp in seconds
@@ -30,15 +31,32 @@ export function parseKolour(text: unknown): Kolour | undefined {
   return undefined;
 }
 
+export function parseReferral(text: unknown): string | undefined {
+  if (text && typeof text === "string") return text.toUpperCase();
+  return undefined;
+}
+
+export async function getDiscount(sql: Sql, referral: string | undefined) {
+  if (!referral) return undefined;
+  const [row]: [{ discount: string }?] = await sql`
+    SELECT discount FROM kolours.referral
+    WHERE code = ${referral}
+  `;
+  return row ? BigInt(Math.trunc(Number(row.discount) * 10000)) : undefined;
+}
+
 export function calculateKolourFee(
   kolour: Kolour,
-  _address: Address,
-  _extra: ExtraParams
-) {
+  discount?: bigint // Multiplied by 1E4
+): { fee: Lovelace; listedFee: Lovelace } {
   // TODO: Finalize price formula ;)
-  return BigInt(
+  const listedFee = BigInt(
     Buffer.from(kolour, "hex").reduce((sum, v) => sum + v * 1_000, 2_000_000)
   );
+  const fee = discount
+    ? listedFee - (listedFee * discount) / BigInt(10000)
+    : listedFee;
+  return { fee, listedFee };
 }
 
 export async function areKoloursAvailable(
@@ -47,9 +65,7 @@ export async function areKoloursAvailable(
 ): Promise<boolean> {
   if (!kolours.length) return true;
   const res = await sql`
-    SELECT
-    FROM
-      kolours.kolour_book
+    SELECT FROM kolours.kolour_book
     WHERE
       kolour IN ${sql(kolours)}
       AND status <> 'expired';
@@ -63,10 +79,7 @@ export async function getUnavailableKolours(
 ): Promise<Set<Kolour>> {
   if (!kolours.length) return new Set();
   const rows = await sql<{ kolour: Kolour }[]>`
-    SELECT
-      kolour
-    FROM
-      kolours.kolour_book
+    SELECT kolour FROM kolours.kolour_book
     WHERE
       kolour IN ${sql(kolours)}
       AND status <> 'expired';
