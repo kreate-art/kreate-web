@@ -6,6 +6,7 @@ import styles from "./index.module.scss";
 const COLOR_TO_CLASSNAME = {
   "white-10": styles.colorWhite10,
   "white-05": styles.colorWhite05,
+  "white-30": styles.colorWhite30,
   "black-10": styles.colorBlack10,
   "black-05": styles.colorBlack05,
 };
