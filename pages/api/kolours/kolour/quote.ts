@@ -1,6 +1,5 @@
 import { randomUUID } from "crypto";
 
-import { Address } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 import sharp from "sharp";
 
@@ -13,13 +12,15 @@ import {
 import {
   calculateKolourFee,
   ExtraParams,
+  getDiscount,
   getUnavailableKolours,
   Kolour,
-  KolourListing,
+  KolourEntry,
   KolourQuotation,
   KOLOUR_IMAGE_CID_PREFIX,
   KOLOUR_IMAGE_LOCK_PREFIX,
   parseKolour,
+  parseReferral,
 } from "@/modules/kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -48,14 +49,16 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-    const { kolour: r_kolour, address, referral } = req.query;
+    const { kolour: r_kolour, referral: r_referral, address } = req.query;
 
     ClientError.assert(address && typeof address === "string", {
       _debug: "invalid address",
     });
-    ClientError.assert(!referral || typeof referral === "string", {
+
+    ClientError.assert(!r_referral || typeof r_referral === "string", {
       _debug: "invalid referral",
     });
+    const referral = parseReferral(r_referral);
 
     const r_kolours = r_kolour
       ? typeof r_kolour === "string"
@@ -80,13 +83,14 @@ export default async function handler(
     });
 
     const extra: ExtraParams = { referral };
+    const discount = referral ? await getDiscount(db, referral) : undefined;
 
     const quotation: KolourQuotation = {
       kolours: Object.fromEntries(
         await Promise.all(
           available.map(async (kolour) => [
             kolour,
-            await quoteKolour(kolour, address, extra),
+            await quoteKolour(kolour, discount),
           ])
         )
       ),
@@ -111,12 +115,11 @@ export default async function handler(
 
 async function quoteKolour(
   kolour: Kolour,
-  address: Address,
-  extra: ExtraParams
-): Promise<KolourListing> {
-  const fee = calculateKolourFee(kolour, address, extra);
+  discount?: bigint
+): Promise<KolourEntry> {
+  const fees = calculateKolourFee(kolour, discount);
   const cid = await generateKolourImageCid(kolour);
-  return { fee, image: `ipfs://${cid}` };
+  return { ...fees, image: `ipfs://${cid}` };
 }
 
 async function generateKolourImageCid(kolour: Kolour) {
