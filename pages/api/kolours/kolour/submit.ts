@@ -98,7 +98,7 @@ export default async function handler(
     }
     try {
       const submittedTxId = await txSigned.submit();
-      if (submittedTxId !== txId) console.warn("Tx Id mismatch");
+      if (submittedTxId !== txId) console.warn("tx id mismatch");
     } catch (submitError) {
       try {
         const deleted = await sql`
