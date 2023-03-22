@@ -364,11 +364,11 @@ export async function getDetailedProject(
     }
 
     const fallbackTier = fallbackTiers.get(projectId);
-    const tiers$Fallback: ProjectBenefitsTier[] | undefined =
+    const tiers$Fallback: ProjectBenefitsTier[] =
       tiers != null
         ? tiers
         : fallbackTier == null
-        ? undefined
+        ? []
         : [
             {
               id: "default",
@@ -379,7 +379,7 @@ export async function getDetailedProject(
               maximumMembers: null,
             },
           ];
-    const tiersWithActiveMemberCount = tiers$Fallback?.map((tier) => ({
+    const tiersWithActiveMemberCount = tiers$Fallback.map((tier) => ({
       ...tier,
       activeMemberCount: tiersActiveMember.find(
         (value) => value.tierId === tier.id
