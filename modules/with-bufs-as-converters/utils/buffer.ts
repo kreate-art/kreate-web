@@ -1,6 +1,6 @@
-import { createHash } from "crypto";
-
 type Sha256 = string;
+
+const SUBTLE_CRYPTO_SIZE_LIMIT = 64 << 20;
 
 export function hexToByte(text: string): number {
   return parseInt(text, 16);
@@ -29,8 +29,17 @@ export async function arrayBufferToSha256(
 }
 
 export async function blobToSha256(blob: Blob): Promise<Sha256> {
+  /**NOTE: @sk-tenba: for better performance, if the size is less than 64MB, the hash
+   * the SHA-256 should be calculated from the array buffer.
+   */
+  const crypto = await import("crypto");
+  if (blob.size < SUBTLE_CRYPTO_SIZE_LIMIT) {
+    const buf = await blob.arrayBuffer();
+    const sha256 = await arrayBufferToSha256(buf);
+    return sha256;
+  }
   const reader = blob.stream().getReader();
-  const sha256stream = createHash("sha256");
+  const sha256stream = crypto.createHash("sha256");
   while (true) {
     const chunk = await reader.read();
     if (!chunk.value) break;
