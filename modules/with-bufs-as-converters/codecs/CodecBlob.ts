@@ -1,6 +1,6 @@
 import { CodecError } from "../errors";
 import { Url, Codec } from "../types";
-import { blobToSha256 } from "../utils/buffer";
+import { arrayBufferToSha256, blobToSha256 } from "../utils/buffer";
 
 import { pure, WithBufsAs } from "@/modules/with-bufs-as";
 
@@ -8,12 +8,25 @@ import { pure, WithBufsAs } from "@/modules/with-bufs-as";
 // `CodecArrayBuffer`, except that each buf is a `Blob`.
 // We will use this codec to replace `CodecArrayBuffer`.
 
+async function fromBlob(blob: Blob): Promise<WithBufsAs<Url, Blob>> {
+  /**NOTE: @sk-tenba: for better performance, if the size is less than 64MB, the hash
+   * the SHA-256 should be calculated from the array buffer.
+   */
+  if (blob.size < 64 << 20) {
+    const buf = await blob.arrayBuffer();
+    const sha256 = await arrayBufferToSha256(buf);
+    return { data: "sha256:" + sha256, bufs: { [sha256]: blob } };
+  } else {
+    const sha256 = await blobToSha256(blob);
+    return { data: "sha256:" + sha256, bufs: { [sha256]: blob } };
+  }
+}
+
 async function fromUrl(url: Url): Promise<WithBufsAs<Url, Blob>> {
   if (!url.startsWith("blob:")) return pure(url);
   const response = await fetch(url);
   const blob = await response.blob();
-  const sha256 = await blobToSha256(blob);
-  return { data: "sha256:" + sha256, bufs: { [sha256]: blob } };
+  return fromBlob(blob);
 }
 
 function toUrl({ data, bufs }: WithBufsAs<Url, Blob>): Url {
