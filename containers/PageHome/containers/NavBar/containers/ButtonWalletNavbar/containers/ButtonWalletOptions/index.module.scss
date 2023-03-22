@@ -9,7 +9,7 @@
   flex-direction: row;
   align-items: center;
   height: 48px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 91px;
   background-color: transparent;
   padding: 7px 16px;
@@ -25,7 +25,7 @@
   &.showDropdown {
     color: #222222;
     background-color: white;
-    border-bottom: 1px solid rgba(34, 34, 34, 0.1);
+    border-bottom: 1px solid rgba(34, 34, 34, 0.32);
   }
 }
 
