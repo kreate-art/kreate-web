@@ -67,14 +67,15 @@ export default async function handler(
     const txId = C.hash_transaction(txBody).to_hex();
 
     const records = Object.entries(quotation.kolours).map(
-      ([kolour, listing]) => ({
+      ([kolour, entry]) => ({
         kolour,
         status: "booked",
         txId,
         txExpSlot: txExp.slot,
         txExpTime: txExp.time,
-        fee: listing.fee,
-        imageCid: listing.image.replace("ipfs://", ""),
+        fee: entry.fee,
+        listedFee: entry.listedFee,
+        imageCid: entry.image.replace("ipfs://", ""),
         userAddress: quotation.userAddress,
         feeAddress: quotation.feeAddress,
         referral: quotation.referral ?? null,
@@ -96,8 +97,8 @@ export default async function handler(
       else throw lockError;
     }
     try {
-      // const submittedTxId = await txSigned.submit();
-      // if (submittedTxId !== txId) console.warn("Tx Id mismatch");
+      const submittedTxId = await txSigned.submit();
+      if (submittedTxId !== txId) console.warn("Tx Id mismatch");
     } catch (submitError) {
       try {
         const deleted = await sql`
