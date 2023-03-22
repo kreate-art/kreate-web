@@ -1,8 +1,6 @@
 import { Address } from "lucid-cardano";
 
-import { redis } from "../next-backend/connections";
-
-import { assert } from "@/modules/common-utils";
+import { Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
 
 export const QUOTATION_TTL = 600; // 10 minutes
@@ -14,7 +12,7 @@ export type KolourListing = {
   image: string; // ipfs://<cid>
 };
 
-export type Quotation = {
+export type KolourQuotation = {
   kolours: Record<Kolour, KolourListing>;
   userAddress: Address;
   feeAddress: Address;
@@ -44,32 +42,37 @@ export function calculateKolourFee(
 }
 
 export async function areKoloursAvailable(
+  sql: Sql,
   kolours: Kolour[]
-): Promise<Record<Kolour, boolean>> {
-  // TODO: Differentiate between "booked" and "minted"
-  const count = kolours.length;
-  if (count === 0) return {};
-  else if (count === 1) {
-    const [kolour] = kolours;
-    return { [kolour]: !(await redis.exists(KO_LOCK_PREFIX + kolour)) };
-  } else {
-    const pipeline = redis.pipeline();
-    for (const kolour of kolours) pipeline.exists(KO_LOCK_PREFIX + kolour);
-    const replies = await pipeline.exec();
-    assert(replies, "pipeline: replies must not be null");
-    return Object.fromEntries(
-      replies.map(([error, locked], index) => {
-        const kolour = kolours[index];
-        if (error)
-          throw new Error(`unable to check availability for: ${kolour}`, {
-            cause: error,
-          });
-        return [kolour, !locked];
-      })
-    );
-  }
+): Promise<boolean> {
+  if (!kolours.length) return true;
+  const res = await sql`
+    SELECT
+    FROM
+      kolours.kolour_book
+    WHERE
+      kolour IN ${sql(kolours)}
+      AND status <> 'expired';
+  `;
+  return res.count === 0;
 }
 
-export const KO_LOCK_PREFIX = "ko:x:";
-export const KO_IMAGE_CID_PREFIX = "ko:img:";
-export const KO_IMAGE_LOCK_PREFIX = "ko:img.lock:";
+export async function getUnavailableKolours(
+  sql: Sql,
+  kolours: Kolour[]
+): Promise<Set<Kolour>> {
+  if (!kolours.length) return new Set();
+  const rows = await sql<{ kolour: Kolour }[]>`
+    SELECT
+      kolour
+    FROM
+      kolours.kolour_book
+    WHERE
+      kolour IN ${sql(kolours)}
+      AND status <> 'expired';
+  `;
+  return new Set(rows.map((r) => r.kolour));
+}
+
+export const KOLOUR_IMAGE_CID_PREFIX = "ko:kolour:img:";
+export const KOLOUR_IMAGE_LOCK_PREFIX = "ko:kolour:img.lock:";

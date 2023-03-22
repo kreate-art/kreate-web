@@ -1,6 +1,6 @@
 // TODO: Duplicated of kreate-index/src/db.ts
 import Redis from "ioredis";
-import * as red from "ioredis";
+import * as rd from "ioredis";
 import * as IpfsClient from "ipfs-http-client";
 import { Lucid, Network, Blockfrost } from "lucid-cardano";
 import postgres from "postgres";
@@ -100,11 +100,11 @@ export const redis = service(
 
 declare module "ioredis" {
   interface RedisCommander<Context> {
-    delif(key: string, value: string): red.Result<number, Context>;
+    delif(key: rd.RedisKey, value: rd.RedisValue): rd.Result<number, Context>;
     mdelif(
       num: number,
-      ...args: [...kvs: (red.RedisKey | string | Buffer | number)[]]
-    ): red.Result<number, Context>;
+      ...args: [...kvs: (rd.RedisKey | rd.RedisValue)[]]
+    ): rd.Result<number, Context>;
   }
 }
 

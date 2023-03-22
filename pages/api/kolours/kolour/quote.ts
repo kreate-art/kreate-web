@@ -1,7 +1,8 @@
+import { randomUUID } from "crypto";
+
 import { Address } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 import sharp from "sharp";
-import * as Uuid from "uuid";
 
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
@@ -10,19 +11,19 @@ import {
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import {
-  areKoloursAvailable,
   calculateKolourFee,
   ExtraParams,
+  getUnavailableKolours,
   Kolour,
   KolourListing,
-  KO_IMAGE_CID_PREFIX,
-  KO_IMAGE_LOCK_PREFIX,
+  KolourQuotation,
+  KOLOUR_IMAGE_CID_PREFIX,
+  KOLOUR_IMAGE_LOCK_PREFIX,
   parseKolour,
-  Quotation,
 } from "@/modules/kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { ipfs, redis } from "@/modules/next-backend/connections";
+import { db, ipfs, redis } from "@/modules/next-backend/connections";
 import locking from "@/modules/next-backend/locking";
 
 const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
@@ -32,7 +33,7 @@ const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
 };
 
 type Response = {
-  quotation: Quotation;
+  quotation: KolourQuotation;
   signature: crypt.Base64;
   unavailable?: Kolour[];
 };
@@ -72,17 +73,15 @@ export default async function handler(
     );
     ClientError.assert(kolours.length, { _debug: "kolour is required" });
 
-    const status = await areKoloursAvailable(kolours);
-    const available = kolours.filter((k) => status[k]);
-    const unavailable = kolours.filter((k) => !status[k]);
-
+    const unavailable = await getUnavailableKolours(db, kolours);
+    const available = kolours.filter((k) => !unavailable.has(k));
     ClientError.assert(available.length, {
       _debug: "all selected kolours are unavailable",
     });
 
     const extra: ExtraParams = { referral };
 
-    const quotation: Quotation = {
+    const quotation: KolourQuotation = {
       kolours: Object.fromEntries(
         await Promise.all(
           available.map(async (kolour) => [
@@ -102,7 +101,7 @@ export default async function handler(
     const ret: Response = {
       quotation,
       signature,
-      unavailable: unavailable.length ? unavailable : undefined,
+      unavailable: unavailable.size ? Array.from(unavailable) : undefined,
     };
     sendJson(res, ret);
   } catch (error) {
@@ -121,12 +120,14 @@ async function quoteKolour(
 }
 
 async function generateKolourImageCid(kolour: Kolour) {
-  const cidKey = KO_IMAGE_CID_PREFIX + kolour;
+  const cidKey = KOLOUR_IMAGE_CID_PREFIX + kolour;
   let cachedCid = await redis.get(cidKey);
   if (cachedCid) return cachedCid;
 
-  const imageLockKey = KO_IMAGE_LOCK_PREFIX + kolour;
-  const imageLock = await locking.acquire(imageLockKey, Uuid.v4(), { ttl: 5 });
+  const imageLockKey = KOLOUR_IMAGE_LOCK_PREFIX + kolour;
+  const imageLock = await locking.acquire(imageLockKey, randomUUID(), {
+    ttl: 5,
+  });
   try {
     // Fetch again, just in case the image was already processed, better use WATCH
     cachedCid = await redis.get(cidKey);
@@ -138,7 +139,7 @@ async function generateKolourImageCid(kolour: Kolour) {
       .toBuffer();
     const { cid } = await ipfs.add(image, { pin: true });
     const cidStr = cid.toString();
-    await redis.set(cidKey, cidStr);
+    await redis.set(cidKey, cidStr, "EX", 86400); // 1 day
     return cidStr;
   } finally {
     imageLock.release();
