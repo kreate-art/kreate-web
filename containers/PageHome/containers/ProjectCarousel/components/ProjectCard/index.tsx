@@ -136,11 +136,7 @@ export default function ProjectCard({
               maxLines={descriptionMaxLines}
             />
             <ProjectMilestoneProgress className={styles.milestoneProgress} />
-            <ProjectStats
-              className={styles.stats}
-              value={value.stats}
-              size="large"
-            />
+            <ProjectStats className={styles.stats} value={value.stats} />
           </div>
         </>
       </Link>
