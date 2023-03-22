@@ -1,3 +1,5 @@
+import { createHash } from "crypto";
+
 type Sha256 = string;
 
 export function hexToByte(text: string): number {
@@ -24,4 +26,15 @@ export async function arrayBufferToSha256(
 ): Promise<Sha256> {
   const bytesOfSha256 = await crypto.subtle.digest("SHA-256", buffer);
   return arrayBufferToHex(bytesOfSha256);
+}
+
+export async function blobToSha256(blob: Blob): Promise<Sha256> {
+  const reader = blob.stream().getReader();
+  const sha256stream = createHash("sha256");
+  while (true) {
+    const chunk = await reader.read();
+    if (!chunk.value) break;
+    sha256stream.update(chunk.value);
+  }
+  return sha256stream.digest("hex");
 }
