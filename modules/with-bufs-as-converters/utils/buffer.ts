@@ -21,13 +21,6 @@ export function hexToArrayBuffer(text: string): ArrayBuffer {
   return typedArray.buffer;
 }
 
-export async function arrayBufferToSha256(
-  buffer: ArrayBuffer
-): Promise<Sha256> {
-  const bytesOfSha256 = await crypto.subtle.digest("SHA-256", buffer);
-  return arrayBufferToHex(bytesOfSha256);
-}
-
 export async function blobToSha256(blob: Blob): Promise<Sha256> {
   /**NOTE: @sk-tenba: for better performance, if the size is less than 64MB, the hash
    * the SHA-256 should be calculated from the array buffer.
@@ -37,7 +30,11 @@ export async function blobToSha256(blob: Blob): Promise<Sha256> {
     globalThis?.crypto?.subtle != null
   ) {
     const buf = await blob.arrayBuffer();
-    const sha256 = await arrayBufferToSha256(buf);
+    const bytesOfSha256 = await globalThis?.crypto?.subtle.digest(
+      "SHA-256",
+      buf
+    );
+    const sha256 = await arrayBufferToHex(bytesOfSha256);
     return sha256;
   }
   const crypto = await import("crypto");
