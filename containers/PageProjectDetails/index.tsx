@@ -480,7 +480,7 @@ export default function PageProjectDetails({
                     }
                     lovelaceStake={project.stats.numLovelacesStaked}
                   />
-                  {!project.tiers ? null : (
+                  {project.tiers == null || !project.tiers.length ? null : (
                     <PanelBenefits
                       value={project.tiers}
                       stakingAmount={totalStaked?.amount}
