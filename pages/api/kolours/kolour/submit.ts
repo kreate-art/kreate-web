@@ -5,9 +5,9 @@ import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import {
   KOLOURS_HMAC_SECRET,
-  KOLOURS_PRODUCER_PRIVATE_KEY,
+  KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
-import { areKoloursAvailable, KolourQuotation } from "@/modules/kolours";
+import { areKoloursAvailable, KolourQuotation } from "@/modules/kolours/kolour";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
@@ -136,8 +136,9 @@ function getTxExp(lucid: Lucid, txBody: Core.TransactionBody) {
 }
 
 async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
-  assert(KOLOURS_PRODUCER_PRIVATE_KEY, "kolours disabled!");
-  // TODO: Load via Vault / SSM
-  const txComplete = new TxComplete(lucid, tx);
-  return txComplete.signWithPrivateKey(KOLOURS_PRODUCER_PRIVATE_KEY).complete();
+  assert(KOLOURS_KOLOUR_NFT_PRIVATE_KEY, "kolour nft disabled");
+  // TODO: Load keys via Vault / SSM
+  return new TxComplete(lucid, tx)
+    .signWithPrivateKey(KOLOURS_KOLOUR_NFT_PRIVATE_KEY)
+    .complete();
 }

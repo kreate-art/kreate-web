@@ -6,22 +6,24 @@ import sharp from "sharp";
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import {
-  KOLOURS_FEE_ADDRESS,
+  KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import {
-  calculateKolourFee,
   ExtraParams,
   getDiscount,
-  getUnavailableKolours,
   Kolour,
+  parseKolour,
+  parseReferral,
+} from "@/modules/kolours/common";
+import {
+  calculateKolourFee,
+  getUnavailableKolours,
   KolourEntry,
   KolourQuotation,
   KOLOUR_IMAGE_CID_PREFIX,
   KOLOUR_IMAGE_LOCK_PREFIX,
-  parseKolour,
-  parseReferral,
-} from "@/modules/kolours";
+} from "@/modules/kolours/kolour";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, ipfs, redis } from "@/modules/next-backend/connections";
@@ -44,7 +46,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    assert(KOLOURS_HMAC_SECRET && KOLOURS_FEE_ADDRESS, "kolours disabled");
+    assert(
+      KOLOURS_HMAC_SECRET && KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
+      "kolour nft disabled"
+    );
 
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
@@ -95,7 +100,7 @@ export default async function handler(
         )
       ),
       userAddress: address,
-      feeAddress: KOLOURS_FEE_ADDRESS,
+      feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
       expiration: getExpirationTime(),
       ...extra,
     };
