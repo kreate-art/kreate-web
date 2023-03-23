@@ -5,12 +5,10 @@ import Section from "./components/Section";
 import NavBar from "./containers/NavBar";
 import NftCardGrid from "./containers/NftCardGrid";
 import PanelMint from "./containers/PanelMint";
-import PanelMintKolours from "./containers/PanelMintKolours";
 import { useAllNfts } from "./hooks/useAllNfts";
 import styles from "./index.module.scss";
 
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
-import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   className?: string;
@@ -45,16 +43,6 @@ export default function PageKolours({ className, style }: Props) {
           fee={selectedNft?.fee}
           listedFee={selectedNft?.listedFee}
         />
-      </Section>
-      <Section style={{ opacity: "25%" }}>
-        {selectedNft ? (
-          <PanelMintKolours
-            initialImage={selectedNft.initialImage}
-            palette={selectedNft.palette}
-          />
-        ) : (
-          <Typography.Div content="Please select an NFT" />
-        )}
       </Section>
       <Section>
         {allNfts ? (
