@@ -24,6 +24,8 @@ export default function NftPrice({ className, style, fee, listedFee }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Row
+        // due to a bug from backdrop-filter, we have to remount if any content changes
+        key={`${fee} ${listedFee}`}
         className={styles.content}
         gap="16px"
         padding="16px 20px"
