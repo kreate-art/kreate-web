@@ -10,6 +10,10 @@
   width: 50%;
   align-items: center;
 
+  &.lastRow {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
   &.topLeftColumn {
     border-top-left-radius: 12px;
   }
@@ -19,6 +23,10 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   width: 50%;
+
+  &.lastRow {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
   &.topRightColumn {
     border-top-right-radius: 12px;
@@ -68,4 +76,60 @@
   font-size: 32px;
   line-height: 48px;
   text-align: center;
+}
+
+.fruitTable {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "a a a"
+    "b c d";
+  grid-auto-rows: 1fr;
+  grid-gap: 20px;
+}
+
+.royaltyFeesContainer {
+  padding: 62px;
+  color: white;
+  background-color: #006e46;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.royaltyFeesChild {
+  height: 153px;
+  padding: 32px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.kolourButton {
+  color: white;
+  display: flex;
+  gap: 8px;
+  filter: drop-shadow(-8px -4px 0px #fcb045) drop-shadow(8px 9px 0px #833ab4);
+  background: #ec5929;
+  border-radius: 69px;
+  padding: 24px;
+  border: none;
+  outline: none;
+  margin-top: 63px;
+  cursor: pointer;
+}
+
+.kolourButtonContainer {
+  display: flex;
+  justify-content: center;
 }

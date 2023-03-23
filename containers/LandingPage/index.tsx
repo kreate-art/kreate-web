@@ -9,6 +9,7 @@ import KreataverseStory from "./containers/KreataverseStory";
 import NftCollection from "./containers/NftCollection";
 import IconSwatches from "./containers/NftCollection/components/IconSwatches";
 import RemindBar from "./containers/RemindBar";
+import RewardSection from "./containers/RewardsSection";
 import { useLandingPageColor } from "./hooks/useLandingPageColor";
 import background from "./image/background.png";
 // import kolourNfts1 from "./image/kolour-nfts-1.png";
