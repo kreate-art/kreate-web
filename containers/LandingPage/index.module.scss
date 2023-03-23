@@ -23,16 +23,21 @@
 }
 
 .backgroundContainer {
-  height: 900px;
-  background-size: cover;
+  width: 100%;
+  position: relative;
+}
+
+.backgroundContentContainer {
+  position: absolute;
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .backgroundContent {
-  height: 94px;
-  display: flex;
   gap: 70px;
+  display: flex;
   align-items: center;
+  height: 94px;
 }
