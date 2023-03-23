@@ -1,6 +1,10 @@
 import cx from "classnames";
 import * as React from "react";
 
+import ModalConnectWallet from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar/containers/ModalConnectWallet";
+import { Kolour } from "../../kolours-types";
+import ModalMintKolour from "../ModalMintKolour";
+
 import Palette from "./components/Palette";
 import Viewer from "./components/Viewer";
 import IconChevronLeft from "./icons/IconChevronLeft";
@@ -11,9 +15,18 @@ import { Selection } from "./types";
 import { range } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { Kolours } from "@/modules/kolours/types";
+import { useModalPromises } from "@/modules/modal-promises";
+import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
+import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
+
+type SuccessEvent = {
+  lovelaceAmount: LovelaceAmount;
+};
+
+export type ModalMintKolour$SuccessEvent = SuccessEvent;
 
 type Props = {
   className?: string;
@@ -43,6 +56,50 @@ export default function PanelMint({
   onGoNext,
 }: Props) {
   const [selection, setSelection] = React.useState<Selection>({});
+  const { walletStatus } = useAppContextValue$Consumer();
+  const { showModal } = useModalPromises();
+  const { showMessage } = useToast();
+
+  const handleClickButtonMint = async () => {
+    switch (walletStatus.status) {
+      case "disconnected":
+        return void showModal<void>((resolve) => (
+          <ModalConnectWallet
+            open
+            onCancel={() => resolve()}
+            onSuccess={() => resolve()}
+          />
+        ));
+      case "connected": {
+        const kolours: Kolour[] = [];
+        if (!palette) return;
+
+        for (const [index, selected] of Object.entries(selection)) {
+          if (selected) kolours.push(palette[parseInt(index)].kolour);
+        }
+
+        type ModalMintKolour$ModalResult =
+          | { type: "success"; event: ModalMintKolour$SuccessEvent }
+          | { type: "cancel" };
+
+        const modalMintKolour$ModalResult =
+          await showModal<ModalMintKolour$ModalResult>((resolve) => (
+            <ModalMintKolour
+              open
+              kolours={kolours}
+              onCancel={() => resolve({ type: "cancel" })}
+              onSuccess={(event) => resolve({ type: "success", event })}
+            />
+          ));
+        if (modalMintKolour$ModalResult.type !== "success") return;
+        // ModalMintSuccess
+        return;
+      }
+      default:
+        return showMessage({ title: "Wallet is not ready.", color: "danger" });
+    }
+  };
+
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col gap="16px" paddingBottom="32px">
@@ -87,7 +144,7 @@ export default function PanelMint({
         />
         <Divider$Horizontal$CustomDash />
         <Flex.Row justifyContent="center">
-          <Button.Solid content="Mint" disabled />
+          <Button.Solid content="Mint" onClick={handleClickButtonMint} />
         </Flex.Row>
       </Flex.Col>
     </div>
