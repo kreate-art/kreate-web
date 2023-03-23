@@ -22,7 +22,7 @@ const DEFAULT_IMAGE_URL = `data:image/svg+xml,
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  grayscaleImage: Image | undefined;
+  initialImage: Image | undefined;
   palette: PaletteItem[] | undefined;
   selectedIndexes: IndexOf<PaletteItem>[] | undefined;
   fee: LovelaceAmount | undefined;
@@ -32,7 +32,7 @@ type Props = {
 export default function Viewer({
   className,
   style,
-  grayscaleImage,
+  initialImage,
   palette,
   selectedIndexes,
   fee,
@@ -44,7 +44,7 @@ export default function Viewer({
         <WithAspectRatio className={styles.imageContainer} aspectRatio={2 / 1}>
           <ImageView
             className={styles.image}
-            src={grayscaleImage?.src || DEFAULT_IMAGE_URL}
+            src={initialImage?.src || DEFAULT_IMAGE_URL}
             crop={{ x: 0, y: 0, w: 1, h: 1 }}
           />
           {palette?.map((item, index) => (

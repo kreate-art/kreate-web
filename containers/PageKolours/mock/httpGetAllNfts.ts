@@ -25,7 +25,7 @@ export async function httpGetAllNfts(): Promise<Response> {
     nfts: [
       {
         id: "2802c300-169b-41a7-bd66-afe3df3e0d1d",
-        grayscaleImage: grayscale,
+        initialImage: grayscale,
         palette: [
           {
             image: layer0,
@@ -96,7 +96,7 @@ export async function httpGetAllNfts(): Promise<Response> {
       },
       {
         id: "ffcde3e2-2622-4fd0-9bd2-7523f0cc20a3",
-        grayscaleImage: grayscale,
+        initialImage: grayscale,
         palette: [
           {
             image: layer8,

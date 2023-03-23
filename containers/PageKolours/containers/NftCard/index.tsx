@@ -26,7 +26,7 @@ export default function NftCard({ className, style, value, onClick }: Props) {
         <WithAspectRatio aspectRatio={5 / 3}>
           <ImageView
             style={{ width: "100%", height: "100%" }}
-            src={value.grayscaleImage.src}
+            src={value.initialImage.src}
             crop={{ x: 0, y: 0, w: 1, h: 1 }}
           />
         </WithAspectRatio>
