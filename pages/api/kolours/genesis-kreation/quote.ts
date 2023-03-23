@@ -13,7 +13,6 @@ import {
 } from "@/modules/kolours/common";
 import { quoteGenesisKreation } from "@/modules/kolours/genesis-kreation";
 import {
-  ExtraParams,
   GenesisKreationQuotation,
   GenesisKreationStatus,
 } from "@/modules/kolours/types/Kolours";
@@ -52,7 +51,6 @@ export default async function handler(
 
     const referral = lookupReferral(address);
 
-    const extra: ExtraParams = { referral };
     const discount = referral ? await fetchDiscount(db, referral) : undefined;
 
     const quoted = await quoteGenesisKreation(db, id, discount);
@@ -67,7 +65,7 @@ export default async function handler(
       listedFee,
       userAddress: address,
       feeAddress: KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
-      ...extra,
+      referral,
       expiration: getExpirationTime(),
     };
     const signature =
