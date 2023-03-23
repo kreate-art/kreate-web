@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 
 import WithAspectRatio from "../../../../../../components/WithAspectRatio";
+import CompleteIndicator from "../../../../components/CompleteIndicator";
 import { Image, PaletteItem } from "../../../../kolours-types";
 import NftPrice from "../NftPrice";
 
@@ -66,6 +67,12 @@ export default function Viewer({
             fee={fee}
             listedFee={listedFee}
           />
+          {palette ? (
+            <CompleteIndicator
+              value={palette}
+              className={styles.completeIndicator}
+            />
+          ) : null}
         </WithAspectRatio>
       </Flex.Col>
     </div>

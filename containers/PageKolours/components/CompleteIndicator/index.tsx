@@ -1,7 +1,7 @@
 import cx from "classnames";
 import { PieChart } from "react-minimal-pie-chart";
 
-import { PaletteItem } from "../../../../kolours-types";
+import { PaletteItem } from "../../kolours-types";
 
 import styles from "./index.module.scss";
 

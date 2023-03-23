@@ -22,3 +22,11 @@
   left: 50%;
   transform: translate(-50%, 0);
 }
+
+.completeIndicator {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+}
