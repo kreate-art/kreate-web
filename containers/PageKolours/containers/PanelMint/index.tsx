@@ -19,6 +19,7 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   initialImage: Kolours.Image | undefined;
+  finalImage: Kolours.Image | undefined;
   palette: Kolours.Layer[] | undefined;
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
@@ -32,6 +33,7 @@ export default function PanelMint({
   className,
   style,
   initialImage,
+  finalImage,
   palette,
   fee,
   listedFee,
@@ -47,6 +49,7 @@ export default function PanelMint({
         <div className={styles.viewerContainer}>
           <Viewer
             initialImage={initialImage}
+            finalImage={finalImage}
             palette={palette}
             selectedIndexes={
               palette
