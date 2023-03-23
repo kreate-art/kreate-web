@@ -31,3 +31,7 @@ export function patchIpfsUrl(url: string): string | undefined {
       if (url.startsWith(origin)) return "/_ipfs/" + url.slice(origin.length);
   return undefined;
 }
+
+export function getIpfsUrl(cid: string): string {
+  return `${IPFS_GATEWAY_ORIGIN}/ipfs/${cid}`;
+}
