@@ -31,7 +31,7 @@ export default function Palette({
       <Flex.Row alignItems="center" justifyContent="center" flexWrap="wrap">
         {palette
           ? palette.map((item, index) => (
-              <Flex.Cell key={index} flex="0 1 128px">
+              <Flex.Cell key={index} flex="1 1 128px" maxWidth="160px">
                 <WithAspectRatio aspectRatio={1 / 1}>
                   <PaletteCell
                     fill

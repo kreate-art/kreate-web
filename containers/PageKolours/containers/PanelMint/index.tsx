@@ -36,6 +36,7 @@ export default function PanelMint({
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col gap="16px" paddingBottom="32px">
         <Viewer
+          className={styles.viewer}
           grayscaleImage={grayscaleImage}
           palette={palette}
           selectedIndexes={
@@ -49,13 +50,14 @@ export default function PanelMint({
           listedFee={listedFee}
         />
         <Palette
+          className={styles.palette}
           palette={palette}
           selection={selection}
           onSelectionChange={setSelection}
         />
         <Divider$Horizontal$CustomDash />
         <Flex.Row justifyContent="center">
-          <Button.Solid content="Mint" />
+          <Button.Solid content="Mint" disabled />
         </Flex.Row>
       </Flex.Col>
     </div>

@@ -37,7 +37,7 @@ export default function PageKolours({ className, style }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <NavBar className={styles.navBar} />
-      <Section>
+      <Section marginTop="24px">
         <PanelMint
           key={selectedId}
           grayscaleImage={selectedNft?.grayscaleImage}
