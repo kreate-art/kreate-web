@@ -1,45 +1,16 @@
-import { Address } from "lucid-cardano";
+import { calculateDiscountedFee } from "./common";
+import {
+  GenesisKreationEntry,
+  GenesisKreationId,
+  GenesisKreationStatus,
+  Kolour,
+  Layer,
+} from "./types/Kolours";
 
-import { calculateDiscountedFee, ExtraParams, Kolour } from "./common";
-
-import { UnixTimestamp } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
 import { getIpfsUrl } from "@/modules/urls";
-
-export type GenesisKreationId = string; // Act as token name also
-
-export type GenesisKreationStatus = "unready" | "ready" | "booked" | "minted";
-
-export type GenesisKreationQuotation = {
-  id: GenesisKreationId;
-  image: string; // ipfs://<cid>
-  fee: Lovelace;
-  listedFee: Lovelace;
-  userAddress: Address;
-  feeAddress: Address;
-  expiration: number; // Unix Timestamp in seconds
-} & ExtraParams;
-
-type Image = { src: string };
-
-type KolourLayer = {
-  kolour: Kolour;
-  image: Image;
-  status: "free" | "booked" | "minted";
-};
-
-export type GenesisKreationEntry = {
-  id: GenesisKreationId;
-  status: GenesisKreationStatus;
-  initialImage: Image;
-  finalImage: Image;
-  palette: KolourLayer[];
-  fee: Lovelace;
-  listedFee: Lovelace;
-  createdAt: UnixTimestamp;
-} & ExtraParams;
 
 type GenesisKreationDbRow = {
   kreation: GenesisKreationId;
@@ -112,7 +83,7 @@ export async function getAllGenesisKreations(
         ? "ready"
         : "unready";
       const palette = r_palette.map(
-        ({ k, l }, i): KolourLayer => ({
+        ({ k, l }, i): Layer => ({
           kolour: k,
           image: { src: getIpfsUrl(l) },
           status: koStatuses[i],

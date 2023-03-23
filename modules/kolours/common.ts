@@ -1,17 +1,12 @@
 import { Address, Core, Lucid } from "lucid-cardano";
 
+import { Kolour } from "./types/Kolours";
+
 import { Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
 
 export const QUOTATION_TTL = 600; // 10 minutes
 export const DISCOUNT_MULTIPLIER = 10000;
-
-export type Kolour = string; // RRGGBB
-
-// Reserved for future usage :)
-export type ExtraParams = {
-  referral?: string;
-};
 
 export function parseKolour(text: unknown): Kolour | undefined {
   if (text && typeof text === "string" && /^[0-9A-Fa-f]{6}$/.test(text))
