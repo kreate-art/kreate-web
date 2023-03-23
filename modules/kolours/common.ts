@@ -1,3 +1,5 @@
+import { Core, Lucid } from "lucid-cardano";
+
 import { Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
 
@@ -44,4 +46,12 @@ export function getExpirationTime(now?: number): number {
   // Less signature leak
   unixSecs -= unixSecs % 60;
   return unixSecs + QUOTATION_TTL;
+}
+
+export function getTxExp(lucid: Lucid, txBody: Core.TransactionBody) {
+  const txTtl = txBody.ttl();
+  if (txTtl == null) return null;
+  const slot = Number(txTtl.to_str());
+  const time = lucid.utils.slotToUnixTime(slot);
+  return { slot, time };
 }

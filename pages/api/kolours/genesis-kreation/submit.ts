@@ -4,11 +4,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import {
+  KOLOURS_GENESIS_KREATION_PRIVATE_KEY,
   KOLOURS_HMAC_SECRET,
-  KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
 import { getTxExp } from "@/modules/kolours/common";
-import { areKoloursAvailable, KolourQuotation } from "@/modules/kolours/kolour";
+import {
+  GenesisKreationQuotation,
+  getGenesisKreationStatus,
+} from "@/modules/kolours/genesis-kreation";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
@@ -21,7 +24,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    assert(KOLOURS_HMAC_SECRET, "kolour nft disabled");
+    assert(KOLOURS_HMAC_SECRET, "genesis kreation disabled");
 
     ClientError.assert(req.method === "POST", {
       _debug: "invalid http method",
@@ -30,7 +33,7 @@ export default async function handler(
 
     const { tx: txHex, quotation: quot, signature } = req.body;
 
-    ClientError.assert(quot && typeof quot === "object" && "kolours" in quot, {
+    ClientError.assert(quot && typeof quot === "object" && "id" in quot, {
       _debug: "invalid quotation",
     });
     ClientError.assert(
@@ -46,15 +49,21 @@ export default async function handler(
     });
 
     // TODO: Check quotation format
-    const quotation = quot as KolourQuotation; // It passed the signature check
+    const quotation = quot as GenesisKreationQuotation;
     ClientError.assert(Date.now() <= quotation.expiration * 1000, {
       _debug: "expired",
     });
 
-    ClientError.assert(
-      await areKoloursAvailable(sql, Object.keys(quotation.kolours)),
-      { _debug: "kolours are unavailable" }
-    );
+    const status = await getGenesisKreationStatus(sql, quotation.id);
+    switch (status) {
+      case "unready":
+        throw new ClientError({ _debug: "genesis kreation is not ready" });
+      case "booked":
+      case "minted":
+        throw new ClientError({ _debug: "genesis kreation is unavailable" });
+      case null:
+        throw new ClientError({ _debug: "unknown genesis kreation" });
+    }
 
     const lucid = await lucid$();
 
@@ -68,35 +77,31 @@ export default async function handler(
 
     const txId = C.hash_transaction(txBody).to_hex();
 
-    const records = Object.entries(quotation.kolours)
-      .sort() // Deterministic ordering helps with avoiding deadlocks
-      .map(([kolour, entry]) => ({
-        kolour,
-        status: "booked",
-        txId,
-        txExpSlot: txExp.slot,
-        txExpTime: txExp.time,
-        fee: entry.fee,
-        listedFee: entry.listedFee,
-        imageCid: entry.image.replace("ipfs://", ""),
-        userAddress: quotation.userAddress,
-        feeAddress: quotation.feeAddress,
-        referral: quotation.referral ?? null,
-      }));
+    const record = {
+      kreation: quotation.id,
+      status: "booked",
+      txId,
+      txExpSlot: txExp.slot,
+      txExpTime: txExp.time,
+      fee: quotation.fee,
+      listedFee: quotation.listedFee,
+      userAddress: quotation.userAddress,
+      feeAddress: quotation.feeAddress,
+      referral: quotation.referral ?? null,
+    };
 
     const txSigned = await signTx(lucid, tx);
     try {
-      await sql.begin((sql) => [
-        sql`SET LOCAL lock_timeout = '2s'`,
-        // This acts as a multi lock due to the UNIQUE constraint
-        sql`INSERT INTO kolours.kolour_book ${sql(records)}`,
-      ]);
+      // This acts as a lock due to the UNIQUE constraint
+      await sql`INSERT INTO kolours.genesis_kreation_book ${sql(record)}`;
     } catch (lockError) {
       if (
         lockError instanceof postgres.PostgresError &&
         lockError.code === "23505"
       )
-        throw new ClientError({ _debug: "kolours are not available anymore" });
+        throw new ClientError({
+          _debug: "genesis kreation is not available anymore",
+        });
       else throw lockError;
     }
     try {
@@ -105,13 +110,11 @@ export default async function handler(
     } catch (submitError) {
       try {
         const deleted = await sql`
-          DELETE FROM kolours.kolour_book
+          DELETE FROM kolours.genesis_kreation_book
             WHERE tx_id = ${txId}
         `;
-        if (deleted.count !== records.length)
-          console.warn(
-            `revert mismatched: ${deleted.count} =/= ${records.length}`
-          );
+        if (!deleted.count)
+          console.warn(`revert mismatched: ${deleted.count} = 0`);
       } catch (revertError) {
         console.error("revert error", revertError);
       }
@@ -125,15 +128,18 @@ export default async function handler(
   }
 }
 
-function isTxValid(_tx: Core.Transaction, _quotation: KolourQuotation) {
+function isTxValid(
+  _tx: Core.Transaction,
+  _quotation: GenesisKreationQuotation
+) {
   // TODO: Fill me
   return true;
 }
 
 async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
-  assert(KOLOURS_KOLOUR_NFT_PRIVATE_KEY, "kolour nft disabled");
+  assert(KOLOURS_GENESIS_KREATION_PRIVATE_KEY, "genesis kreation disabled");
   // TODO: Load keys via Vault / SSM
   return new TxComplete(lucid, tx)
-    .signWithPrivateKey(KOLOURS_KOLOUR_NFT_PRIVATE_KEY)
+    .signWithPrivateKey(KOLOURS_GENESIS_KREATION_PRIVATE_KEY)
     .complete();
 }
