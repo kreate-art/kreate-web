@@ -1,3 +1,5 @@
+import { LovelaceAmount } from "@/modules/business-types";
+
 export type Color = string;
 
 export type Image = {
@@ -8,6 +10,8 @@ export type PaletteItem = {
   image: Image;
   color: Color;
   minted: boolean;
+  listedFee: LovelaceAmount | undefined; // before discount
+  fee: LovelaceAmount | undefined; // after discount
 };
 
 export type Nft = {
