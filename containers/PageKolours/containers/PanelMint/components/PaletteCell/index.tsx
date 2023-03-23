@@ -3,13 +3,13 @@ import * as React from "react";
 
 import { toHexColor } from "../../../../utils";
 import IconMinted from "../../icons/IconMinted";
+import Checkbox from "../Checkbox";
 
 import styles from "./index.module.scss";
 import { getPerceivedLuminance } from "./utils";
 
 import { Kolours } from "@/modules/kolours/types";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
-import Checkbox from "@/modules/teiki-ui/components/Checkbox";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
@@ -30,11 +30,13 @@ export default function PaletteCell({
   onCheckedChange,
 }: Props) {
   const isDark = getPerceivedLuminance(paletteItem.kolour) < 0.5;
+  const id = React.useId();
 
   return (
-    <div
+    <label
       className={cx(styles.container, className)}
       style={{ backgroundColor: toHexColor(paletteItem.kolour), ...style }}
+      htmlFor={id}
     >
       {/* TODO: distinguish "booked" and "minted" */}
       {paletteItem.status !== "free" ? (
@@ -46,8 +48,8 @@ export default function PaletteCell({
           }}
         />
       ) : (
-        <Flex.Col alignItems="center" gap="24px">
-          <Checkbox value={checked} onChange={onCheckedChange} />
+        <Flex.Col alignItems="center" gap="16px">
+          <Checkbox value={checked} onChange={onCheckedChange} id={id} />
           <Flex.Col style={{ textAlign: "center" }} alignContent="center">
             <Typography.Div
               content={toHexColor(paletteItem.kolour)}
@@ -75,6 +77,6 @@ export default function PaletteCell({
           </Flex.Col>
         </Flex.Col>
       )}
-    </div>
+    </label>
   );
 }

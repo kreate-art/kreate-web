@@ -1,0 +1,27 @@
+.container {
+  display: inline-block;
+}
+
+.root {
+  all: unset;
+  background-color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.root:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.root:focus {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.indicator {
+  display: flex;
+  color: #006e46;
+}
