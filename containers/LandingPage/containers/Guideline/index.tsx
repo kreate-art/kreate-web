@@ -5,6 +5,7 @@ import StepFour from "../image/StepFour.png";
 import StepOne from "../image/StepOne.png";
 import StepThree from "../image/StepThree.png";
 import StepTwo from "../image/StepTwo.png";
+import IconSwatches from "../NftCollection/components/IconSwatches";
 
 import styles from "./index.module.scss";
 
@@ -20,9 +21,9 @@ type Props = {
 
 export default function Guideline({ className, style }: Props) {
   return (
-    <>
+    <div style={style} className={className}>
       {/* Step 1 */}
-      <Flex.Row className={cx(styles.row, className)} style={style}>
+      <Flex.Row className={styles.row} style={style}>
         <Flex.Col className={cx(styles.topLeftColumn, styles.leftColumn)}>
           <div className={styles.stepOneTextContainer}>
             <Typography.Span
@@ -52,7 +53,7 @@ export default function Guideline({ className, style }: Props) {
       </Flex.Row>
 
       {/* Step 2 */}
-      <Flex.Row className={cx(styles.row, className)} style={style}>
+      <Flex.Row className={styles.row}>
         <Flex.Col className={styles.leftColumn}>
           <div className={styles.stepOneTextContainer}>
             <Typography.Span
@@ -87,7 +88,7 @@ export default function Guideline({ className, style }: Props) {
       </Flex.Row>
 
       {/* Step 3 */}
-      <Flex.Row className={cx(styles.row, className)} style={style}>
+      <Flex.Row className={styles.row}>
         <Flex.Col className={styles.leftColumn}>
           <div className={styles.stepOneTextContainer}>
             <Typography.Span
@@ -123,7 +124,7 @@ export default function Guideline({ className, style }: Props) {
       </Flex.Row>
 
       {/* Step 4 */}
-      <Flex.Row className={cx(styles.row, className)} style={style}>
+      <Flex.Row className={styles.row}>
         <Flex.Col className={styles.leftColumn}>
           <div className={styles.stepOneTextContainer}>
             <Typography.Span
@@ -156,6 +157,61 @@ export default function Guideline({ className, style }: Props) {
           </div>
         </Flex.Col>
       </Flex.Row>
-    </>
+
+      {/* Step 5 */}
+      <Flex.Row className={styles.row}>
+        <Flex.Col className={cx(styles.leftColumn, styles.lastRow)}>
+          <div className={styles.stepOneTextContainer}>
+            <Typography.Span
+              content="Step 5:"
+              color="white"
+              className={styles.step}
+            />
+            <Typography.Span
+              content={<span>Enjoy the fruits of your Kreation</span>}
+              color="white"
+              className={styles.action}
+            />
+          </div>
+        </Flex.Col>
+        <Divider.Vertical color="white-10" />
+        <Flex.Col className={cx(styles.rightColumn, styles.lastRow)}>
+          <div className={styles.stepOneContainer}>
+            <div className={styles.fruitTable}>
+              <div
+                className={styles.royaltyFeesContainer}
+                style={{ gridArea: "a" }}
+              >
+                Royalty fees
+              </div>
+              <div
+                className={styles.royaltyFeesChild}
+                style={{ gridArea: "b" }}
+              >
+                KreAtaverse Ownership
+              </div>
+              <div
+                className={styles.royaltyFeesChild}
+                style={{ gridArea: "c" }}
+              >
+                Kreator NFT
+              </div>
+              <div
+                className={styles.royaltyFeesChild}
+                style={{ gridArea: "d" }}
+              >
+                Free $KREATE
+              </div>
+            </div>
+          </div>
+        </Flex.Col>
+      </Flex.Row>
+      <div className={styles.kolourButtonContainer}>
+        <button className={styles.kolourButton}>
+          <IconSwatches />
+          <Typography.Span size="heading5" content="Scope the Kreataverse" />
+        </button>
+      </div>
+    </div>
   );
 }
