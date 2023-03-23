@@ -92,8 +92,8 @@ export default async function handler(
       ),
       userAddress: address,
       feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
-      expiration: getExpirationTime(),
       ...extra,
+      expiration: getExpirationTime(),
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
       json: quotation,

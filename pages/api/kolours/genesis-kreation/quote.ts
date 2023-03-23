@@ -1,39 +1,25 @@
-import { randomUUID } from "crypto";
-
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import {
-  KOLOURS_HMAC_SECRET,
   KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
+  KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import {
   calculateDiscountedFee,
   ExtraParams,
   fetchDiscount,
   getExpirationTime,
-  Kolour,
-  parseKolour,
   parseReferral,
 } from "@/modules/kolours/common";
 import {
-  calculateGenesisKreationFee,
   GenesisKreationQuotation,
+  quoteGenesisKreation,
 } from "@/modules/kolours/genesis-kreation";
-import {
-  calculateKolourFee,
-  createKolourImage,
-  getUnavailableKolours,
-  KolourEntry,
-  KolourQuotation,
-  KOLOUR_IMAGE_CID_PREFIX,
-  KOLOUR_IMAGE_LOCK_PREFIX,
-} from "@/modules/kolours/kolour";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db, ipfs, redis } from "@/modules/next-backend/connections";
-import locking from "@/modules/next-backend/locking";
+import { db } from "@/modules/next-backend/connections";
 
 type Response = {
   quotation: GenesisKreationQuotation;
@@ -68,27 +54,27 @@ export default async function handler(
     });
     const referral = parseReferral(r_referral);
 
-    // TODO: Check availability + load information...
-
     const extra: ExtraParams = { referral };
     const discount = referral ? await fetchDiscount(db, referral) : undefined;
 
-    const listedFee = calculateGenesisKreationFee(id);
+    const quoted = await quoteGenesisKreation(db, id);
+    ClientError.assert(quoted, { _debug: "unknown genesis kreation" });
+
+    const { imageCid, listedFee, status } = quoted;
+    ClientError.assert(status === "free", {
+      _debug: "genesis kreation is not available",
+    });
     const fee = calculateDiscountedFee(listedFee, discount);
 
     const quotation: GenesisKreationQuotation = {
       id,
-      metadata: {
-        name: "Dummy Name",
-        description: "Dummy Description",
-        image: "ipfs://dummy-ipfs",
-      },
+      image: `ipfs://${imageCid}`,
       fee,
       listedFee,
       userAddress: address,
       feeAddress: KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
-      expiration: getExpirationTime(),
       ...extra,
+      expiration: getExpirationTime(),
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
       json: quotation,
