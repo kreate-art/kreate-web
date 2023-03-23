@@ -41,7 +41,7 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-    const { id, referral: r_referral, address } = req.query;
+    const { id, address } = req.query;
 
     ClientError.assert(id && typeof id === "string", {
       _debug: "invalid id",
@@ -51,19 +51,15 @@ export default async function handler(
       _debug: "invalid address",
     });
 
-    ClientError.assert(!r_referral || typeof r_referral === "string", {
-      _debug: "invalid referral",
-    });
     const referral = lookupReferral(address);
 
     const extra: ExtraParams = { referral };
     const discount = referral ? await fetchDiscount(db, referral) : undefined;
 
-    const quoted = await quoteGenesisKreation(db, id);
+    const quoted = await quoteGenesisKreation(db, id, discount);
     ClientError.assert(quoted, { _debug: "unknown genesis kreation" });
 
-    const { imageCid, listedFee, status } = quoted;
-    const fee = calculateDiscountedFee(listedFee, discount);
+    const { imageCid, fee, listedFee, status } = quoted;
 
     const quotation: GenesisKreationQuotation = {
       id,
