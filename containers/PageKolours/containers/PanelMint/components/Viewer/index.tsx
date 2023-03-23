@@ -21,7 +21,7 @@ type Props = {
   style?: React.CSSProperties;
   grayscaleImage: Image | undefined;
   palette: PaletteItem[] | undefined;
-  selection: Record<IndexOf<PaletteItem>, boolean>;
+  selectedIndexes: IndexOf<PaletteItem>[] | undefined;
 };
 
 export default function Viewer({
@@ -29,7 +29,7 @@ export default function Viewer({
   style,
   grayscaleImage,
   palette,
-  selection,
+  selectedIndexes,
 }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
@@ -50,7 +50,12 @@ export default function Viewer({
             <ImageView
               key={index}
               className={styles.image}
-              style={{ opacity: selection[index] ? "100%" : "0%" }}
+              style={{
+                opacity:
+                  selectedIndexes && selectedIndexes.includes(index)
+                    ? "100%"
+                    : "0%",
+              }}
               src={item.image.src}
               crop={{ x: 0, y: 0, w: 1, h: 1 }}
             />

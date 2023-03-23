@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 
 import { PaletteItem } from "../../../../kolours-types";
+import IconMinted from "../../icons/IconMinted";
 
 import styles from "./index.module.scss";
 import { getPerceivedLuminance } from "./utils";
@@ -34,33 +35,41 @@ export default function PaletteCell({
       className={cx(styles.container, className)}
       style={{ backgroundColor: paletteItem.color, ...style }}
     >
-      <Flex.Col alignItems="center" gap="24px">
-        <Checkbox value={checked} onChange={onCheckedChange} />
-        <Flex.Col style={{ textAlign: "center" }} alignContent="center">
-          <Typography.Div
-            content={paletteItem.color}
-            size="bodyExtraSmall"
-            color={isDark ? "white" : "ink"}
-          />
-          <Typography.Div>
-            <AssetViewer.Ada.Compact
-              as="span"
-              lovelaceAmount={paletteItem.fee}
-              size="bodyExtraSmall"
-              fontWeight="semibold"
-              color={isDark ? "white" : "ink"}
-            />
-            <Typography.Span content=" " />
-            <AssetViewer.Ada.Compact
-              style={{ textDecoration: "line-through" }}
-              as="span"
-              lovelaceAmount={paletteItem.listedFee}
+      {paletteItem.minted ? (
+        <IconMinted
+          style={{
+            width: "96px",
+            height: "96px",
+            color: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)",
+          }}
+        />
+      ) : (
+        <Flex.Col alignItems="center" gap="24px">
+          <Checkbox value={checked} onChange={onCheckedChange} />
+          <Flex.Col style={{ textAlign: "center" }} alignContent="center">
+            <Typography.Div
+              content={paletteItem.color}
               size="bodyExtraSmall"
               color={isDark ? "white" : "ink"}
             />
-          </Typography.Div>
+            <Typography.Div size="bodyExtraSmall">
+              <AssetViewer.Ada.Compact
+                as="span"
+                lovelaceAmount={paletteItem.fee}
+                fontWeight="semibold"
+                color={isDark ? "white" : "ink"}
+              />
+              <Typography.Span content=" " />
+              <AssetViewer.Ada.Compact
+                style={{ textDecoration: "line-through" }}
+                as="span"
+                lovelaceAmount={paletteItem.listedFee}
+                color={isDark ? "white" : "ink"}
+              />
+            </Typography.Div>
+          </Flex.Col>
         </Flex.Col>
-      </Flex.Col>
+      )}
     </div>
   );
 }
