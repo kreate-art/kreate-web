@@ -1,0 +1,14 @@
+.container {
+  background-color: white;
+  border-radius: 50%;
+}
+
+.percentage {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  transform: translateX(10%) translateY(10%);
+}
