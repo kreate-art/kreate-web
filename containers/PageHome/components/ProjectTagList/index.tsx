@@ -1,5 +1,6 @@
 import cx from "classnames";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import * as React from "react";
 import { CSSProperties } from "react";
 
 import styles from "./index.module.scss";
@@ -19,6 +20,8 @@ export default function ProjectTagList({
   value,
   inverted,
 }: Props) {
+  const router = useRouter();
+
   return (
     <div
       className={cx(
@@ -37,25 +40,36 @@ export default function ProjectTagList({
       />
       <div className={styles.data}>
         {value.length ? (
-          value.map((tag, index) => (
-            <>
-              <Link
-                style={{ display: "flex", color: "unset" }}
-                key={index}
-                href={`/search?${new URLSearchParams({ tag })}`}
-              >
+          value.map((tag, index) => {
+            const href = `/search?${new URLSearchParams({ tag })}`;
+
+            return (
+              <React.Fragment key={tag}>
                 <Typography.Span
                   content={"#" + tag}
                   size="bodyExtraSmall"
                   fontWeight="semibold"
                   color="ink"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push(href);
+                  }}
+                  // We are trying to repurpose a span as a link, so it's best to follow
+                  // ARIA practices: https://www.w3.org/WAI/ARIA/apg/patterns/link/examples/link/
+                  role="link"
+                  aria-label={`Search projects contain ${tag} tag and navigate to search results page`}
+                  tabIndex={0}
+                  // Adding data-attribute MIGHT helps Google web crawler to recognize this is a link
+                  // Although, this is just a speculation, so it's a long shot
+                  // https://webmasters.stackexchange.com/questions/74475/does-googlebot-crawl-items-that-look-like-urls-in-html5-data-attributes
+                  data-href={href}
                 />
-              </Link>
-              {index !== value.length - 1 && (
-                <span style={{ color: "rgba(34, 34, 34, 0.5)" }}>/</span>
-              )}
-            </>
-          ))
+                {index !== value.length - 1 && (
+                  <span style={{ color: "rgba(34, 34, 34, 0.5)" }}>/</span>
+                )}
+              </React.Fragment>
+            );
+          })
         ) : (
           <span className={styles.noTags}>no tags</span>
         )}
