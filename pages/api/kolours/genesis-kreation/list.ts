@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { fetchDiscount, lookupReferral } from "@/modules/kolours/common";
-import {
-  GenesisKreationEntry,
-  getAllGenesisKreations,
-} from "@/modules/kolours/genesis-kreation";
+import { getAllGenesisKreations } from "@/modules/kolours/genesis-kreation";
+import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db } from "@/modules/next-backend/connections";

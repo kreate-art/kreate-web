@@ -8,7 +8,8 @@ import {
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
 import { getTxExp } from "@/modules/kolours/common";
-import { areKoloursAvailable, KolourQuotation } from "@/modules/kolours/kolour";
+import { areKoloursAvailable } from "@/modules/kolours/kolour";
+import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
