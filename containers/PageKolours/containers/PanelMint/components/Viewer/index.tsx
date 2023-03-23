@@ -1,6 +1,7 @@
 import cx from "classnames";
 import * as React from "react";
 
+import WithAspectRatio from "../../../../../../components/WithAspectRatio";
 import { Image, PaletteItem } from "../../../../kolours-types";
 import NftPrice from "../NftPrice";
 
@@ -40,13 +41,7 @@ export default function Viewer({
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col alignItems="center">
-        <div
-          className={styles.imageContainer}
-          style={{
-            width: "1000px",
-            height: "500px",
-          }}
-        >
+        <WithAspectRatio className={styles.imageContainer} aspectRatio={2 / 1}>
           <ImageView
             className={styles.image}
             src={grayscaleImage?.src || DEFAULT_IMAGE_URL}
@@ -71,7 +66,7 @@ export default function Viewer({
             fee={fee}
             listedFee={listedFee}
           />
-        </div>
+        </WithAspectRatio>
       </Flex.Col>
     </div>
   );

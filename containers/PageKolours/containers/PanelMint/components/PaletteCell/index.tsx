@@ -60,12 +60,15 @@ export default function PaletteCell({
                 color={isDark ? "white" : "ink"}
               />
               <Typography.Span content=" " />
-              <AssetViewer.Ada.Compact
-                style={{ textDecoration: "line-through" }}
-                as="span"
-                lovelaceAmount={paletteItem.listedFee}
-                color={isDark ? "white" : "ink"}
-              />
+              {paletteItem.listedFee != null &&
+              paletteItem.listedFee !== paletteItem.fee ? (
+                <AssetViewer.Ada.Compact
+                  style={{ textDecoration: "line-through" }}
+                  as="span"
+                  lovelaceAmount={paletteItem.listedFee}
+                  color={isDark ? "white" : "ink"}
+                />
+              ) : null}
             </Typography.Div>
           </Flex.Col>
         </Flex.Col>
