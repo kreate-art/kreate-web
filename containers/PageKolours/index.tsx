@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 
 import Section from "./components/Section";
+import BelowNavBar from "./containers/BelowNavBar";
 import NavBar from "./containers/NavBar";
 import NftCardGrid from "./containers/NftCardGrid";
 import PanelMint from "./containers/PanelMint";
@@ -49,6 +50,7 @@ export default function PageKolours({ className, style }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <NavBar className={styles.navBar} />
+      <BelowNavBar />
       <Section marginTop="24px">
         <PanelMint
           key={selectedId}
