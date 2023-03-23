@@ -1,8 +1,10 @@
+import { verifyKolourNftMintingTx } from "@kreate/protocol/transactions/kolours/kolour-nft";
 import { C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
+import { KOLOURS_KOLOUR_NFT_POLICY_ID } from "@/modules/env/kolours/client";
 import {
   KOLOURS_HMAC_SECRET,
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
@@ -126,9 +128,12 @@ export default async function handler(
   }
 }
 
-function isTxValid(_tx: Core.Transaction, _quotation: KolourQuotation) {
-  // TODO: Fill me
-  return true;
+function isTxValid(tx: Core.Transaction, quotation: KolourQuotation) {
+  return verifyKolourNftMintingTx({
+    tx,
+    quotation,
+    kolourNftMph: KOLOURS_KOLOUR_NFT_POLICY_ID,
+  });
 }
 
 async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
