@@ -1,0 +1,15 @@
+.container {
+  display: inline-block;
+}
+
+.content {
+  background: rgba(34, 34, 34, 0.3);
+  backdrop-filter: blur(40px);
+  border-radius: 12px;
+}
+
+.saleOff {
+  padding: 4px 8px;
+  background-color: #f74055;
+  border-radius: 4px;
+}

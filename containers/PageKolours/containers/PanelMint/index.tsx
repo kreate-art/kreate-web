@@ -9,6 +9,7 @@ import styles from "./index.module.scss";
 import { Selection } from "./types";
 
 import { range } from "@/modules/array-utils";
+import { LovelaceAmount } from "@/modules/business-types";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -18,6 +19,8 @@ type Props = {
   style?: React.CSSProperties;
   grayscaleImage: Image | undefined;
   palette: PaletteItem[] | undefined;
+  fee: LovelaceAmount | undefined;
+  listedFee: LovelaceAmount | undefined;
 };
 
 export default function PanelMint({
@@ -25,6 +28,8 @@ export default function PanelMint({
   style,
   grayscaleImage,
   palette,
+  fee,
+  listedFee,
 }: Props) {
   const [selection, setSelection] = React.useState<Selection>({});
   return (
@@ -40,6 +45,8 @@ export default function PanelMint({
                 )
               : undefined
           }
+          fee={fee}
+          listedFee={listedFee}
         />
         <Palette
           palette={palette}

@@ -18,4 +18,6 @@ export type Nft = {
   id: string;
   grayscaleImage: Image;
   palette: PaletteItem[];
+  listedFee: LovelaceAmount | undefined; // before discount
+  fee: LovelaceAmount | undefined; // after discount
 };

@@ -2,9 +2,11 @@ import cx from "classnames";
 import * as React from "react";
 
 import { Image, PaletteItem } from "../../../../kolours-types";
+import NftPrice from "../NftPrice";
 
 import styles from "./index.module.scss";
 
+import { LovelaceAmount } from "@/modules/business-types";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Flex from "@/modules/teiki-ui/components/Flex";
 
@@ -22,6 +24,8 @@ type Props = {
   grayscaleImage: Image | undefined;
   palette: PaletteItem[] | undefined;
   selectedIndexes: IndexOf<PaletteItem>[] | undefined;
+  fee: LovelaceAmount | undefined;
+  listedFee: LovelaceAmount | undefined;
 };
 
 export default function Viewer({
@@ -30,6 +34,8 @@ export default function Viewer({
   grayscaleImage,
   palette,
   selectedIndexes,
+  fee,
+  listedFee,
 }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
@@ -60,6 +66,11 @@ export default function Viewer({
               crop={{ x: 0, y: 0, w: 1, h: 1 }}
             />
           ))}
+          <NftPrice
+            className={styles.nftPrice}
+            fee={fee}
+            listedFee={listedFee}
+          />
         </div>
       </Flex.Col>
     </div>

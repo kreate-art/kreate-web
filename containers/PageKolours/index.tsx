@@ -42,6 +42,8 @@ export default function PageKolours({ className, style }: Props) {
           key={selectedId}
           grayscaleImage={selectedNft?.grayscaleImage}
           palette={selectedNft?.palette}
+          fee={selectedNft?.fee}
+          listedFee={selectedNft?.listedFee}
         />
       </Section>
       <Section style={{ opacity: "25%" }}>
