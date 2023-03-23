@@ -15,6 +15,7 @@ import {
 } from "@/modules/kolours/common";
 import {
   GenesisKreationQuotation,
+  GenesisKreationStatus,
   quoteGenesisKreation,
 } from "@/modules/kolours/genesis-kreation";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
@@ -23,7 +24,8 @@ import { db } from "@/modules/next-backend/connections";
 
 type Response = {
   quotation: GenesisKreationQuotation;
-  signature: crypt.Base64;
+  signature?: crypt.Base64;
+  status: GenesisKreationStatus;
 };
 
 export default async function handler(
@@ -61,9 +63,6 @@ export default async function handler(
     ClientError.assert(quoted, { _debug: "unknown genesis kreation" });
 
     const { imageCid, listedFee, status } = quoted;
-    ClientError.assert(status === "free", {
-      _debug: "genesis kreation is not available",
-    });
     const fee = calculateDiscountedFee(listedFee, discount);
 
     const quotation: GenesisKreationQuotation = {
@@ -76,10 +75,13 @@ export default async function handler(
       ...extra,
       expiration: getExpirationTime(),
     };
-    const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
-      json: quotation,
-    });
-    const ret: Response = { quotation, signature };
+    const signature =
+      status === "ready"
+        ? crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
+            json: quotation,
+          })
+        : undefined;
+    const ret: Response = { quotation, signature, status };
     sendJson(res, ret);
   } catch (error) {
     apiCatch(req, res, error);
