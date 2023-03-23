@@ -12,8 +12,8 @@ import {
   fetchDiscount,
   getExpirationTime,
   Kolour,
+  lookupReferral,
   parseKolour,
-  parseReferral,
 } from "@/modules/kolours/common";
 import {
   calculateKolourFee,
@@ -45,16 +45,13 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-    const { kolour: r_kolour, referral: r_referral, address } = req.query;
+    const { kolour: r_kolour, address } = req.query;
 
     ClientError.assert(address && typeof address === "string", {
       _debug: "invalid address",
     });
 
-    ClientError.assert(!r_referral || typeof r_referral === "string", {
-      _debug: "invalid referral",
-    });
-    const referral = parseReferral(r_referral);
+    const referral = lookupReferral(address);
 
     const r_kolours = r_kolour
       ? typeof r_kolour === "string"
