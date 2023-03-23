@@ -59,6 +59,7 @@ export default function PageKolours({ className, style }: Props) {
         <PanelMint
           key={selectedId}
           initialImage={selectedNft?.initialImage}
+          finalImage={selectedNft?.finalImage}
           palette={selectedNft?.palette}
           fee={selectedNft?.fee}
           listedFee={selectedNft?.listedFee}

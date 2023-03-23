@@ -24,6 +24,7 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   initialImage: Kolours.Image | undefined;
+  finalImage: Kolours.Image | undefined;
   palette: Kolours.Layer[] | undefined;
   selectedIndexes: IndexOf<Kolours.Layer>[] | undefined;
   fee: LovelaceAmount | undefined;
@@ -34,6 +35,7 @@ export default function Viewer({
   className,
   style,
   initialImage,
+  finalImage,
   palette,
   selectedIndexes,
   fee,
@@ -62,6 +64,18 @@ export default function Viewer({
               crop={{ x: 0, y: 0, w: 1, h: 1 }}
             />
           ))}
+          <ImageView
+            className={styles.image}
+            src={finalImage?.src || DEFAULT_IMAGE_URL}
+            crop={{ x: 0, y: 0, w: 1, h: 1 }}
+            style={{
+              opacity:
+                palette &&
+                palette.every((_, index) => selectedIndexes?.includes(index))
+                  ? "100%"
+                  : "0%",
+            }}
+          />
           <NftPrice
             className={styles.nftPrice}
             fee={fee}
