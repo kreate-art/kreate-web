@@ -36,7 +36,8 @@ export default function PaletteCell({
       className={cx(styles.container, className)}
       style={{ backgroundColor: toHexColor(paletteItem.kolour), ...style }}
     >
-      {paletteItem.minted ? (
+      {/* TODO: distinguish "booked" and "minted" */}
+      {paletteItem.status !== "free" ? (
         <IconMinted
           style={{
             width: "96px",

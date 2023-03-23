@@ -42,7 +42,8 @@ export default function PanelMint({
           selectedIndexes={
             palette
               ? range(palette.length).filter(
-                  (index) => palette[index].minted || !!selection[index]
+                  (index) =>
+                    palette[index].status !== "free" || !!selection[index]
                 )
               : undefined
           }

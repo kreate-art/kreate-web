@@ -37,7 +37,7 @@ export default function NftCardGrid({
       ? sortedBy(
           value,
           (nft) =>
-            -nft.palette.filter((item) => !!item.minted).length /
+            -nft.palette.filter((item) => item.status !== "free").length /
             nft.palette.length
         )
       : value;
