@@ -89,6 +89,8 @@ export async function httpGetAllNfts(): Promise<Response> {
             listedFee: (Math.random() * 1e3) << 10,
           },
         ],
+        fee: (Math.random() * 1e3) << 10,
+        listedFee: (Math.random() * 1e3) << 10,
       },
       {
         id: "ffcde3e2-2622-4fd0-9bd2-7523f0cc20a3",
@@ -158,6 +160,8 @@ export async function httpGetAllNfts(): Promise<Response> {
             listedFee: (Math.random() * 1e3) << 10,
           },
         ],
+        fee: (Math.random() * 1e3) << 10,
+        listedFee: (Math.random() * 1e3) << 10,
       },
     ],
   };
