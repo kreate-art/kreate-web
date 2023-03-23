@@ -18,6 +18,7 @@ type Props = {
   palette: PaletteItem[];
 };
 
+/** @deprecated use PanelMint instead */
 export default function PanelMintKolours({
   className,
   style,
