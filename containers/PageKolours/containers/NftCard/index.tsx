@@ -4,7 +4,7 @@ import * as React from "react";
 import WithAspectRatio from "../../../../components/WithAspectRatio";
 import { Nft } from "../../kolours-types";
 
-import CompleteIndicator from "./components/CompleteIndicator";
+import CompleteIndicator from "../../components/CompleteIndicator";
 import PaletteBar from "./components/PaletteBar";
 import styles from "./index.module.scss";
 
