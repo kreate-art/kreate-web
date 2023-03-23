@@ -1,6 +1,8 @@
 import cx from "classnames";
 import * as React from "react";
 
+import FooterPanel from "../PageHome/containers/FooterPanel";
+
 import Section from "./components/Section";
 import BelowNavBar from "./containers/BelowNavBar";
 import NavBar from "./containers/NavBar";
@@ -10,6 +12,7 @@ import { useAllNfts } from "./hooks/useAllNfts";
 import styles from "./index.module.scss";
 
 import { range } from "@/modules/array-utils";
+import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 
 type Props = {
@@ -49,6 +52,7 @@ export default function PageKolours({ className, style }: Props) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
+      <TeikiHead />
       <NavBar className={styles.navBar} />
       <BelowNavBar />
       <Section marginTop="24px">
@@ -64,7 +68,7 @@ export default function PageKolours({ className, style }: Props) {
           onGoNext={() => setSelectedId(nextId)}
         />
       </Section>
-      <Section>
+      <Section marginBottom="56px">
         {allNfts ? (
           <NftCardGrid
             value={allNfts.kreations}
@@ -72,6 +76,7 @@ export default function PageKolours({ className, style }: Props) {
           />
         ) : null}
       </Section>
+      <FooterPanel style={{ width: "100%" }} />
     </div>
   );
 }
