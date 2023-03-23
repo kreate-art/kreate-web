@@ -161,6 +161,13 @@ export async function httpGetAllNfts(): Promise<Response> {
             fee: (Math.random() * 1e3) << 10,
             listedFee: (Math.random() * 1e3) << 10,
           },
+          {
+            image: layer0,
+            kolour: "926E72",
+            status: faker.helpers.arrayElement(["free", "booked", "minted"]),
+            fee: (Math.random() * 1e3) << 10,
+            listedFee: (Math.random() * 1e3) << 10,
+          },
         ],
         fee: (Math.random() * 1e3) << 10,
         listedFee: (Math.random() * 1e3) << 10,
