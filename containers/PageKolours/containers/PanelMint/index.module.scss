@@ -4,6 +4,52 @@
   border-radius: 16px;
 }
 
+.viewerContainer {
+  position: relative;
+}
+
+.buttonNavigate {
+  all: unset;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  background-color: rgba(34, 34, 34, 0.1);
+  backdrop-filter: blur(40px);
+  border-radius: 50%;
+
+  &.buttonNavigateLeft {
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.buttonNavigateRight {
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  filter: drop-shadow(0px 28px 11px rgba(34, 34, 34, 0.01))
+    drop-shadow(0px 16px 10px rgba(34, 34, 34, 0.05))
+    drop-shadow(0px 7px 7px rgba(34, 34, 34, 0.09))
+    drop-shadow(0px 2px 4px rgba(34, 34, 34, 0.1))
+    drop-shadow(0px 0px 0px rgba(34, 34, 34, 0.1));
+
+  &:hover {
+    background-color: white;
+  }
+
+  &:disabled {
+    display: none;
+  }
+}
+
 .palette {
   margin: 0 16px;
   border-radius: 12px;
