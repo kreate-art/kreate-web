@@ -31,6 +31,8 @@ export type Layer = {
   kolour: Kolour;
   image: Image;
   status: "free" | "booked" | "minted";
+  fee: LovelaceAmount;
+  listedFee: LovelaceAmount;
 };
 
 export type GenesisKreationEntry = {
