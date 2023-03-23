@@ -15,7 +15,12 @@ export default function NftCollection() {
   return (
     <>
       <div className={styles.emphasisHeading}>
-        Experience the first ever Web3 Kolouring & Kolour Royav
+        Experience the first ever{" "}
+        <span style={{ color: "#EC5929" }}> Web3 </span>
+        <span style={{ color: "#EC5929" }}>
+          Kolouring & Kolour Royalties NFT!
+        </span>
+        <span> only on Cardano. </span>
       </div>
       <div className={styles.nftsContainer}>
         <div className={styles.nfts} style={{ gridArea: "a" }}>
