@@ -1,7 +1,6 @@
 import cx from "classnames";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
-import StepFive from "../image/StepFive.png";
 import StepFour from "../image/StepFour.png";
 import StepOne from "../image/StepOne.png";
 import StepThree from "../image/StepThree.png";
@@ -64,8 +63,8 @@ export default function Guideline({ className, style }: Props) {
             <Typography.Span
               content={
                 <span>
-                  Scope out the Kreataverse <br></br> for a piece of
-                  <span style={{ color: "#EC5929" }}> Genesis Kreation </span>
+                  Scope out the Kreataverse for a piece of
+                  <span style={{ color: "orange" }}> Genesis Kreation </span>
                 </span>
               }
               color="white"
@@ -157,41 +156,6 @@ export default function Guideline({ className, style }: Props) {
           </div>
         </Flex.Col>
       </Flex.Row>
-
-      {/* Step 5 */}
-      <Flex.Row className={cx(styles.row, className)} style={style}>
-        <Flex.Col className={styles.leftColumn}>
-          <div className={styles.stepOneTextContainer}>
-            <Typography.Span
-              content="Step 5:"
-              color="white"
-              className={styles.step}
-            />
-            <Typography.Span
-              content={
-                <span style={{ fontStyle: "italic" }}>
-                  Enjoy the fruits of your Kreation
-                </span>
-              }
-              color="white"
-              className={styles.action}
-            />
-          </div>
-        </Flex.Col>
-        <Divider.Vertical color="white-10" />
-        <Flex.Col className={styles.rightColumn}>
-          <div className={styles.stepOneContainer}>
-            <WithAspectRatio aspectRatio={2208 / 1304}>
-              <ImageView
-                className={styles.imageView}
-                src={StepFive.src}
-                crop={{ x: 0, y: 0, w: 1, h: 1 }}
-              />
-            </WithAspectRatio>
-          </div>
-        </Flex.Col>
-      </Flex.Row>
-      <Divider.Horizontal color="white-10" />
     </>
   );
 }
