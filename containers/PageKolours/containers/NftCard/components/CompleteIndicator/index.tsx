@@ -15,10 +15,10 @@ type Props = {
 };
 
 export default function CompleteIndicator({ className, style, value }: Props) {
-  const mintedCount = value.filter((item) => !!item.minted).length;
+  const resolvedCount = value.filter((item) => item.status !== "free").length;
   const pieChartData = [
-    { value: mintedCount, color: "#006e46" },
-    { value: value.length - mintedCount, color: "rgba(34, 34, 34, .1)" },
+    { value: resolvedCount, color: "#006e46" },
+    { value: value.length - resolvedCount, color: "rgba(34, 34, 34, .1)" },
   ];
 
   return (
@@ -41,7 +41,7 @@ export default function CompleteIndicator({ className, style, value }: Props) {
         alignItems="center"
       >
         <Typography.Div
-          content={`${Math.round((mintedCount * 100) / value.length)}%`}
+          content={`${Math.round((resolvedCount * 100) / value.length)}%`}
           size="bodyExtraSmall"
           fontWeight="semibold"
           color="ink80"

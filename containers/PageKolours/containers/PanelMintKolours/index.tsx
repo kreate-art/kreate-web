@@ -59,7 +59,7 @@ export default function PanelMintKolours({
                 <PaletteCell
                   key={index}
                   color={toHexColor(item.kolour)}
-                  minted={item.minted}
+                  minted={item.status !== "free"} // TODO: distinguish booked and minted
                   checked={selection[index]}
                   fill
                   onCheckedChange={(checked) => {
