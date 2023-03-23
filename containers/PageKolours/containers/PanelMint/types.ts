@@ -1,5 +1,5 @@
-import { PaletteItem } from "../../kolours-types";
+import { Kolours } from "@/modules/kolours/types";
 
 export type IndexOf<_T> = number;
 
-export type Selection = Record<IndexOf<PaletteItem>, boolean>;
+export type Selection = Record<IndexOf<Kolours.Layer>, boolean>;

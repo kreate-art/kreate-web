@@ -1,13 +1,13 @@
 import cx from "classnames";
 import * as React from "react";
 
-import { PaletteItem } from "../../../../kolours-types";
 import { toHexColor } from "../../../../utils";
 import IconMinted from "../../icons/IconMinted";
 
 import styles from "./index.module.scss";
 import { getPerceivedLuminance } from "./utils";
 
+import { Kolours } from "@/modules/kolours/types";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Checkbox from "@/modules/teiki-ui/components/Checkbox";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -16,7 +16,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  paletteItem: PaletteItem;
+  paletteItem: Kolours.Layer;
   checked: boolean;
   fill: true;
   onCheckedChange?: (checked: boolean) => void;

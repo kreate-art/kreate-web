@@ -2,19 +2,19 @@ import cx from "classnames";
 import * as React from "react";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
-import { Nft } from "../../kolours-types";
-
 import CompleteIndicator from "../../components/CompleteIndicator";
+
 import PaletteBar from "./components/PaletteBar";
 import styles from "./index.module.scss";
 
+import { Kolours } from "@/modules/kolours/types";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Flex from "@/modules/teiki-ui/components/Flex";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: Nft;
+  value: Kolours.GenesisKreationEntry;
   onClick?: () => void;
 };
 
