@@ -13,6 +13,7 @@ type Props = {
   style?: React.CSSProperties;
 };
 
+// TODO: Come back & refine as design!!!
 export default function KreataverseStory({ className, style }: Props) {
   return (
     <div className={cx(styles.main, className)} style={style}>
