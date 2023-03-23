@@ -1,4 +1,5 @@
 import { calculateDiscountedFee } from "./common";
+import { calculateKolourFee } from "./kolour";
 import {
   GenesisKreationEntry,
   GenesisKreationId,
@@ -59,49 +60,42 @@ export async function getAllGenesisKreations(
     ORDER BY
       gl.id ASC
   `;
-  return rows.map(
-    ({
-      kreation,
-      palette: r_palette,
-      koloursStatus: r_koStatuses,
-      bookStatus,
-      listedFee,
-      initialImageCid,
-      finalImageCid,
-      createdAt,
-    }) => {
-      assert(
-        r_palette.length === r_koStatuses.length,
-        "palette length not match"
-      );
-      const koStatuses = r_koStatuses.map((s) =>
-        !s || s === "NULL" ? "free" : s
-      );
-      const status = bookStatus
-        ? bookStatus
-        : koStatuses.every((s) => s === "minted")
-        ? "ready"
-        : "unready";
-      const palette = r_palette.map(
-        ({ k, l }, i): Layer => ({
-          kolour: k,
-          image: { src: getIpfsUrl(l) },
-          status: koStatuses[i],
-        })
-      );
+  return rows.map((row) => {
+    const r_palette = row.palette;
+    const r_koStatus = row.koloursStatus;
+    assert(r_palette.length === r_koStatus.length, "palette length not match");
+    const r_status = row.bookStatus;
+
+    const koStatus = r_koStatus.map((s) => (!s || s === "NULL" ? "free" : s));
+    const status = r_status
+      ? r_status
+      : koStatus.every((s) => s === "minted")
+      ? "ready"
+      : "unready";
+    const palette = r_palette.map(({ k, l }, i): Layer => {
+      const listedFee = calculateKolourFee(k);
       const fee = calculateDiscountedFee(listedFee, discount);
       return {
-        id: kreation,
-        status,
-        initialImage: { src: getIpfsUrl(initialImageCid) },
-        finalImage: { src: getIpfsUrl(finalImageCid) },
-        palette,
+        kolour: k,
+        image: { src: getIpfsUrl(l) },
+        status: koStatus[i],
         fee,
         listedFee,
-        createdAt: createdAt.valueOf(),
       };
-    }
-  );
+    });
+    const listedFee = row.listedFee;
+    const fee = calculateDiscountedFee(listedFee, discount);
+    return {
+      id: row.kreation,
+      status,
+      initialImage: { src: getIpfsUrl(row.initialImageCid) },
+      finalImage: { src: getIpfsUrl(row.finalImageCid) },
+      palette,
+      fee,
+      listedFee,
+      createdAt: row.createdAt.valueOf(),
+    };
+  });
 }
 
 export async function quoteGenesisKreation(
