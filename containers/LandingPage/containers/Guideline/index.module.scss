@@ -1,0 +1,71 @@
+.row {
+  align-items: stretch;
+}
+
+.leftColumn {
+  // border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  // border-radius: 12px;
+  width: 50%;
+  align-items: center;
+
+  &.topLeftColumn {
+    border-top-left-radius: 12px;
+  }
+}
+
+.rightColumn {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  width: 50%;
+
+  &.topRightColumn {
+    border-top-right-radius: 12px;
+  }
+}
+
+.stepOneContainer {
+  padding: 48px 56px;
+  position: relative;
+}
+
+.stepTwoContainer {
+  gap: 5px;
+  padding: 48px 56px;
+  position: relative;
+}
+
+.imageView {
+  position: absolute;
+  inset: 0;
+}
+
+.stepOneTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@font-face {
+  font-family: 'Bangers';
+  src: url(../../fonts/Bangers-Regular.ttf);
+}
+
+.step {
+  font-family: 'Bangers';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.action {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 48px;
+  text-align: center;
+}

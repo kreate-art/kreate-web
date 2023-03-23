@@ -7,7 +7,11 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 export default function RemindBar() {
   return (
     <div className={styles.remindContainer}>
-      <Typography.Span size="bodySmall" color="white" content="50% discount " />
+      <Typography.Span
+        size="bodySmall"
+        color="white"
+        content="50-60% discount "
+      />
       <Typography.Span
         size="bodySmall"
         color="white50"
