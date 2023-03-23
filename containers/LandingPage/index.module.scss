@@ -1,0 +1,38 @@
+.remindContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: pre-wrap;
+  height: 56px;
+}
+
+.main {
+  flex: 1 1 0;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.mainContent {
+  max-width: 1440px;
+  padding: 56px;
+  margin: auto;
+}
+
+.upperNfts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.nfts {
+  width: 100%;
+  height: 100%;
+  max-height: 215px;
+  overflow: hidden;
+  border-radius: 8px;
+}
