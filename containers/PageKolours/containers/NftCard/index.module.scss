@@ -2,6 +2,23 @@
   display: block;
 }
 
-.button {
+.box {
   width: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.wrap {
+  position: absolute;
+  width: 100%;
+  bottom: 38px;
+}
+
+.indicator {
+  position: absolute;
+  right: 27px;
+  top: 24px;
+  width: 48px;
+  height: 48px;
 }
