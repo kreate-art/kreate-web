@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 
 import { PaletteItem } from "../../../../kolours-types";
+import { toHexColor } from "../../../../utils";
 import IconMinted from "../../icons/IconMinted";
 
 import styles from "./index.module.scss";
@@ -28,12 +29,12 @@ export default function PaletteCell({
   checked,
   onCheckedChange,
 }: Props) {
-  const isDark = getPerceivedLuminance(paletteItem.color) < 0.5;
+  const isDark = getPerceivedLuminance(paletteItem.kolour) < 0.5;
 
   return (
     <div
       className={cx(styles.container, className)}
-      style={{ backgroundColor: paletteItem.color, ...style }}
+      style={{ backgroundColor: toHexColor(paletteItem.kolour), ...style }}
     >
       {paletteItem.minted ? (
         <IconMinted
@@ -48,7 +49,7 @@ export default function PaletteCell({
           <Checkbox value={checked} onChange={onCheckedChange} />
           <Flex.Col style={{ textAlign: "center" }} alignContent="center">
             <Typography.Div
-              content={paletteItem.color}
+              content={toHexColor(paletteItem.kolour)}
               size="bodyExtraSmall"
               color={isDark ? "white" : "ink"}
             />

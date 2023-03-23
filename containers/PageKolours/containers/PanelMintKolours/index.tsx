@@ -4,6 +4,7 @@ import * as React from "react";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
 import { Image, PaletteItem } from "../../kolours-types";
+import { toHexColor } from "../../utils";
 
 import PaletteCell from "./components/PaletteCell";
 import styles from "./index.module.scss";
@@ -57,7 +58,7 @@ export default function PanelMintKolours({
               {palette.map((item, index) => (
                 <PaletteCell
                   key={index}
-                  color={item.color}
+                  color={toHexColor(item.kolour)}
                   minted={item.minted}
                   checked={selection[index]}
                   fill
