@@ -18,7 +18,7 @@
 
 .mainContent {
   max-width: 1440px;
-  // padding: 56px;
+  padding: 56px;
   margin: 0 auto;
 }
 
@@ -29,7 +29,6 @@
 
 .backgroundContentContainer {
   position: absolute;
-  margin-top: -256px; // FIXME
   inset: 0;
   display: flex;
   justify-content: center;
@@ -44,18 +43,18 @@
 }
 
 @font-face {
-  font-family: 'Bangers';
+  font-family: "Bangers";
   src: url(./fonts/Bangers-Regular.ttf);
 }
 
 .story {
-  font-family: 'Bangers';
+  font-family: "Bangers";
   color: #fff;
-  font-weight: 400;
   font-size: 48px;
   text-align: center;
   margin-bottom: 64px;
   margin-top: 112px;
+  letter-spacing: 0.16em;
 }
 
 .kolourButton {
@@ -75,4 +74,9 @@
   display: flex;
   justify-content: center;
   margin: 8px 0px 112px;
+}
+
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #0a1316;
 }
