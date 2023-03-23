@@ -11,7 +11,7 @@ import {
   ExtraParams,
   fetchDiscount,
   getExpirationTime,
-  parseReferral,
+  lookupReferral,
 } from "@/modules/kolours/common";
 import {
   GenesisKreationQuotation,
@@ -54,7 +54,7 @@ export default async function handler(
     ClientError.assert(!r_referral || typeof r_referral === "string", {
       _debug: "invalid referral",
     });
-    const referral = parseReferral(r_referral);
+    const referral = lookupReferral(address);
 
     const extra: ExtraParams = { referral };
     const discount = referral ? await fetchDiscount(db, referral) : undefined;

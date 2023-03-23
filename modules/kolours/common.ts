@@ -1,4 +1,4 @@
-import { Core, Lucid } from "lucid-cardano";
+import { Address, Core, Lucid } from "lucid-cardano";
 
 import { Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
@@ -19,8 +19,8 @@ export function parseKolour(text: unknown): Kolour | undefined {
   return undefined;
 }
 
-export function parseReferral(text: unknown): string | undefined {
-  if (text && typeof text === "string") return text.toUpperCase();
+export function lookupReferral(_address: Address): string | undefined {
+  // TODO: Lookup stake pool
   return undefined;
 }
 
