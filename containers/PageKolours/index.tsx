@@ -27,11 +27,19 @@ export default function PageKolours({ className, style }: Props) {
     ? allNfts?.nfts?.find((item) => item.id === selectedId)
     : undefined;
 
+  React.useEffect(() => {
+    if (!selectedId && !!allNfts?.nfts.length) {
+      setSelectedId(allNfts.nfts[0].id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!selectedId && !!allNfts?.nfts.length]);
+
   return (
     <div className={cx(styles.container, className)} style={style}>
       <NavBar className={styles.navBar} />
       <Section>
         <PanelMint
+          key={selectedId}
           grayscaleImage={selectedNft?.grayscaleImage}
           palette={selectedNft?.palette}
         />
