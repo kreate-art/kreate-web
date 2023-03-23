@@ -1,9 +1,11 @@
+import { Kolour } from "../../../../kolours-types";
+
 type Ratio = number;
 
 // https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
-export function getPerceivedLuminance(color: string): number {
-  const matched = /^#([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})$/.exec(
-    color
+export function getPerceivedLuminance(kolour: Kolour): number {
+  const matched = /^([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})$/.exec(
+    kolour
   );
   if (!matched) return NaN;
   const rr: Ratio = parseInt(matched[1], 16) / 255;

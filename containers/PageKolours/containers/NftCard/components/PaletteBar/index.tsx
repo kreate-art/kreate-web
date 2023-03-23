@@ -1,6 +1,7 @@
 import cx from "classnames";
 
 import { PaletteItem } from "../../../../kolours-types";
+import { toHexColor } from "../../../../utils";
 
 import styles from "./index.module.scss";
 
@@ -16,11 +17,11 @@ export default function PaletteBar({ className, style, value }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Row className={styles.box}>
-        {value.map(({ color }, index) => (
+        {value.map(({ kolour }, index) => (
           <div
             key={index}
             className={styles.item}
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: toHexColor(kolour) }}
           />
         ))}
       </Flex.Row>

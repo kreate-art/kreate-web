@@ -1,6 +1,6 @@
 import { LovelaceAmount } from "@/modules/business-types";
 
-export type Color = string;
+export type Kolour = string;
 
 export type Image = {
   src: string;
@@ -8,7 +8,7 @@ export type Image = {
 
 export type PaletteItem = {
   image: Image;
-  color: Color;
+  kolour: Kolour;
   minted: boolean;
   listedFee: LovelaceAmount | undefined; // before discount
   fee: LovelaceAmount | undefined; // after discount
