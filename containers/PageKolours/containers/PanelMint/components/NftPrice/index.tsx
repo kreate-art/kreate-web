@@ -47,7 +47,7 @@ export default function NftPrice({ className, style, fee, listedFee }: Props) {
             color="white"
           />
         ) : null}
-        {listedFee != null ? (
+        {listedFee != null && listedFee !== fee ? (
           <AssetViewer.Ada.Standard
             as="div"
             lovelaceAmount={listedFee}
