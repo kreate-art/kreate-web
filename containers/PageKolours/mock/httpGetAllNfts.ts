@@ -19,6 +19,7 @@ type Response = {
   kreations: GenesisKreationEntry[];
 };
 
+/** @deprecated use httpGetAllNfts from containers/PageKolours/api/httpGetAllNfts.ts */
 export async function httpGetAllNfts(): Promise<Response> {
   await sleep(1000);
   return {
