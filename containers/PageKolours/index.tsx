@@ -40,7 +40,7 @@ export default function PageKolours({ className, style }: Props) {
       <Section marginTop="24px">
         <PanelMint
           key={selectedId}
-          grayscaleImage={selectedNft?.grayscaleImage}
+          initialImage={selectedNft?.initialImage}
           palette={selectedNft?.palette}
           fee={selectedNft?.fee}
           listedFee={selectedNft?.listedFee}
@@ -49,7 +49,7 @@ export default function PageKolours({ className, style }: Props) {
       <Section style={{ opacity: "25%" }}>
         {selectedNft ? (
           <PanelMintKolours
-            grayscaleImage={selectedNft.grayscaleImage}
+            initialImage={selectedNft.initialImage}
             palette={selectedNft.palette}
           />
         ) : (

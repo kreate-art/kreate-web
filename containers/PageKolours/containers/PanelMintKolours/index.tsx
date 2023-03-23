@@ -15,7 +15,7 @@ import Flex from "@/modules/teiki-ui/components/Flex";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  grayscaleImage: Image;
+  initialImage: Image;
   palette: PaletteItem[];
 };
 
@@ -23,7 +23,7 @@ type Props = {
 export default function PanelMintKolours({
   className,
   style,
-  grayscaleImage,
+  initialImage,
   palette,
 }: Props) {
   const [selection, setSelection] = React.useState<Record<number, boolean>>({});
@@ -39,7 +39,7 @@ export default function PanelMintKolours({
         >
           <Flex.Cell flex="1 1 300px">
             <WithAspectRatio aspectRatio={1}>
-              <Image$Next src={grayscaleImage.src} alt="" fill />
+              <Image$Next src={initialImage.src} alt="" fill />
               {palette.map((item, index) => (
                 <Image$Next
                   style={{

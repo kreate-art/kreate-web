@@ -16,7 +16,7 @@ export type PaletteItem = {
 
 export type Nft = {
   id: string;
-  grayscaleImage: Image;
+  initialImage: Image;
   palette: PaletteItem[];
   listedFee: LovelaceAmount | undefined; // before discount
   fee: LovelaceAmount | undefined; // after discount

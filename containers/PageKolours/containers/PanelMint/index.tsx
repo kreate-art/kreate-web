@@ -17,7 +17,7 @@ import Flex from "@/modules/teiki-ui/components/Flex";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  grayscaleImage: Image | undefined;
+  initialImage: Image | undefined;
   palette: PaletteItem[] | undefined;
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
@@ -26,7 +26,7 @@ type Props = {
 export default function PanelMint({
   className,
   style,
-  grayscaleImage,
+  initialImage,
   palette,
   fee,
   listedFee,
@@ -37,7 +37,7 @@ export default function PanelMint({
       <Flex.Col gap="16px" paddingBottom="32px">
         <Viewer
           className={styles.viewer}
-          grayscaleImage={grayscaleImage}
+          initialImage={initialImage}
           palette={palette}
           selectedIndexes={
             palette
