@@ -19,7 +19,6 @@ import {
   getUnavailableKolours,
 } from "@/modules/kolours/kolour";
 import {
-  ExtraParams,
   Kolour,
   KolourEntry,
   KolourQuotation,
@@ -77,7 +76,6 @@ export default async function handler(
       _debug: "all selected kolours are unavailable",
     });
 
-    const extra: ExtraParams = { referral };
     const discount = referral ? await fetchDiscount(db, referral) : undefined;
 
     const quotation: KolourQuotation = {
@@ -91,7 +89,7 @@ export default async function handler(
       ),
       userAddress: address,
       feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
-      ...extra,
+      referral,
       expiration: getExpirationTime(),
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
