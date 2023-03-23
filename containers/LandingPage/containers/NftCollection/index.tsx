@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import WithAspectRatio from "../../../../components/WithAspectRatio";
 
 import IconSwatches from "./components/IconSwatches";
@@ -67,12 +69,12 @@ export default function NftCollection() {
           </WithAspectRatio>
         </div>
       </div>
-      <div className={styles.kolourButtonContainer}>
-        <button className={styles.kolourButton}>
+      <Link href="/kolours" className={styles.kolourButtonContainer}>
+        <div className={styles.kolourButton}>
           <IconSwatches />
           <Typography.Span size="heading5" content="Kolour the Kreataverse" />
-        </button>
-      </div>
+        </div>
+      </Link>
     </>
   );
 }

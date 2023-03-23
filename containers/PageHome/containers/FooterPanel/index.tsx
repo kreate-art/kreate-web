@@ -39,7 +39,7 @@ const FooterPanel = ({ className, style }: Props) => {
       </div>
       <Divider.Horizontal color="white-05" />
       <div className={styles.lowerContainer}>
-        <div>© 2023 Shinka Network</div>
+        <div>Copyright © Shinka Network</div>
         <div className={styles.routingPage}>
           <span
             className={styles.routingPageItem}

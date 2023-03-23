@@ -1,12 +1,13 @@
 import cx from "classnames";
+import Link from "next/link";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
-import StepFour from "../image/StepFour.png";
-import StepOne from "../image/StepOne.png";
-import StepThree from "../image/StepThree.png";
-import StepTwo from "../image/StepTwo.png";
 import IconSwatches from "../NftCollection/components/IconSwatches";
 
+import stepFour from "./images/step-four.png";
+import stepOne from "./images/step-one.png";
+import stepThree from "./images/step-three.png";
+import stepTwo from "./images/step-two.png";
 import styles from "./index.module.scss";
 
 import ImageView from "@/modules/teiki-components/components/ImageView";
@@ -44,7 +45,7 @@ export default function Guideline({ className, style }: Props) {
             <WithAspectRatio aspectRatio={552 / 252}>
               <ImageView
                 className={styles.imageView}
-                src={StepOne.src}
+                src={stepOne.src}
                 crop={{ x: 0, y: 0, w: 1, h: 1 }}
               />
             </WithAspectRatio>
@@ -79,7 +80,7 @@ export default function Guideline({ className, style }: Props) {
             <WithAspectRatio aspectRatio={552 / 252}>
               <ImageView
                 className={styles.imageView}
-                src={StepTwo.src}
+                src={stepTwo.src}
                 crop={{ x: 0, y: 0, w: 1, h: 1 }}
               />
             </WithAspectRatio>
@@ -115,7 +116,7 @@ export default function Guideline({ className, style }: Props) {
             <WithAspectRatio aspectRatio={2208 / 644}>
               <ImageView
                 className={styles.imageView}
-                src={StepThree.src}
+                src={stepThree.src}
                 crop={{ x: 0, y: 0, w: 1, h: 1 }}
               />
             </WithAspectRatio>
@@ -150,7 +151,7 @@ export default function Guideline({ className, style }: Props) {
             <WithAspectRatio aspectRatio={552 / 252}>
               <ImageView
                 className={styles.imageView}
-                src={StepFour.src}
+                src={stepFour.src}
                 crop={{ x: 0, y: 0, w: 1, h: 1 }}
               />
             </WithAspectRatio>
@@ -206,12 +207,12 @@ export default function Guideline({ className, style }: Props) {
           </div>
         </Flex.Col>
       </Flex.Row>
-      <div className={styles.kolourButtonContainer}>
-        <button className={styles.kolourButton}>
+      <Link href="/kolours" className={styles.kolourButtonContainer}>
+        <div className={styles.kolourButton}>
           <IconSwatches />
           <Typography.Span size="heading5" content="Scope the Kreataverse" />
-        </button>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }

@@ -22,12 +22,12 @@
 }
 
 @font-face {
-  font-family: 'Bangers';
+  font-family: "Bangers";
   src: url(../../fonts/Bangers-Regular.ttf);
 }
 
 .emphasisHeading {
-  font-family: 'Bangers';
+  font-family: "Bangers";
   color: #ffffff;
   font-size: 64px;
   padding: 112px;
@@ -35,6 +35,7 @@
   line-height: 68.1px;
   text-align: center;
   line-height: 68px;
+  letter-spacing: 0.16em;
 }
 
 .kolourButton {
