@@ -9,17 +9,20 @@ type Props = {
   children?: React.ReactNode;
   marginTop?: React.CSSProperties["marginTop"];
   marginBottom?: React.CSSProperties["marginBottom"];
+  containerRef?: React.Ref<HTMLDivElement>;
 };
 
-export default function Section({
+function Section$Base({
   className,
   style,
   children,
   marginTop,
   marginBottom,
+  containerRef,
 }: Props) {
   return (
     <div
+      ref={containerRef}
       className={cx(styles.container, className)}
       style={{ marginTop, marginBottom, ...style }}
     >
@@ -27,3 +30,12 @@ export default function Section({
     </div>
   );
 }
+
+const Section = React.forwardRef<HTMLDivElement, Props>(function Section(
+  props,
+  ref
+) {
+  return <Section$Base containerRef={ref} {...props} />;
+});
+
+export default Section;

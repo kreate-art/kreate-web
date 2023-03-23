@@ -11,7 +11,6 @@ import PanelMint from "./containers/PanelMint";
 import { useAllNfts } from "./hooks/useAllNfts";
 import styles from "./index.module.scss";
 
-import { range } from "@/modules/array-utils";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 
@@ -50,12 +49,14 @@ export default function PageKolours({ className, style }: Props) {
       ? allNfts.kreations[selectedIndex + 1]?.id
       : undefined;
 
+  const sectionMint$Ref = React.useRef<HTMLDivElement>(null);
+
   return (
     <div className={cx(styles.container, className)} style={style}>
       <TeikiHead />
       <NavBar className={styles.navBar} />
       <BelowNavBar />
-      <Section marginTop="24px">
+      <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}
           initialImage={selectedNft?.initialImage}
@@ -73,7 +74,14 @@ export default function PageKolours({ className, style }: Props) {
         {allNfts ? (
           <NftCardGrid
             value={allNfts.kreations}
-            onSelect={(id) => setSelectedId(id)}
+            onSelect={(id) => {
+              setSelectedId(id);
+              sectionMint$Ref.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+              });
+            }}
           />
         ) : null}
       </Section>
