@@ -1,0 +1,14 @@
+.container {
+  display: block;
+}
+
+.imageContainer {
+  position: relative;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  transition-property: opacity;
+  transition-duration: 500ms;
+}

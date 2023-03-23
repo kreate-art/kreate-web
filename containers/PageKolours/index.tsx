@@ -4,6 +4,7 @@ import * as React from "react";
 import Section from "./components/Section";
 import NavBar from "./containers/NavBar";
 import NftCardGrid from "./containers/NftCardGrid";
+import PanelMint from "./containers/PanelMint";
 import PanelMintKolours from "./containers/PanelMintKolours";
 import { useAllNfts } from "./hooks/useAllNfts";
 import styles from "./index.module.scss";
@@ -30,6 +31,12 @@ export default function PageKolours({ className, style }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <NavBar className={styles.navBar} />
       <Section>
+        <PanelMint
+          grayscaleImage={selectedNft?.grayscaleImage}
+          palette={selectedNft?.palette}
+        />
+      </Section>
+      <Section style={{ opacity: "25%" }}>
         {selectedNft ? (
           <PanelMintKolours
             grayscaleImage={selectedNft.grayscaleImage}
