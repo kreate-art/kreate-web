@@ -2,21 +2,20 @@ import cx from "classnames";
 import * as React from "react";
 
 import WithAspectRatio from "../../../../../../components/WithAspectRatio";
-import { PaletteItem } from "../../../../kolours-types";
+import { Selection } from "../../types";
 import PaletteCell from "../PaletteCell";
 
 import styles from "./index.module.scss";
 
+import { Kolours } from "@/modules/kolours/types";
 import Flex from "@/modules/teiki-ui/components/Flex";
-
-type IndexOf<_T> = number;
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  palette: PaletteItem[] | undefined;
-  selection: Record<IndexOf<PaletteItem>, boolean>;
-  onSelectionChange: (selection: Record<IndexOf<PaletteItem>, boolean>) => void;
+  palette: Kolours.Layer[] | undefined;
+  selection: Selection;
+  onSelectionChange: (selection: Selection) => void;
 };
 
 export default function Palette({

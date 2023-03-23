@@ -1,16 +1,16 @@
 import cx from "classnames";
 
-import { PaletteItem } from "../../../../kolours-types";
 import { toHexColor } from "../../../../utils";
 
 import styles from "./index.module.scss";
 
+import { Kolours } from "@/modules/kolours/types";
 import Flex from "@/modules/teiki-ui/components/Flex";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: PaletteItem[];
+  value: Kolours.Layer[];
 };
 
 export default function PaletteBar({ className, style, value }: Props) {

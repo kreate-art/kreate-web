@@ -22,15 +22,15 @@ export default function PageKolours({ className, style }: Props) {
   const [selectedId, setSelectedId] = React.useState<string>();
 
   const selectedNft = selectedId
-    ? allNfts?.nfts?.find((item) => item.id === selectedId)
+    ? allNfts?.kreations?.find((item) => item.id === selectedId)
     : undefined;
 
   React.useEffect(() => {
-    if (!selectedId && !!allNfts?.nfts.length) {
-      setSelectedId(allNfts.nfts[0].id);
+    if (!selectedId && !!allNfts?.kreations.length) {
+      setSelectedId(allNfts.kreations[0].id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!selectedId && !!allNfts?.nfts.length]);
+  }, [!selectedId && !!allNfts?.kreations.length]);
 
   return (
     <div className={cx(styles.container, className)} style={style}>
@@ -47,7 +47,7 @@ export default function PageKolours({ className, style }: Props) {
       <Section>
         {allNfts ? (
           <NftCardGrid
-            value={allNfts.nfts}
+            value={allNfts.kreations}
             onSelect={(id) => setSelectedId(id)}
           />
         ) : null}

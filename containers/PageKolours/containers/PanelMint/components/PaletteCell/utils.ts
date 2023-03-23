@@ -1,9 +1,9 @@
-import { Kolour } from "../../../../kolours-types";
+import { Kolours } from "@/modules/kolours/types";
 
 type Ratio = number;
 
 // https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
-export function getPerceivedLuminance(kolour: Kolour): number {
+export function getPerceivedLuminance(kolour: Kolours.Kolour): number {
   const matched = /^([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})$/.exec(
     kolour
   );

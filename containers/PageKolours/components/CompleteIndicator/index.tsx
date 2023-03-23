@@ -1,17 +1,16 @@
 import cx from "classnames";
 import { PieChart } from "react-minimal-pie-chart";
 
-import { PaletteItem } from "../../kolours-types";
-
 import styles from "./index.module.scss";
 
+import { Kolours } from "@/modules/kolours/types";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: PaletteItem[];
+  value: Kolours.Layer[];
 };
 
 export default function CompleteIndicator({ className, style, value }: Props) {

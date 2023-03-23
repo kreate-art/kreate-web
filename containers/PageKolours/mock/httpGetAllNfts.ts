@@ -1,7 +1,5 @@
 import { faker } from "@faker-js/faker";
 
-import { Nft } from "../kolours-types";
-
 import layer0 from "./00.72926E.png";
 import layer1 from "./01.225B70.png";
 import layer2 from "./02.2DA8A7.png";
@@ -12,20 +10,23 @@ import layer6 from "./06.78364D.png";
 import layer7 from "./07.EAD6A3.png";
 import layer8 from "./08.C34574.png";
 import grayscale from "./grayscale.png";
+import original from "./original.png";
 
 import { sleep } from "@/modules/async-utils";
+import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 
 type Response = {
-  nfts: Nft[];
+  kreations: GenesisKreationEntry[];
 };
 
 export async function httpGetAllNfts(): Promise<Response> {
   await sleep(1000);
   return {
-    nfts: [
+    kreations: [
       {
         id: "2802c300-169b-41a7-bd66-afe3df3e0d1d",
         initialImage: grayscale,
+        finalImage: original,
         palette: [
           {
             image: layer0,
@@ -93,10 +94,13 @@ export async function httpGetAllNfts(): Promise<Response> {
         ],
         fee: (Math.random() * 1e3) << 10,
         listedFee: (Math.random() * 1e3) << 10,
+        status: "unready",
+        createdAt: 1e9,
       },
       {
         id: "ffcde3e2-2622-4fd0-9bd2-7523f0cc20a3",
         initialImage: grayscale,
+        finalImage: original,
         palette: [
           {
             image: layer8,
@@ -171,6 +175,8 @@ export async function httpGetAllNfts(): Promise<Response> {
         ],
         fee: (Math.random() * 1e3) << 10,
         listedFee: (Math.random() * 1e3) << 10,
+        status: "unready",
+        createdAt: 1e9,
       },
     ],
   };

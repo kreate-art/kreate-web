@@ -1,5 +1,5 @@
-import { Kolour } from "./kolours-types";
+import { Kolours } from "@/modules/kolours/types";
 
-export function toHexColor(kolour: Kolour) {
+export function toHexColor(kolour: Kolours.Kolour) {
   return "#" + kolour;
 }
