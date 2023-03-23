@@ -14,9 +14,16 @@ type Props = {
   minted: boolean;
   checked: boolean;
   fill: true;
+  onCheckedChange: (checked: boolean) => void;
 };
 
-export default function PaletteCell({ className, style, color }: Props) {
+export default function PaletteCell({
+  className,
+  style,
+  color,
+  checked,
+  onCheckedChange,
+}: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col
@@ -25,7 +32,7 @@ export default function PaletteCell({ className, style, color }: Props) {
         alignItems="center"
         gap="24px"
       >
-        <Checkbox value={false} />
+        <Checkbox value={checked} onChange={onCheckedChange} />
         <Typography.Div content={color} />
       </Flex.Col>
     </div>
