@@ -59,6 +59,7 @@ const COLOR_TO_CLASS_NAME = {
   secondary10: styles.colorSecondary10,
   green: styles.colorGreen,
   white: styles.colorWhite,
+  white50: styles.colorWhite50,
   red: styles.colorRed,
   none: "",
 };

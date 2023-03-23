@@ -75,7 +75,7 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
     if (!w || !h) return;
     setImageSize({ w, h });
   };
-
+  console.log(computed && computed.bgSize.w);
   return (
     <div className={className} style={style}>
       <div ref={targetRef} className={styles.image}>
