@@ -9,7 +9,7 @@ export type Image = {
 export type PaletteItem = {
   image: Image;
   kolour: Kolour;
-  minted: boolean;
+  status: "free" | "booked" | "minted";
   listedFee: LovelaceAmount | undefined; // before discount
   fee: LovelaceAmount | undefined; // after discount
 };
