@@ -3,12 +3,12 @@ import * as React from "react";
 
 import WithAspectRatio from "../../../../../../components/WithAspectRatio";
 import CompleteIndicator from "../../../../components/CompleteIndicator";
-import { Image, PaletteItem } from "../../../../kolours-types";
 import NftPrice from "../NftPrice";
 
 import styles from "./index.module.scss";
 
 import { LovelaceAmount } from "@/modules/business-types";
+import { Kolours } from "@/modules/kolours/types";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Flex from "@/modules/teiki-ui/components/Flex";
 
@@ -23,9 +23,9 @@ const DEFAULT_IMAGE_URL = `data:image/svg+xml,
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  initialImage: Image | undefined;
-  palette: PaletteItem[] | undefined;
-  selectedIndexes: IndexOf<PaletteItem>[] | undefined;
+  initialImage: Kolours.Image | undefined;
+  palette: Kolours.Layer[] | undefined;
+  selectedIndexes: IndexOf<Kolours.Layer>[] | undefined;
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
 };

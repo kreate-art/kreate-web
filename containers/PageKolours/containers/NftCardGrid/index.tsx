@@ -1,13 +1,13 @@
 import cx from "classnames";
 import * as React from "react";
 
-import { Nft } from "../../kolours-types";
 import NftCard from "../NftCard";
 
 import styles from "./index.module.scss";
 
 import { sortedBy } from "@/modules/array-utils";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
+import { Kolours } from "@/modules/kolours/types";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -16,7 +16,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: Nft[];
+  value: Kolours.GenesisKreationEntry[];
   onSelect?: (id: string) => void;
 };
 
