@@ -66,8 +66,9 @@ export default async function handler(
 
     const txId = C.hash_transaction(txBody).to_hex();
 
-    const records = Object.entries(quotation.kolours).map(
-      ([kolour, entry]) => ({
+    const records = Object.entries(quotation.kolours)
+      .sort() // Deterministic ordering helps with avoiding deadlocks
+      .map(([kolour, entry]) => ({
         kolour,
         status: "booked",
         txId,
@@ -79,15 +80,15 @@ export default async function handler(
         userAddress: quotation.userAddress,
         feeAddress: quotation.feeAddress,
         referral: quotation.referral ?? null,
-      })
-    );
+      }));
 
     const txSigned = await signTx(lucid, tx);
     try {
-      // This acts as a multi lock due to the UNIQUE constraint
-      await sql`
-        INSERT INTO kolours.kolour_book ${sql(records)}
-      `;
+      await sql.begin((sql) => [
+        sql`SET LOCAL lock_timeout = '2s'`,
+        // This acts as a multi lock due to the UNIQUE constraint
+        sql`INSERT INTO kolours.kolour_book ${sql(records)}`,
+      ]);
     } catch (lockError) {
       if (
         lockError instanceof postgres.PostgresError &&
