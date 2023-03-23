@@ -7,17 +7,16 @@ import {
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import {
-  calculateDiscountedFee,
-  ExtraParams,
   fetchDiscount,
   getExpirationTime,
   lookupReferral,
 } from "@/modules/kolours/common";
+import { quoteGenesisKreation } from "@/modules/kolours/genesis-kreation";
 import {
+  ExtraParams,
   GenesisKreationQuotation,
   GenesisKreationStatus,
-  quoteGenesisKreation,
-} from "@/modules/kolours/genesis-kreation";
+} from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db } from "@/modules/next-backend/connections";

@@ -8,10 +8,8 @@ import {
 } from "@/modules/env/kolours/server";
 import {
   calculateDiscountedFee,
-  ExtraParams,
   fetchDiscount,
   getExpirationTime,
-  Kolour,
   lookupReferral,
   parseKolour,
 } from "@/modules/kolours/common";
@@ -19,9 +17,13 @@ import {
   calculateKolourFee,
   generateKolourImageCid,
   getUnavailableKolours,
+} from "@/modules/kolours/kolour";
+import {
+  ExtraParams,
+  Kolour,
   KolourEntry,
   KolourQuotation,
-} from "@/modules/kolours/kolour";
+} from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, ipfs, redis } from "@/modules/next-backend/connections";

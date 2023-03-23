@@ -2,10 +2,9 @@ import { randomUUID } from "crypto";
 
 import { Redis } from "ioredis";
 import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
-import { Address } from "lucid-cardano";
 import sharp from "sharp";
 
-import { ExtraParams, Kolour } from "./common";
+import { Kolour } from "./types/Kolours";
 
 import { Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
@@ -16,19 +15,6 @@ const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
   height: 128,
   channels: 3,
 };
-
-export type KolourEntry = {
-  fee: Lovelace;
-  listedFee: Lovelace;
-  image: string; // ipfs://<cid>
-};
-
-export type KolourQuotation = {
-  kolours: Record<Kolour, KolourEntry>;
-  userAddress: Address;
-  feeAddress: Address;
-  expiration: number; // Unix Timestamp in seconds
-} & ExtraParams;
 
 export function calculateKolourFee(kolour: Kolour): Lovelace {
   // TODO: Finalize price formula ;)

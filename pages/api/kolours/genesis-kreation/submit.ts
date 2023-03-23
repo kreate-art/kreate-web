@@ -8,10 +8,8 @@ import {
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import { getTxExp } from "@/modules/kolours/common";
-import {
-  GenesisKreationQuotation,
-  getGenesisKreationStatus,
-} from "@/modules/kolours/genesis-kreation";
+import { getGenesisKreationStatus } from "@/modules/kolours/genesis-kreation";
+import { GenesisKreationQuotation } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
