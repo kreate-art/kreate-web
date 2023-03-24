@@ -3,9 +3,10 @@ import { C, TxComplete } from "lucid-cardano";
 import * as React from "react";
 
 import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
+import { PaletteItem } from "../../kolours-types";
 
-import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
-import IconRewardStar from "./icons/IconRewardStar";
+import KolourGrid from "./containers/KolourGrid";
+import { TxBreakdown } from "./hooks/useEstimatedFees";
 import styles from "./index.module.scss";
 import { buildTx, BuildTxParams } from "./utils/transaction";
 
@@ -15,7 +16,6 @@ import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import { Kolour } from "@/modules/kolours/types/Kolours";
 import httpGetBackingActivitiesByTxHash from "@/modules/next-backend-client/api/httpGetBackingActivitiesByTxHash";
 import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
 import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
@@ -25,7 +25,6 @@ import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import Button from "@/modules/teiki-ui/components/Button";
-import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -39,7 +38,7 @@ export type ModalBackProject$SuccessEvent = SuccessEvent;
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  kolours: Kolour[];
+  kolours: PaletteItem[];
   open: boolean;
   onCancel?: () => void;
   onSuccess?: (event: SuccessEvent) => void;
@@ -57,6 +56,7 @@ export default function ModalMintKolourNft({
   const adaPriceInfo = useAdaPriceInfo();
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
+  const [selectedKolours, setSelectedKolours] = React.useState(kolours);
   const lucid =
     walletStatus.status === "connected" ? walletStatus.lucid : undefined;
   const [[txBreakdown, txBreakdown$Error], setTxBreakdown] = React.useState<
@@ -99,7 +99,7 @@ export default function ModalMintKolourNft({
 
       setStatusBarText("Quoting kolours...");
       const { quotation, signature } = await httpGetQuoteKolourNft({
-        kolours,
+        kolours: kolours.map((item) => item.kolour),
         address: walletStatus.info.address,
       }).catch((cause) => {
         throw DisplayableError.from(cause, "Failed to quote kolours");
@@ -166,7 +166,7 @@ export default function ModalMintKolourNft({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content={`Mint Kolour NFT`} color="ink" />
+          <Typography.Span content="Mint Kolours" color="ink" />
         </Typography.Div>
       </Modal.Header>
       <Modal.Content className={styles.modalContent} padding="none">
@@ -176,34 +176,23 @@ export default function ModalMintKolourNft({
             gap="32px"
             padding="32px 24px 32px 48px"
           >
-            <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-              <Flex.Col padding="20px" gap="16px" className={styles.infoBox}>
-                <Flex.Row
-                  justifyContent="space-between"
-                  gap="20px"
-                  alignItems="center"
-                >
-                  <Flex.Col>
-                    <IconRewardStar />
-                  </Flex.Col>
-                  <Typography.Div>
-                    <Typography.Span
-                      content="Welcome to Kreateverse"
-                      size="bodySmall"
-                    />
-                  </Typography.Div>
-                </Flex.Row>
-                <Divider.Horizontal />
-              </Flex.Col>
-            </form>
+            <KolourGrid
+              value={selectedKolours}
+              onChange={(newValue: PaletteItem[]) => {
+                setSelectedKolours(newValue);
+                if (newValue.length === 0) onCancel && onCancel();
+              }}
+            />
           </Flex.Col>
           <Flex.Row flex="1 1 294px" alignItems="stretch">
             <PanelFeesBreakdown
               style={{ flex: "1 1 auto" }}
               title="Transaction Breakdown"
               rows={[
-                { label: "Stake", value: txBreakdown?.back },
+                { label: "Kolours", value: txBreakdown?.back },
                 { label: "Transaction Fee", value: txBreakdown?.transaction },
+                { label: "IKO Discount", value: txBreakdown?.transaction },
+                { label: "SSPO Discount", value: txBreakdown?.transaction },
               ]}
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
               adaPriceInUsd={adaPriceInfo?.usd}
