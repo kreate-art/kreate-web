@@ -15,6 +15,7 @@ import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
+import { useTxParams$UserMintGKNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintGKNft";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesBreakdown";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
@@ -55,7 +56,7 @@ export default function ModalMintGenesisKreation({
   //   [TxBreakdown | undefined, unknown]
   // >([undefined, undefined]);
 
-  // const txParamsResult = useTxParams$UserMintKolourNft();
+  const txParamsResult = useTxParams$UserMintGKNft();
   // const quoteResult = useQuoteKolourNft$Nft({
   //   kolours: selectedKolours.map((item) => item.kolour),
   //   address:
