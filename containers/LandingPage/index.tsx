@@ -1,4 +1,6 @@
-import WithAspectRatio from "../../components/WithAspectRatio";
+import Image from "next/image";
+import Link from "next/link";
+
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
 import KoloursTypo from "./components/KoloursTypo";
@@ -6,15 +8,15 @@ import LogoKreateWhite from "./components/LogoKreateWhite";
 import Guideline from "./containers/Guideline";
 import KreataverseStory from "./containers/KreataverseStory";
 import NftCollection from "./containers/NftCollection";
-import RemindBar from "./containers/RemindBar";
+import IconSwatches from "./containers/NftCollection/components/IconSwatches";
 import RewardSection from "./containers/RewardsSection";
 import { useLandingPageColor } from "./hooks/useLandingPageColor";
-import background from "./image/background.png";
+import figureDiscount from "./images/figure-discount.png";
 import styles from "./index.module.scss";
 
-import ImageView from "@/modules/teiki-components/components/ImageView";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import Divider from "@/modules/teiki-ui/components/Divider";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 export default function LandingPage() {
   useLandingPageColor();
@@ -22,22 +24,28 @@ export default function LandingPage() {
     <>
       <TeikiHead />
       <div className={styles.container}>
-        <RemindBar />
         <div className={styles.main}>
           <div className={styles.backgroundContainer}>
-            <WithAspectRatio aspectRatio={8 / 5}>
-              <ImageView
-                src={background.src}
-                style={{ width: "100%", height: "100%" }}
-                crop={{ x: 0, y: 0, w: 1, h: 1 }}
+            <div className={styles.backgroundTop}>
+              <LogoKreateWhite />
+              <Divider.Vertical color="white-10" />
+              <KoloursTypo />
+            </div>
+            <div className={styles.backgroundMid}>
+              <Image
+                src={figureDiscount}
+                alt="figure-discount"
+                className={styles.figureDiscount}
               />
-            </WithAspectRatio>
-            <div className={styles.backgroundContentContainer}>
-              <div className={styles.backgroundContent}>
-                <LogoKreateWhite />
-                <Divider.Vertical color="white-10" />
-                <KoloursTypo />
-              </div>
+              <Link href="/mint" className={styles.kolourButtonContainer}>
+                <div className={styles.kolourButton}>
+                  <IconSwatches />
+                  <Typography.Span
+                    size="heading5"
+                    content="Kolour the Kreataverse"
+                  />
+                </div>
+              </Link>
             </div>
           </div>
           <div className={styles.mainContent}>
