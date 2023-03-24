@@ -61,7 +61,7 @@ export default function PageKolours({ className, style }: Props) {
         imageUrl={metaImage.src}
       />
       <NavBar className={styles.navBar} />
-      {/* <BelowNavBar /> */}Kolouring metaverse with Kreate
+      {/* <BelowNavBar /> */}
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}
