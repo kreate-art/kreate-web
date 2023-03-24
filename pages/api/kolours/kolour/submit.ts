@@ -9,7 +9,7 @@ import {
   KOLOURS_HMAC_SECRET,
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
-import { getTxExp } from "@/modules/kolours/common";
+import { forceBigInt, getTxExp } from "@/modules/kolours/common";
 import { areKoloursAvailable } from "@/modules/kolours/kolour";
 import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
@@ -129,9 +129,13 @@ export default async function handler(
 }
 
 function isTxValid(tx: Core.Transaction, quotation: KolourQuotation) {
+  const tKolours = Object.fromEntries(
+    Object.entries(quotation.kolours).map(([k, e]) => [k, forceBigInt(e)])
+  );
+  const tQuotation = { ...quotation, kolours: tKolours };
   return verifyKolourNftMintingTx({
     tx,
-    quotation,
+    quotation: tQuotation,
     kolourNftMph: KOLOURS_KOLOUR_NFT_POLICY_ID,
   });
 }

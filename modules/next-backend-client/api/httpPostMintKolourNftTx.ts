@@ -3,7 +3,7 @@ import { Hex } from "@kreate/protocol/types";
 
 import { assert } from "@/modules/common-utils";
 import { fromJson } from "@/modules/json-utils";
-import { KolourQuotation } from "@/modules/kolours/kolour";
+import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 
 type Params = {
   txHex: Hex;

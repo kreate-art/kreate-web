@@ -1,5 +1,7 @@
 import { Address, Core, Lucid } from "lucid-cardano";
 
+import { LovelaceAmount } from "../business-types";
+
 import { Kolour } from "./types/Kolours";
 
 import { Sql } from "@/modules/next-backend/db";
@@ -49,4 +51,12 @@ export function getTxExp(lucid: Lucid, txBody: Core.TransactionBody) {
   const slot = Number(txTtl.to_str());
   const time = lucid.utils.slotToUnixTime(slot);
   return { slot, time };
+}
+
+// TODO: @sk-saru: Fix protocol types instead...
+export function forceBigInt<
+  T extends { fee: LovelaceAmount; listedFee: LovelaceAmount }
+>(value: T): Omit<T, "fee" | "listedFee"> & { fee: bigint; listedFee: bigint } {
+  const { fee, listedFee, ...rest } = value;
+  return { ...rest, fee: BigInt(fee), listedFee: BigInt(listedFee) };
 }
