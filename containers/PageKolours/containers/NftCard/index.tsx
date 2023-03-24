@@ -69,8 +69,8 @@ export default function NftCard({ className, style, value, onClick }: Props) {
           <Flex.Row alignItems="center" gap="12px">
             <Typography.Span
               content={
-                value.listedFee != null
-                  ? formatLovelaceAmount(value.listedFee, {
+                value.fee != null
+                  ? formatLovelaceAmount(value.fee, {
                       compact: true,
                       includeCurrencySymbol: true,
                     })
@@ -81,10 +81,10 @@ export default function NftCard({ className, style, value, onClick }: Props) {
             <Typography.Span
               content={
                 value.listedFee != null
-                  ? formatLovelaceAmount(
-                      sumLovelaceAmount([value.listedFee, value.listedFee]),
-                      { compact: true, includeCurrencySymbol: true }
-                    )
+                  ? formatLovelaceAmount(value.listedFee, {
+                      compact: true,
+                      includeCurrencySymbol: true,
+                    })
                   : "-"
               }
               size="bodySmall"
