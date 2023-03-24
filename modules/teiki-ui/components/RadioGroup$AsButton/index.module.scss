@@ -1,0 +1,70 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+
+  &[data-disabled] {
+    cursor: not-allowed;
+  }
+}
+
+.colorPrimary .button[data-state="checked"] {
+  background-color: colors.$primary;
+  color: white;
+}
+
+.colorPrimary .button:focus-visible {
+  outline: colors.$primary30 solid 3px;
+}
+
+.colorSecondary .button[data-state="checked"] {
+  background-color: colors.$secondary;
+  color: white;
+}
+
+.colorSecondary .button:focus-visible {
+  outline: colors.$secondary30 solid 3px;
+}
+
+.button {
+  border: 1px solid colors.$black10;
+  background-color: transparent;
+  cursor: pointer;
+
+  &[data-disabled] {
+    cursor: not-allowed;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 4px;
+}
+
+.sizeSmall > .button {
+  height: 40px;
+  border-radius: 20px;
+  padding: 8px 16px;
+  min-width: 60px;
+  font-size: 14px;
+}
+
+.sizeMedium > .button {
+  height: 48px;
+  border-radius: 24px;
+  padding: 8px 16px;
+  min-width: 72px;
+  font-size: 14px;
+}
+
+.sizeLarge > .button {
+  height: 56px;
+  border-radius: 28px;
+  padding: 12px 24px;
+  min-width: 84px;
+  font-size: 16px;
+}
