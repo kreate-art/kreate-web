@@ -22,13 +22,7 @@
   justify-content: center;
 }
 
-.stepOneContainer {
-  padding: 48px 56px;
-  position: relative;
-}
-
-.stepTwoContainer {
-  gap: 5px;
+.stepContainer {
   padding: 48px 56px;
   position: relative;
 }
@@ -170,4 +164,37 @@
 
 .walletName {
   margin-top: 16px;
+}
+
+.kolourList {
+  display: flex;
+  width: 100%;
+  border: 2px solid white;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 32px;
+}
+
+.kolour {
+  height: 89px;
+  width: 100%;
+}
+
+.mintKolourContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 56px;
+}
+
+.mintKolourAction {
+  background: #ec5929;
+  color: white;
+  border-radius: 69px;
+  padding: 17px 29px;
+  font-weight: 600;
+  pointer-events: none;
+  border: none;
+  outline: none;
 }

@@ -25,6 +25,7 @@ export default function LandingPage() {
       <TeikiHead />
       <div className={styles.container}>
         <div className={styles.main}>
+          <div className={styles.background} />
           <div className={styles.backgroundContainer}>
             <div className={styles.backgroundTop}>
               <LogoKreateWhite />
