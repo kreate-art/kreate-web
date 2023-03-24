@@ -23,7 +23,7 @@ export default function RemindBar() {
         content={"from March 24th to April 7th "}
       />
       <Typography.Span size="bodySmall" color="white50" content={"2023 - "} />
-      <Link href="/kolours">
+      <Link href="/kolours/mint">
         <Typography.Span
           size="heading6"
           color="orange"
