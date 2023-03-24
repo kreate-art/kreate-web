@@ -72,7 +72,6 @@ export default function PanelMint({
       case "connected": {
         const kolours: Kolours.Kolour[] = [];
         if (!palette) return;
-
         for (const [index, selected] of Object.entries(selection)) {
           if (selected) kolours.push(palette[parseInt(index)].kolour);
         }
