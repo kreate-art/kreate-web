@@ -83,6 +83,13 @@ export default function RewardSection({ className, style }: Props) {
                   Kolour NFT holders are eligible for early-minting a Kreator
                   NFT.
                 </div>
+                <div>
+                  <Image
+                    className={styles.figure}
+                    src={humanFigure1}
+                    alt="human-figure-1"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -105,11 +112,11 @@ export default function RewardSection({ className, style }: Props) {
                 <Typography.Div
                   size="heading3"
                   color="white"
-                  content="Kreate your land"
+                  content="Kreate your Region"
                 />
                 <div className={styles.infoBody}>
-                  Name the land you now own. You can build your 3D land once the
-                  Kreataverse is live.
+                  Name the region you now own. You can build it in 3D once the
+                  Kreataverse is live in Q4/2023.
                 </div>
               </div>
               <div className={cx(styles.infoCard, styles.green)}>
@@ -119,8 +126,8 @@ export default function RewardSection({ className, style }: Props) {
                   content="Royalty"
                 />
                 <div className={styles.infoBody}>
-                  Get a % revenue share from future Kreator studios and
-                  businesses on your land.
+                  Get a % revenue share from Kreator Studios, businesses, and
+                  ads on your land.
                 </div>
               </div>
               <div className={cx(styles.infoCard, styles.gray)}>
@@ -132,6 +139,13 @@ export default function RewardSection({ className, style }: Props) {
                 <div className={styles.infoBody}>
                   Genesis Kreation NFT holders get a FREE Kreator NFT.
                 </div>
+                <div>
+                  <Image
+                    className={styles.figure}
+                    src={humanFigure2}
+                    alt="human-figure-2"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -140,22 +154,6 @@ export default function RewardSection({ className, style }: Props) {
           className={cx(styles.grid, styles.bottomGrid)}
           style={{ gridArea: "c" }}
         >
-          <div className={styles.figureContainer}>
-            <div>
-              <Image
-                className={styles.figure}
-                src={humanFigure1}
-                alt="human-figure-1"
-              />
-            </div>
-            <div>
-              <Image
-                className={styles.figure}
-                src={humanFigure2}
-                alt="human-figure-2"
-              />
-            </div>
-          </div>
           <Typography.Div color="white" className={styles.infoBottomGrid}>
             <div>
               Kolour and Genesis Kreation NFT holders will{" "}
@@ -178,10 +176,7 @@ export default function RewardSection({ className, style }: Props) {
                 Twitter
               </Link>{" "}
               and{" "}
-              <Link
-                className={styles.link}
-                href="https://discord.gg/4wv3MfKHdE"
-              >
+              <Link className={styles.link} href="https://discord.gg/kreate">
                 Discord
               </Link>{" "}
               for the $KREATE campaign in April 2023.

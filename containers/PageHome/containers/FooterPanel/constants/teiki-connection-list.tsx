@@ -11,7 +11,7 @@ export const TEIKI_CONNECTION_LIST: {
 }[] = [
   {
     icon: <IconDiscord />,
-    url: "https://discord.gg/4wv3MfKHdE",
+    url: "https://discord.gg/kreate",
   },
   {
     icon: <IconTwitter />,

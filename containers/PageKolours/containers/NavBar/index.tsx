@@ -32,11 +32,15 @@ export default function NavBar({ className, style }: Props) {
           <Divider.Vertical color="white-30" className={styles.vertical} />
           <div className={styles.kolours}> KOLOURS </div>
         </div>
-        <Typography.Span
-          content="Kreators' Log #1: Kolours"
-          color="white"
-          className={styles.log}
-        />
+        <Typography.Div color="white50">
+          <Typography.Span color="white" content="50-60% discount " />
+          <Typography.Span color="white80" content="until April 7th " />
+          <Typography.Span color="white50" content=" - " />
+          <Typography.Span
+            color="white"
+            content="Kolour the Kreataverse now!"
+          />
+        </Typography.Div>
         <div className={styles.rightMain}>
           <ButtonWalletNavbar />
         </div>
