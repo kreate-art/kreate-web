@@ -2,7 +2,6 @@ import cx from "classnames";
 import * as React from "react";
 
 import ModalConnectWallet from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar/containers/ModalConnectWallet";
-import { Kolour } from "../../kolours-types";
 import ModalMintKolour from "../ModalMintKolour";
 
 import Palette from "./components/Palette";
@@ -71,7 +70,7 @@ export default function PanelMint({
           />
         ));
       case "connected": {
-        const kolours: Kolour[] = [];
+        const kolours: Kolours.Kolour[] = [];
         if (!palette) return;
 
         for (const [index, selected] of Object.entries(selection)) {
