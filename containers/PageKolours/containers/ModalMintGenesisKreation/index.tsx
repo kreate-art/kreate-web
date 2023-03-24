@@ -154,7 +154,7 @@ export default function ModalMintGenesisKreation({
     } catch (error) {
       const displayableError = DisplayableError.from(
         error,
-        "Failed to mint kolour nft"
+        "Failed to mint genesis kolour nft"
       );
       showMessage({
         title: displayableError.title,
