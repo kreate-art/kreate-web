@@ -50,6 +50,8 @@ export default function ModalMintKolourNft({
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
   const [selectedKolours, setSelectedKolours] = React.useState(kolours);
+  const lucid =
+    walletStatus.status === "connected" ? walletStatus.lucid : undefined;
   const [[txBreakdown, txBreakdown$Error], setTxBreakdown] = React.useState<
     [TxBreakdown | undefined, unknown]
   >([undefined, undefined]);
@@ -225,7 +227,7 @@ export default function ModalMintKolourNft({
         <Button.Outline content="Cancel" onClick={onCancel} disabled={busy} />
         <Button.Solid
           content="Submit"
-          // disabled={txBreakdown === undefined || !lucid || busy}
+          disabled={txBreakdown === undefined || !lucid || busy}
           onClick={handleSubmit}
         />
       </Modal.Actions>
