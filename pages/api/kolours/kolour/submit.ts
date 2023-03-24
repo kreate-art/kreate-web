@@ -9,7 +9,8 @@ import {
   KOLOURS_HMAC_SECRET,
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
-import { forceBigInt, getTxExp } from "@/modules/kolours/common";
+import { fromJson } from "@/modules/json-utils";
+import { getTxExp } from "@/modules/kolours/common";
 import { areKoloursAvailable } from "@/modules/kolours/kolour";
 import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
@@ -31,8 +32,8 @@ export default async function handler(
     });
     ClientError.assert(req.body, { _debug: "invalid body" });
 
-    const { tx: txHex, quotation: quot, signature } = req.body;
-
+    const { tx: txHex, quotation: quotObj, signature } = req.body;
+    const quot = fromJson(quotObj);
     ClientError.assert(quot && typeof quot === "object" && "kolours" in quot, {
       _debug: "invalid quotation",
     });
@@ -62,7 +63,9 @@ export default async function handler(
     const lucid = await lucid$();
 
     const tx = C.Transaction.from_bytes(Buffer.from(txHex, "hex"));
-    ClientError.assert(isTxValid(tx, quotation), { _debug: "invalid tx" });
+    ClientError.assert(isTxValid(lucid, tx, quotation) == null, {
+      _debug: "invalid tx",
+    });
 
     const txBody = tx.body();
 
@@ -128,14 +131,14 @@ export default async function handler(
   }
 }
 
-function isTxValid(tx: Core.Transaction, quotation: KolourQuotation) {
-  const tKolours = Object.fromEntries(
-    Object.entries(quotation.kolours).map(([k, e]) => [k, forceBigInt(e)])
-  );
-  const tQuotation = { ...quotation, kolours: tKolours };
-  return verifyKolourNftMintingTx({
+function isTxValid(
+  lucid: Lucid,
+  tx: Core.Transaction,
+  quotation: KolourQuotation
+) {
+  return verifyKolourNftMintingTx(lucid, {
     tx,
-    quotation: tQuotation,
+    quotation,
     kolourNftMph: KOLOURS_KOLOUR_NFT_POLICY_ID,
   });
 }

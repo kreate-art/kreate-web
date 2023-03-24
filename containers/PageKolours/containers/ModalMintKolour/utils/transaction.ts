@@ -7,7 +7,7 @@ import { Lucid, Tx, TxComplete } from "lucid-cardano";
 
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
-import { forceBigInt } from "@/modules/kolours/common";
+import { KOLOURS_KOLOUR_NFT_PUBLIC_KEY_HASH } from "@/modules/env/kolours/client";
 import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { TxParams$UserMintKolourNft } from "@/modules/next-backend-client/api/httpGetTxParams$UserMintKolourNft";
 import { getReferenceTxTime } from "@/modules/protocol/utils";
@@ -23,6 +23,8 @@ export type BuildTxResult = {
   txComplete: TxComplete;
 };
 
+const KOLOUR_NFT_EXPIRATION = 300_000; // 10 blocks
+
 export async function buildTx(params: BuildTxParams): Promise<BuildTxResult> {
   const tx = await buildTxRaw(params);
   // `nativeUplc` is specified as a temporary workaround for an Aiken bug
@@ -33,7 +35,6 @@ export async function buildTx(params: BuildTxParams): Promise<BuildTxResult> {
   return { txFee, txComplete };
 }
 
-// TODO: @sk-saru remove this function when the migration is done.
 export async function buildTxRaw({
   lucid,
   quotation,
@@ -46,19 +47,17 @@ export async function buildTxRaw({
     "invalid kolour nft reference script utxo: must reference kolour nft minting policy"
   );
 
-  const txTime = await getReferenceTxTime();
-
-  const tKolours = Object.fromEntries(
-    Object.entries(quotation.kolours).map(([k, e]) => [k, forceBigInt(e)])
+  DisplayableError.assert(
+    KOLOURS_KOLOUR_NFT_PUBLIC_KEY_HASH != null,
+    "missing kolour nft public key hash"
   );
-  const tQuotation = { ...quotation, kolours: tKolours };
 
   const mintParams: MintKolourNftTxParams = {
-    quotation: tQuotation,
+    quotation,
     kolourNftRefScriptUtxo,
-    producerPkh: getPaymentKeyHash(await lucid.wallet.address()),
-    txTimeStart: txTime,
-    txTimeEnd: txTime + 300_000,
+    producerPkh: KOLOURS_KOLOUR_NFT_PUBLIC_KEY_HASH,
+    txTimeStart: await getReferenceTxTime(),
+    txTimeEnd: Date.now() + KOLOUR_NFT_EXPIRATION,
   };
 
   const tx = buildMintKolourNftTx(lucid, mintParams);
