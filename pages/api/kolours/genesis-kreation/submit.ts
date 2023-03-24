@@ -34,11 +34,13 @@ export default async function handler(
     });
     ClientError.assert(req.body, { _debug: "invalid body" });
 
-    const { tx: txHex, quotation: quot, signature } = req.body;
+    const { tx: txHex, quotation: quotObj, signature } = req.body;
 
+    const quot = fromJson(quotObj);
     ClientError.assert(quot && typeof quot === "object" && "id" in quot, {
       _debug: "invalid quotation",
     });
+
     ClientError.assert(
       signature &&
         typeof signature === "string" &&

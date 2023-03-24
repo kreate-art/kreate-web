@@ -19,7 +19,7 @@ import {
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
-import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
+import httpGetGenesisKreationMintedByTxHash from "@/modules/next-backend-client/api/httpGetGenesisKreationMintedByTxHash";
 import { httpGetQuoteGKNft } from "@/modules/next-backend-client/api/httpGetQuoteGKNft";
 import { httpPostMintGKNftTx } from "@/modules/next-backend-client/api/httpPostMintGKNftTx";
 import { useTxParams$UserMintGKNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintGKNft";
@@ -58,6 +58,8 @@ export default function ModalMintGenesisKreation({
   const { walletStatus } = useAppContextValue$Consumer();
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const lucid =
+    walletStatus.status === "connected" ? walletStatus.lucid : undefined;
   const [[txBreakdown, txBreakdown$Error], setTxBreakdown] = React.useState<
     [TxBreakdown | undefined, unknown]
   >([undefined, undefined]);
@@ -93,8 +95,8 @@ export default function ModalMintGenesisKreation({
 
   const waitUntilTxIndexed = async (txHash: string) => {
     await tryUntil({
-      run: () => httpGetKoloursMintedByTxHash({ txHash }),
-      until: (response) => typeof response.kolour === "string",
+      run: () => httpGetGenesisKreationMintedByTxHash({ txHash }),
+      until: (response) => typeof response.kreation === "string",
     });
   };
 
@@ -283,7 +285,7 @@ export default function ModalMintGenesisKreation({
         <Button.Outline content="Cancel" onClick={onCancel} disabled={busy} />
         <Button.Solid
           content="Submit"
-          disabled={txBreakdown === undefined || busy}
+          disabled={txBreakdown === undefined || !lucid || busy}
           onClick={handleSubmit}
         />
       </Modal.Actions>

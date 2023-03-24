@@ -63,7 +63,7 @@ export default async function handler(
       userAddress: address,
       feeAddress: KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
       referral: referral?.id,
-      expiration: getExpirationTime(),
+      expiration: getExpirationTime() * 1000,
     };
     const signature =
       status === "ready"
