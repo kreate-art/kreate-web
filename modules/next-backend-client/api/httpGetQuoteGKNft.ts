@@ -27,7 +27,6 @@ export async function httpGetQuoteGKNft({
   const data = fromJson(body);
   assert(isResponse(data), "invalid response");
 
-  console.log("[DAA]: ", data);
   return data;
 }
 
