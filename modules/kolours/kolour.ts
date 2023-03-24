@@ -17,9 +17,11 @@ const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
 };
 
 export function calculateKolourFee(kolour: Kolour): Lovelace {
-  // TODO: Finalize price formula ;)
   return BigInt(
-    Buffer.from(kolour, "hex").reduce((sum, v) => sum + v * 1_000, 2_000_000)
+    Math.max(
+      2_000_000,
+      Buffer.from(kolour, "hex").reduce((sum, v) => sum * 1000 + v, 0)
+    )
   );
 }
 

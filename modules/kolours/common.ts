@@ -10,6 +10,8 @@ import { Lovelace } from "@/modules/next-backend/types";
 export const QUOTATION_TTL = 600; // 10 minutes
 export const DISCOUNT_MULTIPLIER = 10000;
 
+export const FEE_MULTIPLIER = BigInt(2);
+
 export function parseKolour(text: unknown): Kolour | undefined {
   if (text && typeof text === "string" && /^[0-9A-Fa-f]{6}$/.test(text))
     return text.toUpperCase();
@@ -32,10 +34,15 @@ export async function fetchDiscount(sql: Sql, referral: string | undefined) {
     : undefined;
 }
 
-export function calculateDiscountedFee(listedFee: Lovelace, discount?: bigint) {
-  return discount
-    ? listedFee - (listedFee * discount) / BigInt(DISCOUNT_MULTIPLIER)
-    : listedFee;
+export function calculateFees(
+  baseFee: Lovelace,
+  discount?: bigint
+): { listedFee: Lovelace; fee: Lovelace } {
+  const fee = discount
+    ? baseFee - (baseFee * discount) / BigInt(DISCOUNT_MULTIPLIER)
+    : baseFee;
+  const listedFee = baseFee * FEE_MULTIPLIER;
+  return { fee, listedFee };
 }
 
 export function getExpirationTime(now?: number): number {

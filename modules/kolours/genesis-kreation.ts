@@ -1,4 +1,4 @@
-import { calculateDiscountedFee } from "./common";
+import { calculateFees } from "./common";
 import { calculateKolourFee } from "./kolour";
 import {
   GenesisKreationEntry,
@@ -17,7 +17,7 @@ type GenesisKreationDbRow = {
   kreation: GenesisKreationId;
   initialImageCid: string;
   finalImageCid: string;
-  listedFee: bigint;
+  baseFee: bigint;
   bookStatus: "booked" | "minted" | null;
   createdAt: Date;
   palette: { k: Kolour; l: string }[];
@@ -34,7 +34,7 @@ export async function getAllGenesisKreations(
       gl.kreation,
       gl.initial_image_cid,
       gl.final_image_cid,
-      gl.listed_fee,
+      gl.listed_fee AS base_fee,
       gb.status AS book_status,
       gl.created_at,
       gl.palette,
@@ -73,26 +73,20 @@ export async function getAllGenesisKreations(
       ? "ready"
       : "unready";
     const palette = r_palette.map(({ k, l }, i): Layer => {
-      const listedFee = calculateKolourFee(k);
-      const fee = calculateDiscountedFee(listedFee, discount);
       return {
         kolour: k,
         image: { src: getIpfsUrl(l) },
         status: koStatus[i],
-        fee,
-        listedFee,
+        ...calculateFees(calculateKolourFee(k), discount),
       };
     });
-    const listedFee = row.listedFee;
-    const fee = calculateDiscountedFee(listedFee, discount);
     return {
       id: row.kreation,
       status,
       initialImage: { src: getIpfsUrl(row.initialImageCid) },
       finalImage: { src: getIpfsUrl(row.finalImageCid) },
       palette,
-      fee,
-      listedFee,
+      ...calculateFees(row.baseFee, discount),
       createdAt: row.createdAt.valueOf(),
     };
   });
@@ -108,11 +102,12 @@ export async function quoteGenesisKreation(
       imageCid: string;
       fee: Lovelace;
       listedFee: Lovelace;
+      baseFee: Lovelace;
     })?
   ] = await sql`
     SELECT
       gl.final_image_cid AS image_cid,
-      gl.listed_fee,
+      gl.listed_fee AS base_fee,
       gb.status AS book_status,
       ${fieldIsReady(sql)}
     FROM
@@ -122,7 +117,7 @@ export async function quoteGenesisKreation(
   `;
   if (row) {
     const res = combineStatus(row);
-    res.fee = calculateDiscountedFee(res.listedFee, discount);
+    Object.assign(res, calculateFees(row.baseFee, discount));
     return res;
   } else {
     return null;

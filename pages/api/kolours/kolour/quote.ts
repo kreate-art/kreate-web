@@ -7,7 +7,7 @@ import {
   KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
 } from "@/modules/env/kolours/server";
 import {
-  calculateDiscountedFee,
+  calculateFees,
   fetchDiscount,
   getExpirationTime,
   lookupReferral,
@@ -110,8 +110,7 @@ async function quoteKolour(
   kolour: Kolour,
   discount?: bigint
 ): Promise<KolourEntry> {
-  const listedFee = calculateKolourFee(kolour);
-  const fee = calculateDiscountedFee(listedFee, discount);
+  const baseFee = calculateKolourFee(kolour);
   const cid = await generateKolourImageCid(redis, ipfs, kolour);
-  return { fee, listedFee, image: `ipfs://${cid}` };
+  return { ...calculateFees(baseFee, discount), image: `ipfs://${cid}` };
 }
