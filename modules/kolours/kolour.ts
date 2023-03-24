@@ -15,6 +15,14 @@ const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
   channels: 3,
 };
 
+type KolourDbRow = {
+  id: number;
+  kolour: Kolour;
+  slot: number;
+  txId: string;
+  metadata: unknown;
+};
+
 export async function areKoloursAvailable(
   sql: Sql,
   kolours: Kolour[]
@@ -41,6 +49,13 @@ export async function getUnavailableKolours(
       AND status <> 'expired';
   `;
   return new Set(rows.map((r) => r.kolour));
+}
+
+export async function getAllMintedKolours(sql: Sql): Promise<KolourDbRow[]> {
+  const rows = await sql<KolourDbRow[]>`
+    SELECT id, kolour, slot, tx_id, metadata FROM kolours.kolour_mint;
+  `;
+  return rows.slice();
 }
 
 export async function generateKolourImageCid(

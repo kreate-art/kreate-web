@@ -58,6 +58,13 @@ export type KolourEntry = {
   image: string; // ipfs://<cid>
 };
 
+export type MintedKolourEntry = {
+  kolour: Kolour;
+  slot: number;
+  txId: string;
+  metadata: unknown;
+};
+
 export type KolourQuotation = {
   kolours: Record<Kolour, KolourEntry>;
   userAddress: Address;
