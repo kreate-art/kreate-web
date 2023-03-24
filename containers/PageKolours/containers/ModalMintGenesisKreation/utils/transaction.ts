@@ -7,6 +7,7 @@ import { Lucid } from "lucid-cardano";
 import { DisplayableError } from "@/modules/displayable-error";
 import { KOLOURS_GENESIS_KREATION_PUBLIC_KEY_HASH } from "@/modules/env/kolours/client";
 import { GenesisKreationQuotation } from "@/modules/kolours/types/Kolours";
+import { TxParams$UserMintGKNft } from "@/modules/next-backend-client/api/httpGetTxParams$UserMintGKNft";
 import { getReferenceTxTime } from "@/modules/protocol/utils";
 
 type BuildTxParams = {
@@ -14,7 +15,7 @@ type BuildTxParams = {
   name: string;
   description: string;
   quotation: GenesisKreationQuotation;
-  txParams: unknown;
+  txParams: TxParams$UserMintGKNft;
 };
 
 const GENESIS_KREATION_NFT_EXPIRATION = 300_000; // 10 blocks

@@ -2,7 +2,9 @@ import cx from "classnames";
 import * as React from "react";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
+import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
 
+import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
 import { useQuoteGKNft$Nft } from "./hooks/useQuoteGKNft$Nft";
 import styles from "./index.module.scss";
 
@@ -52,10 +54,9 @@ export default function ModalMintGenesisKreation({
   const { walletStatus } = useAppContextValue$Consumer();
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
-  // const [selectedKolours, setSelectedKolours] = React.useState(kolours);
-  // const [[txBreakdown, txBreakdown$Error], setTxBreakdown] = React.useState<
-  //   [TxBreakdown | undefined, unknown]
-  // >([undefined, undefined]);
+  const [[txBreakdown, txBreakdown$Error], setTxBreakdown] = React.useState<
+    [TxBreakdown | undefined, unknown]
+  >([undefined, undefined]);
 
   const txParamsResult = useTxParams$UserMintGKNft();
   const quoteResult = useQuoteGKNft$Nft({
@@ -70,23 +71,25 @@ export default function ModalMintGenesisKreation({
   //     walletStatus.status === "connected" ? walletStatus.info.address : "",
   // });
 
-  // const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({
-  //   txParamsResult,
-  //   quoteResult,
-  //   disabled: busy,
-  // });
+  const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({
+    txParamsResult,
+    quoteResult,
+    name,
+    description,
+    disabled: busy,
+  });
 
-  // const isTxBreakdownLoading =
-  //   !txBreakdown$New$Error && !txBreakdown$New && !busy;
+  const isTxBreakdownLoading =
+    !txBreakdown$New$Error && !txBreakdown$New && !busy;
 
-  // React.useEffect(() => {
-  //   if (busy) return;
-  //   setTxBreakdown([txBreakdown$New, txBreakdown$New$Error]);
-  // }, [txBreakdown$New, txBreakdown$New$Error, busy]);
+  React.useEffect(() => {
+    if (busy) return;
+    setTxBreakdown([txBreakdown$New, txBreakdown$New$Error]);
+  }, [txBreakdown$New, txBreakdown$New$Error, busy]);
 
-  // const txBreakdown$DisplableError = txBreakdown$Error
-  //   ? DisplayableError.from(txBreakdown$Error)
-  //   : undefined;
+  const txBreakdown$DisplableError = txBreakdown$Error
+    ? DisplayableError.from(txBreakdown$Error)
+    : undefined;
 
   const [statusBarText, setStatusBarText] = React.useState("");
 
@@ -101,7 +104,7 @@ export default function ModalMintGenesisKreation({
     setBusy(true);
     try {
       assert(walletStatus.status === "connected", "wallet not connected");
-      // assert(txParamsResult && !txParamsResult.error, "tx params invalid");
+      assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Quoting kolours...");
       // const { quotation, signature } = await httpGetQuoteKolourNft({
@@ -239,25 +242,27 @@ export default function ModalMintGenesisKreation({
               style={{ flex: "1 1 auto" }}
               title="Transaction Breakdown"
               rows={[
-                { label: "Kolours", value: 0 },
-                { label: "Transaction Fee", value: 0 },
-                { label: "IKO Discount", value: 0 },
-                { label: "SSPO Discount", value: 0 },
+                {
+                  label: "Genesis Kreation NFT",
+                  value: txBreakdown?.genesisKreation,
+                },
+                { label: "Transaction Fee", value: txBreakdown?.transaction },
+                { label: "IKO Discount", value: txBreakdown?.ikoDiscount },
+                { label: "SSPO Discount", value: txBreakdown?.sspoDiscount },
               ]}
               total={0}
               adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
-                <></>
-                // <div>
-                //   {txBreakdown$DisplableError ? (
-                //     <ErrorBox
-                //       style={{ marginTop: "16px" }}
-                //       title={txBreakdown$DisplableError.title}
-                //       description={txBreakdown$DisplableError.description}
-                //       tooltip={txBreakdown$DisplableError.description}
-                //     />
-                //   ) : null}
-                // </div>
+                <div>
+                  {txBreakdown$DisplableError ? (
+                    <ErrorBox
+                      style={{ marginTop: "16px" }}
+                      title={txBreakdown$DisplableError.title}
+                      description={txBreakdown$DisplableError.description}
+                      tooltip={txBreakdown$DisplableError.description}
+                    />
+                  ) : null}
+                </div>
               }
               loading={false}
             />
