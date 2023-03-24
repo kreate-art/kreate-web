@@ -22,7 +22,7 @@ export default function NavBar({ className, style }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.main}>
         <div className={styles.leftMain}>
-          <div style={{ cursor: "pointer" }} onClick={() => router.push("/")}>
+          <div>
             {NETWORK === "Preview" ? (
               <LogoKreateFull network={NETWORK} />
             ) : (
