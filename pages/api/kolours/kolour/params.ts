@@ -9,7 +9,7 @@ import { getDeployedScriptUtxo } from "@/modules/next-backend/logic/getDeployedS
 import { EnrichedUtxo } from "@/modules/next-backend/types";
 
 export type TxParams$KolourNft$Response = {
-  txParams: { kolourNftRefUtxo: EnrichedUtxo };
+  txParams: { kolourNftRefScriptUtxo: EnrichedUtxo };
 };
 
 export default async function handler(
@@ -17,12 +17,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const kolourNftRefUtxo = await getDeployedScriptUtxo(db, {
+    const kolourNftRefScriptUtxo = await getDeployedScriptUtxo(db, {
       scriptHash: KOLOURS_KOLOUR_NFT_POLICY_ID,
     });
-    assert(kolourNftRefUtxo, "Missing Kolour NFT Ref UTxO");
+    assert(kolourNftRefScriptUtxo, "Missing Kolour NFT Ref UTxO");
     const result: TxParams$KolourNft$Response = {
-      txParams: { kolourNftRefUtxo },
+      txParams: { kolourNftRefScriptUtxo },
     };
     sendJson(res.status(200), result);
   } catch (error) {

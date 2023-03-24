@@ -2,7 +2,7 @@
 import { Hex } from "@kreate/protocol/types";
 
 import { assert } from "@/modules/common-utils";
-import { fromJson } from "@/modules/json-utils";
+import { fromJson, toJson } from "@/modules/json-utils";
 import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 
 type Params = {
@@ -18,19 +18,14 @@ export async function httpPostMintKolourNftTx({
   quotation,
   signature,
 }: Params): Promise<Response> {
-  const formData = new FormData();
-  formData.append("tx", txHex);
-  formData.append(
-    "quotation",
-    new Blob([JSON.stringify(quotation, null, 2)], {
-      type: "application/json",
-    })
-  );
-  formData.append("signature", signature);
+  const params = new URLSearchParams();
+  params.append("tx", txHex);
+  params.append("quotation", toJson(quotation));
+  params.append("signature", signature);
 
   const response = await fetch("/api/kolours/kolour/submit", {
     method: "POST",
-    body: formData,
+    body: params,
   });
 
   assert(response.ok, "response not ok");

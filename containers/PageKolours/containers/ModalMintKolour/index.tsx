@@ -1,4 +1,5 @@
 import cx from "classnames";
+import { C, TxComplete } from "lucid-cardano";
 import * as React from "react";
 
 import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
@@ -141,7 +142,7 @@ export default function ModalMintKolourNft({
     } catch (error) {
       const displayableError = DisplayableError.from(
         error,
-        "Failed to back project"
+        "Failed to mint kolour nft"
       );
       showMessage({
         title: displayableError.title,

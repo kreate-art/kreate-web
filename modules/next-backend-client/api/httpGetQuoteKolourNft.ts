@@ -38,5 +38,9 @@ export async function httpGetQuoteKolourNft({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isResponse(obj: any): obj is Response {
-  return obj?.error === undefined && typeof obj?.txParams === "object";
+  return (
+    obj?.error === undefined &&
+    typeof obj?.quotation === "object" &&
+    typeof obj?.signature === "string"
+  );
 }
