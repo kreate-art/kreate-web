@@ -39,10 +39,9 @@ export default function TagsViewer({
             <span style={{ color: "rgba(0, 0, 0, 0.6)" }}>{"-"}</span>
           ) : (
             value.map((tag, index) => (
-              <>
+              <React.Fragment key={index}>
                 <Link
                   style={{ display: "flex", color: "unset" }}
-                  key={index}
                   href={`/search?${new URLSearchParams({ tag })}`}
                 >
                   <Typography.Span
@@ -54,7 +53,7 @@ export default function TagsViewer({
                 {index !== value.length - 1 && (
                   <span style={{ color: "rgba(34, 34, 34, 0.5)" }}>/</span>
                 )}
-              </>
+              </React.Fragment>
             ))
           )}
         </Flex.Row>
