@@ -50,7 +50,7 @@ export default function Guideline({ className, style }: Props) {
           >
             <div className={styles.stepOneTextContainer}>
               <Typography.Span
-                content="Step 1:"
+                content="Step 1"
                 color="white"
                 className={styles.step}
               />
@@ -143,7 +143,7 @@ export default function Guideline({ className, style }: Props) {
           >
             <div className={styles.stepOneTextContainer}>
               <Typography.Span
-                content="Step 2:"
+                content="Step 2"
                 color="white"
                 className={styles.step}
               />
@@ -190,8 +190,8 @@ export default function Guideline({ className, style }: Props) {
             className={styles.leftColumn}
           >
             <div className={styles.stepOneTextContainer}>
-              <Typography.Div
-                content="Step 3:"
+              <Typography.Span
+                content="Step 3"
                 color="white"
                 className={styles.step}
               />
@@ -241,8 +241,8 @@ export default function Guideline({ className, style }: Props) {
             className={styles.leftColumn}
           >
             <div className={styles.stepOneTextContainer}>
-              <Typography.Div
-                content="Step 4:"
+              <Typography.Span
+                content="Step 4"
                 color="white"
                 className={styles.step}
               />
@@ -286,16 +286,20 @@ export default function Guideline({ className, style }: Props) {
           >
             <div className={styles.stepOneTextContainer}>
               <Typography.Span
-                content="Step 5:"
-                style={{ color: "#EC5929" }}
+                content="Step 5"
                 color="white"
                 className={styles.step}
               />
               <Typography.Span
                 content={
-                  <span>
-                    <i>Enjoy the fruits of your Kreation</i>
-                  </span>
+                  <>
+                    <span>
+                      <i>Enjoy the fruits of your </i>
+                    </span>
+                    <span style={{ color: "#EC5929" }}>
+                      <i>Kreation</i>
+                    </span>
+                  </>
                 }
                 color="white"
                 className={styles.action}
@@ -314,7 +318,7 @@ export default function Guideline({ className, style }: Props) {
                   className={styles.royaltyFeesContainer}
                   style={{ gridArea: "a" }}
                 >
-                  Royalty fees
+                  Royalties
                 </div>
                 <div
                   className={styles.royaltyFeesChild}

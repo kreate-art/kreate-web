@@ -46,18 +46,18 @@ export default function ModalMintSuccess({
             className={styles.caption}
             size="h2"
             color="ink"
-            content="Your NFT has been minted successfully!"
+            content="Your NFT has been minted!"
           />
           <Flex.Row gap="24px" alignItems={"center"}>
             <Button.Outline className={styles.button} onClick={onClose}>
-              Back to Kolour
+              Back
             </Button.Outline>
             <Link
               href={getExplorerUrl(txHash)}
               target="_blank"
               className={styles.button}
             >
-              <Button.Outline content="View your NFT" />
+              <Button.Outline content="View Tx" />
             </Link>
           </Flex.Row>
         </Flex.Col>
