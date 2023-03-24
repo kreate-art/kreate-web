@@ -177,7 +177,7 @@ export default function PanelMint({
             disabled={
               status === "booked" ||
               status === "minted" ||
-              Object.keys(selection).length === 0
+              (!canBeMinted && Object.keys(selection).length === 0)
             }
           />
         </Flex.Row>
