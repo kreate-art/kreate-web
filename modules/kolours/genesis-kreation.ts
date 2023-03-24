@@ -162,10 +162,10 @@ function fieldIsReady(sql: Sql) {
       SELECT
         bool_and(kb.id IS NOT NULL)
       FROM
-        kolours.genesis_kreation_list gl,
         jsonb_array_elements(gl.palette) p
-      LEFT JOIN kolours.kolour_book kb ON kb.kolour = p ->> 'k'
-        AND kb.status = 'minted'
+        LEFT JOIN kolours.kolour_book kb
+          ON kb.kolour = p ->> 'k'
+            AND kb.status = 'minted'
     ) AS is_ready
   `;
 }
