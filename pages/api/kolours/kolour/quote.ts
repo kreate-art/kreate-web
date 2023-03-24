@@ -31,6 +31,8 @@ type Response = {
   unavailable?: Kolour[];
 };
 
+export type QuoteKolourNft$Response = Response;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

@@ -1,13 +1,16 @@
 import cx from "classnames";
 import React from "react";
 
-import { PaletteItem } from "../../../../kolours-types";
 import IconClose from "../../icons/IconClose";
 
 import styles from "./index.module.scss";
 
-import { formatLovelaceAmount } from "@/modules/bigint-utils";
+import {
+  formatLovelaceAmount,
+  sumLovelaceAmount,
+} from "@/modules/bigint-utils";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
+import { Layer } from "@/modules/kolours/types/Kolours";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -15,8 +18,8 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: PaletteItem[];
-  onChange: (newValue: PaletteItem[]) => void;
+  value: Layer[];
+  onChange: (newValue: Layer[]) => void;
 };
 
 export default function KolourGrid({
@@ -67,11 +70,11 @@ export default function KolourGrid({
                 />
                 <Typography.Span
                   content={
-                    item.listedFee != null
-                      ? formatLovelaceAmount(item.listedFee, {
-                          compact: true,
-                          includeCurrencySymbol: true,
-                        })
+                    item.fee != null
+                      ? formatLovelaceAmount(
+                          sumLovelaceAmount([item.fee, item.fee]),
+                          { compact: true, includeCurrencySymbol: true }
+                        )
                       : "-"
                   }
                   size="bodySmall"
