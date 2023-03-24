@@ -1,13 +1,14 @@
 import { getPaymentKeyHash } from "@kreate/protocol/helpers/lucid";
 import {
-  MintKolourNftTxParams,
   buildMintKolourNftTx,
+  MintKolourNftTxParams,
 } from "@kreate/protocol/transactions/kolours/kolour-nft";
 import { Lucid, Tx, TxComplete } from "lucid-cardano";
 
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
-import { KolourQuotation } from "@/modules/kolours/kolour";
+import { forceBigInt } from "@/modules/kolours/common";
+import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { TxParams$UserMintKolourNft } from "@/modules/next-backend-client/api/httpGetTxParams$UserMintKolourNft";
 import { getReferenceTxTime } from "@/modules/protocol/utils";
 
@@ -47,8 +48,13 @@ export async function buildTxRaw({
 
   const txTime = await getReferenceTxTime();
 
+  const tKolours = Object.fromEntries(
+    Object.entries(quotation.kolours).map(([k, e]) => [k, forceBigInt(e)])
+  );
+  const tQuotation = { ...quotation, kolours: tKolours };
+
   const mintParams: MintKolourNftTxParams = {
-    quotation,
+    quotation: tQuotation,
     kolourNftRefScriptUtxo,
     producerPkh: getPaymentKeyHash(await lucid.wallet.address()),
     txTimeStart: txTime,
