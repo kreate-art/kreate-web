@@ -75,9 +75,10 @@ export default async function handler(
     const txId = C.hash_transaction(txBody).to_hex();
 
     const records = Object.entries(quotation.kolours)
-      .sort() // Deterministic ordering helps with avoiding deadlocks
+      // Deterministic ordering helps with avoiding deadlocks
+      .sort(([k1, _1], [k2, _2]) => (k1 < k2 ? -1 : 1))
       .map(([kolour, entry]) => ({
-        kolour,
+        kolour: kolour,
         status: "booked",
         txId,
         txExpSlot: txExp.slot,

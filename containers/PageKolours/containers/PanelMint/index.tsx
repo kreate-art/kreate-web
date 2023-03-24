@@ -3,6 +3,7 @@ import * as React from "react";
 
 import ModalConnectWallet from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar/containers/ModalConnectWallet";
 import ModalMintKolour from "../ModalMintKolour";
+import ModalMintSuccess from "../ModalMintSuccess";
 
 import Palette from "./components/Palette";
 import Viewer from "./components/Viewer";
@@ -14,6 +15,7 @@ import { Selection } from "./types";
 import { range } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { Kolours } from "@/modules/kolours/types";
+import { Layer } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -22,7 +24,7 @@ import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider
 import Flex from "@/modules/teiki-ui/components/Flex";
 
 type SuccessEvent = {
-  lovelaceAmount: LovelaceAmount;
+  txHash: string;
 };
 
 export type ModalMintKolour$SuccessEvent = SuccessEvent;
@@ -70,14 +72,14 @@ export default function PanelMint({
           />
         ));
       case "connected": {
-        const kolours: Kolours.Kolour[] = [];
+        const kolours: Layer[] = [];
         if (!palette) return;
         for (const [index, selected] of Object.entries(selection)) {
-          if (selected) kolours.push(palette[parseInt(index)].kolour);
+          if (selected) kolours.push(palette[parseInt(index)]);
         }
 
         type ModalMintKolour$ModalResult =
-          | { type: "success"; event: ModalMintKolour$SuccessEvent }
+          | { type: "success"; txHash: string }
           | { type: "cancel" };
 
         const modalMintKolour$ModalResult =
@@ -86,11 +88,17 @@ export default function PanelMint({
               open
               kolours={kolours}
               onCancel={() => resolve({ type: "cancel" })}
-              onSuccess={(event) => resolve({ type: "success", event })}
+              onSuccess={(txHash) => resolve({ type: "success", txHash })}
             />
           ));
         if (modalMintKolour$ModalResult.type !== "success") return;
-        // ModalMintSuccess
+        await showModal<void>((resolve) => (
+          <ModalMintSuccess
+            open={true}
+            onClose={resolve}
+            txHash={modalMintKolour$ModalResult.txHash}
+          />
+        ));
         return;
       }
       default:

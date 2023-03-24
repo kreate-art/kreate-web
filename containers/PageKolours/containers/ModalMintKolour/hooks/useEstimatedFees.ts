@@ -1,5 +1,7 @@
 import { buildTxRaw } from "../utils/transaction";
 
+import { UseQuoteKolourNft$Result } from "./useQuoteKolourNft";
+
 import { try$, throw$ } from "@/modules/async-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
@@ -10,23 +12,27 @@ import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/A
 
 type Params = {
   txParamsResult?: UseTxParams$UserMintKolourNft$Result;
+  quoteResult?: UseQuoteKolourNft$Result;
   disabled?: boolean;
 };
 
 export type TxBreakdown = {
-  back: LovelaceAmount;
+  kolours: LovelaceAmount;
+  ikoDiscount: LovelaceAmount;
+  sspoDiscount: LovelaceAmount;
   transaction: LovelaceAmount;
 };
 
 export function useEstimatedFees({
   txParamsResult,
+  quoteResult,
   disabled,
 }: Params): [TxBreakdown | undefined, unknown] {
   const { walletStatus } = useAppContextValue$Consumer();
 
   return useMemo$Async<TxBreakdown>(
     async (signal) => {
-      if (!txParamsResult || disabled) return undefined;
+      if (!txParamsResult || !quoteResult || disabled) return undefined;
 
       switch (walletStatus.status) {
         case "connected":
@@ -47,31 +53,48 @@ export function useEstimatedFees({
         cause: txParamsResult,
       });
 
-      // const tx = await buildTxRaw({
-      //   lucid: walletStatus.lucid,
-      //   lovelaceAmount,
-      //   message,
-      //   txParams: txParamsResult.data.txParams,
-      // });
-      signal.throwIfAborted();
+      DisplayableError.assert(!quoteResult.error, {
+        title: "Transaction parameters invalid",
+        cause: quoteResult,
+      });
 
-      // const txComplete = await try$(
-      //   async () => tx.complete(),
-      //   (cause) =>
-      //     throw$(
-      //       new DisplayableError({
-      //         title: "Transaction build failed",
-      //         cause,
-      //       })
-      //     )
-      // );
+      const tx = await buildTxRaw({
+        lucid: walletStatus.lucid,
+        quotation: quoteResult.data.quotation,
+        txParams: txParamsResult.data.txParams,
+      });
 
       signal.throwIfAborted();
+
+      const txComplete = await try$(
+        async () => tx.complete(),
+        (cause) =>
+          throw$(
+            new DisplayableError({
+              title: "Transaction build failed",
+              cause,
+            })
+          )
+      );
+
+      signal.throwIfAborted();
+
+      const allKolours = quoteResult.data.quotation.kolours;
+      let koloursFee = BigInt(0);
+      let koloursListedFee = BigInt(0);
+      for (const key in allKolours) {
+        koloursFee += BigInt(allKolours[key].fee);
+        koloursListedFee += BigInt(allKolours[key].listedFee);
+      }
 
       return {
-        back: 0,
-        // transaction: -BigInt(txComplete.txComplete.body().fee().to_str()),
-        transaction: 0,
+        kolours: koloursListedFee,
+        ikoDiscount: -koloursListedFee / BigInt(2),
+        sspoDiscount: -(
+          (koloursListedFee - koloursFee * BigInt(2)) /
+          BigInt(2)
+        ),
+        transaction: -BigInt(txComplete.txComplete.body().fee().to_str()),
       };
     },
     { debouncedDelay: 1000 },
@@ -80,6 +103,8 @@ export function useEstimatedFees({
         ? toJson(walletStatus.info)
         : walletStatus.status,
       disabled,
+      txParamsResult?.error,
+      quoteResult?.error,
     ]
   );
 }

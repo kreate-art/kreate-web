@@ -22,6 +22,7 @@ export async function httpGetQuoteKolourNft({
 }: Params): Promise<Response> {
   const kolour = kolours.join(",");
   const search = new URLSearchParams();
+
   search.append("kolour", kolour);
   search.append("address", address);
   const response = await fetch(

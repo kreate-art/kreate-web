@@ -1,22 +1,21 @@
 import cx from "classnames";
-import { C, TxComplete } from "lucid-cardano";
 import * as React from "react";
 
 import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
-import { PaletteItem } from "../../kolours-types";
 
 import KolourGrid from "./containers/KolourGrid";
-import { TxBreakdown } from "./hooks/useEstimatedFees";
+import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
+import { useQuoteKolourNft$Nft } from "./hooks/useQuoteKolourNft";
 import styles from "./index.module.scss";
 import { buildTx, BuildTxParams } from "./utils/transaction";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
-import { LovelaceAmount } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import httpGetBackingActivitiesByTxHash from "@/modules/next-backend-client/api/httpGetBackingActivitiesByTxHash";
+import { Layer } from "@/modules/kolours/types/Kolours";
+import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
 import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
 import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
 import { useTxParams$UserMintKolourNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintKolourNft";
@@ -29,19 +28,13 @@ import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
-type SuccessEvent = {
-  lovelaceAmount: LovelaceAmount;
-};
-
-export type ModalBackProject$SuccessEvent = SuccessEvent;
-
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  kolours: PaletteItem[];
+  kolours: Layer[];
   open: boolean;
   onCancel?: () => void;
-  onSuccess?: (event: SuccessEvent) => void;
+  onSuccess?: (txHash: string) => void;
 };
 
 export default function ModalMintKolourNft({
@@ -57,37 +50,41 @@ export default function ModalMintKolourNft({
   const [busy, setBusy] = React.useState(false);
   const { walletStatus } = useAppContextValue$Consumer();
   const [selectedKolours, setSelectedKolours] = React.useState(kolours);
-  const lucid =
-    walletStatus.status === "connected" ? walletStatus.lucid : undefined;
   const [[txBreakdown, txBreakdown$Error], setTxBreakdown] = React.useState<
     [TxBreakdown | undefined, unknown]
   >([undefined, undefined]);
 
   const txParamsResult = useTxParams$UserMintKolourNft();
+  const quoteResult = useQuoteKolourNft$Nft({
+    kolours: selectedKolours.map((item) => item.kolour),
+    address:
+      walletStatus.status === "connected" ? walletStatus.info.address : "",
+  });
 
-  // const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({
-  //   txParamsResult,
-  //   disabled: busy,
-  // });
+  const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({
+    txParamsResult,
+    quoteResult,
+    disabled: busy,
+  });
 
-  // const isTxBreakdownLoading =
-  //   !txBreakdown$New$Error && !txBreakdown$New && !busy;
+  const isTxBreakdownLoading =
+    !txBreakdown$New$Error && !txBreakdown$New && !busy;
 
-  // React.useEffect(() => {
-  //   if (busy) return;
-  //   setTxBreakdown([txBreakdown$New, txBreakdown$New$Error]);
-  // }, [txBreakdown$New, txBreakdown$New$Error, busy]);
+  React.useEffect(() => {
+    if (busy) return;
+    setTxBreakdown([txBreakdown$New, txBreakdown$New$Error]);
+  }, [txBreakdown$New, txBreakdown$New$Error, busy]);
 
-  // const txBreakdown$DisplableError = txBreakdown$Error
-  //   ? DisplayableError.from(txBreakdown$Error)
-  //   : undefined;
+  const txBreakdown$DisplableError = txBreakdown$Error
+    ? DisplayableError.from(txBreakdown$Error)
+    : undefined;
 
   const [statusBarText, setStatusBarText] = React.useState("");
 
   const waitUntilTxIndexed = async (txHash: string) => {
     await tryUntil({
-      run: () => httpGetBackingActivitiesByTxHash({ txHash }),
-      until: (response) => response.activities.length > 0,
+      run: () => httpGetKoloursMintedByTxHash({ txHash }),
+      until: (response) => typeof response.kolour === "string",
     });
   };
 
@@ -99,7 +96,7 @@ export default function ModalMintKolourNft({
 
       setStatusBarText("Quoting kolours...");
       const { quotation, signature } = await httpGetQuoteKolourNft({
-        kolours: kolours.map((item) => item.kolour),
+        kolours: selectedKolours.map((item) => item.kolour),
         address: walletStatus.info.address,
       }).catch((cause) => {
         throw DisplayableError.from(cause, "Failed to quote kolours");
@@ -139,6 +136,7 @@ export default function ModalMintKolourNft({
       });
 
       setStatusBarText("Done.");
+      onSuccess && onSuccess(txId);
     } catch (error) {
       const displayableError = DisplayableError.from(
         error,
@@ -178,7 +176,7 @@ export default function ModalMintKolourNft({
           >
             <KolourGrid
               value={selectedKolours}
-              onChange={(newValue: PaletteItem[]) => {
+              onChange={(newValue: Layer[]) => {
                 setSelectedKolours(newValue);
                 if (newValue.length === 0) onCancel && onCancel();
               }}
@@ -189,27 +187,26 @@ export default function ModalMintKolourNft({
               style={{ flex: "1 1 auto" }}
               title="Transaction Breakdown"
               rows={[
-                { label: "Kolours", value: txBreakdown?.back },
+                { label: "Kolours", value: txBreakdown?.kolours },
                 { label: "Transaction Fee", value: txBreakdown?.transaction },
-                { label: "IKO Discount", value: txBreakdown?.transaction },
-                { label: "SSPO Discount", value: txBreakdown?.transaction },
+                { label: "IKO Discount", value: txBreakdown?.ikoDiscount },
+                { label: "SSPO Discount", value: txBreakdown?.sspoDiscount },
               ]}
               total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
               adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
-                <></>
-                // <div>
-                //   {txBreakdown$DisplableError ? (
-                //     <ErrorBox
-                //       style={{ marginTop: "16px" }}
-                //       title={txBreakdown$DisplableError.title}
-                //       description={txBreakdown$DisplableError.description}
-                //       tooltip={txBreakdown$DisplableError.description}
-                //     />
-                //   ) : null}
-                // </div>
+                <div>
+                  {txBreakdown$DisplableError ? (
+                    <ErrorBox
+                      style={{ marginTop: "16px" }}
+                      title={txBreakdown$DisplableError.title}
+                      description={txBreakdown$DisplableError.description}
+                      tooltip={txBreakdown$DisplableError.description}
+                    />
+                  ) : null}
+                </div>
               }
-              // loading={isTxBreakdownLoading}
+              loading={isTxBreakdownLoading}
             />
           </Flex.Row>
         </Flex.Row>

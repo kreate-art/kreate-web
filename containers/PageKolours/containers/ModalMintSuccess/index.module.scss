@@ -1,0 +1,32 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: block;
+}
+
+.imageSuccess {
+  width: 302px;
+  height: auto;
+  margin-bottom: 32px;
+}
+
+.button {
+  margin-top: 48px;
+}
+
+.caption {
+  text-align: center;
+}
+
+.backedAmount {
+  margin-top: 24px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+  color: rgba(0, 54, 44, 0.8);
+
+  .emphasis {
+    font-weight: 700;
+    color: colors.$green;
+  }
+}
