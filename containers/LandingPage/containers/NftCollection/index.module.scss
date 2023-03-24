@@ -1,0 +1,58 @@
+.nftsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    "a b c"
+    "d d e";
+  grid-auto-rows: 1fr;
+  grid-template-rows: auto auto;
+  grid-gap: 20px;
+}
+
+.nfts {
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+}
+
+.imageView {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+}
+
+@font-face {
+  font-family: "Bangers";
+  src: url(../../fonts/Bangers-Regular.ttf);
+}
+
+.emphasisHeading {
+  font-family: "Bangers";
+  color: #ffffff;
+  font-size: 64px;
+  padding: 112px;
+  font-weight: 400;
+  line-height: 68.1px;
+  text-align: center;
+  line-height: 68px;
+  letter-spacing: 0.16em;
+}
+
+.kolourButton {
+  color: white;
+  display: flex;
+  gap: 8px;
+  filter: drop-shadow(-8px -4px 0px #fcb045) drop-shadow(8px 9px 0px #833ab4);
+  background: #ec5929;
+  border-radius: 69px;
+  padding: 16px 24px;
+  border: none;
+  outline: none;
+  margin-top: 63px;
+  cursor: pointer;
+}
+
+.kolourButtonContainer {
+  display: flex;
+  justify-content: center;
+}

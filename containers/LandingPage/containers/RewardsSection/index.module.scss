@@ -1,0 +1,145 @@
+@font-face {
+  font-family: "Bangers";
+  src: url(../../fonts/Bangers-Regular.ttf);
+}
+
+.rewardsTitle {
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 51px;
+  text-align: center;
+  color: white;
+  font-family: "Bangers";
+  letter-spacing: 0.16em;
+}
+
+.upperGrid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gridContainer {
+  margin-top: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.grid {
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex: 1 1 0;
+  min-width: 500px;
+}
+
+.kolourList {
+  display: flex;
+  width: 100%;
+  border: 2px solid white;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 32px;
+}
+
+.kolour {
+  height: 89px;
+  width: 100%;
+}
+
+.infoCardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.infoCard {
+  color: white;
+  text-align: left;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 100%;
+  padding: 32px 48px;
+  border-radius: 12px;
+  &.gray {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  &.green {
+    background: #006e46;
+  }
+}
+
+.kreationNftContainer {
+  width: 100%;
+  height: 92px;
+  position: relative;
+  margin-top: 32px;
+  border: 2px solid white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.imageView {
+  width: 100%;
+  height: 100%;
+}
+
+.infoBody {
+  min-height: 40px;
+  color: white;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 35px;
+}
+
+.figureContainer {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+}
+
+.figure {
+  width: 100%;
+  height: auto;
+}
+
+.kolourButton {
+  color: white;
+  font-size: 20px;
+  line-height: 25px;
+  display: flex;
+  gap: 8px;
+  filter: drop-shadow(-8px -4px 0px #fcb045) drop-shadow(8px 9px 0px #833ab4);
+  background: #ec5929;
+  border-radius: 69px;
+  padding: 16px 24px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.kolourButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 95px;
+  margin-bottom: 96px;
+}
+
+.infoBottomGrid {
+  color: white;
+  margin-top: 48px;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: left;
+  width: 100%;
+}
+
+.link {
+  color: white;
+  text-decoration: underline;
+}
