@@ -52,6 +52,11 @@ export function useEstimatedFees({
           return undefined;
       }
 
+      DisplayableError.assert(name, {
+        title: "Missing Genesis Kreation NFT name",
+        cause: txParamsResult,
+      });
+
       DisplayableError.assert(!txParamsResult.error, {
         title: "Transaction parameters invalid",
         cause: txParamsResult,
@@ -89,13 +94,12 @@ export function useEstimatedFees({
       const genesisKreationFee = quoteResult.data.quotation.fee;
 
       return {
-        genesisKreation: genesisKreationFee,
-        ikoDiscount: -BigInt(genesisKreationListedFee) / BigInt(2),
-        sspoDiscount: -(
+        genesisKreation: -genesisKreationListedFee,
+        ikoDiscount: BigInt(genesisKreationListedFee) / BigInt(2),
+        sspoDiscount:
           (BigInt(genesisKreationListedFee) -
             BigInt(genesisKreationFee) * BigInt(2)) /
-          BigInt(2)
-        ),
+          BigInt(2),
         transaction: -BigInt(txComplete.txComplete.body().fee().to_str()),
       };
     },

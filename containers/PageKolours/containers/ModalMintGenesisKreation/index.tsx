@@ -14,6 +14,7 @@ import { tryUntil } from "@/modules/async-utils";
 import {
   formatLovelaceAmount,
   sumLovelaceAmount,
+  sumTxBreakdown,
 } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
@@ -147,7 +148,7 @@ export default function ModalMintGenesisKreation({
       });
 
       setStatusBarText("Done.");
-      // onSuccess && onSuccess(txId);
+      onSuccess && onSuccess(txId);
     } catch (error) {
       const displayableError = DisplayableError.from(
         error,
@@ -249,7 +250,7 @@ export default function ModalMintGenesisKreation({
                 { label: "IKO Discount", value: txBreakdown?.ikoDiscount },
                 { label: "SSPO Discount", value: txBreakdown?.sspoDiscount },
               ]}
-              total={0}
+              total={txBreakdown ? sumTxBreakdown(txBreakdown) : undefined}
               adaPriceInUsd={adaPriceInfo?.usd}
               bottomSlot={
                 <div>
@@ -263,7 +264,7 @@ export default function ModalMintGenesisKreation({
                   ) : null}
                 </div>
               }
-              loading={false}
+              loading={isTxBreakdownLoading}
             />
           </Flex.Row>
         </Flex.Row>
@@ -282,7 +283,7 @@ export default function ModalMintGenesisKreation({
         <Button.Outline content="Cancel" onClick={onCancel} disabled={busy} />
         <Button.Solid
           content="Submit"
-          // disabled={txBreakdown === undefined || !lucid || busy}
+          disabled={txBreakdown === undefined || busy}
           onClick={handleSubmit}
         />
       </Modal.Actions>
