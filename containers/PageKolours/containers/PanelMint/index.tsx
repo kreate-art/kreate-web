@@ -112,6 +112,7 @@ export default function PanelMint({
               />
             ));
         if (modalMintKolour$ModalResult.type !== "success") return;
+        setSelection({});
         await showModal<void>((resolve) => (
           <ModalMintSuccess
             open={true}
