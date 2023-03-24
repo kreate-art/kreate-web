@@ -19,7 +19,7 @@ export type BuildTxParams = {
   txParams: TxParams$UserMintGKNft;
 };
 
-const GENESIS_KREATION_NFT_EXPIRATION = 300_000; // 10 blocks
+const GENESIS_KREATION_NFT_EXPIRATION = 300_000; // 15 blocks
 
 export type BuildTxResult = {
   txFee: LovelaceAmount;

@@ -22,7 +22,7 @@ export type BuildTxResult = {
   txComplete: TxComplete;
 };
 
-const KOLOUR_NFT_EXPIRATION = 300_000; // 10 blocks
+const KOLOUR_NFT_EXPIRATION = 300_000; // 15 blocks
 
 export async function buildTx(params: BuildTxParams): Promise<BuildTxResult> {
   const tx = await buildTxRaw(params);
