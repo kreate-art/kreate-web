@@ -30,7 +30,7 @@ export async function lookupReferral(
   const referral = poolId
     ? await lookupPoolReferral(redis, sql, poolId)
     : undefined;
-  void redis.set(referralKey, referralToText(referral), "EX", 60); // 1 minute
+  void redis.set(referralKey, referralToText(referral), "EX", 300); // 5 minutes
   return referral;
 }
 
@@ -43,7 +43,7 @@ export async function lookupPoolReferral(
   const cachedReferral = await redis.get(referralKey);
   if (cachedReferral != null) return referralFromText(cachedReferral);
   const referral = await queryPoolReferral(sql, poolId);
-  void redis.set(referralKey, referralToText(referral), "EX", 60); // 1 minute
+  void redis.set(referralKey, referralToText(referral), "EX", 300); // 5 minutes
   return referral;
 }
 
