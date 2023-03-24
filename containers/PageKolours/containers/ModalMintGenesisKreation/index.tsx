@@ -1,40 +1,31 @@
 import cx from "classnames";
 import * as React from "react";
 
-import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
+import WithAspectRatio from "../../../../components/WithAspectRatio";
 
-import KolourGrid from "./containers/KolourGrid";
-import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
-import { useQuoteKolourNft$Nft } from "./hooks/useQuoteKolourNft";
 import styles from "./index.module.scss";
-import { buildTx, BuildTxParams } from "./utils/transaction";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { tryUntil } from "@/modules/async-utils";
 import {
   formatLovelaceAmount,
   sumLovelaceAmount,
-  sumTxBreakdown,
 } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import { GenesisKreationEntry, Layer } from "@/modules/kolours/types/Kolours";
+import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
-import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
-import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
-import { useTxParams$UserMintKolourNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintKolourNft";
+import ImageView from "@/modules/teiki-components/components/ImageView";
 import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesBreakdown";
 import IconSpin from "@/modules/teiki-components/icons/IconSpin";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import Button from "@/modules/teiki-ui/components/Button";
+import ComboBox from "@/modules/teiki-ui/components/ComboBox";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
-import Typography from "@/modules/teiki-ui/components/Typography";
-import WithAspectRatio from "../../../../components/WithAspectRatio";
-import ImageView from "@/modules/teiki-components/components/ImageView";
-import ComboBox from "@/modules/teiki-ui/components/ComboBox";
 import TextArea from "@/modules/teiki-ui/components/TextArea";
+import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
   className?: string;
@@ -181,23 +172,25 @@ export default function ModalMintGenesisKreation({
         <Flex.Row alignItems="stretch" flexWrap="wrap">
           <Flex.Col
             flex="10000 10000 294px"
-            gap="32px"
-            padding="32px 24px 32px 48px"
+            gap="24px"
+            padding="32px 24px 48px 48px"
           >
             <Flex.Col className={styles.genesis}>
-              <WithAspectRatio aspectRatio={5 / 3} className={styles.image}>
-                {/* <ImageView
+              <WithAspectRatio
+                aspectRatio={5 / 3}
+                className={styles.imageContainer}
+              >
+                <ImageView
                   className={styles.image}
-                  src={genesisKreation.initialImage.src}
+                  src={genesisKreation.finalImage.src}
                   crop={{ x: 0, y: 0, w: 1, h: 1 }}
-                /> */}
+                />
               </WithAspectRatio>
               <Flex.Row alignItems="center" gap="12px" padding="16px 24px">
                 <Typography.Span
                   content={
                     genesisKreation.listedFee != null
                       ? formatLovelaceAmount(genesisKreation.listedFee, {
-                          compact: true,
                           includeCurrencySymbol: true,
                         })
                       : "-"
@@ -212,7 +205,7 @@ export default function ModalMintGenesisKreation({
                             genesisKreation.listedFee,
                             genesisKreation.listedFee,
                           ]),
-                          { compact: true, includeCurrencySymbol: true }
+                          { includeCurrencySymbol: true }
                         )
                       : "-"
                   }

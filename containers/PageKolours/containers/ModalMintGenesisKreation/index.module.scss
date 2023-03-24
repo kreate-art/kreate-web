@@ -6,8 +6,17 @@
   overflow: auto;
 }
 
-.image {
+.imageContainer {
   position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  transition-property: opacity;
+  transition-duration: 500ms;
 }
 
 .modalContent {
