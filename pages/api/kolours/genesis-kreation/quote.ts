@@ -23,6 +23,8 @@ type Response = {
   status: GenesisKreationStatus;
 };
 
+export type QuoteGKNft$Response = Response;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

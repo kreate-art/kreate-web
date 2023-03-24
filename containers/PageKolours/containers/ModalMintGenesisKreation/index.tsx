@@ -3,6 +3,7 @@ import * as React from "react";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
 
+import { useQuoteGKNft$Nft } from "./hooks/useQuoteGKNft$Nft";
 import styles from "./index.module.scss";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
@@ -57,6 +58,12 @@ export default function ModalMintGenesisKreation({
   // >([undefined, undefined]);
 
   const txParamsResult = useTxParams$UserMintGKNft();
+  const quoteResult = useQuoteGKNft$Nft({
+    id: genesisKreation.id,
+    address:
+      walletStatus.status === "connected" ? walletStatus.info.address : "",
+  });
+
   // const quoteResult = useQuoteKolourNft$Nft({
   //   kolours: selectedKolours.map((item) => item.kolour),
   //   address:
