@@ -18,10 +18,11 @@ export async function httpPostMintGKNftTx({
   quotation,
   signature,
 }: Params): Promise<Response> {
+  assert(signature, "Must have signature");
   const params = new URLSearchParams();
   params.append("tx", txHex);
   params.append("quotation", toJson(quotation));
-  if (signature) params.append("signature", signature);
+  params.append("signature", signature);
 
   const response = await fetch("/api/kolours/genesis-kreation/submit", {
     method: "POST",
