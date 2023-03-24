@@ -178,7 +178,7 @@ export default function ModalMintGenesisKreation({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Mint Kolours" color="ink" />
+          <Typography.Span content="Mint Genesis Kreation" color="ink" />
         </Typography.Div>
       </Modal.Header>
       <Modal.Content className={styles.modalContent} padding="none">
@@ -199,34 +199,6 @@ export default function ModalMintGenesisKreation({
                   crop={{ x: 0, y: 0, w: 1, h: 1 }}
                 />
               </WithAspectRatio>
-              <Flex.Row alignItems="center" gap="12px" padding="16px 24px">
-                <Typography.Span
-                  content={
-                    genesisKreation.listedFee != null
-                      ? formatLovelaceAmount(genesisKreation.listedFee, {
-                          includeCurrencySymbol: true,
-                        })
-                      : "-"
-                  }
-                  size="heading6"
-                />
-                <Typography.Span
-                  content={
-                    genesisKreation.listedFee != null
-                      ? formatLovelaceAmount(
-                          sumLovelaceAmount([
-                            genesisKreation.listedFee,
-                            genesisKreation.listedFee,
-                          ]),
-                          { includeCurrencySymbol: true }
-                        )
-                      : "-"
-                  }
-                  size="bodySmall"
-                  color="secondary50"
-                  style={{ textDecoration: "line-through" }}
-                />
-              </Flex.Row>
             </Flex.Col>
             <ComboBox.Text
               value={name}
