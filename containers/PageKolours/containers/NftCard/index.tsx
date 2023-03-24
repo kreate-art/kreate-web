@@ -5,6 +5,7 @@ import WithAspectRatio from "../../../../components/WithAspectRatio";
 import CompleteIndicator from "../../components/CompleteIndicator";
 
 import PaletteBar from "./components/PaletteBar";
+import IconMinted from "./icons/IconMinted";
 import styles from "./index.module.scss";
 
 import {
@@ -43,10 +44,14 @@ export default function NftCard({ className, style, value, onClick }: Props) {
               crop={{ x: 0, y: 0, w: 1, h: 1 }}
             />
           ))}
-          <CompleteIndicator
-            value={value.palette}
-            className={styles.indicator}
-          />
+          {value.status === "minted" ? (
+            <IconMinted className={styles.minted} />
+          ) : (
+            <CompleteIndicator
+              value={value.palette}
+              className={styles.indicator}
+            />
+          )}
           <Typography.Div
             content="50% OFF"
             color="white"

@@ -15,7 +15,7 @@ import { Selection } from "./types";
 import { range } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { Kolours } from "@/modules/kolours/types";
-import { Layer } from "@/modules/kolours/types/Kolours";
+import { GenesisKreationStatus, Layer } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -37,6 +37,7 @@ type Props = {
   palette: Kolours.Layer[] | undefined;
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
+  status: GenesisKreationStatus | undefined;
   canGoPrev?: boolean;
   onGoPrev?: () => void;
   canGoNext?: boolean;
@@ -51,6 +52,7 @@ export default function PanelMint({
   palette,
   fee,
   listedFee,
+  status,
   canGoPrev,
   onGoPrev,
   canGoNext,
@@ -150,7 +152,11 @@ export default function PanelMint({
         />
         <Divider$Horizontal$CustomDash />
         <Flex.Row justifyContent="center">
-          <Button.Solid content="Mint" onClick={handleClickButtonMint} />
+          <Button.Solid
+            content="Mint"
+            onClick={handleClickButtonMint}
+            disabled={status === "minted"}
+          />
         </Flex.Row>
       </Flex.Col>
     </div>
