@@ -88,6 +88,8 @@ export default async function handler(
       userAddress: address,
       feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
       referral: referral?.id,
+      // TODO: @sk-saru: No, this shouldn't be multiplied by 1000...
+      // It should be done by the tx building & verifying logic instead...
       expiration: getExpirationTime() * 1_000,
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
