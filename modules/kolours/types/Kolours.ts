@@ -6,6 +6,11 @@ import {
 
 export type Kolour = string; // RRGGBB
 
+export type Referral = {
+  id: string;
+  discount: bigint;
+};
+
 export type GenesisKreationId = string; // Act as token name also
 
 export type GenesisKreationStatus = "unready" | "ready" | "booked" | "minted";
@@ -36,15 +41,15 @@ export type GenesisKreationEntry = {
   status: GenesisKreationStatus;
   initialImage: Image;
   finalImage: Image;
-  palette: Layer[];
   fee: LovelaceAmount;
   listedFee: LovelaceAmount;
+  palette: Layer[];
   createdAt: UnixTimestamp;
 };
 
 export type GenesisKreationList = {
   kreations: GenesisKreationEntry[];
-  referral?: string;
+  referral?: Referral;
 };
 
 export type KolourEntry = {

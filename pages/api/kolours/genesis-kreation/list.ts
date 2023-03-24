@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { fetchDiscount, lookupReferral } from "@/modules/kolours/common";
+import { lookupReferral } from "@/modules/kolours/fees";
 import { getAllGenesisKreations } from "@/modules/kolours/genesis-kreation";
 import { GenesisKreationList } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db } from "@/modules/next-backend/connections";
+import { db, lucid$, redis } from "@/modules/next-backend/connections";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,9 +19,11 @@ export default async function handler(
     ClientError.assert(!address || typeof address === "string", {
       _debug: "invalid address",
     });
-    const referral = address ? lookupReferral(address) : undefined;
-    const discount = referral ? await fetchDiscount(db, referral) : undefined;
-    const kreations = await getAllGenesisKreations(db, discount);
+
+    const referral = address
+      ? await lookupReferral(lucid$, redis, db, address)
+      : undefined;
+    const kreations = await getAllGenesisKreations(db, referral?.discount);
 
     sendJson(res, { kreations, referral } satisfies GenesisKreationList);
   } catch (error) {
