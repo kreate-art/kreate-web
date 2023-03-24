@@ -12,6 +12,7 @@ import IconSwatches from "./containers/NftCollection/components/IconSwatches";
 import RewardSection from "./containers/RewardsSection";
 import { useLandingPageColor } from "./hooks/useLandingPageColor";
 import figureDiscount from "./images/figure-discount.png";
+import metaImage from "./images/meta-image.png";
 import styles from "./index.module.scss";
 
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
@@ -22,7 +23,12 @@ export default function LandingPage() {
   useLandingPageColor();
   return (
     <>
-      <TeikiHead />
+      <TeikiHead
+        title="Kolouring metaverse with Kreate"
+        description="Kreate Kolours brings a new trend to Web3, where people co-colour a Metaverse with NFTs. It is the latest concept of the Kreate platform to innovate creator and fan engagement."
+        url="https://kolours.kreate.community"
+        imageUrl={metaImage.src}
+      />
       <div className={styles.container}>
         <div className={styles.main}>
           <div className={styles.background} />
