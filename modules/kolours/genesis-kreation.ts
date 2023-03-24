@@ -1,5 +1,4 @@
-import { calculateFees } from "./common";
-import { calculateKolourFee } from "./kolour";
+import { calculateKolourFee, computeFees } from "./fees";
 import {
   GenesisKreationEntry,
   GenesisKreationId,
@@ -77,7 +76,7 @@ export async function getAllGenesisKreations(
         kolour: k,
         image: { src: getIpfsUrl(l) },
         status: koStatus[i],
-        ...calculateFees(calculateKolourFee(k), discount),
+        ...computeFees(calculateKolourFee(k), discount),
       };
     });
     return {
@@ -85,8 +84,8 @@ export async function getAllGenesisKreations(
       status,
       initialImage: { src: getIpfsUrl(row.initialImageCid) },
       finalImage: { src: getIpfsUrl(row.finalImageCid) },
+      ...computeFees(row.baseFee, discount),
       palette,
-      ...calculateFees(row.baseFee, discount),
       createdAt: row.createdAt.valueOf(),
     };
   });
@@ -117,7 +116,7 @@ export async function quoteGenesisKreation(
   `;
   if (row) {
     const res = combineStatus(row);
-    Object.assign(res, calculateFees(row.baseFee, discount));
+    Object.assign(res, computeFees(row.baseFee, discount));
     return res;
   } else {
     return null;

@@ -32,7 +32,8 @@ async function attemptLock(
 async function acquireLock(
   key: RedisKey,
   identifier: RedisValue,
-  expiration: Expiration
+  expiration: Expiration,
+  delay?: number
 ): Promise<Lock> {
   return tryUntil({
     run: () => {
@@ -41,6 +42,7 @@ async function acquireLock(
       return locked;
     },
     until: (r) => !!r,
+    delayBetween: delay,
   }) as Promise<Lock>;
 }
 
@@ -87,7 +89,8 @@ async function attemptMultiLock(
 async function acquireMultiLock(
   keys: RedisKey[],
   identifier: RedisValue,
-  expiration: Expiration
+  expiration: Expiration,
+  delay?: number
 ): Promise<Lock> {
   return tryUntil({
     run: () => {
@@ -96,6 +99,7 @@ async function acquireMultiLock(
       return locked;
     },
     until: (r) => !!r,
+    delayBetween: delay,
   }) as Promise<Lock>;
 }
 

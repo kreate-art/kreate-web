@@ -6,11 +6,8 @@ import {
   KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
-import {
-  fetchDiscount,
-  getExpirationTime,
-  lookupReferral,
-} from "@/modules/kolours/common";
+import { getExpirationTime } from "@/modules/kolours/common";
+import { lookupReferral } from "@/modules/kolours/fees";
 import { quoteGenesisKreation } from "@/modules/kolours/genesis-kreation";
 import {
   GenesisKreationQuotation,
@@ -18,7 +15,7 @@ import {
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db } from "@/modules/next-backend/connections";
+import { db, lucid$, redis } from "@/modules/next-backend/connections";
 
 type Response = {
   quotation: GenesisKreationQuotation;
@@ -49,11 +46,9 @@ export default async function handler(
       _debug: "invalid address",
     });
 
-    const referral = lookupReferral(address);
+    const referral = await lookupReferral(lucid$, redis, db, address);
 
-    const discount = referral ? await fetchDiscount(db, referral) : undefined;
-
-    const quoted = await quoteGenesisKreation(db, id, discount);
+    const quoted = await quoteGenesisKreation(db, id, referral?.discount);
     ClientError.assert(quoted, { _debug: "unknown genesis kreation" });
 
     const { imageCid, fee, listedFee, status } = quoted;
@@ -65,7 +60,7 @@ export default async function handler(
       listedFee,
       userAddress: address,
       feeAddress: KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
-      referral,
+      referral: referral?.id,
       expiration: getExpirationTime(),
     };
     const signature =

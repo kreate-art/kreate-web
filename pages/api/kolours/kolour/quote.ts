@@ -6,15 +6,13 @@ import {
   KOLOURS_HMAC_SECRET,
   KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
 } from "@/modules/env/kolours/server";
-import {
-  calculateFees,
-  fetchDiscount,
-  getExpirationTime,
-  lookupReferral,
-  parseKolour,
-} from "@/modules/kolours/common";
+import { getExpirationTime, parseKolour } from "@/modules/kolours/common";
 import {
   calculateKolourFee,
+  computeFees,
+  lookupReferral,
+} from "@/modules/kolours/fees";
+import {
   generateKolourImageCid,
   getUnavailableKolours,
 } from "@/modules/kolours/kolour";
@@ -25,7 +23,7 @@ import {
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db, ipfs, redis } from "@/modules/next-backend/connections";
+import { db, ipfs, lucid$, redis } from "@/modules/next-backend/connections";
 
 type Response = {
   quotation: KolourQuotation;
@@ -52,7 +50,7 @@ export default async function handler(
       _debug: "invalid address",
     });
 
-    const referral = lookupReferral(address);
+    const referral = await lookupReferral(lucid$, redis, db, address);
 
     const r_kolours = r_kolour
       ? typeof r_kolour === "string"
@@ -76,20 +74,18 @@ export default async function handler(
       _debug: "all selected kolours are unavailable",
     });
 
-    const discount = referral ? await fetchDiscount(db, referral) : undefined;
-
     const quotation: KolourQuotation = {
       kolours: Object.fromEntries(
         await Promise.all(
           available.map(async (kolour) => [
             kolour,
-            await quoteKolour(kolour, discount),
+            await quoteKolour(kolour, referral?.discount),
           ])
         )
       ),
       userAddress: address,
       feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
-      referral,
+      referral: referral?.id,
       expiration: getExpirationTime() * 1_000,
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
@@ -112,5 +108,5 @@ async function quoteKolour(
 ): Promise<KolourEntry> {
   const baseFee = calculateKolourFee(kolour);
   const cid = await generateKolourImageCid(redis, ipfs, kolour);
-  return { ...calculateFees(baseFee, discount), image: `ipfs://${cid}` };
+  return { ...computeFees(baseFee, discount), image: `ipfs://${cid}` };
 }
