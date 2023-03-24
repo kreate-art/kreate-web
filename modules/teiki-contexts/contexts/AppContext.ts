@@ -95,7 +95,12 @@ export function useAppContextValue$Provider({
   }, [walletStatus.status]);
 
   React.useEffect(() => {
-    if (walletStatus.status !== "connected") return;
+    // NOTE: @sk-yagi: A `hacky` way to disable user authentication on Kolours page
+    // Note that this wont be ignored in the development environment
+    // Should use an `.env` variable if possible.
+    const origin = window.location.origin;
+    if (walletStatus.status !== "connected" || origin.includes("kolours"))
+      return;
     void (async () => {
       try {
         const savedAuthInfo = await loadSavedAuthInfo();
