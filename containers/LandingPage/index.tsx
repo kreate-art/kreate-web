@@ -24,8 +24,8 @@ export default function LandingPage() {
   return (
     <>
       <TeikiHead
-        title="Kolouring metaverse with Kreate"
-        description="Kreate Kolours brings a new trend to Web3, where people co-colour a Metaverse with NFTs. It is the latest concept of the Kreate platform to innovate creator and fan engagement."
+        title="Kolour the Metaverse with Kreate."
+        description="Kreate Kolours brings a new trend to Web3, where users colour a Metaverse with NFTs. Let's paint a new world with Web3 creators and fans together!"
         url="https://kolours.kreate.community"
         imageUrl={metaImage.src}
       />
