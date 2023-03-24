@@ -12,14 +12,20 @@
   max-width: 1440px;
   padding: 56px;
   margin: 0 auto;
+  margin-top: 192px;
+}
+
+.background {
+  min-height: 900px;
+  height: 62.5vw;
+  width: 100%;
+  z-index: -1;
+  background-image: url("./images/background.png");
+  background-size: cover;
+  position: absolute;
 }
 
 .backgroundContainer {
-  min-height: 900px;
-  max-height: 1200px;
-  height: 62.5vw;
-  background-image: url("./images/background.png");
-  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,4 +89,5 @@
 .footer {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   background-color: #0a1316;
+  background-image: url("./hooks/images/filler.png");
 }
