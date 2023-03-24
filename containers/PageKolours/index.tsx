@@ -70,6 +70,7 @@ export default function PageKolours({ className, style }: Props) {
           palette={selectedNft?.palette}
           fee={selectedNft?.fee}
           listedFee={selectedNft?.listedFee}
+          status={selectedNft?.status}
           canGoPrev={prevId != null}
           onGoPrev={() => setSelectedId(prevId)}
           canGoNext={nextId != null}
