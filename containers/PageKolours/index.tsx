@@ -1,6 +1,7 @@
 import cx from "classnames";
 import * as React from "react";
 
+import metaImage from "../LandingPage/images/meta-image.png";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
 import Section from "./components/Section";
@@ -53,9 +54,14 @@ export default function PageKolours({ className, style }: Props) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <TeikiHead />
+      <TeikiHead
+        title="Kolour the Metaverse with Kreate"
+        description="Kreate Kolours brings a new trend to Web3, where users colour a Metaverse with NFTs. Let's paint a new world with Web3 creators and fans together!"
+        url="https://kolours.kreate.community"
+        imageUrl={metaImage.src}
+      />
       <NavBar className={styles.navBar} />
-      {/* <BelowNavBar /> */}
+      {/* <BelowNavBar /> */}Kolouring metaverse with Kreate
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}
