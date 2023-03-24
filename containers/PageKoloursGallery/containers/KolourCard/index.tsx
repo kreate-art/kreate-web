@@ -42,7 +42,7 @@ export default function KolourCard({ className, style, value }: Props) {
           color={isDark ? "white" : "ink"}
         />
       </Flex.Row>
-      <Flex.Col gap="16px" padding="24px">
+      {/* <Flex.Col gap="16px" padding="24px">
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
             <Typography.Div content="Owner" size="bodySmall" color="ink80" />
@@ -90,7 +90,7 @@ export default function KolourCard({ className, style, value }: Props) {
             />
           </Flex.Cell>
         </Flex.Row>
-      </Flex.Col>
+      </Flex.Col> */}
     </div>
   );
 }

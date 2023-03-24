@@ -36,7 +36,7 @@ export default function GenesisNftCard({ className, style, value }: Props) {
           crop={{ x: 0, y: 0, w: 1, h: 1 }}
         />
       </WithAspectRatio>
-      <Flex.Col padding="24px" gap="16px">
+      {/* <Flex.Col padding="24px" gap="16px">
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
             <Typography.Div content="Name" size="bodySmall" color="ink80" />
@@ -80,7 +80,7 @@ export default function GenesisNftCard({ className, style, value }: Props) {
             />
           </Flex.Cell>
         </Flex.Row>
-      </Flex.Col>
+      </Flex.Col> */}
     </div>
   );
 }
