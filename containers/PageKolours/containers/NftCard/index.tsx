@@ -30,10 +30,19 @@ export default function NftCard({ className, style, value, onClick }: Props) {
       <div className={styles.box} onClick={onClick}>
         <WithAspectRatio aspectRatio={5 / 3} className={styles.image}>
           <ImageView
-            style={{ width: "100%", height: "100%" }}
+            className={styles.image}
             src={value.initialImage.src}
             crop={{ x: 0, y: 0, w: 1, h: 1 }}
           />
+          {value.palette.map((item, index) => (
+            <ImageView
+              key={index}
+              className={styles.image}
+              style={{ opacity: item.status !== "free" ? "100%" : "0%" }}
+              src={item.image.src}
+              crop={{ x: 0, y: 0, w: 1, h: 1 }}
+            />
+          ))}
           <CompleteIndicator
             value={value.palette}
             className={styles.indicator}
