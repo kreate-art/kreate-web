@@ -173,7 +173,7 @@ export default function PanelMint({
           <Button.Solid
             content="Mint"
             onClick={handleClickButtonMint}
-            disabled={status === "minted"}
+            disabled={status === "booked" || status === "minted"}
           />
         </Flex.Row>
       </Flex.Col>

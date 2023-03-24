@@ -44,7 +44,7 @@ export default function NftCard({ className, style, value, onClick }: Props) {
               crop={{ x: 0, y: 0, w: 1, h: 1 }}
             />
           ))}
-          {value.status === "minted" ? (
+          {value.status === "booked" || value.status === "minted" ? (
             <IconMinted className={styles.minted} />
           ) : (
             <CompleteIndicator
