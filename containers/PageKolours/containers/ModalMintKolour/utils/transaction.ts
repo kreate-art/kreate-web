@@ -1,4 +1,3 @@
-import { getPaymentKeyHash } from "@kreate/protocol/helpers/lucid";
 import {
   buildMintKolourNftTx,
   MintKolourNftTxParams,
