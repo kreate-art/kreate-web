@@ -38,10 +38,11 @@ export function calculateFees(
   baseFee: Lovelace,
   discount?: bigint
 ): { listedFee: Lovelace; fee: Lovelace } {
+  const listedFee = baseFee;
+  const half = baseFee / BigInt(2);
   const fee = discount
-    ? baseFee - (baseFee * discount) / BigInt(DISCOUNT_MULTIPLIER)
-    : baseFee;
-  const listedFee = baseFee * FEE_MULTIPLIER;
+    ? half - (half * discount) / BigInt(DISCOUNT_MULTIPLIER)
+    : half;
   return { fee, listedFee };
 }
 
