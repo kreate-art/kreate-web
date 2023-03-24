@@ -65,6 +65,7 @@ export default function PageKolours({ className, style }: Props) {
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}
+          selectedNft={selectedNft}
           initialImage={selectedNft?.initialImage}
           finalImage={selectedNft?.finalImage}
           palette={selectedNft?.palette}

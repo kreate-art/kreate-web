@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 
 import ModalConnectWallet from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar/containers/ModalConnectWallet";
+import ModalMintGenesisKreation from "../ModalMintGenesisKreation";
 import ModalMintKolour from "../ModalMintKolour";
 import ModalMintSuccess from "../ModalMintSuccess";
 
@@ -15,7 +16,11 @@ import { Selection } from "./types";
 import { range } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { Kolours } from "@/modules/kolours/types";
-import { GenesisKreationStatus, Layer } from "@/modules/kolours/types/Kolours";
+import {
+  GenesisKreationStatus,
+  GenesisKreationEntry,
+  Layer,
+} from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
@@ -38,6 +43,7 @@ type Props = {
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
   status: GenesisKreationStatus | undefined;
+  selectedNft: GenesisKreationEntry | undefined;
   canGoPrev?: boolean;
   onGoPrev?: () => void;
   canGoNext?: boolean;
@@ -47,6 +53,7 @@ type Props = {
 export default function PanelMint({
   className,
   style,
+  selectedNft,
   initialImage,
   finalImage,
   palette,
@@ -62,6 +69,9 @@ export default function PanelMint({
   const { walletStatus } = useAppContextValue$Consumer();
   const { showModal } = useModalPromises();
   const { showMessage } = useToast();
+
+  const canBeMinted =
+    palette?.every((item) => item.status === "minted") && selectedNft;
 
   const handleClickButtonMint = async () => {
     switch (walletStatus.status) {
@@ -84,15 +94,23 @@ export default function PanelMint({
           | { type: "success"; txHash: string }
           | { type: "cancel" };
 
-        const modalMintKolour$ModalResult =
-          await showModal<ModalMintKolour$ModalResult>((resolve) => (
-            <ModalMintKolour
-              open
-              kolours={kolours}
-              onCancel={() => resolve({ type: "cancel" })}
-              onSuccess={(txHash) => resolve({ type: "success", txHash })}
-            />
-          ));
+        const modalMintKolour$ModalResult = canBeMinted
+          ? await showModal<ModalMintKolour$ModalResult>((resolve) => (
+              <ModalMintGenesisKreation
+                open
+                genesisKreation={selectedNft}
+                onCancel={() => resolve({ type: "cancel" })}
+                onSuccess={(txHash) => resolve({ type: "success", txHash })}
+              />
+            ))
+          : await showModal<ModalMintKolour$ModalResult>((resolve) => (
+              <ModalMintKolour
+                open
+                kolours={kolours}
+                onCancel={() => resolve({ type: "cancel" })}
+                onSuccess={(txHash) => resolve({ type: "success", txHash })}
+              />
+            ));
         if (modalMintKolour$ModalResult.type !== "success") return;
         await showModal<void>((resolve) => (
           <ModalMintSuccess
