@@ -11,9 +11,10 @@ import Divider from "@/modules/teiki-ui/components/Divider";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
+  title?: "community" | "kolour";
 };
 
-const FooterPanel = ({ className, style }: Props) => {
+const FooterPanel = ({ className, style, title = "community" }: Props) => {
   const router = useRouter();
   return (
     <div className={cx(className, styles.container)} style={style}>
@@ -23,7 +24,13 @@ const FooterPanel = ({ className, style }: Props) => {
             <LogoKreateWhite />
           </div>
           <Divider.Vertical />
-          <div className={styles.slogan}>Kreate with your Community</div>
+          {title === "community" ? (
+            <div className={styles.sloganCommunity}>
+              Kreate with your Community
+            </div>
+          ) : (
+            <div className={styles.sloganKolours}>Kolours</div>
+          )}
         </div>
         <div className={styles.iconList}>
           {TEIKI_CONNECTION_LIST.map(

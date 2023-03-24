@@ -37,8 +37,9 @@ export default function RewardSection({ className, style }: Props) {
         <div className={styles.upperGrid}>
           <div className={styles.grid}>
             <Typography.Div
+              color="none"
               size="heading2"
-              color="orange"
+              style={{ color: "#EC5929" }}
               content="Kolour NFT"
             />
             <div className={styles.kolourList}>
@@ -88,7 +89,8 @@ export default function RewardSection({ className, style }: Props) {
           <div className={styles.grid} style={{ gridArea: "b" }}>
             <Typography.Div
               size="heading2"
-              color="orange"
+              color="none"
+              style={{ color: "#EC5929" }}
               content="Genesis Kreation NFT"
             />
             <div className={styles.kreationNftContainer}>
@@ -106,7 +108,8 @@ export default function RewardSection({ className, style }: Props) {
                   content="Kreate your land"
                 />
                 <div className={styles.infoBody}>
-                  Name and develop the land you own in the Kreataverse.
+                  Name the land you now own. You can build your 3D land once the
+                  Kreataverse is live.
                 </div>
               </div>
               <div className={cx(styles.infoCard, styles.green)}>
@@ -153,14 +156,37 @@ export default function RewardSection({ className, style }: Props) {
               />
             </div>
           </div>
-          <div className={styles.infoBottomGrid}>
-            Kolour and Genesis Kreation NFT holders will{" "}
-            <b>get a $KREATE airdrop</b>
-            proportionally to their holding value. $KREATE is the utility token
-            of the <u>Kreate platform</u> and is highly beneficial to Kreators
-            and Members. Follow us on Twitter and Discord for the $KREATE
-            campaign in April 2023.
-          </div>
+          <Typography.Div color="white" className={styles.infoBottomGrid}>
+            <div>
+              Kolour and Genesis Kreation NFT holders will{" "}
+              <b>get a $KREATE airdrop </b>
+              proportionally to their holding value.
+            </div>
+            <div>
+              $KREATE is the utility token of the{" "}
+              <Link className={styles.link} href="https://kreate.community/">
+                Kreate platform
+              </Link>{" "}
+              and is highly beneficial to Kreators and Members.
+            </div>
+            <div>
+              Follow us on{" "}
+              <Link
+                className={styles.link}
+                href="https://twitter.com/KreatePlatform"
+              >
+                Twitter
+              </Link>{" "}
+              and{" "}
+              <Link
+                className={styles.link}
+                href="https://discord.gg/4wv3MfKHdE"
+              >
+                Discord
+              </Link>{" "}
+              for the $KREATE campaign in April 2023.
+            </div>
+          </Typography.Div>
         </div>
       </div>
       <Link href="/kolours" className={styles.kolourButtonContainer}>

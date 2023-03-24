@@ -60,7 +60,7 @@ export default function LandingPage() {
             <RewardSection style={{ marginTop: "112px" }} />
           </div>
         </div>
-        <FooterPanel className={styles.footer} />
+        <FooterPanel className={styles.footer} title="kolour" />
       </div>
     </>
   );

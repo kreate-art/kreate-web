@@ -1,37 +1,25 @@
+.gridContainer {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .row {
   align-items: stretch;
 }
 
 .leftColumn {
-  // border: 1px solid rgba(255, 255, 255, 0.1);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  // border-radius: 12px;
   width: 50%;
   align-items: center;
-  padding: 92px;
-
-  &.lastRow {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  &.topLeftColumn {
-    border-top-left-radius: 12px;
-  }
+  box-sizing: border-box;
 }
 
 .rightColumn {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
   width: 50%;
-
-  &.lastRow {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  &.topRightColumn {
-    border-top-right-radius: 12px;
-  }
+  display: flex;
+  justify-content: center;
 }
 
 .stepOneContainer {
@@ -51,6 +39,7 @@
 }
 
 .stepOneTextContainer {
+  padding: 92px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,7 +114,7 @@
   filter: drop-shadow(-8px -4px 0px #fcb045) drop-shadow(8px 9px 0px #833ab4);
   background: #ec5929;
   border-radius: 69px;
-  padding: 24px;
+  padding: 16px 24px;
   border: none;
   outline: none;
   margin-top: 63px;
@@ -135,4 +124,50 @@
 .kolourButtonContainer {
   display: flex;
   justify-content: center;
+}
+
+.walletContainer {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 48px 56px;
+}
+
+.walletItem {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0px;
+  flex: 1 1 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  justify-content: center;
+
+  &.recommended {
+    border: 1px solid #006e46;
+    box-shadow: 0px 7px 32px rgba(0, 110, 70, 0.24);
+  }
+}
+
+.recommendedText {
+  position: absolute;
+  color: white;
+  background: #006e46;
+  font-size: 9px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  bottom: 0px;
+  text-transform: uppercase;
+}
+
+.walletName {
+  margin-top: 16px;
 }

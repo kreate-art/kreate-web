@@ -10,20 +10,29 @@
   text-align: center;
   color: white;
   font-family: "Bangers";
+  letter-spacing: 0.16em;
 }
 
 .upperGrid {
-  margin-top: 64px;
   display: flex;
   flex-wrap: wrap;
 }
+
+.gridContainer {
+  margin-top: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .grid {
   padding: 48px 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  flex: 1 1 300px;
+  flex: 1 1 0;
+  min-width: 500px;
 }
 
 .kolourList {
@@ -83,6 +92,9 @@
 .infoBody {
   min-height: 40px;
   color: white;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 35px;
 }
 
 .figureContainer {
@@ -98,12 +110,14 @@
 
 .kolourButton {
   color: white;
+  font-size: 20px;
+  line-height: 25px;
   display: flex;
   gap: 8px;
   filter: drop-shadow(-8px -4px 0px #fcb045) drop-shadow(8px 9px 0px #833ab4);
   background: #ec5929;
   border-radius: 69px;
-  padding: 24px;
+  padding: 16px 24px;
   border: none;
   outline: none;
   cursor: pointer;
@@ -119,4 +133,13 @@
 .infoBottomGrid {
   color: white;
   margin-top: 48px;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: left;
+  width: 100%;
+}
+
+.link {
+  color: white;
+  text-decoration: underline;
 }

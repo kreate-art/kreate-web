@@ -30,11 +30,24 @@
   align-items: center;
 }
 
-.slogan {
+@font-face {
+  font-family: "Bangers";
+  src: url(../../../LandingPage/fonts/Bangers-Regular.ttf);
+}
+
+.sloganCommunity {
   font-size: 20px;
   padding: 0 16px;
   line-height: 30px;
   font-weight: bold;
+}
+
+.sloganKolours {
+  font-weight: 400;
+  font-size: 16px;
+  padding: 0 16px;
+  letter-spacing: 0.24em;
+  font-family: "Bangers";
 }
 
 .logo {
@@ -62,7 +75,7 @@
 }
 
 .routingPageItem:hover {
-  color: #EC5929;
+  color: #ec5929;
 }
 
 .iconContainer {
