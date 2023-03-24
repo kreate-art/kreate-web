@@ -1,0 +1,12 @@
+.container {
+  overflow: hidden;
+  min-width: 0;
+  display: block;
+  border-radius: 16px;
+  background-color: white;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+}
