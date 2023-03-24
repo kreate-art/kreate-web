@@ -39,7 +39,7 @@ export default function PageKoloursGallery({ className, style }: Props) {
       <NavBar className={styles.navBar} />
       <Section marginTop="56px" marginBottom="56px">
         <Flex.Col gap="16px">
-          <Typography.Div content="Genesis NFTs" size="heading6" />
+          <Typography.Div content="Genesis Kreation NFTs" size="heading6" />
           <GenesisNftList
             value={useAllNfts$Response?.kreations?.filter((item) =>
               ["booked", "minted"].includes(item.status)
@@ -50,7 +50,7 @@ export default function PageKoloursGallery({ className, style }: Props) {
       </Section>
       <Section marginTop="56px" marginBottom="56px">
         <Flex.Col gap="16px">
-          <Typography.Div content="Kolours" size="heading6" />
+          <Typography.Div content="Kolour NFTs" size="heading6" />
           <KolourList
             value={useAllMintedKolours$Response?.kolours}
             error={useAllMintedKolours$Error}
