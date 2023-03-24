@@ -1,15 +1,20 @@
-import { C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
+import { C, Core, fromText, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
+import { KOLOURS_GENESIS_KREATION_POLICY_ID } from "@/modules/env/kolours/client";
 import {
   KOLOURS_GENESIS_KREATION_PRIVATE_KEY,
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
+import { fromJson } from "@/modules/json-utils";
 import { getTxExp } from "@/modules/kolours/common";
 import { getGenesisKreationStatus } from "@/modules/kolours/genesis-kreation";
-import { GenesisKreationQuotation } from "@/modules/kolours/types/Kolours";
+import {
+  GenesisKreationId,
+  GenesisKreationQuotation,
+} from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
@@ -85,6 +90,7 @@ export default async function handler(
       listedFee: quotation.listedFee,
       userAddress: quotation.userAddress,
       feeAddress: quotation.feeAddress,
+      ...extractMetadata(tx, quotation.id),
       referral: quotation.referral ?? null,
     };
 
@@ -140,4 +146,29 @@ async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
   return new TxComplete(lucid, tx)
     .signWithPrivateKey(KOLOURS_GENESIS_KREATION_PRIVATE_KEY)
     .complete();
+}
+
+const METADATA_NFT_TAG = C.BigNum.from_str("721");
+
+function extractMetadata(
+  tx: Core.Transaction,
+  id: GenesisKreationId
+): {
+  name: string;
+  description: string | null;
+} {
+  const metadatumCore = tx.auxiliary_data()?.metadata()?.get(METADATA_NFT_TAG);
+  ClientError.assert(metadatumCore, { _debug: "missing tx nft metadatum" });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const metadatum: any = fromJson(
+    C.decode_metadatum_to_json_str(
+      metadatumCore,
+      C.MetadataJsonSchema.NoConversions
+    )
+  );
+  const entry = metadatum?.[KOLOURS_GENESIS_KREATION_POLICY_ID]?.[fromText(id)];
+  const name = entry?.name;
+  const description = entry?.description ?? null;
+  ClientError.assert(name, { _debug: "missing genesis kreation nft name" });
+  return { name, description };
 }

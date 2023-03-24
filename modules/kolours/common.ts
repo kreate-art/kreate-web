@@ -25,7 +25,7 @@ export async function fetchDiscount(sql: Sql, referral: string | undefined) {
   if (!referral) return undefined;
   const [row]: [{ discount: string }?] = await sql`
     SELECT discount FROM kolours.referral
-    WHERE code = ${referral}
+    WHERE id = ${referral}
   `;
   return row
     ? BigInt(Math.trunc(Number(row.discount) * DISCOUNT_MULTIPLIER))
