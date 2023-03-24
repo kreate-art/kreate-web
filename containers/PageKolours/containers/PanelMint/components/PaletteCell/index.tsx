@@ -57,7 +57,7 @@ export default function PaletteCell({
               color={isDark ? "white" : "ink"}
             />
             <Typography.Div size="bodyExtraSmall">
-              <AssetViewer.Ada.Compact
+              <AssetViewer.Ada.ZeroFractionDigits
                 as="span"
                 lovelaceAmount={paletteItem.fee}
                 fontWeight="semibold"
@@ -66,7 +66,7 @@ export default function PaletteCell({
               <Typography.Span content=" " />
               {paletteItem.listedFee != null &&
               paletteItem.listedFee !== paletteItem.fee ? (
-                <AssetViewer.Ada.Compact
+                <AssetViewer.Ada.ZeroFractionDigits
                   style={{ textDecoration: "line-through" }}
                   as="span"
                   lovelaceAmount={paletteItem.listedFee}
