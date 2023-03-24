@@ -1,8 +1,7 @@
 import cx from "classnames";
 import Image from "next/image";
 
-import rocketPng from "../image/rocket.png";
-
+import rocketPng from "./image/rocket.png";
 import styles from "./index.module.scss";
 
 import Typography from "@/modules/teiki-ui/components/Typography";

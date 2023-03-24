@@ -48,12 +48,14 @@ const FooterPanel = ({ className, style, title = "community" }: Props) => {
       <div className={styles.lowerContainer}>
         <div>Copyright © Shinka Network</div>
         <div className={styles.routingPage}>
-          <span
-            className={styles.routingPageItem}
-            onClick={() => router.push(`/podcasts`)}
-          >
-            Podcasts
-          </span>
+          {title === "community" ? (
+            <span
+              className={styles.routingPageItem}
+              onClick={() => router.push(`/podcasts`)}
+            >
+              Podcasts
+            </span>
+          ) : null}
           <a
             className={styles.routingPageItem}
             href="https://discord.gg/4wv3MfKHdE"

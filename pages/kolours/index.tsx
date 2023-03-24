@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import PageKolours from "../../containers/PageKolours";
+import LandingPage from "../../containers/LandingPage";
 
 export default function RouteToPageKolours() {
-  return <PageKolours />;
+  return <LandingPage />;
 }
