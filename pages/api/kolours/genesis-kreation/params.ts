@@ -9,7 +9,7 @@ import { getDeployedScriptUtxo } from "@/modules/next-backend/logic/getDeployedS
 import { EnrichedUtxo } from "@/modules/next-backend/types";
 
 export type TxParams$GenesisKreation$Response = {
-  txParams: { kolourNftRefUtxo: EnrichedUtxo };
+  txParams: { gkNftRefScriptUtxo: EnrichedUtxo };
 };
 
 export default async function handler(
@@ -17,12 +17,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const kolourNftRefUtxo = await getDeployedScriptUtxo(db, {
+    const gkNftRefScriptUtxo = await getDeployedScriptUtxo(db, {
       scriptHash: KOLOURS_GENESIS_KREATION_POLICY_ID,
     });
-    assert(kolourNftRefUtxo, "Missing Genesis Kreation Ref UTxO");
+    assert(gkNftRefScriptUtxo, "Missing Genesis Kreation Ref UTxO");
     const result: TxParams$GenesisKreation$Response = {
-      txParams: { kolourNftRefUtxo },
+      txParams: { gkNftRefScriptUtxo },
     };
     sendJson(res.status(200), result);
   } catch (error) {

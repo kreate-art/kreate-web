@@ -7,6 +7,7 @@ import ErrorBox from "../../../PageUpdateProjectV2/components/ErrorBox";
 import { TxBreakdown, useEstimatedFees } from "./hooks/useEstimatedFees";
 import { useQuoteGKNft$Nft } from "./hooks/useQuoteGKNft$Nft";
 import styles from "./index.module.scss";
+import { buildTx, BuildTxParams } from "./utils/transaction";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { tryUntil } from "@/modules/async-utils";
@@ -18,6 +19,8 @@ import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
+import { httpGetQuoteGKNft } from "@/modules/next-backend-client/api/httpGetQuoteGKNft";
+import { httpPostMintGKNftTx } from "@/modules/next-backend-client/api/httpPostMintGKNftTx";
 import { useTxParams$UserMintGKNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintGKNft";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import PanelFeesBreakdown from "@/modules/teiki-components/components/PanelFeesBreakdown";
@@ -65,12 +68,6 @@ export default function ModalMintGenesisKreation({
       walletStatus.status === "connected" ? walletStatus.info.address : "",
   });
 
-  // const quoteResult = useQuoteKolourNft$Nft({
-  //   kolours: selectedKolours.map((item) => item.kolour),
-  //   address:
-  //     walletStatus.status === "connected" ? walletStatus.info.address : "",
-  // });
-
   const [txBreakdown$New, txBreakdown$New$Error] = useEstimatedFees({
     txParamsResult,
     quoteResult,
@@ -107,45 +104,47 @@ export default function ModalMintGenesisKreation({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Quoting kolours...");
-      // const { quotation, signature } = await httpGetQuoteKolourNft({
-      //   kolours: selectedKolours.map((item) => item.kolour),
-      //   address: walletStatus.info.address,
-      // }).catch((cause) => {
-      //   throw DisplayableError.from(cause, "Failed to quote kolours");
-      // });
+      const { quotation, signature, status } = await httpGetQuoteGKNft({
+        id: genesisKreation.id,
+        address: walletStatus.info.address,
+      }).catch((cause) => {
+        throw DisplayableError.from(cause, "Failed to quote GK");
+      });
 
       setStatusBarText("Building transaction...");
-      // const buildTx$Params: BuildTxParams = {
-      //   lucid: walletStatus.lucid,
-      //   quotation,
-      //   txParams: txParamsResult.data.txParams,
-      // };
-      // const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
-      //   console.error({ buildTx$Params }); // for debugging purpose
-      //   throw DisplayableError.from(cause, "Failed to build transaction");
-      // });
+      const buildTx$Params: BuildTxParams = {
+        lucid: walletStatus.lucid,
+        name,
+        description,
+        quotation,
+        txParams: txParamsResult.data.txParams,
+      };
+      const { txComplete } = await buildTx(buildTx$Params).catch((cause) => {
+        console.error({ buildTx$Params }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to build transaction");
+      });
 
       setStatusBarText("Waiting for signature...");
-      // const txUserSigned = await txComplete.sign().complete();
+      const txUserSigned = await txComplete.sign().complete();
 
       setStatusBarText("Waiting for submission...");
-      // const { txId } = await httpPostMintKolourNftTx({
-      //   txHex: txUserSigned.toString(),
-      //   quotation,
-      //   signature,
-      // });
+      const { txId } = await httpPostMintGKNftTx({
+        txHex: txUserSigned.toString(),
+        quotation,
+        signature,
+      });
 
       setStatusBarText("Waiting for confirmation...");
-      // await walletStatus.lucid.awaitTx(txId).catch((cause) => {
-      //   console.error({ txId }); // for debugging purpose
-      //   throw DisplayableError.from(cause, "Failed to wait for confirmation");
-      // });
+      await walletStatus.lucid.awaitTx(txId).catch((cause) => {
+        console.error({ txId }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for confirmation");
+      });
 
       setStatusBarText("Waiting for indexers...");
-      // await waitUntilTxIndexed(txId).catch((cause) => {
-      //   console.error({ txId }); // for debugging purpose
-      //   throw DisplayableError.from(cause, "Failed to wait for indexers");
-      // });
+      await waitUntilTxIndexed(txId).catch((cause) => {
+        console.error({ txId }); // for debugging purpose
+        throw DisplayableError.from(cause, "Failed to wait for indexers");
+      });
 
       setStatusBarText("Done.");
       // onSuccess && onSuccess(txId);

@@ -1,5 +1,6 @@
+import { fromJson } from "@kreate/protocol/json";
+
 import { assert } from "@/modules/common-utils";
-import { fromJson } from "@/modules/json-utils";
 import { EnrichedUtxo } from "@/modules/next-backend/types";
 
 export type TxParams$UserMintGKNft = {
@@ -17,7 +18,7 @@ export async function httpGetTxParams$UserMintGKNft(): Promise<TxParams$UserMint
 
   assert(response.ok, "response not ok");
   const body = await response.text();
-  const data = fromJson(body);
+  const data = fromJson(body, { forceBigInt: true });
   assert(isResponse(data), "invalid response");
 
   return data;
