@@ -1,8 +1,10 @@
 import cx from "classnames";
 import * as React from "react";
 
+import { Nft } from "../../kolours-types";
 import NftCard from "../NftCard";
 
+import IconSort from "./icons/IconSort";
 import styles from "./index.module.scss";
 
 import { sortedBy } from "@/modules/array-utils";
@@ -29,18 +31,28 @@ export default function NftCardGrid({
   const [containerElement, setContainerElement] =
     React.useState<HTMLDivElement | null>(null);
   const containerSize = useElementSize(containerElement);
-  const numColumn = containerSize ? Math.ceil(containerSize.w / 600) : 1;
+  const numColumn = containerSize ? Math.ceil(containerSize.w / 400) : 1;
 
-  const [sortIndex, setSortIndex] = React.useState(0);
-  const sortedValue =
-    sortIndex === 0
-      ? sortedBy(
-          value,
-          (nft) =>
-            -nft.palette.filter((item) => item.status !== "free").length /
-            nft.palette.length
-        )
-      : value;
+  const [sortIndex, setSortIndex] = React.useState<0 | 1 | 2>(0);
+  /**
+   * Current order of each sort index:
+   * - true: descending
+   * - false: ascending
+   */
+  const [sortOrders, setSortOrders] = React.useState({
+    0: true,
+    1: true,
+    2: true,
+  });
+  const keyFunctions = {
+    0: (nft: Nft) =>
+      nft.palette.filter((item) => item.status !== "free").length /
+      nft.palette.length,
+    1: (nft: Nft) => nft.listedFee ?? 0,
+    2: (nft: Nft) => nft.id,
+  };
+  const ascValue = sortedBy(value, keyFunctions[sortIndex]);
+  const sortedValue = sortOrders[sortIndex] ? ascValue.reverse() : ascValue;
 
   return (
     <div
@@ -55,16 +67,57 @@ export default function NftCardGrid({
             fontWeight="bold"
             size="heading4"
           />
+          <Typography.Span
+            content={`/ 99`}
+            fontWeight="bold"
+            size="heading6"
+            color="secondary80"
+          />
           <Typography.Span content="NFTs" size="heading5" />
         </Flex.Row>
         <Flex.Row gap="8px" alignItems="center">
-          <Button.Solid
+          <Button
+            variant={sortIndex === 0 ? "solid" : "outline"}
             content="Completion"
             size="small"
-            onClick={() => setSortIndex(0)}
+            onClick={() => {
+              setSortOrders({
+                ...sortOrders,
+                0: sortIndex === 0 ? !sortOrders[0] : true,
+              });
+              setSortIndex(0);
+            }}
+            icon={<IconSort />}
+            iconPosition="right"
           />
-          <Button.Outline content="Latest" size="small" disabled={true} />
-          <Button.Outline content="Oldest" size="small" disabled={true} />
+          <Button
+            variant={sortIndex === 1 ? "solid" : "outline"}
+            content="Price"
+            size="small"
+            onClick={() => {
+              setSortOrders({
+                ...sortOrders,
+                1: sortIndex === 1 ? !sortOrders[1] : true,
+              });
+              setSortIndex(1);
+            }}
+            icon={<IconSort />}
+            iconPosition="right"
+          />
+          <Button
+            variant={sortIndex === 2 ? "solid" : "outline"}
+            content="Added Date"
+            size="small"
+            onClick={() => {
+              setSortOrders({
+                ...sortOrders,
+                2: sortIndex === 2 ? !sortOrders[2] : true,
+              });
+              setSortIndex(2);
+            }}
+            icon={<IconSort />}
+            iconPosition="right"
+          />
         </Flex.Row>
       </Flex.Row>
       <Divider$Horizontal$CustomDash style={{ marginBottom: "48px" }} />
@@ -77,9 +130,7 @@ export default function NftCardGrid({
           <NftCard
             key={item.id}
             value={item}
-            onClick={() => {
-              onSelect && onSelect(item.id);
-            }}
+            onClick={() => onSelect && onSelect(item.id)}
           />
         ))}
       </div>

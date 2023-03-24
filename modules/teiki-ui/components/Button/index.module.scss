@@ -50,9 +50,7 @@
   }
 
   &:hover {
-    background-color: #007c3e;
-    border-color: transparent;
-    color: white;
+    filter: brightness(0.95);
     cursor: pointer;
     &:hover:disabled {
       cursor: not-allowed;
@@ -64,9 +62,7 @@
   }
 
   &:active {
-    background-color: #006e37;
-    border-color: transparent;
-    color: white;
+    filter: brightness(0.8);
   }
 
   &.variantSolid:disabled {

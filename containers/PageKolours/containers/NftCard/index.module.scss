@@ -5,15 +5,18 @@
 
 .box {
   width: 100%;
-  position: relative;
   border-radius: 12px;
   overflow: hidden;
 }
 
+.image {
+  position: relative;
+}
+
 .wrap {
-  position: absolute;
   width: 100%;
   bottom: 38px;
+  background-color: #fff;
 }
 
 .indicator {
@@ -22,4 +25,13 @@
   top: 24px;
   width: 48px;
   height: 48px;
+}
+
+.discount {
+  left: 24px;
+  bottom: 16px;
+  position: absolute;
+  border-radius: 4px;
+  background: #f74055;
+  padding: 4px 8px;
 }
