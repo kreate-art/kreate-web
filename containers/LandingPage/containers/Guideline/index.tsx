@@ -6,7 +6,6 @@ import WithAspectRatio from "../../../../components/WithAspectRatio";
 import IconSwatches from "../NftCollection/components/IconSwatches";
 
 import stepFour from "./images/step-four.png";
-import stepThree from "./images/step-three.png";
 import stepTwo from "./images/step-two.png";
 import styles from "./index.module.scss";
 
@@ -27,6 +26,18 @@ type Props = {
 };
 
 export default function Guideline({ className, style }: Props) {
+  const kolours = [
+    "#375267",
+    "#B44866",
+    "#EBDED2",
+    "#E69C4D",
+    "#6DBDB9",
+    "#CC9883",
+    "#B482AB",
+    "#98C1BE",
+    "#DDBEA7",
+    "#D6AEBC",
+  ];
   return (
     <div style={style} className={className}>
       {/* Step 1 */}
@@ -159,7 +170,7 @@ export default function Guideline({ className, style }: Props) {
             flex="1 1 0"
             className={styles.rightColumn}
           >
-            <div className={styles.stepOneContainer}>
+            <div className={styles.stepContainer}>
               <WithAspectRatio aspectRatio={552 / 252}>
                 <ImageView
                   className={styles.imageView}
@@ -207,14 +218,17 @@ export default function Guideline({ className, style }: Props) {
             flex="1 1 0"
             className={styles.rightColumn}
           >
-            <div className={styles.stepOneContainer}>
-              <WithAspectRatio aspectRatio={2208 / 644}>
-                <ImageView
-                  className={styles.imageView}
-                  src={stepThree.src}
-                  crop={{ x: 0, y: 0, w: 1, h: 1 }}
-                />
-              </WithAspectRatio>
+            <div className={styles.mintKolourContainer}>
+              <div className={styles.kolourList}>
+                {kolours.map((kolour) => (
+                  <div
+                    key={kolour}
+                    className={styles.kolour}
+                    style={{ backgroundColor: kolour }}
+                  />
+                ))}
+              </div>
+              <div className={styles.mintKolourAction}>Mint Kolours</div>
             </div>
           </Flex.Col>
         </Flex.Row>
@@ -251,7 +265,7 @@ export default function Guideline({ className, style }: Props) {
             flex="1 1 0"
             className={styles.rightColumn}
           >
-            <div className={styles.stepOneContainer}>
+            <div className={styles.stepContainer}>
               <WithAspectRatio aspectRatio={552 / 252}>
                 <ImageView
                   className={styles.imageView}
@@ -294,7 +308,7 @@ export default function Guideline({ className, style }: Props) {
             flex="1 1 0"
             className={cx(styles.rightColumn, styles.lastRow)}
           >
-            <div className={styles.stepOneContainer}>
+            <div className={styles.stepContainer}>
               <div className={styles.fruitTable}>
                 <div
                   className={styles.royaltyFeesContainer}
