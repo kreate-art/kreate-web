@@ -122,7 +122,7 @@ export function computeFees(
 export function calculateKolourFee(kolour: Kolours.Kolour): Lovelace {
   return BigInt(
     Math.max(
-      2_000_000,
+      4_000_000,
       Buffer.from(kolour, "hex").reduce((sum, v) => sum * 1000 + v, 0)
     )
   );
