@@ -55,7 +55,7 @@ export default function PageKolours({ className, style }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <TeikiHead />
       <NavBar className={styles.navBar} />
-      <BelowNavBar />
+      {/* <BelowNavBar /> */}
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}

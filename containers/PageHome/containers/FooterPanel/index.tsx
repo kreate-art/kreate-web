@@ -58,7 +58,7 @@ const FooterPanel = ({ className, style, title = "community" }: Props) => {
           ) : null}
           <a
             className={styles.routingPageItem}
-            href="https://discord.gg/4wv3MfKHdE"
+            href="https://discord.gg/kreate"
             target="_blank"
             rel="noreferrer"
           >
