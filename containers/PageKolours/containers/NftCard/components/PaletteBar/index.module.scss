@@ -1,10 +1,13 @@
 .box {
+  position: relative;
   border-radius: 16px;
   border: 2px solid #fff;
-  overflow: hidden;
 }
 
 .item {
   width: 20px;
-  height: 16px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  position: absolute;
 }
