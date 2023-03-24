@@ -3,9 +3,9 @@ import { randomUUID } from "crypto";
 import { Redis } from "ioredis";
 import { Address, Blockfrost, Lucid } from "lucid-cardano";
 
-import { Kolour } from "../../containers/PageKolours/kolours-types";
 import { toJson } from "../json-utils";
 
+import { Kolours } from "./types";
 import { Referral } from "./types/Kolours";
 
 import { MaybePromise } from "@/modules/async-utils";
@@ -119,7 +119,7 @@ export function computeFees(
   return { fee, listedFee };
 }
 
-export function calculateKolourFee(kolour: Kolour): Lovelace {
+export function calculateKolourFee(kolour: Kolours.Kolour): Lovelace {
   return BigInt(
     Math.max(
       2_000_000,

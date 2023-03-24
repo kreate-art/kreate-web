@@ -1,7 +1,6 @@
 import cx from "classnames";
 import * as React from "react";
 
-import { Nft } from "../../kolours-types";
 import NftCard from "../NftCard";
 
 import IconSort from "./icons/IconSort";
@@ -45,11 +44,11 @@ export default function NftCardGrid({
     2: true,
   });
   const keyFunctions = {
-    0: (nft: Nft) =>
+    0: (nft: Kolours.GenesisKreationEntry) =>
       nft.palette.filter((item) => item.status !== "free").length /
       nft.palette.length,
-    1: (nft: Nft) => nft.listedFee ?? 0,
-    2: (nft: Nft) => nft.id,
+    1: (nft: Kolours.GenesisKreationEntry) => nft.listedFee ?? 0,
+    2: (nft: Kolours.GenesisKreationEntry) => nft.id,
   };
   const ascValue = sortedBy(value, keyFunctions[sortIndex]);
   const sortedValue = sortOrders[sortIndex] ? ascValue.reverse() : ascValue;
