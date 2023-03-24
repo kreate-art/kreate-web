@@ -67,12 +67,12 @@ export default function NftCardGrid({
             size="heading4"
           />
           <Typography.Span
-            content={`/ 99`}
+            content={`/ only 99`}
             fontWeight="bold"
             size="heading6"
             color="secondary80"
           />
-          <Typography.Span content="NFTs" size="heading5" />
+          <Typography.Span content="Genesis Kreations" size="heading5" />
         </Flex.Row>
         <Flex.Row gap="8px" alignItems="center">
           <Button
