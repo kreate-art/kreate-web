@@ -62,6 +62,10 @@ export default function RadioGroup$AsButton<T extends string>({
           value={item.value}
           disabled={item.disabled}
           className={styles.button}
+          onClick={() => {
+            const isActive = value === item.value;
+            if (isActive && onChange) onChange(item.value);
+          }}
         >
           <span className={styles.content}>
             {item.label}
