@@ -58,12 +58,12 @@ export function useEstimatedFees({
       });
 
       DisplayableError.assert(!txParamsResult.error, {
-        title: "Transaction parameters invalid",
+        title: "Failed to build transaction",
         cause: txParamsResult,
       });
 
       DisplayableError.assert(!quoteResult.error, {
-        title: "Transaction parameters invalid",
+        title: "Failed to build transaction",
         cause: quoteResult,
       });
 
