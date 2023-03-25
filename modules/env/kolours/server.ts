@@ -11,7 +11,7 @@ export const KOLOURS_KOLOUR_NFT_FEE_ADDRESS = IS_NEXT_BUILD
   : parseEnv$Optional({
       label: "KOLOURS_KOLOUR_NFT_FEE_ADDRESS",
       input: process.env.KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
-      parser: parseStringByRegex(/^addr_[0-9a-z]+$/),
+      parser: parseStringByRegex(/^(addr|addr_test)[0-9a-z]+$/),
       defaultValue: null,
     });
 
@@ -27,7 +27,7 @@ export const KOLOURS_GENESIS_KREATION_FEE_ADDRESS = IS_NEXT_BUILD
   : parseEnv$Optional({
       label: "KOLOURS_GENESIS_KREATION_FEE_ADDRESS",
       input: process.env.KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
-      parser: parseStringByRegex(/^addr_[0-9a-z]+$/),
+      parser: parseStringByRegex(/^(addr|addr_test)[0-9a-z]+$/),
       defaultValue: null,
     });
 
