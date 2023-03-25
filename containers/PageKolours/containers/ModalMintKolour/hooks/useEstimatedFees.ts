@@ -88,12 +88,9 @@ export function useEstimatedFees({
       }
 
       return {
-        kolours: koloursListedFee,
-        ikoDiscount: -koloursListedFee / BigInt(2),
-        sspoDiscount: -(
-          (koloursListedFee - koloursFee * BigInt(2)) /
-          BigInt(2)
-        ),
+        kolours: -koloursListedFee,
+        ikoDiscount: koloursListedFee / BigInt(2),
+        sspoDiscount: (koloursListedFee - koloursFee * BigInt(2)) / BigInt(2),
         transaction: -BigInt(txComplete.txComplete.body().fee().to_str()),
       };
     },
