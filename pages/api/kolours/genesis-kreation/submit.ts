@@ -168,7 +168,7 @@ function extractMetadata(
       C.MetadataJsonSchema.NoConversions
     )
   );
-  const entry = metadatum?.[KOLOURS_GENESIS_KREATION_POLICY_ID]?.[fromText(id)];
+  const entry = metadatum?.[KOLOURS_GENESIS_KREATION_POLICY_ID]?.[id];
   const name = entry?.name;
   const description = entry?.description ?? null;
   ClientError.assert(name, { _debug: "missing genesis kreation nft name" });
