@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
+import IconViewGallery from "./components/IconViewGallery";
 import KoloursTypo from "./components/KoloursTypo";
 import LogoKreateWhite from "./components/LogoKreateWhite";
 import Guideline from "./containers/Guideline";
@@ -51,6 +52,15 @@ export default function LandingPage() {
                     size="heading5"
                     content="Kolour the Kreataverse"
                   />
+                </div>
+              </Link>
+              <Link
+                href="/gallery"
+                className={styles.viewGalleryButtonContainer}
+              >
+                <div className={styles.viewGalleryButton}>
+                  <IconViewGallery />
+                  <Typography.Span size="heading5" content="View the Gallery" />
                 </div>
               </Link>
             </div>

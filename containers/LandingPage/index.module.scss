@@ -91,3 +91,19 @@
   background-color: #0a1316;
   background-image: url("./hooks/images/filler.png");
 }
+
+.viewGalleryButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0px 112px;
+  transform: translateY(-250%);
+}
+
+.viewGalleryButton {
+  color: white;
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 69px;
+}
