@@ -37,15 +37,15 @@ export async function getAllGenesisKreations(
       gb.status AS book_status,
       gl.created_at,
       gl.palette,
-      array_agg(kb.status) kolours_status
+      array_agg(kb.status ORDER BY p.i) kolours_status
     FROM
       kolours.genesis_kreation_list gl
       LEFT JOIN kolours.genesis_kreation_book gb
         ON gl.kreation = gb.kreation
           AND gb.status <> 'expired',
-      jsonb_array_elements(gl.palette) p
+      jsonb_array_elements(gl.palette) WITH ORDINALITY p(r, i)
       LEFT JOIN kolours.kolour_book kb
-        ON kb.kolour = p ->> 'k'
+        ON kb.kolour = p.r ->> 'k'
           AND kb.status <> 'expired'
     GROUP BY
       gl.id,
