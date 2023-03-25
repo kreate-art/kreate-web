@@ -1,4 +1,4 @@
-import { C, Core, fromText, Lucid, TxComplete, TxSigned } from "lucid-cardano";
+import { C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";

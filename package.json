@@ -19,7 +19,7 @@
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "@grammarly/editor-sdk-react": "^2.2.0",
-    "@kreate/protocol": "github:kreate-community/kreate-protocol#7c134a536571a41db6ae0c8c9bc3f6a74dc5617c",
+    "@kreate/protocol": "github:kreate-community/kreate-protocol#f6826e137315499b7c1dc2c41de00989e3022af0",
     "@next/font": "^13.0.5",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
@@ -61,7 +61,8 @@
     "react-tag-input-component": "^2.0.2",
     "safe-stable-stringify": "^2.4.3",
     "semantic-ui-react": "^2.1.3",
-    "swr": "^2.1.0",
+    "sharp": "^0.31.3",
+    "swr": "^2.1.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -84,10 +85,9 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "next-superjson-plugin": "^0.5.6",
-    "prettier": "^2.8.5",
+    "prettier": "^2.8.7",
     "rimraf": "^3.0.2",
     "sass": "^1.55.0",
-    "sharp": "^0.31.3",
     "sort-package-json": "^2.4.1",
     "ts-jest": "29.0.5",
     "typescript": "^4.9.5",
