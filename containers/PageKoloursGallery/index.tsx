@@ -1,7 +1,6 @@
 import cx from "classnames";
 import * as React from "react";
 
-import metaImage from "../LandingPage/images/meta-image.png";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import NavBar from "../PageKolours/containers/NavBar";
 import { useAllNfts } from "../PageKolours/hooks/useAllNfts";
@@ -13,6 +12,7 @@ import { useAllMintedKolours } from "./hooks/useAllMintedKolours";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
+import { HOST } from "@/modules/env/client";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -34,7 +34,7 @@ export default function PageKoloursGallery({ className, style }: Props) {
         title="Kolour the Metaverse with NFTs"
         description="Kreate Kolours brings a new trend to Web3, where users colour a Metaverse with NFTs. Let's paint a new world with Web3 creators and fans!"
         url="https://kolours.kreate.community"
-        imageUrl={metaImage.src}
+        imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} />
       <Section marginTop="56px" marginBottom="56px">
