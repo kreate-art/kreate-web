@@ -34,7 +34,7 @@ export default function PageKoloursGallery({ className, style }: Props) {
         title="Kolour the Metaverse with NFTs"
         description="Kreate Kolours brings a new trend to Web3, where users colour a Metaverse with NFTs. Let's paint a new world with Web3 creators and fans!"
         url="https://kolours.kreate.community"
-        imageUrl={`${HOST}/images/meta-kolour.png`}
+        imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} />
       <Section marginTop="56px" marginBottom="56px">
