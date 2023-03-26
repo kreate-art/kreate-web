@@ -204,10 +204,10 @@ export default function ModalMintGenesisKreation({
               value={name}
               onChange={setName}
               suggestions={[]}
-              label="Name your region"
+              label="Name your region! 🏔️"
             />
             <Flex.Col gap="12px">
-              <Typography.Div content="Tell the story" size="heading6" />
+              <Typography.Div content="Why is it awesome? 🤙" size="heading6" />
               <TextArea value={description} onChange={setDescription} />
             </Flex.Col>
           </Flex.Col>
