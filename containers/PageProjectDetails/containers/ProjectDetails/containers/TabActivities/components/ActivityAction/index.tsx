@@ -221,7 +221,7 @@ export default function ActivityAction({ className, style, value }: Props) {
                   lovelaceAmount={value.sponsorshipAmount}
                 />
               </Typography.Span>
-              <Typography.Span content={` )`} color="ink80" />
+              <Typography.Span content={`)`} color="ink80" />
               <Typography.Span
                 size="bodySmall"
                 lineHeight="medium"
