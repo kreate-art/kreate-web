@@ -72,7 +72,7 @@ export default function NftCollection() {
       <Link href="/gallery" className={styles.kolourButtonContainer}>
         <div className={styles.kolourButton}>
           <IconSwatches />
-          <Typography.Span size="heading5" content="View the Gallery" />
+          <Typography.Span size="heading5" content="Explore the Gallery" />
         </div>
       </Link>
     </>

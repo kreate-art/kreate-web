@@ -60,7 +60,7 @@ export default function LandingPage() {
               >
                 <div className={styles.viewGalleryButton}>
                   <IconViewGallery />
-                  <Typography.Span size="heading5" content="View the Gallery" />
+                  <Typography.Span size="heading5" content="Gallery" />
                 </div>
               </Link>
             </div>
