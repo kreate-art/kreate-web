@@ -17,7 +17,7 @@ export type UseTxParams$UserMintGKNft$Result = Result;
 
 export function useTxParams$UserMintGKNft(): Result | undefined {
   const { data, error } = useSWR(
-    ["e9e1e768-c949-11ed-afa1-0242ac120002"],
+    ["1a216751-6bf4-407d-8d82-22483aca100f"],
     async () => await httpGetTxParams$UserMintGKNft()
   );
 

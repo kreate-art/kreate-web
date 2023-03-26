@@ -17,7 +17,7 @@ export type UseTxParams$UserMintKolourNft$Result = Result;
 
 export function useTxParams$UserMintKolourNft(): Result | undefined {
   const { data, error } = useSWR(
-    ["e9e1e768-c949-11ed-afa1-0242ac120002"],
+    ["50469c35-eebc-4063-9525-7c01df363270"],
     async () => await httpGetTxParams$UserMintKolourNft()
   );
 
