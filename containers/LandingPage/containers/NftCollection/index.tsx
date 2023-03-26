@@ -69,10 +69,10 @@ export default function NftCollection() {
           </WithAspectRatio>
         </div>
       </div>
-      <Link href="/mint" className={styles.kolourButtonContainer}>
+      <Link href="/gallery" className={styles.kolourButtonContainer}>
         <div className={styles.kolourButton}>
           <IconSwatches />
-          <Typography.Span size="heading5" content="Kolour the Kreataverse" />
+          <Typography.Span size="heading5" content="Explore the Gallery" />
         </div>
       </Link>
     </>
