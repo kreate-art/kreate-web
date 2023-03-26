@@ -3,12 +3,14 @@ import { randomUUID } from "crypto";
 import { Redis } from "ioredis";
 import { Address, Blockfrost, Lucid } from "lucid-cardano";
 
+import { NETWORK } from "../env/client";
 import { toJson } from "../json-utils";
 
 import { Kolours } from "./types";
 import { Referral } from "./types/Kolours";
 
 import { MaybePromise } from "@/modules/async-utils";
+import { assert } from "@/modules/common-utils";
 import { Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
 import { Lovelace } from "@/modules/next-backend/types";
@@ -24,7 +26,6 @@ export async function lookupReferral(
   address: Address
 ): Promise<Referral | undefined> {
   const referralKey = KOLOUR_ADDRESS_REFERRAL_PREFIX + address;
-  // FIXME: Need more discussions on a proper fix maybe?
   try {
     const cachedReferral = await redis.get(referralKey);
     if (cachedReferral != null) return referralFromText(cachedReferral);
@@ -35,7 +36,10 @@ export async function lookupReferral(
     void redis.set(referralKey, referralToText(referral), "EX", 300); // 5 minutes
     return referral;
   } catch (error) {
-    console.warn(error);
+    // We differentiate between "temporary" and "permanent" error.
+    // Since we already handle invalid addresses (permanent) in `queryDelegation`
+    // This error is temporary, hence it's fine to just retry later
+    console.warn("lookupReferral:", error);
     return undefined;
   }
 }
@@ -65,7 +69,7 @@ export async function lookupDelegation(
   const lockKey = KOLOUR_STAKE_DELEGATION_LOCK_PREFIX + address;
   const lock = await locking.acquire(lockKey, randomUUID(), { ttl: 2 }, 100);
   try {
-    // Fetch again, just in case the image was already processed, better use WATCH
+    // Fetch again, just in case the result was already processed, better use WATCH
     cached = await redis.get(delegationKey);
     if (cached != null) return cached || undefined;
     const delegation = await queryDelegation(await lucid$(), address);
@@ -98,8 +102,20 @@ async function queryDelegation(
   lucid: Lucid,
   address: Address
 ): Promise<string | undefined> {
-  const { stakeCredential } = lucid.utils.getAddressDetails(address);
-  if (!stakeCredential) return undefined;
+  let stakeCredential;
+  try {
+    const details = lucid.utils.getAddressDetails(address);
+    stakeCredential = details.stakeCredential;
+    assert(stakeCredential, "No stake credential");
+    const networkId = details.networkId;
+    assert(
+      (networkId === 0 && NETWORK !== "Mainnet") ||
+        (networkId === 1 && NETWORK === "Mainnet"),
+      `Network mismatch: ${networkId} | ${NETWORK}`
+    );
+  } catch (_error) {
+    return undefined;
+  }
   const rewardAddress = lucid.utils.credentialToRewardAddress(stakeCredential);
   const blockfrost = lucid.provider as Blockfrost;
   const params = new URLSearchParams({ count: "1", order: "desc" });
@@ -109,7 +125,11 @@ async function queryDelegation(
   );
   const result = await response.json();
   if (!result) throw new Error("empty blockfrost response");
-  if (result.error) throw new Error(toJson(result));
+  if (result.error) {
+    // The reward address is a new one, just ignore it for this programme
+    if (result.status_code === 404) return undefined;
+    throw new Error(toJson(result));
+  }
   return Array.isArray(result) && result.length ? result[0].pool_id : undefined;
 }
 
