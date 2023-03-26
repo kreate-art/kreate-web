@@ -24,14 +24,20 @@ export async function lookupReferral(
   address: Address
 ): Promise<Referral | undefined> {
   const referralKey = KOLOUR_ADDRESS_REFERRAL_PREFIX + address;
-  const cachedReferral = await redis.get(referralKey);
-  if (cachedReferral != null) return referralFromText(cachedReferral);
-  const poolId = await lookupDelegation(lucid$, redis, address);
-  const referral = poolId
-    ? await lookupPoolReferral(redis, sql, poolId)
-    : undefined;
-  void redis.set(referralKey, referralToText(referral), "EX", 300); // 5 minutes
-  return referral;
+  // FIXME: Need more discussions on a proper fix maybe?
+  try {
+    const cachedReferral = await redis.get(referralKey);
+    if (cachedReferral != null) return referralFromText(cachedReferral);
+    const poolId = await lookupDelegation(lucid$, redis, address);
+    const referral = poolId
+      ? await lookupPoolReferral(redis, sql, poolId)
+      : undefined;
+    void redis.set(referralKey, referralToText(referral), "EX", 300); // 5 minutes
+    return referral;
+  } catch (error) {
+    console.warn(error);
+    return undefined;
+  }
 }
 
 export async function lookupPoolReferral(
