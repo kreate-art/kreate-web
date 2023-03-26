@@ -116,6 +116,7 @@ export default function PanelMint({
         await showModal<void>((resolve) => (
           <ModalMintSuccess
             open={true}
+            genesisKreation={selectedNft}
             onClose={resolve}
             txHash={modalMintKolour$ModalResult.txHash}
           />
