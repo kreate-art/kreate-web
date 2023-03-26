@@ -2,9 +2,13 @@ import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 
+import WithAspectRatio from "../../../../components/WithAspectRatio";
+
 import imageSuccess from "./image/success.png";
 import styles from "./index.module.scss";
 
+import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
+import ImageView from "@/modules/teiki-components/components/ImageView";
 import Button from "@/modules/teiki-ui/components/Button";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
@@ -17,6 +21,7 @@ type Props = {
   open: boolean;
   onClose?: () => void;
   txHash: string;
+  genesisKreation?: GenesisKreationEntry;
 };
 
 export default function ModalMintSuccess({
@@ -25,6 +30,7 @@ export default function ModalMintSuccess({
   open,
   onClose,
   txHash,
+  genesisKreation,
 }: Props) {
   return (
     <Modal
@@ -37,11 +43,24 @@ export default function ModalMintSuccess({
     >
       <Modal.Content padding="none">
         <Flex.Col alignItems="center" padding="64px 32px">
-          <Image
-            className={styles.imageSuccess}
-            src={imageSuccess}
-            alt="niko firework"
-          />
+          {genesisKreation ? (
+            <WithAspectRatio
+              aspectRatio={2 / 1}
+              className={styles.imageContainer}
+            >
+              <ImageView
+                className={styles.image}
+                src={genesisKreation.finalImage.src}
+                crop={{ x: 0, y: 0, w: 1, h: 1 }}
+              />
+            </WithAspectRatio>
+          ) : (
+            <Image
+              className={styles.imageSuccess}
+              src={imageSuccess}
+              alt="niko firework"
+            />
+          )}
           <Title
             className={styles.caption}
             size="h2"

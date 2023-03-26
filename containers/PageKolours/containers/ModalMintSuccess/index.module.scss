@@ -11,10 +11,11 @@
 }
 
 .button {
-  margin-top: 48px;
+  margin-top: 32px;
 }
 
 .caption {
+  margin-top: 32px;
   text-align: center;
 }
 
@@ -29,4 +30,17 @@
     font-weight: 700;
     color: colors.$green;
   }
+}
+
+.imageContainer {
+  width: 768px;
+  height: 384px;
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  transition-property: opacity;
+  transition-duration: 500ms;
 }

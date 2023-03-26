@@ -190,7 +190,7 @@ export default function ModalMintGenesisKreation({
           >
             <Flex.Col className={styles.genesis}>
               <WithAspectRatio
-                aspectRatio={5 / 3}
+                aspectRatio={2 / 1}
                 className={styles.imageContainer}
               >
                 <ImageView
