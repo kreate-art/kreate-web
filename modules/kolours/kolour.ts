@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 
 import { Redis } from "ioredis";
 import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
