@@ -1,25 +1,14 @@
 import useSWR from "swr";
 
+import { AdaPriceInfo } from "../types";
 import { httpGetAdaPrice } from "../utils/api";
-
-const REFRESH_INTERVAL = 30000; // 30 seconds
-
-type UnixTimestamp = number;
-
-export type AdaPriceInfo = {
-  lastUpdatedAt: UnixTimestamp;
-  usd: number;
-  usd24hChange: number;
-  usd24hVol: number;
-  usdMarketCap: number;
-};
 
 export function useAdaPriceInfo(): AdaPriceInfo | undefined {
   const { data, error } = useSWR(
     // an arbitrary UUID
     "633a6f13-9190-4ca4-be77-17807678da69",
     httpGetAdaPrice,
-    { refreshInterval: REFRESH_INTERVAL }
+    { revalidateOnFocus: false }
   );
   if (error || !data) return undefined;
 
