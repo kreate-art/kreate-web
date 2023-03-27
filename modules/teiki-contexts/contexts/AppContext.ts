@@ -1,7 +1,8 @@
 import { Network, Provider } from "lucid-cardano";
 import * as React from "react";
 
-import { AdaPriceInfo, useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { useAdaPriceInfo } from "@/modules/ada-price-provider";
+import { AdaPriceInfo } from "@/modules/ada-price-provider/types";
 import { assert } from "@/modules/common-utils";
 import { useLastSavedWalletInfo } from "@/modules/wallet/hooks/useLastSavedWalletInfo";
 import {
