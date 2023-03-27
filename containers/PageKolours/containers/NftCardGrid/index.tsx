@@ -9,9 +9,9 @@ import styles from "./index.module.scss";
 import { sortedBy } from "@/modules/array-utils";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import { Kolours } from "@/modules/kolours/types";
-import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
+import RadioGroup$AsButton from "@/modules/teiki-ui/components/RadioGroup$AsButton";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
@@ -20,6 +20,8 @@ type Props = {
   value: Kolours.GenesisKreationEntry[];
   onSelect?: (id: string) => void;
 };
+
+type SortOption = "completion" | "price" | "addedDate";
 
 export default function NftCardGrid({
   className,
@@ -32,26 +34,26 @@ export default function NftCardGrid({
   const containerSize = useElementSize(containerElement);
   const numColumn = containerSize ? Math.ceil(containerSize.w / 400) : 1;
 
-  const [sortIndex, setSortIndex] = React.useState<0 | 1 | 2>(0);
+  const [sortOption, setSortOption] = React.useState<SortOption>("completion");
   /**
    * Current order of each sort index:
    * - true: descending
    * - false: ascending
    */
   const [sortOrders, setSortOrders] = React.useState({
-    0: true,
-    1: true,
-    2: true,
+    completion: true,
+    price: true,
+    addedDate: true,
   });
   const keyFunctions = {
-    0: (nft: Kolours.GenesisKreationEntry) =>
+    completion: (nft: Kolours.GenesisKreationEntry) =>
       nft.palette.filter((item) => item.status !== "free").length /
       nft.palette.length,
-    1: (nft: Kolours.GenesisKreationEntry) => nft.listedFee ?? 0,
-    2: (nft: Kolours.GenesisKreationEntry) => nft.id,
+    price: (nft: Kolours.GenesisKreationEntry) => nft.listedFee ?? 0,
+    addedDate: (nft: Kolours.GenesisKreationEntry) => nft.id,
   };
-  const ascValue = sortedBy(value, keyFunctions[sortIndex]);
-  const sortedValue = sortOrders[sortIndex] ? ascValue.reverse() : ascValue;
+  const ascValue = sortedBy(value, keyFunctions[sortOption]);
+  const sortedValue = sortOrders[sortOption] ? ascValue.reverse() : ascValue;
 
   return (
     <div
@@ -75,47 +77,30 @@ export default function NftCardGrid({
           <Typography.Span content="Genesis Kreations" size="heading5" />
         </Flex.Row>
         <Flex.Row gap="8px" alignItems="center">
-          <Button
-            variant={sortIndex === 0 ? "solid" : "outline"}
-            content="Completion"
-            size="small"
-            onClick={() => {
+          <RadioGroup$AsButton<SortOption>
+            value={sortOption}
+            options={[
+              {
+                value: "completion",
+                label: "Completion",
+                icon: <IconSort />,
+              },
+              { value: "price", label: "Price", icon: <IconSort /> },
+              {
+                value: "addedDate",
+                label: "Added Date",
+                icon: <IconSort />,
+              },
+            ]}
+            onChange={(value) => {
               setSortOrders({
                 ...sortOrders,
-                0: sortIndex === 0 ? !sortOrders[0] : true,
+                [value]: sortOption === value ? !sortOrders[value] : true,
               });
-              setSortIndex(0);
+              setSortOption(value);
             }}
-            icon={<IconSort />}
-            iconPosition="right"
-          />
-          <Button
-            variant={sortIndex === 1 ? "solid" : "outline"}
-            content="Price"
             size="small"
-            onClick={() => {
-              setSortOrders({
-                ...sortOrders,
-                1: sortIndex === 1 ? !sortOrders[1] : true,
-              });
-              setSortIndex(1);
-            }}
-            icon={<IconSort />}
-            iconPosition="right"
-          />
-          <Button
-            variant={sortIndex === 2 ? "solid" : "outline"}
-            content="Added Date"
-            size="small"
-            onClick={() => {
-              setSortOrders({
-                ...sortOrders,
-                2: sortIndex === 2 ? !sortOrders[2] : true,
-              });
-              setSortIndex(2);
-            }}
-            icon={<IconSort />}
-            iconPosition="right"
+            color="secondary"
           />
         </Flex.Row>
       </Flex.Row>

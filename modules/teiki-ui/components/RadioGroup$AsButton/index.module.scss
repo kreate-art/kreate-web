@@ -32,6 +32,7 @@
   border: 1px solid colors.$black10;
   background-color: transparent;
   cursor: pointer;
+  font-weight: 600;
 
   &[data-disabled] {
     cursor: not-allowed;
