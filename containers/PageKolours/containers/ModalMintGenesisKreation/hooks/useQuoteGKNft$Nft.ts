@@ -19,7 +19,7 @@ export function useQuoteGKNft$Nft({
   address: Address;
 }): Result | undefined {
   const { data, error } = useSWR(
-    ["8c924d66-624e-449a-802d-0b8cdff72807", id, address],
+    ["17e2583b-d52d-4e8f-afda-1f8b4ad8a549", id, address],
     async () => await httpGetQuoteGKNft({ id, address })
   );
 
