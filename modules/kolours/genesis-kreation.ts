@@ -20,6 +20,10 @@ type GenesisKreationDbRow = {
   bookStatus: "booked" | "minted" | null;
   createdAt: Date;
   palette: { k: Kolour; l: string }[];
+  name: string | null;
+  userAddress: string | null;
+  description: string | null;
+  fee: bigint | null;
   koloursStatus: ("booked" | "minted" | "NULL" | null)[]; // SQL is dumb
 };
 
@@ -37,6 +41,9 @@ export async function getAllGenesisKreations(
       gb.status AS book_status,
       gl.created_at,
       gl.palette,
+      gb.name,
+      gb.user_address,
+      gb.description,
       array_agg(kb.status ORDER BY p.i) kolours_status
     FROM
       kolours.genesis_kreation_list gl
@@ -55,7 +62,10 @@ export async function getAllGenesisKreations(
       gl.listed_fee,
       gb.status,
       gl.created_at,
-      gl.palette
+      gl.palette,
+      gb.name,
+      gb.user_address,
+      gb.description
     ORDER BY
       gl.id ASC
   `;
@@ -87,6 +97,9 @@ export async function getAllGenesisKreations(
       ...computeFees(row.baseFee, discount),
       palette,
       createdAt: row.createdAt.valueOf(),
+      name: row.name,
+      userAddress: row.userAddress,
+      description: row.description,
     };
   });
 }

@@ -7,10 +7,11 @@ import styles from "./index.module.scss";
 
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
+import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
+import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
-
-const EM_DASH = "—";
 
 type Props = {
   className?: string;
@@ -36,14 +37,14 @@ export default function GenesisNftCard({ className, style, value }: Props) {
           crop={{ x: 0, y: 0, w: 1, h: 1 }}
         />
       </WithAspectRatio>
-      {/* <Flex.Col padding="24px" gap="16px">
+      <Flex.Col padding="24px" gap="16px">
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
             <Typography.Div content="Name" size="bodySmall" color="ink80" />
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={EM_DASH}
+              content={value.name}
               size="heading6"
               color="ink"
               fontWeight="semibold"
@@ -56,7 +57,11 @@ export default function GenesisNftCard({ className, style, value }: Props) {
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={EM_DASH}
+              content={
+                <InlineAddress.Auto
+                  value={value.userAddress ? value.userAddress : ""}
+                />
+              }
               size="heading6"
               color="ink"
               fontWeight="semibold"
@@ -73,14 +78,33 @@ export default function GenesisNftCard({ className, style, value }: Props) {
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={EM_DASH}
+              content={
+                <AssetViewer.Ada.Standard
+                  as="span"
+                  lovelaceAmount={value.fee}
+                />
+              }
               size="heading6"
               color="ink"
               fontWeight="semibold"
             />
           </Flex.Cell>
         </Flex.Row>
-      </Flex.Col> */}
+        {value.description ? (
+          <>
+            <Divider$Horizontal$CustomDash />
+            <Flex.Row justifyContent="space-between" alignItems="center">
+              <Flex.Cell>
+                <Typography.Div
+                  content={value.description}
+                  size="bodySmall"
+                  color="ink80"
+                />
+              </Flex.Cell>
+            </Flex.Row>
+          </>
+        ) : null}
+      </Flex.Col>
     </div>
   );
 }

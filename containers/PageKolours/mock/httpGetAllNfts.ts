@@ -13,6 +13,7 @@ import grayscale from "./grayscale.png";
 import original from "./original.png";
 
 import { sleep } from "@/modules/async-utils";
+import { generateAddress } from "@/modules/data-faker";
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 
 type Response = {
@@ -97,6 +98,9 @@ export async function httpGetAllNfts(): Promise<Response> {
         listedFee: (Math.random() * 1e3) << 10,
         status: "unready",
         createdAt: 1e9,
+        name: faker.random.alphaNumeric(5),
+        userAddress: generateAddress(),
+        description: faker.commerce.productDescription(),
       },
       {
         id: "ffcde3e2-2622-4fd0-9bd2-7523f0cc20a3",
@@ -178,6 +182,9 @@ export async function httpGetAllNfts(): Promise<Response> {
         listedFee: (Math.random() * 1e3) << 10,
         status: "unready",
         createdAt: 1e9,
+        name: faker.random.alphaNumeric(5),
+        userAddress: generateAddress(),
+        description: faker.commerce.productDescription(),
       },
     ],
   };

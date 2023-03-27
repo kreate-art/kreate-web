@@ -7,10 +7,10 @@ import { toHexColor } from "../../../PageKolours/utils";
 import styles from "./index.module.scss";
 
 import { Kolours } from "@/modules/kolours/types";
+import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
+import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
-
-const EM_DASH = "—";
 
 type Props = {
   className?: string;
@@ -42,14 +42,14 @@ export default function KolourCard({ className, style, value }: Props) {
           color={isDark ? "white" : "ink"}
         />
       </Flex.Row>
-      {/* <Flex.Col gap="16px" padding="24px">
+      <Flex.Col gap="16px" padding="24px">
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
             <Typography.Div content="Owner" size="bodySmall" color="ink80" />
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={EM_DASH}
+              content={<InlineAddress.Auto value={value.userAddress} />}
               size="heading6"
               color="ink"
               fontWeight="semibold"
@@ -66,7 +66,12 @@ export default function KolourCard({ className, style, value }: Props) {
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={EM_DASH}
+              content={
+                <AssetViewer.Ada.Standard
+                  as="span"
+                  lovelaceAmount={value.fee}
+                />
+              }
               size="heading6"
               color="ink"
               fontWeight="semibold"
@@ -83,14 +88,36 @@ export default function KolourCard({ className, style, value }: Props) {
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={EM_DASH}
+              content="1%"
               size="heading6"
               color="ink"
               fontWeight="semibold"
             />
           </Flex.Cell>
         </Flex.Row>
-      </Flex.Col> */}
+        <Flex.Row justifyContent="space-between" alignItems="center">
+          <Flex.Cell>
+            <Typography.Div
+              content="Expected Earning"
+              size="bodySmall"
+              color="ink80"
+            />
+          </Flex.Cell>
+          <Flex.Cell>
+            <Typography.Div
+              content={
+                <AssetViewer.Ada.Compact
+                  as="span"
+                  lovelaceAmount={value.expectedEarning}
+                />
+              }
+              size="heading6"
+              color="ink"
+              fontWeight="semibold"
+            />
+          </Flex.Cell>
+        </Flex.Row>
+      </Flex.Col>
     </div>
   );
 }

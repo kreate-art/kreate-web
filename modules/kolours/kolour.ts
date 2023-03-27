@@ -4,6 +4,8 @@ import { Redis } from "ioredis";
 import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
 import sharp from "sharp";
 
+import { LovelaceAmount } from "../business-types";
+
 import { Kolour } from "./types/Kolours";
 
 import { Sql } from "@/modules/next-backend/db";
@@ -21,6 +23,10 @@ type KolourDbRow = {
   slot: number;
   txId: string;
   metadata: unknown;
+  status: string;
+  userAddress: string;
+  fee: LovelaceAmount;
+  expectedEarning: LovelaceAmount;
 };
 
 export async function areKoloursAvailable(
@@ -53,7 +59,44 @@ export async function getUnavailableKolours(
 
 export async function getAllMintedKolours(sql: Sql): Promise<KolourDbRow[]> {
   const rows = await sql<KolourDbRow[]>`
-    SELECT id, kolour, slot, tx_id, metadata FROM kolours.kolour_mint;
+    SELECT
+      km.id,
+      km.kolour,
+      km.slot,
+      km.tx_id,
+      km.metadata,
+      kf.status,
+      kb.user_address,
+      kb.fee,
+      SUM(COALESCE(kf.fee / 100, gk.listed_fee / 200)) AS expected_earning
+    FROM kolours.kolour_mint km
+    LEFT JOIN kolours.kolour_book kb
+      ON km.kolour = kb.kolour
+    LEFT JOIN (
+      SELECT
+        (p.item->>'k') AS kolour,
+        gkl.listed_fee,
+        gkl.kreation
+      FROM
+        kolours.genesis_kreation_list gkl,
+        jsonb_array_elements(gkl.palette)
+      WITH ORDINALITY p(item, idx)
+    ) gk
+    ON km.kolour = gk.kolour
+    LEFT JOIN
+      kolours.genesis_kreation_book kf
+    ON gk.kreation = kf.kreation
+    GROUP BY
+      km.id,
+      km.kolour,
+      km.slot,
+      km.tx_id,
+      km.metadata,
+      kf.status,
+      kb.fee,
+      kb.user_address
+    ORDER BY
+      km.id ASC
   `;
   return rows.slice();
 }
