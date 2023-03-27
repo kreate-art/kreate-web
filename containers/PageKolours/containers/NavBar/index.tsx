@@ -1,9 +1,11 @@
 import cx from "classnames";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import * as React from "react";
 
 import ButtonWalletNavbar from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar";
 
+import IconGallery from "./icons/IconGallery";
+import IconSwatches from "./icons/IconSwatches";
 import styles from "./index.module.scss";
 
 import { NETWORK } from "@/modules/env/client";
@@ -14,10 +16,16 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
+  showGalleryButton?: boolean;
+  showMintButton?: boolean;
 };
 
-export default function NavBar({ className, style }: Props) {
-  const router = useRouter();
+export default function NavBar({
+  className,
+  style,
+  showGalleryButton,
+  showMintButton,
+}: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.main}>
@@ -43,6 +51,22 @@ export default function NavBar({ className, style }: Props) {
         </Typography.Div>
         <div className={styles.rightMain}>
           <ButtonWalletNavbar />
+          {showGalleryButton ? (
+            <Link href="/gallery">
+              <div className={styles.buttonNav}>
+                <IconGallery />
+                <span>Gallery</span>
+              </div>
+            </Link>
+          ) : null}
+          {showMintButton ? (
+            <Link href="/mint">
+              <div className={styles.buttonNav}>
+                <IconSwatches />
+                <span>Mint</span>
+              </div>
+            </Link>
+          ) : null}
         </div>
       </div>
     </div>

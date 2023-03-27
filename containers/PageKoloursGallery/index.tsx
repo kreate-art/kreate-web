@@ -20,6 +20,8 @@ import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
+const EN_DASH = "–";
+
 type Props = {
   className?: string;
   style?: React.CSSProperties;
@@ -37,6 +39,21 @@ export default function PageKoloursGallery({ className, style }: Props) {
       setShowMyNfts(false);
     }
   }, [walletStatus]);
+
+  const allNftsList = useAllNfts$Response?.kreations?.filter(
+    (item) =>
+      ["booked", "minted"].includes(item.status) &&
+      (showMyNfts && walletStatus.status === "connected"
+        ? walletStatus.info.address === item.userAddress
+        : true)
+  );
+  const allMintedKoloursList = useAllMintedKolours$Response?.kolours.filter(
+    (item) =>
+      showMyNfts && walletStatus.status === "connected"
+        ? walletStatus.info.address === item.userAddress
+        : true
+  );
+
   return (
     <div className={cx(styles.container, className)} style={style}>
       <TeikiHead
@@ -45,7 +62,7 @@ export default function PageKoloursGallery({ className, style }: Props) {
         url="https://kolours.kreate.community"
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
-      <NavBar className={styles.navBar} />
+      <NavBar className={styles.navBar} showMintButton={true} />
       <Section marginTop="48px" marginBottom="16px">
         <SwitchTab
           showMyNfts={showMyNfts}
@@ -55,28 +72,27 @@ export default function PageKoloursGallery({ className, style }: Props) {
       <Divider$Horizontal$CustomDash />
       <Section marginTop="39px" marginBottom="56px">
         <Flex.Col gap="16px">
-          <Typography.Div content="Genesis Kreation NFTs" size="heading6" />
-          <GenesisNftList
-            value={useAllNfts$Response?.kreations?.filter(
-              (item) =>
-                ["booked", "minted"].includes(item.status) &&
-                (showMyNfts && walletStatus.status === "connected"
-                  ? walletStatus.info.address === item.userAddress
-                  : true)
-            )}
-            error={useAllNfts$Error}
-          />
+          <Typography.Div size="heading6">
+            <Typography.Span
+              content={allNftsList ? allNftsList.length : EN_DASH}
+            />
+            <Typography.Span content=" Genesis Kreations" />
+          </Typography.Div>
+          <GenesisNftList value={allNftsList} error={useAllNfts$Error} />
         </Flex.Col>
       </Section>
       <Section marginTop="56px" marginBottom="56px">
         <Flex.Col gap="16px">
-          <Typography.Div content="Kolour NFTs" size="heading6" />
+          <Typography.Div size="heading6">
+            <Typography.Span
+              content={
+                allMintedKoloursList ? allMintedKoloursList.length : EN_DASH
+              }
+            />
+            <Typography.Span content=" Kolour NFTs" />
+          </Typography.Div>
           <KolourList
-            value={useAllMintedKolours$Response?.kolours.filter((item) =>
-              showMyNfts && walletStatus.status === "connected"
-                ? walletStatus.info.address === item.userAddress
-                : true
-            )}
+            value={allMintedKoloursList}
             error={useAllMintedKolours$Error}
           />
         </Flex.Col>
