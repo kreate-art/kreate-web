@@ -1,12 +1,8 @@
 import { Core, Lucid } from "lucid-cardano";
 
-import { LovelaceAmount } from "../business-types";
-
 import { Kolour } from "./types/Kolours";
 
-export const QUOTATION_TTL = 600; // 10 minutes
-
-export const FEE_MULTIPLIER = BigInt(2);
+export const QUOTATION_TTL = 300; // 5 minutes
 
 export function parseKolour(text: unknown): Kolour | undefined {
   if (text && typeof text === "string" && /^[0-9A-Fa-f]{6}$/.test(text))

@@ -7,15 +7,12 @@ import {
   KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
 } from "@/modules/env/kolours/server";
 import { getExpirationTime, parseKolour } from "@/modules/kolours/common";
-import {
-  calculateKolourFee,
-  computeFees,
-  lookupReferral,
-} from "@/modules/kolours/fees";
+import { calculateKolourFee, computeFees } from "@/modules/kolours/fees";
 import {
   generateKolourImageCid,
   getUnavailableKolours,
 } from "@/modules/kolours/kolour";
+import { lookupReferral } from "@/modules/kolours/referral";
 import {
   Kolour,
   KolourEntry,
@@ -23,7 +20,7 @@ import {
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db, ipfs, lucid$, redis } from "@/modules/next-backend/connections";
+import { db, ipfs, redis } from "@/modules/next-backend/connections";
 
 type Response = {
   quotation: KolourQuotation;
@@ -52,7 +49,7 @@ export default async function handler(
       _debug: "invalid address",
     });
 
-    const referral = await lookupReferral(lucid$, redis, db, address);
+    const referral = await lookupReferral(redis, db, address);
 
     const r_kolours = r_kolour
       ? typeof r_kolour === "string"

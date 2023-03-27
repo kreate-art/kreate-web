@@ -31,10 +31,10 @@ export const BLOCKFROST_PROJECT_ID = parseEnv({
   parser: parseSlug(),
 });
 
-export const NETWORK = parseEnv({
+export const NETWORK = parseEnv<"Mainnet" | "Preview" | "Preprod">({
   label: "NEXT_PUBLIC_NETWORK",
   input: process.env.NEXT_PUBLIC_NETWORK,
-  parser: parseEnum(["Mainnet", "Testnet", "Preview", "Preprod"]),
+  parser: parseEnum(["Mainnet", "Preview", "Preprod"]),
 });
 
 export const SHOW_SECRET_ROUTES = parseEnv({

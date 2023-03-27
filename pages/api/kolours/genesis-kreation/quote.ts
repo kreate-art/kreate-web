@@ -7,15 +7,15 @@ import {
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import { getExpirationTime } from "@/modules/kolours/common";
-import { lookupReferral } from "@/modules/kolours/fees";
 import { quoteGenesisKreation } from "@/modules/kolours/genesis-kreation";
+import { lookupReferral } from "@/modules/kolours/referral";
 import {
   GenesisKreationQuotation,
   GenesisKreationStatus,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
-import { db, lucid$, redis } from "@/modules/next-backend/connections";
+import { db, redis } from "@/modules/next-backend/connections";
 
 type Response = {
   quotation: GenesisKreationQuotation;
@@ -48,7 +48,7 @@ export default async function handler(
       _debug: "invalid address",
     });
 
-    const referral = await lookupReferral(lucid$, redis, db, address);
+    const referral = await lookupReferral(redis, db, address);
 
     const quoted = await quoteGenesisKreation(db, id, referral?.discount);
     ClientError.assert(quoted, { _debug: "unknown genesis kreation" });
