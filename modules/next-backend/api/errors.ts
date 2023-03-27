@@ -86,3 +86,19 @@ function catchServerError(
       },
     });
 }
+
+// Copied from next.js `is-error`
+
+// We allow some additional attached properties for Errors
+export interface NextError extends Error {
+  type?: string;
+  page?: string;
+  code?: string | number;
+  cancelled?: boolean;
+}
+
+export default function isNextError(err: unknown): err is NextError {
+  return (
+    typeof err === "object" && err !== null && "name" in err && "message" in err
+  );
+}

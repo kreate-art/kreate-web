@@ -113,6 +113,8 @@ export default function ModalMintGenesisKreation({
       }).catch((cause) => {
         throw DisplayableError.from(cause, "Failed to quote GK");
       });
+      // TODO: Better handling...
+      assert(signature, "Must have signature");
 
       setStatusBarText("Building transaction...");
       const buildTx$Params: BuildTxParams = {
@@ -132,9 +134,9 @@ export default function ModalMintGenesisKreation({
 
       setStatusBarText("Waiting for submission...");
       const { txId } = await httpPostMintGKNftTx({
-        txHex: txUserSigned.toString(),
         quotation,
         signature,
+        txHex: txUserSigned.toString(),
       });
 
       setStatusBarText("Waiting for confirmation...");

@@ -16,9 +16,11 @@ import {
   GenesisKreationQuotation,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
-import { sendJson } from "@/modules/next-backend/api/helpers";
+import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
 import { postgres } from "@/modules/next-backend/db";
+
+export const config = { api: { bodyParser: false } };
 
 const sql = db;
 
@@ -32,11 +34,11 @@ export default async function handler(
     ClientError.assert(req.method === "POST", {
       _debug: "invalid http method",
     });
-    ClientError.assert(req.body, { _debug: "invalid body" });
 
-    const { tx: txHex, quotation: quotObj, signature } = req.body;
+    const body = await parseBody(req);
+    ClientError.assert(body, { _debug: "invalid body" });
+    const { quotation: quot, signature, tx: txHex } = body;
 
-    const quot = fromJson(quotObj);
     ClientError.assert(quot && typeof quot === "object" && "id" in quot, {
       _debug: "invalid quotation",
     });
