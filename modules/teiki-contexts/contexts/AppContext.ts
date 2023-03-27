@@ -99,7 +99,11 @@ export function useAppContextValue$Provider({
     // Note that this wont be ignored in the development environment
     // Should use an `.env` variable if possible.
     const origin = window.location.origin;
-    if (walletStatus.status !== "connected" || origin.includes("kolours"))
+    if (
+      walletStatus.status !== "connected" ||
+      origin.includes("kolours") ||
+      !walletNetworkWarning
+    )
       return;
     void (async () => {
       try {
