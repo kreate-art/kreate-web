@@ -68,7 +68,7 @@ export default async function handler(
     const signature =
       status === "ready"
         ? crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
-            json: quotation,
+            json: { genesis_kreation: quotation },
           })
         : undefined;
     const ret: Response = { quotation, signature, status };

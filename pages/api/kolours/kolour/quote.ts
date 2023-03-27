@@ -91,7 +91,7 @@ export default async function handler(
       expiration: getExpirationTime(),
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
-      json: quotation,
+      json: { kolour: quotation },
     });
     const ret: Response = {
       quotation,

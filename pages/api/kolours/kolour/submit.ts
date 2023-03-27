@@ -36,13 +36,14 @@ export default async function handler(
     ClientError.assert(body, { _debug: "invalid body" });
     const { quotation: quot, signature, tx: txHex } = body;
 
-    ClientError.assert(quot && typeof quot === "object" && "kolours" in quot, {
+    ClientError.assert(quot && typeof quot === "object", {
       _debug: "invalid quotation",
     });
     ClientError.assert(
       signature &&
         typeof signature === "string" &&
-        signature === crypt.hmacSign(512, KOLOURS_HMAC_SECRET, { json: quot }),
+        signature ===
+          crypt.hmacSign(512, KOLOURS_HMAC_SECRET, { json: { kolour: quot } }),
       {
         _debug: "invalid signature",
       }
