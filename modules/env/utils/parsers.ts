@@ -17,7 +17,9 @@ export function parseSlug(): Parser<string> {
   return parseStringByRegex(/^[0-9A-Za-z_-]+$/);
 }
 
-export function parseEnum<T>(values: T[]): Parser<T> {
+export function parseEnum<T extends string[]>(
+  values: [...T]
+): Parser<T[number]> {
   return (text) => {
     const value = values.find((value) => value === text);
     assert(value !== undefined);
