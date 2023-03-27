@@ -49,13 +49,13 @@ export async function getBackingActivities(
     WHERE ba.project_id = ${projectId}
     ORDER BY time DESC;
   `;
-  const result: ProjectBackingActivity[] = backingData.map(
-    ({ time, ...others }) => {
+  const result: ProjectBackingActivity[] = backingData
+    .filter((item) => !(item.action === "unback" && item.amount <= 0)) // Ignore claim rewards activity for now.
+    .map(({ time, ...others }) => {
       return {
         time: time.valueOf(),
         ...others,
       };
-    }
-  );
+    });
   return { backingData: result };
 }
