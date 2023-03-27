@@ -3,12 +3,14 @@ import * as React from "react";
 
 import WithAspectRatio from "../../../../../../components/WithAspectRatio";
 import CompleteIndicator from "../../../../components/CompleteIndicator";
+import IconMinted from "../../../NftCard/icons/IconMinted";
 import NftPrice from "../NftPrice";
 
 import styles from "./index.module.scss";
 
 import { LovelaceAmount } from "@/modules/business-types";
 import { Kolours } from "@/modules/kolours/types";
+import { GenesisKreationStatus } from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Flex from "@/modules/teiki-ui/components/Flex";
 
@@ -29,6 +31,7 @@ type Props = {
   selectedIndexes: IndexOf<Kolours.Layer>[] | undefined;
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
+  status: GenesisKreationStatus | undefined;
 };
 
 export default function Viewer({
@@ -40,6 +43,7 @@ export default function Viewer({
   selectedIndexes,
   fee,
   listedFee,
+  status,
 }: Props) {
   return (
     <div className={cx(styles.container, className)} style={style}>
@@ -81,7 +85,9 @@ export default function Viewer({
             fee={fee}
             listedFee={listedFee}
           />
-          {palette ? (
+          {status === "minted" || status === "booked" ? (
+            <IconMinted className={styles.completeIndicator} />
+          ) : palette ? (
             <CompleteIndicator
               value={palette}
               className={styles.completeIndicator}

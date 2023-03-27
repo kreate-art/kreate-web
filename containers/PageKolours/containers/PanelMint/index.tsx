@@ -146,6 +146,7 @@ export default function PanelMint({
             }
             fee={fee}
             listedFee={listedFee}
+            status={status}
           />
           {canGoPrev ? (
             <button
