@@ -46,12 +46,25 @@
 
 .button.button.button:hover {
   color: #fff;
-  background-color: #EC5929;
-  border: 1px solid #EC5929;
+  background-color: #ec5929;
+  border: 1px solid #ec5929;
 }
 
 .log {
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
+}
+
+.buttonNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 69px;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  padding: 12px 16px;
+  gap: 12px;
 }

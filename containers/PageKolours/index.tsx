@@ -59,7 +59,7 @@ export default function PageKolours({ className, style }: Props) {
         url="https://kolours.kreate.community"
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
-      <NavBar className={styles.navBar} />
+      <NavBar className={styles.navBar} showGalleryButton={true} />
       {/* <BelowNavBar /> */}
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
