@@ -3,8 +3,9 @@ import * as React from "react";
 
 import ModalConnectWallet from "../../../PageHome/containers/NavBar/containers/ButtonWalletNavbar/containers/ModalConnectWallet";
 import ModalMintGenesisKreation from "../ModalMintGenesisKreation";
+import ModalMintGenesisKreationSuccess from "../ModalMintGenesisKreationSuccess";
 import ModalMintKolour from "../ModalMintKolour";
-import ModalMintSuccess from "../ModalMintSuccess";
+import ModalMintKoloursSuccess from "../ModalMintKoloursSuccess";
 
 import Palette from "./components/Palette";
 import Viewer from "./components/Viewer";
@@ -20,6 +21,7 @@ import {
   GenesisKreationStatus,
   GenesisKreationEntry,
   Layer,
+  KolourQuotation,
 } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
@@ -91,7 +93,13 @@ export default function PanelMint({
         }
 
         type ModalMintKolour$ModalResult =
-          | { type: "success"; txHash: string }
+          | { type: "success"; variant: "genesisKreation"; txHash: string }
+          | {
+              type: "success";
+              variant: "kolour";
+              txHash: string;
+              quotation: KolourQuotation;
+            }
           | { type: "cancel" };
 
         const modalMintKolour$ModalResult = canBeMinted
@@ -100,7 +108,13 @@ export default function PanelMint({
                 open
                 genesisKreation={selectedNft}
                 onCancel={() => resolve({ type: "cancel" })}
-                onSuccess={(txHash) => resolve({ type: "success", txHash })}
+                onSuccess={(txHash) =>
+                  resolve({
+                    type: "success",
+                    variant: "genesisKreation",
+                    txHash,
+                  })
+                }
               />
             ))
           : await showModal<ModalMintKolour$ModalResult>((resolve) => (
@@ -108,19 +122,41 @@ export default function PanelMint({
                 open
                 kolours={kolours}
                 onCancel={() => resolve({ type: "cancel" })}
-                onSuccess={(txHash) => resolve({ type: "success", txHash })}
+                onSuccess={(txHash, quotation) =>
+                  resolve({
+                    type: "success",
+                    variant: "kolour",
+                    txHash,
+                    quotation,
+                  })
+                }
               />
             ));
         if (modalMintKolour$ModalResult.type !== "success") return;
         setSelection({});
-        await showModal<void>((resolve) => (
-          <ModalMintSuccess
-            open={true}
-            genesisKreation={selectedNft}
-            onClose={resolve}
-            txHash={modalMintKolour$ModalResult.txHash}
-          />
-        ));
+        await showModal<void>((resolve) =>
+          canBeMinted ? (
+            <ModalMintGenesisKreationSuccess
+              open={true}
+              value={selectedNft}
+              onClose={resolve}
+              txHash={modalMintKolour$ModalResult.txHash}
+            />
+          ) : (
+            <ModalMintKoloursSuccess
+              open={true}
+              value={
+                modalMintKolour$ModalResult.variant === "kolour"
+                  ? Object.entries(
+                      modalMintKolour$ModalResult.quotation.kolours
+                    )
+                  : []
+              }
+              onClose={resolve}
+              txHash={modalMintKolour$ModalResult.txHash}
+            />
+          )
+        );
         return;
       }
       default:

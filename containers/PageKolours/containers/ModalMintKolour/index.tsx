@@ -14,7 +14,7 @@ import { tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import { Layer } from "@/modules/kolours/types/Kolours";
+import { KolourQuotation, Layer } from "@/modules/kolours/types/Kolours";
 import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
 import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
 import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
@@ -34,7 +34,7 @@ type Props = {
   kolours: Layer[];
   open: boolean;
   onCancel?: () => void;
-  onSuccess?: (txHash: string) => void;
+  onSuccess?: (txHash: string, quotation: KolourQuotation) => void;
 };
 
 export default function ModalMintKolourNft({
@@ -138,7 +138,7 @@ export default function ModalMintKolourNft({
       });
 
       setStatusBarText("Done.");
-      onSuccess && onSuccess(txId);
+      onSuccess && onSuccess(txId, quotation);
     } catch (error) {
       const displayableError = DisplayableError.from(
         error,
