@@ -1,10 +1,10 @@
-import { LovelaceAmount } from "@kreate/protocol/schema/teiki/kolours";
 import {
   buildMintGKNftTx,
   MintGKNftTxParams,
 } from "@kreate/protocol/transactions/kolours/genesis-kreaction-nft";
 import { Lucid, TxComplete } from "lucid-cardano";
 
+import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { KOLOURS_GENESIS_KREATION_PUBLIC_KEY_HASH } from "@/modules/env/kolours/client";
 import { GenesisKreationQuotation } from "@/modules/kolours/types/Kolours";

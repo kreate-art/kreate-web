@@ -66,16 +66,19 @@ export default async function handler(
     const lucid = await lucid$();
 
     const tx = C.Transaction.from_bytes(Buffer.from(txHex, "hex"));
-    ClientError.assert(isTxValid(lucid, tx, quotation) == null, {
-      _debug: "invalid tx",
-    });
-
     const txBody = tx.body();
-
     const txExp = getTxExp(lucid, txBody);
     ClientError.assert(txExp, { _debug: "invalid tx time" });
-
     const txId = C.hash_transaction(txBody).to_hex();
+
+    verifyKolourNftMintingTx(lucid, {
+      tx,
+      quotation,
+      kolourNftMph: KOLOURS_KOLOUR_NFT_POLICY_ID,
+      txId,
+      txBody,
+      txExp: txExp.time,
+    });
 
     const records = Object.entries(quotation.kolours)
       // Deterministic ordering helps with avoiding deadlocks
@@ -133,18 +136,6 @@ export default async function handler(
   } catch (apiError) {
     apiCatch(req, res, apiError);
   }
-}
-
-function isTxValid(
-  lucid: Lucid,
-  tx: Core.Transaction,
-  quotation: KolourQuotation
-) {
-  return verifyKolourNftMintingTx(lucid, {
-    tx,
-    quotation,
-    kolourNftMph: KOLOURS_KOLOUR_NFT_POLICY_ID,
-  });
 }
 
 async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {

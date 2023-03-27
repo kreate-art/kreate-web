@@ -1,3 +1,4 @@
+import { verifyGKNftMintingTx } from "@kreate/protocol/transactions/kolours/genesis-kreaction-nft";
 import { C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -78,14 +79,22 @@ export default async function handler(
     const lucid = await lucid$();
 
     const tx = C.Transaction.from_bytes(Buffer.from(txHex, "hex"));
-    ClientError.assert(isTxValid(tx, quotation), { _debug: "invalid tx" });
-
     const txBody = tx.body();
-
     const txExp = getTxExp(lucid, txBody);
     ClientError.assert(txExp, { _debug: "invalid tx time" });
-
     const txId = C.hash_transaction(txBody).to_hex();
+
+    const metadata = extractMetadata(tx, quotation.id);
+
+    verifyGKNftMintingTx(lucid, {
+      tx,
+      quotation,
+      gkNftMph: KOLOURS_GENESIS_KREATION_POLICY_ID,
+      ...metadata,
+      txId,
+      txBody,
+      txExp: txExp.time,
+    });
 
     const record = {
       kreation: quotation.id,
@@ -97,7 +106,7 @@ export default async function handler(
       listedFee: quotation.listedFee,
       userAddress: quotation.userAddress,
       feeAddress: quotation.feeAddress,
-      ...extractMetadata(tx, quotation.id),
+      ...metadata,
       referral: quotation.referral ?? null,
     };
 
@@ -139,14 +148,6 @@ export default async function handler(
   }
 }
 
-function isTxValid(
-  _tx: Core.Transaction,
-  _quotation: GenesisKreationQuotation
-) {
-  // TODO: Fill me
-  return true;
-}
-
 async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
   assert(KOLOURS_GENESIS_KREATION_PRIVATE_KEY, "genesis kreation disabled");
   // TODO: Load keys via Vault / SSM
@@ -162,7 +163,7 @@ function extractMetadata(
   id: GenesisKreationId
 ): {
   name: string;
-  description: string | null;
+  description: string;
 } {
   const metadatumCore = tx.auxiliary_data()?.metadata()?.get(METADATA_NFT_TAG);
   ClientError.assert(metadatumCore, { _debug: "missing tx nft metadatum" });
@@ -177,5 +178,8 @@ function extractMetadata(
   const name = entry?.name;
   const description = entry?.description ?? null;
   ClientError.assert(name, { _debug: "missing genesis kreation nft name" });
+  ClientError.assert(description != null, {
+    _debug: "missing genesis kreation nft description",
+  });
   return { name, description };
 }
