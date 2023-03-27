@@ -62,9 +62,9 @@ export default function ModalMintKoloursSuccess({
     return values.join(", ") + " and " + last;
   }
 
-  const message = `Just left my mark in the Kreataverse with ${joinWithAnd(
+  const message = `🏔️ Just left my mark in the Kreataverse with ${joinWithAnd(
     kolours
-  )}.\nCome colour a Metaverse with me @KreatePlatform!\nhttps://kolours.kreate.community/mint\n\n${kolours
+  )}!\n🎨 Come colour a Metaverse with me @KreatePlatform:\nhttps://kolours.kreate.community/mint\n\n${kolours
     .map((kolour) => toPoolpmUrl(kolour))
     .join("\n")}`;
 

@@ -40,7 +40,7 @@ export default function ModalMintGenesisKreationSuccess({
       Buffer.from(value.id, "utf-8")
     )
     .fingerprint();
-  const message = `Just left my mark in the Kreataverse with ${value.id}.\nCome colour a Metaverse with me @KreatePlatform!\nhttps://kolours.kreate.community/mint\n\nhttps://pool.pm/${asset$Bech32}`;
+  const message = `🏔️ Just left my mark in the Kreataverse with ${value.id}!\n🎨 Come colour a Metaverse with me @KreatePlatform:\nhttps://kolours.kreate.community/mint\n\nhttps://pool.pm/${asset$Bech32}`;
   const listSocialMedia = ["twitter", "telegram", "reddit"];
   return (
     <Modal
