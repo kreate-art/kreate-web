@@ -120,9 +120,9 @@ export default function ModalMintKolourNft({
 
       setStatusBarText("Waiting for submission...");
       const { txId } = await httpPostMintKolourNftTx({
-        txHex: txUserSigned.toString(),
         quotation,
         signature,
+        txHex: txUserSigned.toString(),
       });
 
       setStatusBarText("Waiting for confirmation...");

@@ -6,27 +6,29 @@ import { fromJson, toJson } from "@/modules/json-utils";
 import { GenesisKreationQuotation } from "@/modules/kolours/types/Kolours";
 
 type Params = {
-  txHex: Hex;
   quotation: GenesisKreationQuotation;
-  signature: string | undefined;
+  signature: string;
+  txHex: Hex;
 };
 
 type Response = { txId: string; tx: Hex };
 
 export async function httpPostMintGKNftTx({
-  txHex,
   quotation,
   signature,
+  txHex,
 }: Params): Promise<Response> {
-  assert(signature, "Must have signature");
-  const params = new URLSearchParams();
-  params.append("tx", txHex);
-  params.append("quotation", toJson(quotation));
-  params.append("signature", signature);
-
   const response = await fetch("/api/kolours/genesis-kreation/submit", {
     method: "POST",
-    body: params,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: toJson({
+      quotation,
+      signature,
+      tx: txHex,
+    }),
   });
 
   assert(response.ok, "response not ok");

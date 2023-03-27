@@ -9,14 +9,15 @@ import {
   KOLOURS_HMAC_SECRET,
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
-import { fromJson } from "@/modules/json-utils";
 import { getTxExp } from "@/modules/kolours/common";
 import { areKoloursAvailable } from "@/modules/kolours/kolour";
 import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
-import { sendJson } from "@/modules/next-backend/api/helpers";
+import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
 import { postgres } from "@/modules/next-backend/db";
+
+export const config = { api: { bodyParser: false } };
 
 const sql = db;
 
@@ -30,10 +31,11 @@ export default async function handler(
     ClientError.assert(req.method === "POST", {
       _debug: "invalid http method",
     });
-    ClientError.assert(req.body, { _debug: "invalid body" });
 
-    const { tx: txHex, quotation: quotObj, signature } = req.body;
-    const quot = fromJson(quotObj);
+    const body = await parseBody(req);
+    ClientError.assert(body, { _debug: "invalid body" });
+    const { quotation: quot, signature, tx: txHex } = body;
+
     ClientError.assert(quot && typeof quot === "object" && "kolours" in quot, {
       _debug: "invalid quotation",
     });
