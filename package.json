@@ -19,7 +19,7 @@
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "@grammarly/editor-sdk-react": "^2.2.0",
-    "@kreate/protocol": "github:kreate-community/kreate-protocol#f6826e137315499b7c1dc2c41de00989e3022af0",
+    "@kreate/protocol": "github:kreate-community/kreate-protocol#b3084d251e0ee8d4586fd10cc98424927ab2c866",
     "@next/font": "^13.0.5",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
