@@ -84,6 +84,10 @@ export default function PanelActivities({
 
   const allActivities = (data || [])
     .flatMap((item) => (item == null ? [] : item.activities))
+    .filter(
+      (item) =>
+        !(item.action.type === "unback" && item.action.lovelaceAmount <= 0) // Ignore claim rewards activity for now.
+    )
     .map((activity) => {
       // TODO: We'd want a less hacky and more "global" solution here, but the goal must be persisted:
       // No-one remembers their address, using "You" in these labels increases the UX massively.
