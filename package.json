@@ -17,6 +17,7 @@
     "unimported": "unimported"
   },
   "dependencies": {
+    "@emurgo/cip14-js": "^3.0.1",
     "@faker-js/faker": "^7.6.0",
     "@grammarly/editor-sdk-react": "^2.2.0",
     "@kreate/protocol": "github:kreate-community/kreate-protocol#b3084d251e0ee8d4586fd10cc98424927ab2c866",

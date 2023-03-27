@@ -1,3 +1,4 @@
+import assetFingerprint from "@emurgo/cip14-js";
 import cx from "classnames";
 import Link from "next/link";
 import React from "react";
@@ -6,13 +7,14 @@ import SocialMedia from "./containers/SocialMedia";
 import styles from "./index.module.scss";
 
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
+import { KOLOURS_KOLOUR_NFT_POLICY_ID } from "@/modules/env/kolours/client";
 import { Kolour, KolourEntry } from "@/modules/kolours/types/Kolours";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Modal from "@/modules/teiki-ui/components/Modal";
 import Typography from "@/modules/teiki-ui/components/Typography";
-import { getExplorerUrl, getIpfsUrl } from "@/modules/urls";
+import { getExplorerUrl } from "@/modules/urls";
 
 type Props = {
   className?: string;
@@ -36,6 +38,35 @@ export default function ModalMintKoloursSuccess({
   const containerSize = useElementSize(containerElement);
   const numColumn = containerSize ? Math.ceil(containerSize.w / 300) : 1;
   const listSocialMedia = ["twitter", "telegram", "reddit"];
+  const kolours = value.map(([kolour, _]) => kolour);
+
+  function kolourToBech32(kolour: Kolour) {
+    return assetFingerprint
+      .fromParts(
+        Buffer.from(KOLOURS_KOLOUR_NFT_POLICY_ID, "hex"),
+        Buffer.from(`#${kolour}`, "utf-8")
+      )
+      .fingerprint();
+  }
+
+  function toPoolpmUrl(kolour: Kolour) {
+    return `https://pool.pm/${kolourToBech32(kolour)}`;
+  }
+
+  function joinWithAnd(kolours: Kolour[]) {
+    const values = kolours.map((kolour) => `#${kolour}`);
+    if (values.length === 0) return "";
+    if (values.length === 1) return values[0];
+    if (values.length === 2) return `${values[0]} and ${values[1]}`;
+    const last = values.pop();
+    return values.join(", ") + " and " + last;
+  }
+
+  const message = `Just left my mark in the Kreataverse with ${joinWithAnd(
+    kolours
+  )}.\nCome colour a Metaverse with me @KreatePlatform!\nhttps://kolours.kreate.community/mint\n\n${kolours
+    .map((kolour) => toPoolpmUrl(kolour))
+    .join("\n")}`;
 
   return (
     <Modal
@@ -98,11 +129,7 @@ export default function ModalMintKoloursSuccess({
                     <SocialMedia
                       value={socialMedia}
                       key={index}
-                      shareValue={
-                        value.length > 1
-                          ? getExplorerUrl(txHash)
-                          : getIpfsUrl(value[0][1].image.replace("ipfs://", ""))
-                      }
+                      shareValue={message}
                     />
                   ))}
                 </Flex.Row>

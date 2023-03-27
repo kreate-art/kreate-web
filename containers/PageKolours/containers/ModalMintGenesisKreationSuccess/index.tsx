@@ -1,3 +1,4 @@
+import assetFingerprint from "@emurgo/cip14-js";
 import cx from "classnames";
 import Link from "next/link";
 
@@ -6,6 +7,7 @@ import SocialMedia from "../ModalMintKoloursSuccess/containers/SocialMedia";
 
 import styles from "./index.module.scss";
 
+import { KOLOURS_GENESIS_KREATION_POLICY_ID } from "@/modules/env/kolours/client";
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -32,6 +34,13 @@ export default function ModalMintGenesisKreationSuccess({
   txHash,
   value,
 }: Props) {
+  const asset$Bech32 = assetFingerprint
+    .fromParts(
+      Buffer.from(KOLOURS_GENESIS_KREATION_POLICY_ID, "hex"),
+      Buffer.from(value.id, "utf-8")
+    )
+    .fingerprint();
+  const message = `Just left my mark in the Kreataverse with ${value.id}.\nCome colour a Metaverse with me @KreatePlatform!\nhttps://kolours.kreate.community/mint\n\nhttps://pool.pm/${asset$Bech32}`;
   const listSocialMedia = ["twitter", "telegram", "reddit"];
   return (
     <Modal
@@ -71,7 +80,7 @@ export default function ModalMintGenesisKreationSuccess({
                   <SocialMedia
                     value={socialMedia}
                     key={index}
-                    shareValue={value.finalImage.src}
+                    shareValue={message}
                   />
                 ))}
               </Flex.Row>
