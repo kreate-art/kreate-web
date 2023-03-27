@@ -62,11 +62,21 @@ export default function ModalMintKoloursSuccess({
     return values.join(", ") + " and " + last;
   }
 
-  const message = `🏔️ Just left my mark in the Kreataverse with ${joinWithAnd(
+  const message = `🖌️ I just minted my @KreatePlatform Kolour: ${joinWithAnd(
     kolours
-  )}!\n🎨 Come colour a Metaverse with me @KreatePlatform:\nhttps://kolours.kreate.community/mint\n\n${kolours
-    .map((kolour) => toPoolpmUrl(kolour))
-    .join("\n")}`;
+  )}
+Mint 1, Get 1 Free until April 7!
+
+As a Holder, I'll get 1% mint royalties from:
+🔸Genesis Kreation NFTs
+🔸Stuff NFTs
+🔸Drip NFTs
+
+🍬 MINT
+https://kolours.kreate.community/mint
+
+🔍
+${kolours.map((kolour) => toPoolpmUrl(kolour)).join("\n")}`;
 
   return (
     <Modal
@@ -79,7 +89,7 @@ export default function ModalMintKoloursSuccess({
     >
       <Modal.Header>
         <Typography.Div
-          content="Mint Genesis Kreation"
+          content="Kreataverse Minting!"
           color="secondary"
           size="heading4"
         />

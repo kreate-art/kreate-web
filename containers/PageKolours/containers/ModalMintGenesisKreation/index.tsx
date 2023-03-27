@@ -180,7 +180,7 @@ export default function ModalMintGenesisKreation({
     >
       <Modal.Header>
         <Typography.Div size="heading4" maxLines={1} color="green">
-          <Typography.Span content="Mint Genesis Kreation" color="ink" />
+          <Typography.Span content="Kreataverse Minting!" color="ink" />
         </Typography.Div>
       </Modal.Header>
       <Modal.Content className={styles.modalContent} padding="none">
