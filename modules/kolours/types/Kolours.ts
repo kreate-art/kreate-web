@@ -45,6 +45,9 @@ export type GenesisKreationEntry = {
   listedFee: LovelaceAmount;
   palette: Layer[];
   createdAt: UnixTimestamp;
+  name: string | null;
+  userAddress: string | null;
+  description: string | null;
 };
 
 export type GenesisKreationList = {
@@ -63,6 +66,10 @@ export type MintedKolourEntry = {
   slot: number;
   txId: string;
   metadata: unknown;
+  status: string;
+  userAddress: string;
+  fee: LovelaceAmount;
+  expectedEarning: LovelaceAmount;
 };
 
 export type KolourQuotation = {

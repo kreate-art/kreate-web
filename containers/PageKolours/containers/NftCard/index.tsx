@@ -8,10 +8,7 @@ import PaletteBar from "./components/PaletteBar";
 import IconMinted from "./icons/IconMinted";
 import styles from "./index.module.scss";
 
-import {
-  formatLovelaceAmount,
-  sumLovelaceAmount,
-} from "@/modules/bigint-utils";
+import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { Kolours } from "@/modules/kolours/types";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Flex from "@/modules/teiki-ui/components/Flex";
