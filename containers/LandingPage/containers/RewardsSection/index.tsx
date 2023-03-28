@@ -34,7 +34,12 @@ export default function RewardSection({ className, style }: Props) {
   return (
     <div className={className} style={style} id="rewards">
       <div className={styles.rewardsTitle}>Your Rewards</div>
-      <Carousel gap="medium" maxItemWidth={1328} style={{ marginTop: "32px" }}>
+      <Carousel
+        gap="medium"
+        maxItemWidth={1328}
+        style={{ marginTop: "64px" }}
+        indicatorPosition="bottom"
+      >
         <div className={styles.itemCarouselContainer}>
           <div className={styles.upperItem}>
             <Typography.Div
