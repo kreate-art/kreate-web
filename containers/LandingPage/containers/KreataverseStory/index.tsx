@@ -13,7 +13,7 @@ type Props = {
 
 export default function KreataverseStory({ className, style }: Props) {
   return (
-    <div id="kreataverse_story">
+    <div id="kreataverse">
       <div className={styles.story}>Kreataverse Story</div>
       <div className={cx(styles.main, className)} style={style}>
         {/* TODO: Refine me!! */}

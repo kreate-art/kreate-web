@@ -29,7 +29,7 @@ export default function RewardSection({ className, style }: Props) {
     "#D6AEBC",
   ];
   return (
-    <div className={className} style={style}>
+    <div id="rewards" className={className} style={style}>
       <div className={styles.rewardsTitle}>Your Rewards</div>
       <div className={styles.gridContainer}>
         <div className={styles.upperGrid}>
