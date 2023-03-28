@@ -40,7 +40,12 @@ export default function NavBar({
           <Divider.Vertical color="white-30" className={styles.vertical} />
           <div className={styles.kolours}> KOLOURS </div>
         </div>
-        <Typography.Div color="white50" style={{ padding: "0px 16px" }}>
+
+        <Typography.Div
+          color="white50"
+          style={{ padding: "0px 16px" }}
+          className={styles.discountAdvert}
+        >
           <Typography.Span color="white" content="50-60% discount " />
           <Typography.Span color="white80" content="until April 7th " />
           <Typography.Span color="white50" content=" - " />
@@ -49,6 +54,7 @@ export default function NavBar({
             content="Kolour the Kreataverse now!"
           />
         </Typography.Div>
+
         <div className={styles.rightMain}>
           <ButtonWalletNavbar />
           {showGalleryButton ? (
