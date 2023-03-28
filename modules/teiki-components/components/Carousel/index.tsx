@@ -1,12 +1,15 @@
 import cx from "classnames";
 import * as React from "react";
 
+import Flex from "../PanelProjectOverview/components/Flex";
+
 import Viewer from "./components/Viewer";
 import IconChevronLeft from "./icons/IconChevronLeft";
 import IconChevronRight from "./icons/IconChevronRight";
 import styles from "./index.module.scss";
 import { toArrayOfReactNode } from "./utils";
 
+import { range } from "@/modules/array-utils";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 
 const GAP_TO_GAP_WIDTH = {
@@ -22,6 +25,7 @@ type Props = {
   children?: React.ReactNode;
   gap?: keyof typeof GAP_TO_GAP_WIDTH;
   maxItemWidth?: number;
+  hasIndicator?: boolean;
 };
 
 export default function Carousel({
@@ -30,6 +34,7 @@ export default function Carousel({
   children,
   gap,
   maxItemWidth,
+  hasIndicator,
 }: Props) {
   const items: React.ReactNode[] = toArrayOfReactNode(children);
   const [fromIndex, setFromIndex] = React.useState(0);
@@ -42,6 +47,7 @@ export default function Carousel({
     maxItemWidth && containerSize
       ? Math.ceil(containerSize.w / maxItemWidth)
       : 1;
+  const numControlDots = items.length - numVisibleItems + 1;
 
   const gapWidth = gap ? GAP_TO_GAP_WIDTH[gap] : undefined;
   const fromIndex$PrevValue =
@@ -80,6 +86,23 @@ export default function Carousel({
             </button>
           </div>
         </>
+      ) : null}
+      {hasIndicator ? (
+        <Flex.Row gap="8px" className={styles.indicatorContainer}>
+          {range(numControlDots).map((value, index) => {
+            const isActive = index === fromIndex;
+            return (
+              <div
+                className={cx(
+                  styles.indicator,
+                  isActive ? styles.active : null
+                )}
+                key={index}
+                onClick={() => setFromIndex(index)}
+              ></div>
+            );
+          })}
+        </Flex.Row>
       ) : null}
     </div>
   );

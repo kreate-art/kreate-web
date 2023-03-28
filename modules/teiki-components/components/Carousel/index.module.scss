@@ -57,3 +57,20 @@
 .buttonScrollProjects:hover {
   background-color: white;
 }
+
+.indicator {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  opacity: 0.3;
+  background: white;
+  background-color: white;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+}
