@@ -25,7 +25,7 @@ type Props = {
   children?: React.ReactNode;
   gap?: keyof typeof GAP_TO_GAP_WIDTH;
   maxItemWidth?: number;
-  hasIndicator?: boolean;
+  indicatorPosition?: "bottom-left" | "bottom";
 };
 
 export default function Carousel({
@@ -34,7 +34,7 @@ export default function Carousel({
   children,
   gap,
   maxItemWidth,
-  hasIndicator,
+  indicatorPosition,
 }: Props) {
   const items: React.ReactNode[] = toArrayOfReactNode(children);
   const [fromIndex, setFromIndex] = React.useState(0);
@@ -87,8 +87,16 @@ export default function Carousel({
           </div>
         </>
       ) : null}
-      {hasIndicator ? (
-        <Flex.Row gap="8px" className={styles.indicatorContainer}>
+      {!indicatorPosition ? null : (
+        <Flex.Row
+          gap="8px"
+          className={cx(
+            styles.indicatorContainer,
+            indicatorPosition === "bottom-left"
+              ? styles.bottomLeft
+              : styles.bottom
+          )}
+        >
           {range(numControlDots).map((value, index) => {
             const isActive = index === fromIndex;
             return (
@@ -103,7 +111,7 @@ export default function Carousel({
             );
           })}
         </Flex.Row>
-      ) : null}
+      )}
     </div>
   );
 }
