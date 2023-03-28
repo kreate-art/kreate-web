@@ -1,30 +1,9 @@
-.gridContainer {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.box {
+  background-color: rgba(255, 255, 255, 0.04);
   border-radius: 12px;
-  overflow: hidden;
-}
-
-.row {
-  align-items: stretch;
-}
-
-.leftColumn {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  width: 50%;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.rightColumn {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  width: 50%;
-  display: flex;
-  justify-content: center;
-}
-
-.stepContainer {
-  padding: 48px 56px;
-  position: relative;
+  width: 100%;
+  padding: 64px 36px 32px 36px;
+  gap: 16px;
 }
 
 .imageView {
@@ -32,34 +11,13 @@
   inset: 0;
 }
 
-.stepOneTextContainer {
-  padding: 92px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 @font-face {
   font-family: "Bangers";
   src: url(../../fonts/Bangers-Regular.ttf);
 }
 
-.step {
+.bangers {
   font-family: "Bangers";
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 30px;
-  text-align: center;
-}
-
-.action {
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 48px;
-  text-align: center;
 }
 
 .fruitTable {
@@ -101,46 +59,14 @@
   font-family: "Bangers";
 }
 
-.kolourButton {
-  color: white;
-  display: flex;
-  gap: 8px;
-  filter: drop-shadow(-8px -4px 0px #fcb045) drop-shadow(8px 9px 0px #833ab4);
-  background: #ec5929;
-  border-radius: 69px;
-  padding: 16px 24px;
-  border: none;
-  outline: none;
-  margin-top: 63px;
-  cursor: pointer;
-}
-
-.kolourButtonContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.walletContainer {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 48px 56px;
-}
-
 .walletItem {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 0px;
-  flex: 1 1 0;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 52px 32px;
   border-radius: 16px;
   align-items: center;
+  flex: 1 1;
   position: relative;
-  height: 100%;
   overflow: hidden;
-  justify-content: center;
 
   &.recommended {
     border: 1px solid #006e46;
@@ -172,20 +98,11 @@
   border: 2px solid white;
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 32px;
 }
 
 .kolour {
   height: 89px;
   width: 100%;
-}
-
-.mintKolourContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 48px 56px;
 }
 
 .mintKolourAction {
@@ -197,4 +114,5 @@
   pointer-events: none;
   border: none;
   outline: none;
+  width: fit-content;
 }
