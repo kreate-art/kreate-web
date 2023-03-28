@@ -6,7 +6,6 @@ import styles from "./index.module.scss";
 import { shortenNumber } from "./utils";
 
 import { ProtocolStatistics } from "@/modules/business-types";
-import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Divider from "@/modules/teiki-ui/components/Divider";
 
 type Props = {
@@ -78,7 +77,8 @@ export default function PanelProtocolStatistics({
             )}
             <Card.Legend>Transactions</Card.Legend>
           </Card>
-          <Divider.Horizontal color="black-10" />
+          {/* https://github.com/kreate-community/kreate-web/pull/243#issuecomment-1486483969 */}
+          {/* <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>
             {stats.numLovelaceStakedActive == null ? (
               <Card.Content>-</Card.Content>
@@ -101,9 +101,8 @@ export default function PanelProtocolStatistics({
                 <AssetViewer.Usd.FromAda
                   as="span"
                   lovelaceAmount={
-                    /** NOTE: @sk-tenba:
-                     * monthly income = numLovelacesStaked / 100 * 3.5 / 12
-                     */
+                    // NOTE: @sk-tenba:
+                    // monthly income = numLovelacesStaked / 100 * 3.5 / 12
                     (BigInt(stats.numLovelaceStakedActive) * BigInt(35)) /
                     BigInt(12000)
                   }
@@ -111,7 +110,7 @@ export default function PanelProtocolStatistics({
               </Card.Content>
             )}
             <Card.Legend>Total Monthly Income</Card.Legend>
-          </Card>
+          </Card> */}
         </div>
         {/* <div className={styles.cardGroup}>
           <Card className={styles.card}>
