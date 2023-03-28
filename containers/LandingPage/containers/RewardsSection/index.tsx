@@ -165,7 +165,7 @@ export default function RewardSection({ className, style }: Props) {
               <Link className={styles.link} href="https://kreate.community/">
                 Kreate platform
               </Link>{" "}
-              and is highly beneficial to Kreators and Members.
+              and is highly beneficial to Kreators and Fans.
             </div>
             <div>
               Follow us on{" "}

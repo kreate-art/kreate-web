@@ -39,7 +39,7 @@ export default function InputTagsWithSuggestions({
             (event.target.value = "")
           }
           name=""
-          placeHolder="You can add 2-7 tags to help members find you"
+          placeHolder="You can add 2-7 tags to help fans find you"
           classNames={{
             tag: commonStyles.basicTag,
             input: commonStyles.basicTagInput,

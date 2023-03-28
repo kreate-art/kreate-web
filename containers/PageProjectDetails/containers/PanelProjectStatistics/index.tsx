@@ -50,11 +50,7 @@ export default function PanelProjectStatistics({
               members != null ? members.toLocaleString("en-US") : EN_DASH
             }
           />
-          <Typography.Div
-            color="secondary"
-            size="bodySmall"
-            content="members"
-          />
+          <Typography.Div color="secondary" size="bodySmall" content="fans" />
         </Col>
         <Col>
           <Typography.Div

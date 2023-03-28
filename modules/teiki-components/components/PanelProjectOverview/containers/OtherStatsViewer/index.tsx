@@ -62,7 +62,7 @@ export default function OtherStatsViewer({ className, style, value }: Props) {
     <div className={cx(styles.container, className)} style={style}>
       <Flex.Col gap="24px">
         <ImpactfulNumber
-          label="Number of members"
+          label="Number of fans"
           content={
             value.numSupporters != null
               ? value.numSupporters.toLocaleString("en-US")

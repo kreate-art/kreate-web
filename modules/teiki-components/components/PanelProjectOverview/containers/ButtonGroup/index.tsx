@@ -32,7 +32,7 @@ export default function ButtonGroup({ className, style, options }: Props) {
             content={
               options.buttonBackProject.isBacking
                 ? "Stake More"
-                : "Become a Member"
+                : "Become a Fan"
             }
             disabled={options.buttonBackProject.disabled}
             onClick={() =>

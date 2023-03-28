@@ -141,7 +141,7 @@ export default function TierInput({
             </Flex.Col>
             <Flex.Col gap="12px">
               <Checkbox
-                label="Limit the number of members"
+                label="Limit the number of fans"
                 value={isLimited}
                 onChange={() => {
                   field$MaximumMembers.setText(isLimited ? "" : "0");

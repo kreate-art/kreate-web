@@ -58,7 +58,7 @@ export default function PanelProtocolStatistics({
                 {shortenNumber(stats.numSupporters)}
               </Card.Content>
             )}
-            <Card.Legend>Members</Card.Legend>
+            <Card.Legend>Fans</Card.Legend>
           </Card>
           <Divider.Horizontal color="black-10" />
           <Card className={styles.card}>

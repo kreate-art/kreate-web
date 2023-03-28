@@ -62,7 +62,7 @@ export default function Toolbar({ className, style, options }: Props) {
             content={
               options.buttonBackProject.isBacking
                 ? "Stake More"
-                : "Become a Member"
+                : "Become a Fan"
             }
             onClick={options.buttonBackProject.onClick}
             color="primary"
@@ -114,7 +114,7 @@ export default function Toolbar({ className, style, options }: Props) {
                 content={
                   options.buttonBackProject.isBacking
                     ? "Stake More"
-                    : "Become a Member"
+                    : "Become a Fan"
                 }
                 onSelect={options.buttonBackProject.onClick}
                 disabled={options.buttonBackProject.disabled}
