@@ -18,20 +18,20 @@ export default function KreataverseStory({ className, style }: Props) {
       <div className={cx(styles.main, className)} style={style}>
         {/* TODO: Refine me!! */}
         <Carousel className={styles.carousel} indicatorPosition="bottom-left">
-          <>
+          <div className={styles.container}>
             <LeftStory$1 />
             <RightStory />
-          </>
-          <>
+          </div>
+          <div className={styles.container}>
             <LeftStory$2 />
             {/* As discussed with our designer, these banners should be unique */}
             <RightStory />
-          </>
-          <>
+          </div>
+          <div className={styles.container}>
             <LeftStory$3 />
             {/* As discussed with our designer, these banners should be unique */}
             <RightStory />
-          </>
+          </div>
         </Carousel>
       </div>
     </div>
