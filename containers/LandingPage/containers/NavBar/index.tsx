@@ -53,7 +53,7 @@ export default function NavBar({ className, style }: Props) {
         <Link href="/gallery">
           <div className={styles.buttonNav}>Gallery</div>
         </Link>
-        <Link href="#reward">
+        <Link href="#story">
           <div className={styles.buttonNav}>KreAtaveRse Story</div>
         </Link>
         <Link href="/mint">
