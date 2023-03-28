@@ -2,8 +2,6 @@ import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 
-import IconSwatches from "../NftCollection/components/IconSwatches";
-
 import humanFigure1 from "./images/human-figure-1.png";
 import humanFigure2 from "./images/human-figure-2.png";
 import kreationNft from "./images/kreation-nft.png";

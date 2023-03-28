@@ -58,7 +58,9 @@ export default function RoadmapSection({ className, style, id }: Props) {
             <Flex.Cell flex="1 0 480px">
               <RoadmapList>
                 <RoadmapList.Completed content="Minting for Kolours and the 99 pieces of Genesis Kreation begins." />
-                <RoadmapList.Uncompleted content="50% OFF minting until April 7!" />
+                <RoadmapList.Completed content="Mint your Kolour and paint!" />
+                <RoadmapList.Running content="Genesis Kreation minters can name and describe their regions!" />
+                <RoadmapList.Running content="50% OFF minting until April 7!" />
                 <RoadmapList.Uncompleted content="Additional discounts for Delegators to Registered SSPOs until April 7." />
                 <RoadmapList.Uncompleted content="Sustainable Kreators (5k ADA Stake) get a free Studio NFT, Kreator NFT, and Kolour NFT!" />
                 <RoadmapList.Uncompleted content="Loyal Members (subscribed for 1+ epoch till April 7) of Sustainable Kreators get a free Kreator NFT and Kolour NFT!" />

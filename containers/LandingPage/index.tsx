@@ -79,7 +79,11 @@ export default function LandingPage() {
             <Guideline />
             <RewardSection style={{ marginTop: "112px" }} />
             <RoadmapSection
-              style={{ marginTop: "112px", marginBottom: "112px" }}
+              style={{
+                paddingTop: "20px",
+                marginTop: "92px",
+                marginBottom: "112px",
+              }}
               id="roadmap"
             />
             <Link href="/mint" className={styles.kolourButtonContainer}>
