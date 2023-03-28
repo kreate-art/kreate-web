@@ -19,3 +19,10 @@
 .carousel {
   width: 100%;
 }
+
+.container {
+  display: flex;
+  flex: 1 1 0;
+  width: 100%;
+  flex-wrap: wrap;
+}
