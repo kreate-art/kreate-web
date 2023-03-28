@@ -14,12 +14,7 @@ function isResponse(obj: any): obj is Response {
 }
 
 export async function httpGetAllMintedKolours(): Promise<Response> {
-  const response = await fetch(`/api/kolours/kolour/list-minted`, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch("/api/kolours/kolour/list/minted");
   assert(response.ok, "response not ok");
   const body = await response.text();
   const data = await fromJson(body);

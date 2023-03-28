@@ -131,8 +131,7 @@ async function queryDelegation(address: Address): Promise<string | undefined> {
     assert(stakeCredential, "No stake credential");
     const networkId = details.networkId;
     assert(
-      (networkId === 0 && NETWORK !== "Mainnet") ||
-        (networkId === 1 && NETWORK === "Mainnet"),
+      networkId === networkToId(NETWORK),
       `Network mismatch: ${networkId} | ${NETWORK}`
     );
   } catch (_error) {

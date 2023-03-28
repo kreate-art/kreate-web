@@ -14,9 +14,7 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-
     const kolours = await getAllMintedKolours(db);
-
     sendJson(res, { kolours } satisfies { kolours: MintedKolourEntry[] });
   } catch (error) {
     apiCatch(req, res, error);

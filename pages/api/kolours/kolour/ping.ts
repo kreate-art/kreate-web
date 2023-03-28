@@ -3,22 +3,16 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db } from "@/modules/next-backend/connections";
-import getGenesisKreationMintedByTxHash from "@/modules/next-backend/logic/getGenesisKreationMintedByTxHash";
+import getKoloursMintedByTxId from "@/modules/next-backend/logic/getKoloursMintedByTxId";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { txHash } = req.query;
-
-    ClientError.assert(
-      txHash && typeof txHash === "string",
-      "txHash is required"
-    );
-
-    const results = await getGenesisKreationMintedByTxHash(db, { txHash });
-
+    const { txId } = req.query;
+    ClientError.assert(txId && typeof txId === "string", "txId is required");
+    const results = await getKoloursMintedByTxId(db, { txId });
     sendJson(res.status(200), results);
   } catch (error) {
     apiCatch(req, res, error);
