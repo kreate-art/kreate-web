@@ -19,7 +19,7 @@ import {
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
-import httpGetGenesisKreationMintedByTxHash from "@/modules/next-backend-client/api/httpGetGenesisKreationMintedByTxHash";
+import httpGetGenesisKreationMintedByTxId from "@/modules/next-backend-client/api/httpGetGenesisKreationMintedByTxId";
 import { httpGetQuoteGKNft } from "@/modules/next-backend-client/api/httpGetQuoteGKNft";
 import { httpPostMintGKNftTx } from "@/modules/next-backend-client/api/httpPostMintGKNftTx";
 import { useTxParams$UserMintGKNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintGKNft";
@@ -93,10 +93,10 @@ export default function ModalMintGenesisKreation({
 
   const [statusBarText, setStatusBarText] = React.useState("");
 
-  const waitUntilTxIndexed = async (txHash: string) => {
+  const waitUntilTxIndexed = async (txId: string) => {
     await tryUntil({
-      run: () => httpGetGenesisKreationMintedByTxHash({ txHash }),
-      until: (response) => typeof response.kreation === "string",
+      run: () => httpGetGenesisKreationMintedByTxId({ txId }),
+      until: (response) => response.kreations.length > 0,
     });
   };
 

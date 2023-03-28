@@ -15,7 +15,7 @@ import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
 import { KolourQuotation, Layer } from "@/modules/kolours/types/Kolours";
-import httpGetKoloursMintedByTxHash from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxHash";
+import httpGetKoloursMintedByTxId from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxId";
 import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
 import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
 import { useTxParams$UserMintKolourNft } from "@/modules/next-backend-client/hooks/useTxParams$UserMintKolourNft";
@@ -83,10 +83,10 @@ export default function ModalMintKolourNft({
 
   const [statusBarText, setStatusBarText] = React.useState("");
 
-  const waitUntilTxIndexed = async (txHash: string) => {
+  const waitUntilTxIndexed = async (txId: string) => {
     await tryUntil({
-      run: () => httpGetKoloursMintedByTxHash({ txHash }),
-      until: (response) => typeof response.kolour === "string",
+      run: () => httpGetKoloursMintedByTxId({ txId }),
+      until: (response) => response.kolours.length > 0,
     });
   };
 

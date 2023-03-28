@@ -4,9 +4,7 @@ import { Redis } from "ioredis";
 import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
 import sharp from "sharp";
 
-import { LovelaceAmount } from "../business-types";
-
-import { Kolour } from "./types/Kolours";
+import { Kolour, MintedKolourEntry } from "./types/Kolours";
 
 import { Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
@@ -17,30 +15,19 @@ const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
   channels: 3,
 };
 
-type KolourDbRow = {
-  id: number;
-  kolour: Kolour;
-  slot: number;
-  txId: string;
-  metadata: unknown;
-  status: string;
-  userAddress: string;
-  fee: LovelaceAmount;
-  expectedEarning: LovelaceAmount;
-};
-
 export async function areKoloursAvailable(
   sql: Sql,
   kolours: Kolour[]
 ): Promise<boolean> {
   if (!kolours.length) return true;
   const res = await sql`
-    SELECT FROM kolours.kolour_book
+    SELECT
+    FROM kolours.kolour_book
     WHERE
       kolour IN ${sql(kolours)}
       AND status <> 'expired';
   `;
-  return res.count === 0;
+  return !res.count;
 }
 
 export async function getUnavailableKolours(
@@ -49,7 +36,10 @@ export async function getUnavailableKolours(
 ): Promise<Set<Kolour>> {
   if (!kolours.length) return new Set();
   const rows = await sql<{ kolour: Kolour }[]>`
-    SELECT kolour FROM kolours.kolour_book
+    SELECT
+      kolour
+    FROM
+      kolours.kolour_book
     WHERE
       kolour IN ${sql(kolours)}
       AND status <> 'expired';
@@ -57,46 +47,36 @@ export async function getUnavailableKolours(
   return new Set(rows.map((r) => r.kolour));
 }
 
-export async function getAllMintedKolours(sql: Sql): Promise<KolourDbRow[]> {
-  const rows = await sql<KolourDbRow[]>`
+export async function getAllMintedKolours(
+  sql: Sql
+): Promise<MintedKolourEntry[]> {
+  const rows = await sql<MintedKolourEntry[]>`
+    WITH kolour_earning AS (
+      SELECT
+        p.k AS kolour,
+        sum(coalesce(gkb.fee / 100, gkl.listed_fee / 200))::bigint AS expected_earning
+      FROM
+        kolours.genesis_kreation_list gkl
+        LEFT JOIN kolours.genesis_kreation_book gkb
+          ON gkb.kreation = gkl.kreation
+            AND gkb.status <> 'expired'
+        CROSS JOIN LATERAL jsonb_to_recordset(gkl.palette) AS p (k varchar(6))
+      GROUP BY
+        p.k
+    )
     SELECT
-      km.id,
-      km.kolour,
-      km.slot,
-      km.tx_id,
-      km.metadata,
-      kf.status,
+      kb.kolour,
       kb.user_address,
       kb.fee,
-      SUM(COALESCE(kf.fee / 100, gk.listed_fee / 200)) AS expected_earning
-    FROM kolours.kolour_mint km
-    LEFT JOIN kolours.kolour_book kb
-      ON km.kolour = kb.kolour
-    LEFT JOIN (
-      SELECT
-        (p.item->>'k') AS kolour,
-        gkl.listed_fee,
-        gkl.kreation
-      FROM
-        kolours.genesis_kreation_list gkl,
-        jsonb_array_elements(gkl.palette)
-      WITH ORDINALITY p(item, idx)
-    ) gk
-    ON km.kolour = gk.kolour
-    LEFT JOIN
-      kolours.genesis_kreation_book kf
-    ON gk.kreation = kf.kreation
-    GROUP BY
-      km.id,
-      km.kolour,
-      km.slot,
-      km.tx_id,
-      km.metadata,
-      kf.status,
-      kb.fee,
-      kb.user_address
+      ke.expected_earning
+    FROM
+      kolours.kolour_book kb
+      LEFT JOIN kolour_earning ke
+        ON ke.kolour = kb.kolour
+    WHERE
+      kb.status <> 'expired'
     ORDER BY
-      km.id ASC
+      kb.id ASC
   `;
   return rows.slice();
 }

@@ -61,21 +61,17 @@ export type KolourEntry = {
   image: string; // ipfs://<cid>
 };
 
-export type MintedKolourEntry = {
-  kolour: Kolour;
-  slot: number;
-  txId: string;
-  metadata: unknown;
-  status: string;
-  userAddress: string;
-  fee: LovelaceAmount;
-  expectedEarning: LovelaceAmount;
-};
-
 export type KolourQuotation = {
   kolours: Record<Kolour, KolourEntry>;
   userAddress: Address;
   feeAddress: Address;
   referral?: string;
   expiration: number; // Unix Timestamp in seconds
+};
+
+export type MintedKolourEntry = {
+  kolour: Kolour;
+  userAddress: string;
+  fee: LovelaceAmount;
+  expectedEarning: LovelaceAmount | null;
 };

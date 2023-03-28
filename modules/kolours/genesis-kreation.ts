@@ -8,7 +8,7 @@ import {
 } from "./types/Kolours";
 
 import { assert } from "@/modules/common-utils";
-import { Sql } from "@/modules/next-backend/db";
+import { postgres, Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
 import { getIpfsUrl } from "@/modules/urls";
 
@@ -17,13 +17,13 @@ type GenesisKreationDbRow = {
   initialImageCid: string;
   finalImageCid: string;
   baseFee: bigint;
-  bookStatus: "booked" | "minted" | null;
   createdAt: Date;
   palette: { k: Kolour; l: string }[];
-  name: string | null;
+  bookStatus: "booked" | "minted" | null;
   userAddress: string | null;
-  description: string | null;
   fee: bigint | null;
+  name: string | null;
+  description: string | null;
   koloursStatus: ("booked" | "minted" | "NULL" | null)[]; // SQL is dumb
 };
 
@@ -38,21 +38,24 @@ export async function getAllGenesisKreations(
       gl.initial_image_cid,
       gl.final_image_cid,
       gl.listed_fee AS base_fee,
-      gb.status AS book_status,
       gl.created_at,
       gl.palette,
-      gb.name,
+      gb.status AS book_status,
       gb.user_address,
+      gb.fee,
+      gb.name,
       gb.description,
       array_agg(kb.status ORDER BY p.i) kolours_status
     FROM
       kolours.genesis_kreation_list gl
       LEFT JOIN kolours.genesis_kreation_book gb
         ON gl.kreation = gb.kreation
-          AND gb.status <> 'expired',
-      jsonb_array_elements(gl.palette) WITH ORDINALITY p(r, i)
+          AND gb.status <> 'expired'
+      CROSS JOIN LATERAL
+        ROWS FROM (jsonb_to_recordset(gl.palette) AS (k varchar(6)))
+        WITH ORDINALITY p(k, i)
       LEFT JOIN kolours.kolour_book kb
-        ON kb.kolour = p.r ->> 'k'
+        ON kb.kolour = p.k
           AND kb.status <> 'expired'
     GROUP BY
       gl.id,
@@ -60,11 +63,12 @@ export async function getAllGenesisKreations(
       gl.initial_image_cid,
       gl.final_image_cid,
       gl.listed_fee,
-      gb.status,
       gl.created_at,
       gl.palette,
-      gb.name,
+      gb.status,
       gb.user_address,
+      gb.fee,
+      gb.name,
       gb.description
     ORDER BY
       gl.id ASC
@@ -109,47 +113,63 @@ export async function quoteGenesisKreation(
   id: GenesisKreationId,
   discount?: bigint
 ) {
-  const [row]: [
-    (StatusInFields & {
-      imageCid: string;
-      fee: Lovelace;
-      listedFee: Lovelace;
-      baseFee: Lovelace;
-    })?
-  ] = await sql`
-    SELECT
-      gl.final_image_cid AS image_cid,
-      gl.listed_fee AS base_fee,
-      gb.status AS book_status,
-      ${fieldIsReady(sql)}
-    FROM
-      ${joinBook(sql)}
-    WHERE
-      gl.kreation = ${id}
+  const extra = sql`
+    gl.final_image_cid AS image_cid,
+    gl.listed_fee AS base_fee,
   `;
-  if (row) {
-    const res = combineStatus(row);
-    Object.assign(res, computeFees(row.baseFee, discount));
-    return res;
-  } else {
-    return null;
-  }
+  const row = await queryGenesisKreation<{
+    imageCid: string;
+    baseFee: Lovelace;
+    // Deduced later
+    fee: Lovelace;
+    listedFee: Lovelace;
+  }>(sql, id, extra);
+  row && Object.assign(row, computeFees(row.baseFee, discount));
+  return row;
 }
 
 export async function getGenesisKreationStatus(
   sql: Sql,
   id: GenesisKreationId
 ) {
-  const [row]: [StatusInFields?] = await sql`
+  return (await queryGenesisKreation(sql, id))?.status ?? null;
+}
+
+async function queryGenesisKreation<T extends object = Record<string, never>>(
+  sql: Sql,
+  id: GenesisKreationId,
+  extraSelect?: postgres.Fragment
+): Promise<(T & StatusOutField) | null> {
+  const [row]: [(T & StatusInFields)?] = await sql`
     SELECT
+      ${extraSelect ?? sql``}
       gb.status AS book_status,
-      ${fieldIsReady(sql)}
+      (
+        SELECT
+          bool_and(kb.id IS NOT NULL)
+        FROM
+          jsonb_to_recordset(gl.palette) AS p(k varchar(6))
+          LEFT JOIN kolours.kolour_book kb
+            ON kb.kolour = p.k
+              AND kb.status = 'minted'
+      ) AS is_ready
     FROM
-      ${joinBook(sql)}
+      kolours.genesis_kreation_list gl
+      LEFT JOIN kolours.genesis_kreation_book gb
+        ON gl.kreation = gb.kreation
+          AND gb.status <> 'expired'
     WHERE
       gl.kreation = ${id}
   `;
-  return row ? combineStatus(row).status : null;
+  if (row) {
+    const { bookStatus, isReady, ...rest } = row;
+    return {
+      ...rest,
+      status: bookStatus == null ? (isReady ? "ready" : "unready") : bookStatus,
+    } as T & StatusOutField;
+  } else {
+    return null;
+  }
 }
 
 type StatusInFields = {
@@ -159,35 +179,3 @@ type StatusInFields = {
 type StatusOutField = {
   status: GenesisKreationStatus;
 };
-
-function combineStatus<T extends StatusInFields>(
-  row: T
-): Omit<T, keyof StatusInFields> & StatusOutField {
-  const { bookStatus, isReady, ...rest } = row;
-  const status =
-    bookStatus == null ? (isReady ? "ready" : "unready") : bookStatus;
-  return { ...rest, status };
-}
-
-function fieldIsReady(sql: Sql) {
-  return sql`
-    (
-      SELECT
-        bool_and(kb.id IS NOT NULL)
-      FROM
-        jsonb_array_elements(gl.palette) p
-        LEFT JOIN kolours.kolour_book kb
-          ON kb.kolour = p ->> 'k'
-            AND kb.status = 'minted'
-    ) AS is_ready
-  `;
-}
-
-function joinBook(sql: Sql) {
-  return sql`
-    kolours.genesis_kreation_list gl
-    LEFT JOIN kolours.genesis_kreation_book gb
-      ON gl.kreation = gb.kreation
-        AND gb.status <> 'expired'
-  `;
-}
