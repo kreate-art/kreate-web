@@ -1,0 +1,14 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.iconContainer {
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: colors.$secondary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(34, 34, 34, 0.1);
+}
