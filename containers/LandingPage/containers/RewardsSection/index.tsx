@@ -184,12 +184,6 @@ export default function RewardSection({ className, style }: Props) {
           </Typography.Div>
         </div>
       </div>
-      <Link href="/mint" className={styles.kolourButtonContainer}>
-        <div className={styles.kolourButton}>
-          <IconSwatches />
-          <Typography.Span size="heading5" content="Farm the Kreataverse" />
-        </div>
-      </Link>
     </div>
   );
 }

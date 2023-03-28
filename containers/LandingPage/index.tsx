@@ -11,6 +11,7 @@ import KreataverseStory from "./containers/KreataverseStory";
 import NftCollection from "./containers/NftCollection";
 import IconSwatches from "./containers/NftCollection/components/IconSwatches";
 import RewardSection from "./containers/RewardsSection";
+import RoadmapSection from "./containers/RoadmapSection";
 import { useLandingPageColor } from "./hooks/useLandingPageColor";
 import figureDiscount from "./images/figure-discount.png";
 import styles from "./index.module.scss";
@@ -83,6 +84,19 @@ export default function LandingPage() {
             </div>
             <Guideline />
             <RewardSection style={{ marginTop: "112px" }} />
+            <RoadmapSection
+              style={{ marginTop: "112px", marginBottom: "112px" }}
+              id="roadmap"
+            />
+            <Link href="/mint" className={styles.kolourButtonContainer}>
+              <div className={styles.kolourButton}>
+                <IconSwatches />
+                <Typography.Span
+                  size="heading5"
+                  content="Farm the Kreataverse"
+                />
+              </div>
+            </Link>
           </div>
         </div>
         <FooterPanel className={styles.footer} title="kolour" />
