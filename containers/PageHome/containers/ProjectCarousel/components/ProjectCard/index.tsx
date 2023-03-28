@@ -7,7 +7,6 @@ import WithAspectRatio from "../../../../../../components/WithAspectRatio";
 import ProjectCreationAndUpdateTime from "../../../../components/ProjectCreationAndUpdateTime";
 import ProjectImageCropped from "../../../../components/ProjectImageCropped";
 import ProjectMilestoneProgress from "../../../../components/ProjectMilestoneProgress";
-import ProjectStats from "../../../../components/ProjectStats";
 import ProjectSummary from "../../../../components/ProjectSummary";
 import ProjectTagList from "../../../../components/ProjectTagList";
 import IconWarning from "../../../ProjectList/components/ProjectListItem/components/IconWarning";
@@ -136,7 +135,9 @@ export default function ProjectCard({
               maxLines={descriptionMaxLines}
             />
             <ProjectMilestoneProgress className={styles.milestoneProgress} />
-            <ProjectStats className={styles.stats} value={value.stats} />
+            {/* https://app.asana.com/0/1203842063837585/1204267832406186
+              <ProjectStats className={styles.stats} value={value.stats} />
+            */}
           </div>
         </>
       </Link>
