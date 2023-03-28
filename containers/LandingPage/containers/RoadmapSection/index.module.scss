@@ -1,0 +1,22 @@
+@font-face {
+  font-family: Bangers;
+  src: url(../../fonts/Bangers-Regular.ttf);
+}
+
+.container {
+  display: block;
+}
+
+.title {
+  font-family: Bangers, Futura, "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.16em;
+  color: white;
+  font-size: 48px;
+  text-align: center;
+}
+
+.image {
+  width: 428px;
+  max-width: 100%;
+  height: auto;
+}

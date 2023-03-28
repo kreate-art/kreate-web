@@ -1,0 +1,58 @@
+@font-face {
+  font-family: Bangers;
+  src: url(../../../../fonts/Bangers-Regular.ttf);
+}
+
+.container {
+  display: block;
+}
+
+.list {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  gap: 12px;
+}
+
+.trigger {
+  all: unset;
+
+  position: relative;
+  flex: 1 1 100px;
+  min-height: 96px;
+  line-height: 125%;
+  letter-spacing: 0.16em;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Bangers, Futura, "Trebuchet MS", Arial, sans-serif;
+  color: rgba(255, 255, 255, 50%);
+  cursor: pointer;
+
+  &:hover,
+  &[data-state="active"] {
+    color: white;
+    font-size: 20px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 50%);
+    height: 8px;
+    border-radius: 4px;
+  }
+
+  &:hover:after,
+  &[data-state="active"]:after {
+    background-color: white;
+  }
+}
+
+.content {
+  &[data-state="inactive"] {
+    display: none;
+  }
+}
