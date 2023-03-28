@@ -6,21 +6,6 @@
   border-bottom-left-radius: 12px;
 }
 
-.carousel {
-  width: 100%;
-}
-
-// @sk-yagi: A hacky way to make use of the "react-responsive-carousel" lib
-.carousel > div > ul {
-  text-align: start !important;
-  padding-left: 64px !important;
-}
-
-.carousel > div > ul > li {
-  height: 12px !important;
-  width: 12px !important;
-}
-
 .story {
   display: flex;
   flex-direction: column;
