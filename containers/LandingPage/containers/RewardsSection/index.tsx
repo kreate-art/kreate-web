@@ -201,8 +201,8 @@ export default function RewardSection({ className, style }: Props) {
                   size="body"
                   style={{ marginTop: "16px" }}
                 >
-                  Get a 10% royalty from Kreator Studios, businesses, and
-                  ads on your region.
+                  Get a 10% royalty from Kreator Studios, businesses, and ads on
+                  your region.
                 </Typography.Div>
                 <Divider.Horizontal
                   className={styles.divider}
