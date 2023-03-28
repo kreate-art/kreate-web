@@ -93,7 +93,7 @@ export default function LandingPage() {
                 <IconSwatches />
                 <Typography.Span
                   size="heading5"
-                  content="Farm the Kreataverse"
+                  content="Kolour the Kreataverse"
                 />
               </div>
             </Link>

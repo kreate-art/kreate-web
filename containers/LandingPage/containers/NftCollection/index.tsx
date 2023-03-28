@@ -22,7 +22,6 @@ export default function NftCollection() {
         <span style={{ color: "#EC5929" }}>
           Kolouring & Kolour Royalties NFT!
         </span>
-        <span> only on Cardano. </span>
       </div>
       <div className={styles.nftsContainer}>
         <div className={styles.nfts} style={{ gridArea: "a" }}>
