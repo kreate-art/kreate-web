@@ -54,18 +54,18 @@ export default function NavBar({ className, style }: Props) {
           <div className={styles.buttonNav}>Gallery</div>
         </Link>
         <Link href="#story">
-          <div className={styles.buttonNav}>KreAtaveRse Story</div>
+          <div className={styles.buttonNav}>Kreataverse Story</div>
         </Link>
         <Link href="/mint">
           <div className={styles.buttonNav}>
-            Start Kolouring THE KREATAVERSE
+            Start Kolouring The Kreataverse
           </div>
         </Link>
         <Link href="#reward">
-          <div className={styles.buttonNav}>your rewards</div>
+          <div className={styles.buttonNav}>Your Rewards</div>
         </Link>
         <Link href="#roadmap">
-          <div className={styles.buttonNav}>ROADMAP</div>
+          <div className={styles.buttonNav}>Roadmap</div>
         </Link>
       </div>
     </Flex.Row>
