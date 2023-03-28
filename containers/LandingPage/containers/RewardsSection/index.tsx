@@ -32,7 +32,7 @@ export default function RewardSection({ className, style }: Props) {
     "#D6AEBC",
   ];
   return (
-    <div className={className} style={style} id="reward">
+    <div className={className} style={style} id="rewards">
       <div className={styles.rewardsTitle}>Your Rewards</div>
       <Carousel gap="medium" maxItemWidth={1328} style={{ marginTop: "32px" }}>
         <div className={styles.itemCarouselContainer}>
@@ -95,7 +95,7 @@ export default function RewardSection({ className, style }: Props) {
                   size="body"
                   style={{ marginTop: "16px" }}
                 >
-                  Get a % minting fee from future NFTs that use your kolours.
+                  Get a 1% minting fee from future NFTs that use your kolours.
                 </Typography.Div>
                 <Divider.Horizontal
                   className={styles.divider}
@@ -119,7 +119,7 @@ export default function RewardSection({ className, style }: Props) {
           <Divider.Horizontal color="white-10" />
           <Flex.Col padding="32px 80px">
             <Typography.Div color="white50">
-              <Typography.Span content="Kolour and Genesis Kreation NFT holders will " />
+              <Typography.Span content="Kolour NFT holders will " />
               <Typography.Span color="white" content="get a $KREATE airdrop" />
               <Typography.Span content=" proportionally to their holding value." />
             </Typography.Div>
@@ -201,8 +201,8 @@ export default function RewardSection({ className, style }: Props) {
                   size="body"
                   style={{ marginTop: "16px" }}
                 >
-                  Get a % revenue share from Kreator Studios, businesses, and
-                  ads on your land.
+                  Get a 10% royalty from Kreator Studios, businesses, and
+                  ads on your region.
                 </Typography.Div>
                 <Divider.Horizontal
                   className={styles.divider}
@@ -225,7 +225,7 @@ export default function RewardSection({ className, style }: Props) {
           <Divider.Horizontal color="white-10" />
           <Flex.Col padding="32px 80px">
             <Typography.Div color="white50">
-              <Typography.Span content="Kolour and Genesis Kreation NFT holders will " />
+              <Typography.Span content="Genesis Kreation NFT holders will " />
               <Typography.Span color="white" content="get a $KREATE airdrop" />
               <Typography.Span content=" proportionally to their holding value." />
             </Typography.Div>
