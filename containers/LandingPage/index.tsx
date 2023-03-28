@@ -76,11 +76,11 @@ export default function LandingPage() {
               THE KREATAVERSE
             </div>
             <Guideline />
-            <RewardSection style={{ marginTop: "112px" }} />
+            <RewardSection style={{ marginTop: "172px" }} />
             <RoadmapSection
               style={{
                 paddingTop: "20px",
-                marginTop: "92px",
+                marginTop: "152px",
                 marginBottom: "112px",
               }}
               id="roadmap"
