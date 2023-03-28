@@ -4,10 +4,10 @@ import Link from "next/link";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
 import IconViewGallery from "./components/IconViewGallery";
-import KoloursTypo from "./components/KoloursTypo";
-import LogoKreateWhite from "./components/LogoKreateWhite";
 import Guideline from "./containers/Guideline";
 import KreataverseStory from "./containers/KreataverseStory";
+import NavBar from "./containers/NavBar";
+import LogoKreateWhite from "./containers/NavBar/components/LogoKreateWhite";
 import NftCollection from "./containers/NftCollection";
 import IconSwatches from "./containers/NftCollection/components/IconSwatches";
 import RewardSection from "./containers/RewardsSection";
@@ -35,11 +35,7 @@ export default function LandingPage() {
         <div className={styles.main}>
           <div className={styles.background} />
           <div className={styles.backgroundContainer}>
-            <div className={styles.backgroundTop}>
-              <LogoKreateWhite />
-              <Divider.Vertical color="white-10" />
-              <KoloursTypo />
-            </div>
+            <NavBar />
             <div className={styles.backgroundMid}>
               <Image
                 src={figureDiscount}
