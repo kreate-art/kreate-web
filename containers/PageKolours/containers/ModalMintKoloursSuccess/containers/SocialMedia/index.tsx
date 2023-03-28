@@ -6,8 +6,6 @@ import IconTwitter from "../../icons/IconTwitter";
 
 import styles from "./index.module.scss";
 
-import Button from "@/modules/teiki-ui/components/Button";
-
 type Props = {
   className?: string;
   style?: React.CSSProperties;
@@ -22,17 +20,12 @@ export default function SocialMedia({
   shareValue,
 }: Props) {
   const { icon, sharerLink } = getSocialMediaInfo(value);
+  const navUrl = sharerLink + encodeURIComponent(shareValue);
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <Button.Outline
-        icon={icon}
-        circular
-        size="extraSmall"
-        onClick={() => {
-          const navUrl = sharerLink + encodeURIComponent(shareValue);
-          window.open(navUrl, "_blank");
-        }}
-      />
+      <a href={navUrl} target="_blank" rel="noreferrer">
+        <div className={styles.iconContainer}>{icon}</div>
+      </a>
     </div>
   );
 }
