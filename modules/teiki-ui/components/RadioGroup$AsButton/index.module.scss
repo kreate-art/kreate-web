@@ -10,21 +10,21 @@
   }
 }
 
-.colorPrimary .button[data-state="checked"] {
+.colorPrimary > .button[data-state="checked"] {
   background-color: colors.$primary;
   color: white;
 }
 
-.colorPrimary .button:focus-visible {
+.colorPrimary > .button:focus-visible {
   outline: colors.$primary30 solid 3px;
 }
 
-.colorSecondary .button[data-state="checked"] {
+.colorSecondary > .button[data-state="checked"] {
   background-color: colors.$secondary;
   color: white;
 }
 
-.colorSecondary .button:focus-visible {
+.colorSecondary > .button:focus-visible {
   outline: colors.$secondary30 solid 3px;
 }
 
