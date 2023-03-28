@@ -58,12 +58,11 @@ export default function RoadmapSection({ className, style, id }: Props) {
             <Flex.Cell flex="1 0 480px">
               <RoadmapList>
                 <RoadmapList.Completed content="Minting for Kolours and the 99 pieces of Genesis Kreation begins." />
-                <RoadmapList.Completed content="Mint your Kolour and paint!" />
-                <RoadmapList.Running content="Genesis Kreation minters can name and describe their regions!" />
+                <RoadmapList.Completed content="Genesis Kreation minters can name and describe their regions!" />
                 <RoadmapList.Running content="50% OFF minting until April 7!" />
-                <RoadmapList.Uncompleted content="Additional discounts for Delegators to Registered SSPOs until April 7." />
-                <RoadmapList.Uncompleted content="Sustainable Kreators (5k ADA Stake) get a free Studio NFT, Kreator NFT, and Kolour NFT!" />
-                <RoadmapList.Uncompleted content="Loyal Members (subscribed for 1+ epoch till April 7) of Sustainable Kreators get a free Kreator NFT and Kolour NFT!" />
+                <RoadmapList.Running content="Additional discounts for Delegators to Registered SSPOs until April 7." />
+                <RoadmapList.Running content="Sustainable Kreators (5k ADA Stake) get a free Studio NFT, Kreator Persona NFT, and Kolour NFT!" />
+                <RoadmapList.Running content="Loyal Members of Sustainable Kreators get a free Kreator NFT and Kolour NFT!" />
               </RoadmapList>
             </Flex.Cell>
           </Flex.Row>
@@ -85,10 +84,10 @@ export default function RoadmapSection({ className, style, id }: Props) {
             </Flex.Row>
             <Flex.Cell flex="1 0 480px">
               <RoadmapList>
-                <RoadmapList.Uncompleted content="Minting for Kreator NFTs begins. VR avatars in full 3D, and customisable!" />
+                <RoadmapList.Uncompleted content="Minting for Kreator NFTs begins. VR personas in full 3D, and customisable!" />
                 <RoadmapList.Uncompleted content="Holders of Genesis Kreation & Kolour NFTs get early access to Kreator NFT minting!" />
-                <RoadmapList.Uncompleted content="Kolour NFT holders get 1% in royalties from Kreator NFT mints." />
-                <RoadmapList.Uncompleted content="Genesis Kreation holders get 1% in royalties from Kreator NFT avatars that spawn in their region at mint." />
+                <RoadmapList.Uncompleted content="Kolour NFT holders get 1% in royalties from Kreator NFTs that use their kolours." />
+                <RoadmapList.Uncompleted content="Genesis Kreation holders get 10% in royalties from Kreator NFTs that spawn in their region." />
               </RoadmapList>
             </Flex.Cell>
           </Flex.Row>
@@ -134,7 +133,7 @@ export default function RoadmapSection({ className, style, id }: Props) {
             </Flex.Row>
             <Flex.Cell flex="1 0 480px">
               <RoadmapList>
-                <RoadmapList.Uncompleted content="Integrated, open world Kreataverse for all!" />
+                <RoadmapList.Uncompleted content="Integrated, open world Kreataverse for all 🎉!" />
               </RoadmapList>
             </Flex.Cell>
           </Flex.Row>

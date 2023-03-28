@@ -50,18 +50,16 @@ export default function NavBar({ className, style }: Props) {
         className={styles.rightColumn}
         ref={setRightColumnContainer}
       >
-        <Link href="/gallery">
+        {/* <Link href="/gallery">
           <div className={styles.buttonNav}>Gallery</div>
+        </Link> */}
+        <Link href="#kreataverse">
+          <div className={styles.buttonNav}>The Kreataverse</div>
         </Link>
-        <Link href="#story">
-          <div className={styles.buttonNav}>Kreataverse Story</div>
+        <Link href="#how">
+          <div className={styles.buttonNav}>How to Kolour</div>
         </Link>
-        <Link href="/mint">
-          <div className={styles.buttonNav}>
-            Start Kolouring The Kreataverse
-          </div>
-        </Link>
-        <Link href="#reward">
+        <Link href="#rewards">
           <div className={styles.buttonNav}>Your Rewards</div>
         </Link>
         <Link href="#roadmap">
