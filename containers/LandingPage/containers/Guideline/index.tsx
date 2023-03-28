@@ -1,14 +1,13 @@
 import cx from "classnames";
 import Image from "next/image";
-import Link from "next/link";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
-import IconSwatches from "../NftCollection/components/IconSwatches";
 
 import stepFour from "./images/step-four.png";
 import stepTwo from "./images/step-two.png";
 import styles from "./index.module.scss";
 
+import Carousel from "@/modules/teiki-components/components/Carousel";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import {
   LogoWalletEternl,
@@ -16,7 +15,6 @@ import {
   LogoWalletGeroWallet,
   LogoWalletNami,
 } from "@/modules/teiki-logos";
-import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
@@ -39,279 +37,182 @@ export default function Guideline({ className, style }: Props) {
     "#D6AEBC",
   ];
   return (
-    <div style={style} className={className}>
-      {/* Step 1 */}
-      <div className={styles.gridContainer}>
-        <Flex.Row flexWrap="wrap" className={styles.row} style={style}>
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.leftColumn}
-          >
-            <div className={styles.stepOneTextContainer}>
-              <Typography.Span
-                content="Step 1"
-                color="white"
-                className={styles.step}
+    <div className={cx(styles.container, className)} style={style}>
+      <Carousel gap="thick" maxItemWidth={900} indicatorPosition="bottom">
+        {/* Step 1 */}
+        <Flex.Col className={styles.box}>
+          <Typography.Div
+            content="Step 1"
+            color="white"
+            size="heading4"
+            fontWeight="regular"
+            className={styles.bangers}
+            style={{ textAlign: "center" }}
+          />
+          <Typography.Div
+            content="Connect a Cardano Wallet"
+            color="white"
+            size="heading2"
+            style={{ textAlign: "center" }}
+          />
+          <Flex.Row gap="8px" justifyContent="center" alignItems="center">
+            <Flex.Col className={cx(styles.walletItem, styles.recommended)}>
+              <Image
+                src={LogoWalletNami}
+                alt="logo nami"
+                width={32}
+                height={32}
               />
-              <Typography.Span
-                content="Connect a Cardano Wallet"
+              <Typography.Div
+                className={styles.walletName}
+                size="heading5"
+                content="Nami"
                 color="white"
-                className={styles.action}
+                maxLines={1}
               />
-            </div>
-          </Flex.Col>
-          <Divider.Vertical color="white-10" />
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={cx(styles.topRightColumn, styles.rightColumn)}
-          >
-            <div className={styles.walletContainer}>
-              <div className={cx(styles.walletItem, styles.recommended)}>
-                <Image
-                  src={LogoWalletNami}
-                  alt="logo nami"
-                  width={64}
-                  height={64}
-                />
-                <Typography.Div
-                  className={styles.walletName}
-                  size="heading4"
-                  content="Nami"
-                  color="white"
-                />
-                <div className={styles.recommendedText}>Recommended</div>
-              </div>
-              <div className={styles.walletItem}>
-                <Image
-                  src={LogoWalletFlint}
-                  alt="logo nami"
-                  width={64}
-                  height={64}
-                />
-                <Typography.Div
-                  className={styles.walletName}
-                  size="heading4"
-                  content="Flint"
-                  color="white"
-                />
-              </div>
-              <div className={styles.walletItem}>
-                <Image
-                  src={LogoWalletEternl}
-                  alt="logo nami"
-                  width={64}
-                  height={64}
-                />
-                <Typography.Div
-                  className={styles.walletName}
-                  size="heading4"
-                  content="Eternl"
-                  color="white"
-                />
-              </div>
-              <div className={styles.walletItem}>
-                <Image
-                  src={LogoWalletGeroWallet}
-                  alt="logo nami"
-                  width={64}
-                  height={64}
-                />
-                <Typography.Div
-                  className={styles.walletName}
-                  size="heading4"
-                  content="Gero"
-                  color="white"
-                />
-                <Typography.Div
-                  size="heading4"
-                  content="Wallet"
-                  color="white"
-                />
-              </div>
-            </div>
-          </Flex.Col>
-        </Flex.Row>
-
+              <div className={styles.recommendedText}>Recommended</div>
+            </Flex.Col>
+            <Flex.Col className={styles.walletItem}>
+              <Image
+                src={LogoWalletFlint}
+                alt="logo flint"
+                width={32}
+                height={32}
+              />
+              <Typography.Div
+                className={styles.walletName}
+                size="heading5"
+                content="Flint"
+                color="white"
+                maxLines={1}
+              />
+            </Flex.Col>
+            <Flex.Col className={styles.walletItem}>
+              <Image
+                src={LogoWalletEternl}
+                alt="logo eternl"
+                width={32}
+                height={32}
+              />
+              <Typography.Div
+                className={styles.walletName}
+                size="heading5"
+                content="Eternl"
+                color="white"
+                maxLines={1}
+              />
+            </Flex.Col>
+            <Flex.Col className={styles.walletItem}>
+              <Image
+                src={LogoWalletGeroWallet}
+                alt="logo gero"
+                width={32}
+                height={32}
+              />
+              <Typography.Div
+                className={styles.walletName}
+                size="heading5"
+                content="Gero"
+                color="white"
+                maxLines={1}
+              />
+            </Flex.Col>
+          </Flex.Row>
+        </Flex.Col>
         {/* Step 2 */}
-        <Flex.Row flexWrap="wrap" className={styles.row}>
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.leftColumn}
-          >
-            <div className={styles.stepOneTextContainer}>
-              <Typography.Span
-                content="Step 2"
-                color="white"
-                className={styles.step}
+        <Flex.Col alignItems="center" className={styles.box}>
+          <Typography.Div
+            content="Step 2"
+            color="white"
+            size="heading4"
+            fontWeight="regular"
+            className={styles.bangers}
+          />
+          <Typography.Div
+            content="Scope out the Kreataversefor a piece of Genesis Kreation"
+            color="white"
+            size="heading2"
+            style={{ textAlign: "center" }}
+          />
+          <div style={{ minWidth: "400px", width: "100%" }}>
+            <WithAspectRatio aspectRatio={590 / 160}>
+              <ImageView
+                className={styles.imageView}
+                src={stepTwo.src}
+                crop={{ x: 0, y: 0, w: 1, h: 1 }}
               />
-              <Typography.Div
-                content={"Scope out the Kreataverse"}
-                color="white"
-                size="heading2"
-              />
-              <Typography.Div
-                content={
-                  <>
-                    <span>for a piece of </span>
-                    <span style={{ color: "#EC5929" }}>Genesis Kreation</span>
-                  </>
-                }
-                color="white"
-                size="heading2"
-              />
-            </div>
-          </Flex.Col>
-          <Divider.Vertical color="white-10" />
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.rightColumn}
-          >
-            <div className={styles.stepContainer}>
-              <WithAspectRatio aspectRatio={552 / 252}>
-                <ImageView
-                  className={styles.imageView}
-                  src={stepTwo.src}
-                  crop={{ x: 0, y: 0, w: 1, h: 1 }}
-                />
-              </WithAspectRatio>
-            </div>
-          </Flex.Col>
-        </Flex.Row>
-
+            </WithAspectRatio>
+          </div>
+        </Flex.Col>
         {/* Step 3 */}
-        <Flex.Row flexWrap="wrap" className={styles.row}>
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.leftColumn}
-          >
-            <div className={styles.stepOneTextContainer}>
-              <Typography.Span
-                content="Step 3"
-                color="white"
-                className={styles.step}
-              />
-              <Typography.Div
-                content={
-                  <>
-                    <span>Mint its </span>
-                    <span style={{ color: "#EC5929" }}>Kolours</span>
-                  </>
-                }
-                color="white"
-                size="heading2"
-              />
-              <Typography.Div
-                content={"to restore its Kolourway"}
-                color="white"
-                size="heading2"
-              />
-            </div>
-          </Flex.Col>
-          <Divider.Vertical color="white-10" />
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.rightColumn}
-          >
-            <div className={styles.mintKolourContainer}>
-              <div className={styles.kolourList}>
-                {kolours.map((kolour) => (
-                  <div
-                    key={kolour}
-                    className={styles.kolour}
-                    style={{ backgroundColor: kolour }}
-                  />
-                ))}
-              </div>
-              <div className={styles.mintKolourAction}>Mint Kolours</div>
-            </div>
-          </Flex.Col>
-        </Flex.Row>
-
-        {/* Step 4 */}
-        <Flex.Row flexWrap="wrap" className={styles.row}>
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.leftColumn}
-          >
-            <div className={styles.stepOneTextContainer}>
-              <Typography.Span
-                content="Step 4"
-                color="white"
-                className={styles.step}
-              />
-              <Typography.Div
-                content={"Mint your piece of"}
-                color="white"
-                size="heading2"
-              />
-              <Typography.Div
-                content={
-                  <span style={{ color: "#EC5929" }}>Genesis Kreation</span>
-                }
-                size="heading2"
-              />
-            </div>
-          </Flex.Col>
-          <Divider.Vertical color="white-10" />
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={styles.rightColumn}
-          >
-            <div className={styles.stepContainer}>
-              <WithAspectRatio aspectRatio={552 / 252}>
-                <ImageView
-                  className={styles.imageView}
-                  src={stepFour.src}
-                  crop={{ x: 0, y: 0, w: 1, h: 1 }}
+        <Flex.Col alignItems="center" className={styles.box}>
+          <Typography.Div
+            content="Step 3"
+            color="white"
+            size="heading4"
+            fontWeight="regular"
+            className={styles.bangers}
+          />
+          <Typography.Div
+            content="Mint its Kolours to restore its Kolourway"
+            color="white"
+            size="heading2"
+            style={{ textAlign: "center" }}
+          />
+          <Flex.Col gap="24px" style={{ width: "100%" }} alignItems="center">
+            <div className={styles.kolourList}>
+              {kolours.map((kolour) => (
+                <div
+                  key={kolour}
+                  className={styles.kolour}
+                  style={{ backgroundColor: kolour }}
                 />
-              </WithAspectRatio>
+              ))}
             </div>
+            <div className={styles.mintKolourAction}>Mint Kolours</div>
           </Flex.Col>
-        </Flex.Row>
-
+        </Flex.Col>
+        {/* Step 4 */}
+        <Flex.Col alignItems="center" className={styles.box}>
+          <Typography.Div
+            content="Step 4"
+            color="white"
+            size="heading4"
+            fontWeight="regular"
+            className={styles.bangers}
+          />
+          <Typography.Div
+            content="Mint your piece of Genesis Kreation"
+            color="white"
+            size="heading2"
+            style={{ textAlign: "center" }}
+          />
+          <div style={{ minWidth: "400px", width: "100%" }}>
+            <WithAspectRatio aspectRatio={552 / 252}>
+              <ImageView
+                className={styles.imageView}
+                src={stepFour.src}
+                crop={{ x: 0, y: 0, w: 1, h: 1 }}
+              />
+            </WithAspectRatio>
+          </div>
+        </Flex.Col>
         {/* Step 5 */}
-        <Flex.Row flexWrap="wrap" className={styles.row}>
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={cx(styles.leftColumn, styles.lastRow)}
-          >
-            <div className={styles.stepOneTextContainer}>
-              <Typography.Span
-                content="Step 5"
-                color="white"
-                className={styles.step}
-              />
-              <Typography.Span
-                content={
-                  <>
-                    <span>
-                      <i>Enjoy the fruits of your </i>
-                    </span>
-                    <span style={{ color: "#EC5929" }}>
-                      <i>Kreation</i>
-                    </span>
-                  </>
-                }
-                color="white"
-                className={styles.action}
-              />
-            </div>
-          </Flex.Col>
-          <Divider.Vertical color="white-10" />
-          <Flex.Col
-            minWidth={"500px"}
-            flex="1 1 0"
-            className={cx(styles.rightColumn, styles.lastRow)}
-          >
+        <Flex.Col alignItems="center" className={styles.box}>
+          <Typography.Div
+            content="Step 5"
+            color="white"
+            size="heading4"
+            fontWeight="regular"
+            className={styles.bangers}
+          />
+          <Typography.Div
+            content="Enjoy the fruits of your Kreation"
+            color="white"
+            size="heading2"
+            style={{ textAlign: "center" }}
+          />
+          <Flex.Col minWidth={"500px"} flex="1 1 0" style={{ width: "100%" }}>
             <div className={styles.stepContainer}>
               <div className={styles.fruitTable}>
                 <div
@@ -341,14 +242,8 @@ export default function Guideline({ className, style }: Props) {
               </div>
             </div>
           </Flex.Col>
-        </Flex.Row>
-      </div>
-      <Link href="/mint" className={styles.kolourButtonContainer}>
-        <div className={styles.kolourButton}>
-          <IconSwatches />
-          <Typography.Span size="heading5" content="Scope the Kreataverse" />
-        </div>
-      </Link>
+        </Flex.Col>
+      </Carousel>
     </div>
   );
 }
