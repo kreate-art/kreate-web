@@ -62,7 +62,6 @@ export default function LandingPage() {
           </div>
           <div className={styles.mainContent}>
             <NftCollection />
-            <div className={styles.story}>Kreataverse Story</div>
             <KreataverseStory />
             <div className={styles.story}>
               Start
