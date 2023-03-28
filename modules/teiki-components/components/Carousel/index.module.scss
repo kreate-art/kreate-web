@@ -74,3 +74,20 @@
     opacity: 1;
   }
 }
+
+.indicatorContainer {
+  position: absolute;
+
+  // TODO: @sk-umiuma:
+  // These positions are only suitable for kolours page usage
+  &.bottomLeft {
+    left: 72px;
+    bottom: 80px;
+  }
+
+  &.bottom {
+    left: 50%;
+    bottom: -48px;
+    transform: translateX(-50%);
+  }
+}
