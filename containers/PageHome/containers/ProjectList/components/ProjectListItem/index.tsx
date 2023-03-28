@@ -3,7 +3,6 @@ import * as React from "react";
 
 import { ProjectGeneralInfo } from "../../../../../../modules/business-types";
 import CreationAndUpdateTime from "../../../../components/ProjectCreationAndUpdateTime";
-import ProjectStats from "../../../../components/ProjectStats";
 import ProjectSummary from "../../../../components/ProjectSummary";
 import TagList from "../../../../components/ProjectTagList";
 import ProjectThumbnail from "../../../../components/ProjectThumbnail";
@@ -104,7 +103,9 @@ export default function ProjectListItem({
           className={styles.summary}
           value={value.basics.summary}
         />
-        <ProjectStats className={styles.stats} value={value.stats} />
+        {/* https://app.asana.com/0/1203842063837585/1204267832406186
+          <ProjectStats className={styles.stats} value={value.stats} />
+        */}
       </div>
     </div>
   );
