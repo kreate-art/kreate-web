@@ -372,7 +372,7 @@ export async function getDetailedProject(
         : [
             {
               id: "default",
-              title: "Member",
+              title: "Fan",
               contents: { body: fallbackTier },
               requiredStake: 5_000_000,
               benefits: [],

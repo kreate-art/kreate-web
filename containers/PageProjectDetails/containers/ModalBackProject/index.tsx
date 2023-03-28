@@ -197,7 +197,7 @@ export default function ModalBackProject({
         <Typography.Div size="heading4" maxLines={1} color="green">
           <Typography.Span
             content={`${
-              stakingAmount != null ? "Stake More" : "Become a Member"
+              stakingAmount != null ? "Stake More" : "Become a Fan"
             }: `}
             color="ink"
           />

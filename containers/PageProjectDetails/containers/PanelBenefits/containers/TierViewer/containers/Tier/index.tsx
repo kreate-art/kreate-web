@@ -117,7 +117,7 @@ export default function Tier({
             <Button.Solid
               content={
                 currentTier == null
-                  ? "Become a member"
+                  ? "Become a fan"
                   : value.requiredStake < currentTier.requiredStake
                   ? "Downgrade"
                   : value.requiredStake > currentTier.requiredStake
@@ -169,8 +169,8 @@ export default function Tier({
                 value.maximumMembers
                   ? `${value.activeMemberCount || 0}/${
                       value.maximumMembers
-                    } limited members`
-                  : `${value.activeMemberCount || 0} members`
+                    } limited fans`
+                  : `${value.activeMemberCount || 0} fans`
               }
               color={value.maximumMembers ? "red" : undefined}
               size="heading6"

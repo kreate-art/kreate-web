@@ -52,7 +52,7 @@ export default function ProjectStats({
             ? shortenNumber(value.numSupporters)
             : "-"}
         </div>
-        <div className={styles.legend}>Members</div>
+        <div className={styles.legend}>Fans</div>
       </div>
       <div className={styles.box}>
         <div className={styles.value}>

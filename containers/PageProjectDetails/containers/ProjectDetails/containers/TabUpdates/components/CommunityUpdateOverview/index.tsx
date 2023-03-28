@@ -118,14 +118,14 @@ export default function CommunityUpdateOverview({
               className={styles.box}
             >
               <Typography.Div
-                content={`Only members from tier ${
+                content={`Only fans from tier ${
                   tiers[value.exclusive.tier - 1].title
                 } can view this post`}
                 size="heading6"
                 color="primary"
               />
               <Button.Solid
-                content="Become a Member"
+                content="Become a Fans"
                 color="primary"
                 size="small"
                 className={styles.member}

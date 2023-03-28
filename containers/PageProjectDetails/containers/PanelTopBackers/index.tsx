@@ -16,7 +16,7 @@ export default function PanelTopBackers({ className, value }: Props) {
   return (
     <div className={cx(className, styles.container)}>
       <Flex.Col gap="24px">
-        <Typography.Div size="heading6" color="ink" content="Top Members" />
+        <Typography.Div size="heading6" color="ink" content="Top Fans" />
         <TableTopBackers value={value} />
       </Flex.Col>
     </div>
