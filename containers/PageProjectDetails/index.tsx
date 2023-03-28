@@ -25,7 +25,6 @@ import ModalUnbackProject from "./containers/PanelAdjustStake/containers/ModalUn
 import ModalUnbackSuccess from "./containers/PanelAdjustStake/containers/ModalUnbackSuccess";
 import PanelBenefits from "./containers/PanelBenefits";
 import PanelProjectStatistics from "./containers/PanelProjectStatistics";
-import PanelProtocolReward from "./containers/PanelProtocolReward";
 import PanelTopBackers from "./containers/PanelTopBackers";
 import PanelWithdrawFund from "./containers/PanelWithdrawFund";
 import ProjectDetails, { TABS } from "./containers/ProjectDetails";
@@ -519,6 +518,7 @@ export default function PageProjectDetails({
                       />
                     </div>
                     <div className={styles.rightPanels}>
+                      {/* https://app.asana.com/0/1203842063837585/1204265141331487/f
                       {walletStatus.status === "connected" ? (
                         <PanelProtocolReward
                           projectId={project.id}
@@ -532,7 +532,7 @@ export default function PageProjectDetails({
                               : "active"
                           }
                         />
-                      ) : null}
+                      ) : null} */}
 
                       {walletStatus.status !==
                       "connected" ? null : !isUserCreator ? (
