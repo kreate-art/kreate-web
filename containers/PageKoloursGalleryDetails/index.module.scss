@@ -30,3 +30,12 @@
 .body {
   background-color: #eef1f0;
 }
+
+.grid {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 20px 12px;
+  justify-content: stretch;
+  grid-auto-rows: 1fr;
+  grid-auto-flow: row;
+}
