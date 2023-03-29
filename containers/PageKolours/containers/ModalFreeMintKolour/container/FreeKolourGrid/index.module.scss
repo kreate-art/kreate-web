@@ -1,0 +1,23 @@
+.grid {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 16px;
+  justify-content: stretch;
+  grid-auto-rows: 1fr;
+  grid-auto-flow: row;
+}
+
+.card {
+  border-radius: 12px;
+  border: 1px solid rgba(34, 34, 34, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.close {
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+}
