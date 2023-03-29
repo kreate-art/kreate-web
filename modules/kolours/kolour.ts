@@ -70,7 +70,6 @@ export async function getAllMintedKolours(
 }
 
 export async function getFreeMintQuota(sql: Sql, address: Address) {
-  // Note that the `referral` condition is inlined for performance
   const [{ total, used }] = await sql<[{ total: number; used: number }]>`
     SELECT
       coalesce(
@@ -89,7 +88,7 @@ export async function getFreeMintQuota(sql: Sql, address: Address) {
           kolours.kolour_book
         WHERE
           status <> 'expired'
-          AND referral = 'FREE'
+          AND source = 'free'
           AND user_address = ${address}
       ) used;
   `;

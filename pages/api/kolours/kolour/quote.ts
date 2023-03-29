@@ -15,11 +15,11 @@ import {
 } from "@/modules/kolours/kolour";
 import { lookupReferral } from "@/modules/kolours/referral";
 import {
-  FREE_MINT_REFERRAL,
+  DISCOUNT_MULTIPLIER,
   Kolour,
   KolourEntry,
   KolourQuotation,
-  KolourQuotationProgramme,
+  KolourQuotationProgram,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -49,13 +49,14 @@ export default async function handler(
 
     const { kolour: r_kolour, address, source: r_source } = req.query;
 
+    // TODO: Support `present` later.
     ClientError.assert(
       r_source == null ||
         (typeof r_source === "string" &&
-          (r_source === "free" || r_source === "genesis-kreation")),
+          (r_source === "free" || r_source === "genesis_kreation")),
       { _debug: "invalid source" }
     );
-    const source = r_source || "genesis-kreation"; // TODO: Support later
+    const source = r_source || "genesis_kreation"; // TODO: Support later
 
     ClientError.assert(address && typeof address === "string", {
       _debug: "invalid address",
@@ -77,13 +78,15 @@ export default async function handler(
     );
     ClientError.assert(kolours.length, { _debug: "kolour is required" });
 
-    let programme: KolourQuotationProgramme;
+    let program: KolourQuotationProgram;
+    let discount: number | undefined;
     switch (source) {
       case "free":
         await validateFreeMintAvailability(db, address, kolours);
-        programme = { source, referral: FREE_MINT_REFERRAL };
+        program = { source };
+        discount = DISCOUNT_MULTIPLIER; // 100%
         break;
-      case "genesis-kreation": {
+      case "genesis_kreation": {
         const [referral, areAvailable] = await Promise.all([
           lookupReferral(redis, db, address),
           areKoloursAvailable(db, kolours),
@@ -91,14 +94,14 @@ export default async function handler(
         ClientError.assert(areAvailable, {
           _debug: "kolours are unavailable",
         });
-        programme = { source, referral: referral ?? undefined };
+        program = { source, referral: referral ?? undefined };
+        discount = referral?.discount;
         break;
       }
     }
 
-    const discount = programme.referral?.discount;
     const quotation: KolourQuotation = {
-      ...programme,
+      ...program,
       kolours: Object.fromEntries(
         await Promise.all(
           kolours.map(async (k) => [k, await quoteKolour(k, discount)])
