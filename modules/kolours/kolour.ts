@@ -53,16 +53,17 @@ export async function getAllMintedKolours(
   const rows = await sql<MintedKolourEntry[]>`
     WITH kolour_earning AS (
       SELECT
-        p.k AS kolour,
-        sum(coalesce(gkb.fee / 100, gkl.listed_fee / 200))::bigint AS expected_earning
+        gp.kolour,
+        sum(coalesce(gb.fee / 100, gl.listed_fee / 200))::bigint AS expected_earning
       FROM
-        kolours.genesis_kreation_list gkl
-        LEFT JOIN kolours.genesis_kreation_book gkb
-          ON gkb.kreation = gkl.kreation
-            AND gkb.status <> 'expired'
-        CROSS JOIN LATERAL jsonb_to_recordset(gkl.palette) AS p (k varchar(6))
+        kolours.genesis_kreation_list gl
+        LEFT JOIN kolours.genesis_kreation_book gb
+          ON gb.kreation = gl.kreation
+            AND gb.status <> 'expired'
+        INNER JOIN kolours.genesis_kreation_palette gp
+          ON gp.kreation_id = gl.id
       GROUP BY
-        p.k
+        gp.kolour
     )
     SELECT
       kb.kolour,
