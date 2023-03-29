@@ -1,24 +1,22 @@
-import { Kolours } from "./types";
+import { DISCOUNT_MULTIPLIER, Kolour } from "./types/Kolours";
 
 import { Lovelace } from "@/modules/next-backend/types";
-
-export const DISCOUNT_MULTIPLIER = 10000;
 
 export const FEE_MULTIPLIER = BigInt(2);
 
 export function computeFees(
   baseFee: Lovelace,
-  discount?: bigint
+  discount?: number
 ): { listedFee: Lovelace; fee: Lovelace } {
   const listedFee = baseFee;
   const half = baseFee / BigInt(2);
   const fee = discount
-    ? half - (half * discount) / BigInt(DISCOUNT_MULTIPLIER)
+    ? half - (half * BigInt(discount)) / BigInt(DISCOUNT_MULTIPLIER)
     : half;
   return { fee, listedFee };
 }
 
-export function calculateKolourFee(kolour: Kolours.Kolour): Lovelace {
+export function calculateKolourFee(kolour: Kolour): Lovelace {
   return BigInt(
     Math.max(
       4_000_000,
