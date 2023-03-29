@@ -1,0 +1,53 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  padding: 12px;
+  width: 400px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 12px;
+
+  :global(.react-colorful__last-control) {
+    height: 12px;
+  }
+
+  :global(.react-colorful__pointer) {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.colorPallete {
+  // To override react-colorful style
+  width: 100% !important;
+}
+
+.colorInputHex {
+  width: 100%;
+
+  &:focus {
+    outline-color: colors.$primary;
+  }
+}
+
+.colorInputRGB {
+  width: 48px;
+
+  &:focus {
+    outline-color: colors.$primary;
+  }
+}
+
+.suggestionsContainer {
+  align-self: flex-start;
+}
+
+.suggestion {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
