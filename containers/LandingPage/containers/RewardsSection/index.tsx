@@ -1,6 +1,7 @@
 import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import * as React from "react";
 
 import IconBulletPoint from "./components/IconBulletPoint";
 import humanFigure1 from "./images/human-figure-1.png";
@@ -8,6 +9,7 @@ import humanFigure2 from "./images/human-figure-2.png";
 import kreationNft from "./images/kreation-nft.png";
 import styles from "./index.module.scss";
 
+import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import Carousel from "@/modules/teiki-components/components/Carousel";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -31,8 +33,17 @@ export default function RewardSection({ className, style }: Props) {
     "#DDBEA7",
     "#D6AEBC",
   ];
+  const [containerElement, setContainerElement] =
+    React.useState<HTMLDivElement | null>(null);
+  const containerSize = useElementSize(containerElement);
+  const isSizeSmall = containerSize && containerSize.w <= 1160;
   return (
-    <div className={className} style={style} id="rewards">
+    <div
+      ref={setContainerElement}
+      className={className}
+      style={style}
+      id="rewards"
+    >
       <div className={styles.rewardsTitle}>Your Rewards</div>
       <Carousel
         gap="medium"
@@ -69,7 +80,7 @@ export default function RewardSection({ className, style }: Props) {
                   alt="human-figure-1"
                 />
               </Flex.Col>
-              <Divider.Vertical color="white-10" />
+              {!isSizeSmall ? <Divider.Vertical color="white-10" /> : null}
               <Flex.Col
                 flex="1 1 0"
                 padding="0px 0px 32px 32px"
