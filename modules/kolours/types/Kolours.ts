@@ -71,9 +71,14 @@ export type KolourQuotation = KolourQuotationProgram & {
 };
 
 export type KolourQuotationProgram =
-  | { source: "present"; referral?: undefined }
-  | { source: "free"; referral?: undefined }
-  | { source: "genesis_kreation"; referral?: Referral };
+  | { source: { type: "present" }; referral?: undefined }
+  | { source: { type: "free" }; referral?: undefined }
+  | {
+      source: { type: "genesis_kreation"; kreation: string };
+      referral?: Referral;
+    };
+
+export type KolourQuotationSource = KolourQuotationProgram["source"];
 
 export type MintedKolourEntry = {
   kolour: Kolour;

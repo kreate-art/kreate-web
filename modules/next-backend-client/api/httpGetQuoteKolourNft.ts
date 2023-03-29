@@ -4,6 +4,7 @@ import { Address } from "lucid-cardano";
 import { assert } from "@/modules/common-utils";
 import * as crypt from "@/modules/crypt";
 import { fromJson } from "@/modules/json-utils";
+import { KolourQuotationSource } from "@/modules/kolours/types/Kolours";
 
 type Response = {
   quotation: KolourQuotation;
@@ -11,19 +12,23 @@ type Response = {
 };
 
 type Params = {
+  source: KolourQuotationSource;
   kolours: Kolour[];
   address: Address;
 };
 
 export async function httpGetQuoteKolourNft({
+  source,
   kolours,
   address,
 }: Params): Promise<Response> {
-  const kolour = kolours.join(",");
   const search = new URLSearchParams();
-
-  search.append("kolour", kolour);
+  search.append("source", source.type);
+  source.type === "genesis_kreation" &&
+    search.append("kreation", source.kreation);
+  search.append("kolour", kolours.join(","));
   search.append("address", address);
+
   const response = await fetch(
     `/api/kolours/kolour/quote?${search.toString()}`
   );

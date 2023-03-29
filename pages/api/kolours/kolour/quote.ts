@@ -11,7 +11,7 @@ import { calculateKolourFee, computeFees } from "@/modules/kolours/fees";
 import {
   areKoloursAvailable,
   generateKolourImageCid,
-  validateFreeMintAvailability,
+  checkFreeMintAvailability,
 } from "@/modules/kolours/kolour";
 import { lookupReferral } from "@/modules/kolours/referral";
 import {
@@ -20,6 +20,7 @@ import {
   KolourEntry,
   KolourQuotation,
   KolourQuotationProgram,
+  KolourQuotationSource,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -47,16 +48,8 @@ export default async function handler(
       _debug: "invalid http method",
     });
 
-    const { kolour: r_kolour, address, source: r_source } = req.query;
-
-    // TODO: Support `present` later.
-    ClientError.assert(
-      r_source == null ||
-        (typeof r_source === "string" &&
-          (r_source === "free" || r_source === "genesis_kreation")),
-      { _debug: "invalid source" }
-    );
-    const source = r_source || "genesis_kreation"; // TODO: Support later
+    const { kolour: r_kolour, address } = req.query;
+    const source = extractKolourSource(req);
 
     ClientError.assert(address && typeof address === "string", {
       _debug: "invalid address",
@@ -80,13 +73,18 @@ export default async function handler(
 
     let program: KolourQuotationProgram;
     let discount: number | undefined;
-    switch (source) {
+    switch (source.type) {
       case "free":
-        await validateFreeMintAvailability(db, address, kolours);
+        await checkFreeMintAvailability(db, address, kolours);
         program = { source };
         discount = DISCOUNT_MULTIPLIER; // 100%
         break;
       case "genesis_kreation": {
+        // TODO: Fetch base_discount from kreation
+        const kreation = req.query.kreation;
+        ClientError.assert(kreation && typeof kreation === "string", {
+          _debug: "invalid kreation",
+        });
         const [referral, areAvailable] = await Promise.all([
           lookupReferral(redis, db, address),
           areKoloursAvailable(db, kolours),
@@ -98,6 +96,9 @@ export default async function handler(
         discount = referral?.discount;
         break;
       }
+      case "present":
+        // TODO: Support `present` later.
+        throw new ClientError({ _debug: "present source is unsupported" });
     }
 
     const quotation: KolourQuotation = {
@@ -127,4 +128,26 @@ async function quoteKolour(
   const baseFee = calculateKolourFee(kolour);
   const cid = await generateKolourImageCid(redis, ipfs, kolour);
   return { ...computeFees(baseFee, discount), image: `ipfs://${cid}` };
+}
+
+function extractKolourSource(req: NextApiRequest): KolourQuotationSource {
+  const sourceType = req.query.source;
+  ClientError.assert(
+    typeof sourceType === "string" &&
+      (sourceType === "present" ||
+        sourceType === "free" ||
+        sourceType === "genesis_kreation"),
+    { _debug: "invalid source" }
+  );
+  switch (sourceType) {
+    case "genesis_kreation": {
+      const kreation = req.query.kreation;
+      ClientError.assert(kreation && typeof kreation === "string", {
+        _debug: "invalid kreation",
+      });
+      return { type: "genesis_kreation", kreation };
+    }
+    default:
+      return { type: sourceType };
+  }
 }
