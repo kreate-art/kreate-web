@@ -26,7 +26,7 @@ type GenesisKreationDbRow = {
 
 export async function getAllGenesisKreations(
   sql: Sql,
-  discount?: bigint
+  discount?: number
 ): Promise<GenesisKreationEntry[]> {
   const rows = await sql<GenesisKreationDbRow[]>`
     SELECT
@@ -95,7 +95,7 @@ export async function getAllGenesisKreations(
 export async function quoteGenesisKreation(
   sql: Sql,
   id: GenesisKreationId,
-  discount?: bigint
+  discount?: number
 ) {
   const extra = sql`
     gl.final_image_cid AS image_cid,

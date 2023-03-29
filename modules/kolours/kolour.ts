@@ -2,8 +2,12 @@ import { randomUUID } from "node:crypto";
 
 import { Redis } from "ioredis";
 import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
+import { Address } from "lucid-cardano";
 import sharp from "sharp";
 
+import { ClientError } from "../next-backend/api/errors";
+
+import { KOLOUR_IMAGE_CID_PREFIX, KOLOUR_IMAGE_LOCK_PREFIX } from "./keys";
 import { Kolour, MintedKolourEntry } from "./types/Kolours";
 
 import { Sql } from "@/modules/next-backend/db";
@@ -28,23 +32,6 @@ export async function areKoloursAvailable(
       AND status <> 'expired';
   `;
   return !res.count;
-}
-
-export async function getUnavailableKolours(
-  sql: Sql,
-  kolours: Kolour[]
-): Promise<Set<Kolour>> {
-  if (!kolours.length) return new Set();
-  const rows = await sql<{ kolour: Kolour }[]>`
-    SELECT
-      kolour
-    FROM
-      kolours.kolour_book
-    WHERE
-      kolour IN ${sql(kolours)}
-      AND status <> 'expired';
-  `;
-  return new Set(rows.map((r) => r.kolour));
 }
 
 export async function getAllMintedKolours(
@@ -82,6 +69,71 @@ export async function getAllMintedKolours(
   return rows.slice();
 }
 
+export async function getFreeMintQuota(sql: Sql, address: Address) {
+  // Note that the `referral` condition is inlined for performance
+  const [{ total, used }] = await sql<[{ total: number; used: number }]>`
+    SELECT
+      coalesce(
+      (
+        SELECT
+          quota
+        FROM
+          kolours.kolour_free_mint
+        WHERE
+          address = ${address}
+      ), 0) total,
+      (
+        SELECT
+          count(id)::integer
+        FROM
+          kolours.kolour_book
+        WHERE
+          status <> 'expired'
+          AND referral = 'FREE'
+          AND user_address = ${address}
+      ) used;
+  `;
+  const available = total - used;
+  return { total, available, used };
+}
+
+export async function areKoloursAvailableForFreeMint(
+  sql: Sql,
+  kolours: Kolour[]
+): Promise<boolean> {
+  if (!kolours.length) return true;
+  const res = await sql`
+    SELECT FROM (
+      SELECT kolour FROM kolours.kolour_book WHERE status <> 'expired'
+      UNION ALL
+      SELECT kolour FROM kolours.genesis_kreation_palette
+    ) AS _
+    WHERE
+      kolour IN ${sql(kolours)}
+  `;
+  return !res.count;
+}
+
+export async function validateFreeMintAvailability(
+  sql: Sql,
+  address: Address,
+  kolours: Kolour[]
+) {
+  const [quota, areAvailable] = await Promise.all([
+    getFreeMintQuota(sql, address),
+    areKoloursAvailableForFreeMint(sql, kolours),
+  ]);
+  ClientError.assert(areAvailable, {
+    _debug: "kolours are unavailable for free mint",
+  });
+  ClientError.assert(quota.total, {
+    _debug: "not eligible for free mint",
+  });
+  ClientError.assert(quota.available >= kolours.length, {
+    _debug: `insufficient quota for free mint: need ${kolours.length}, have ${quota.available}`,
+  });
+}
+
 export async function generateKolourImageCid(
   redis: Redis,
   ipfs: IPFSHTTPClient,
@@ -103,7 +155,7 @@ export async function generateKolourImageCid(
     await redis.set(cidKey, cidStr, "EX", 86400); // 1 day
     return cidStr;
   } finally {
-    lock.release();
+    await lock.release();
   }
 }
 
@@ -114,6 +166,3 @@ export async function createKolourImage(kolour: Kolour): Promise<Buffer> {
     .png({ colors: 2 })
     .toBuffer();
 }
-
-export const KOLOUR_IMAGE_CID_PREFIX = "ko:kolour:img:";
-export const KOLOUR_IMAGE_LOCK_PREFIX = "ko:kolour:img.lock:";

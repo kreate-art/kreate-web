@@ -107,7 +107,7 @@ export default async function handler(
       userAddress: quotation.userAddress,
       feeAddress: quotation.feeAddress,
       ...metadata,
-      referral: quotation.referral ?? null,
+      referral: quotation.referral?.id ?? null,
     };
 
     const txSigned = await signTx(lucid, tx);

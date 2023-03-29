@@ -14,8 +14,15 @@ import { BLOCKFROST_PROJECT_ID, BLOCKFROST_URL, NETWORK } from "../env/client";
 import { toJson } from "../json-utils";
 
 import { QUOTATION_TTL } from "./common";
-import { DISCOUNT_MULTIPLIER } from "./fees";
-import { Referral } from "./types/Kolours";
+import {
+  EPOCH_END_KEY,
+  EPOCH_LOCK_KEY,
+  KOLOUR_ADDRESS_REFERRAL_PREFIX,
+  KOLOUR_POOL_REFERRAL_PREFIX,
+  KOLOUR_STAKE_DELEGATION_LOCK_PREFIX,
+  KOLOUR_STAKE_DELEGATION_PREFIX,
+} from "./keys";
+import { DISCOUNT_MULTIPLIER, Referral } from "./types/Kolours";
 
 import { UnixTimestamp } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -82,7 +89,7 @@ export async function lookupDelegation(
     await redis.set(delegationKey, delegation ?? "", "PX", epochExp(epochEnd));
     return delegation;
   } finally {
-    lock.release();
+    await lock.release();
   }
 }
 
@@ -101,7 +108,7 @@ async function lookupEpochEnd(
     await redis.set(EPOCH_END_KEY, epochEnd, "PX", epochExp(epochEnd));
     return epochEnd;
   } finally {
-    lock.release();
+    await lock.release();
   }
 }
 
@@ -116,9 +123,7 @@ async function queryPoolReferral(
   return row
     ? {
         id: row.id,
-        discount: BigInt(
-          Math.trunc(Number(row.discount) * DISCOUNT_MULTIPLIER)
-        ),
+        discount: Math.trunc(Number(row.discount) * DISCOUNT_MULTIPLIER),
       }
     : null;
 }
@@ -170,7 +175,7 @@ function referralToText(referral: Referral | null) {
 function referralFromText(text: string): Referral | null {
   if (text) {
     const [id, discount] = text.split("|");
-    return { id, discount: BigInt(discount) };
+    return { id, discount: Number(discount) };
   } else {
     return null;
   }
@@ -198,11 +203,3 @@ function epochExp(epochEnd: UnixTimestamp) {
   // It's sensitive near epoch end boundary
   return Math.round(Math.max(epochEnd, Date.now() + 60000) / 1000);
 }
-
-export const KOLOUR_POOL_REFERRAL_PREFIX = "ko:ref:p:";
-export const KOLOUR_ADDRESS_REFERRAL_PREFIX = "ko:ref:a:";
-export const KOLOUR_STAKE_DELEGATION_PREFIX = "ko:stake:";
-export const KOLOUR_STAKE_DELEGATION_LOCK_PREFIX = "ko:stake.lock:";
-
-export const EPOCH_LOCK_KEY = "c:epoch.lock";
-export const EPOCH_END_KEY = "c:epoch:end";

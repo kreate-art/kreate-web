@@ -8,7 +8,6 @@ import { fromJson } from "@/modules/json-utils";
 type Response = {
   quotation: KolourQuotation;
   signature: crypt.Base64;
-  unavailable?: Kolour[];
 };
 
 type Params = {

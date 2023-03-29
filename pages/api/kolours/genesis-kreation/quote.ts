@@ -62,7 +62,7 @@ export default async function handler(
       listedFee,
       userAddress: address,
       feeAddress: KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
-      referral: referral?.id,
+      referral: referral ?? undefined,
       expiration: getExpirationTime(),
     };
     const signature =

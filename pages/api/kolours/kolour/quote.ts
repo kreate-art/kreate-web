@@ -9,14 +9,17 @@ import {
 import { getExpirationTime, parseKolour } from "@/modules/kolours/common";
 import { calculateKolourFee, computeFees } from "@/modules/kolours/fees";
 import {
+  areKoloursAvailable,
   generateKolourImageCid,
-  getUnavailableKolours,
+  validateFreeMintAvailability,
 } from "@/modules/kolours/kolour";
 import { lookupReferral } from "@/modules/kolours/referral";
 import {
+  FREE_MINT_REFERRAL,
   Kolour,
   KolourEntry,
   KolourQuotation,
+  KolourQuotationProgramme,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -43,13 +46,20 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-    const { kolour: r_kolour, address } = req.query;
+
+    const { kolour: r_kolour, address, source: r_source } = req.query;
+
+    ClientError.assert(
+      r_source == null ||
+        (typeof r_source === "string" &&
+          (r_source === "free" || r_source === "genesis-kreation")),
+      { _debug: "invalid source" }
+    );
+    const source = r_source || "genesis-kreation"; // TODO: Support later
 
     ClientError.assert(address && typeof address === "string", {
       _debug: "invalid address",
     });
-
-    const referral = await lookupReferral(redis, db, address);
 
     const r_kolours = r_kolour
       ? typeof r_kolour === "string"
@@ -67,35 +77,41 @@ export default async function handler(
     );
     ClientError.assert(kolours.length, { _debug: "kolour is required" });
 
-    const unavailable = await getUnavailableKolours(db, kolours);
-    const available = kolours.filter((k) => !unavailable.has(k));
-    ClientError.assert(available.length, {
-      _debug: "all selected kolours are unavailable",
-    });
+    let programme: KolourQuotationProgramme;
+    switch (source) {
+      case "free":
+        await validateFreeMintAvailability(db, address, kolours);
+        programme = { source, referral: FREE_MINT_REFERRAL };
+        break;
+      case "genesis-kreation": {
+        const [referral, areAvailable] = await Promise.all([
+          lookupReferral(redis, db, address),
+          areKoloursAvailable(db, kolours),
+        ]);
+        ClientError.assert(areAvailable, {
+          _debug: "kolours are unavailable",
+        });
+        programme = { source, referral: referral ?? undefined };
+        break;
+      }
+    }
 
+    const discount = programme.referral?.discount;
     const quotation: KolourQuotation = {
+      ...programme,
       kolours: Object.fromEntries(
         await Promise.all(
-          available.map(async (kolour) => [
-            kolour,
-            await quoteKolour(kolour, referral?.discount),
-          ])
+          kolours.map(async (k) => [k, await quoteKolour(k, discount)])
         )
       ),
       userAddress: address,
       feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
-      referral: referral?.id,
       expiration: getExpirationTime(),
     };
     const signature = crypt.hmacSign(512, KOLOURS_HMAC_SECRET, {
       json: { kolour: quotation },
     });
-    const ret: Response = {
-      quotation,
-      signature,
-      unavailable: unavailable.size ? Array.from(unavailable) : undefined,
-    };
-    sendJson(res, ret);
+    sendJson(res, { quotation, signature } satisfies Response);
   } catch (error) {
     apiCatch(req, res, error);
   }
@@ -103,7 +119,7 @@ export default async function handler(
 
 async function quoteKolour(
   kolour: Kolour,
-  discount?: bigint
+  discount?: number
 ): Promise<KolourEntry> {
   const baseFee = calculateKolourFee(kolour);
   const cid = await generateKolourImageCid(redis, ipfs, kolour);

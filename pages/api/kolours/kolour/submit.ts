@@ -1,5 +1,7 @@
+import { randomUUID } from "crypto";
+
 import { verifyKolourNftMintingTx } from "@kreate/protocol/transactions/kolours/kolour-nft";
-import { C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
+import { C, Core, Lucid, TxComplete, TxSigned, Address } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
@@ -10,12 +12,20 @@ import {
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
 import { getTxExp } from "@/modules/kolours/common";
-import { areKoloursAvailable } from "@/modules/kolours/kolour";
-import { KolourQuotation } from "@/modules/kolours/types/Kolours";
+import { KOLOUR_USER_LOCK_PREFIX } from "@/modules/kolours/keys";
+import {
+  areKoloursAvailable,
+  validateFreeMintAvailability,
+} from "@/modules/kolours/kolour";
+import {
+  KolourQuotation,
+  KolourQuotationProgramme,
+} from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
 import { postgres } from "@/modules/next-backend/db";
+import locking from "@/modules/next-backend/locking";
 
 export const config = { api: { bodyParser: false } };
 
@@ -58,11 +68,6 @@ export default async function handler(
       _debug: "expired",
     });
 
-    ClientError.assert(
-      await areKoloursAvailable(sql, Object.keys(quotation.kolours)),
-      { _debug: "kolours are unavailable" }
-    );
-
     const lucid = await lucid$();
 
     const tx = C.Transaction.from_bytes(Buffer.from(txHex, "hex"));
@@ -80,7 +85,9 @@ export default async function handler(
       txExp: txExp.time,
     });
 
-    const records = Object.entries(quotation.kolours)
+    const { source, referral, kolours, userAddress, feeAddress } = quotation;
+
+    const records = Object.entries(kolours)
       // Deterministic ordering helps with avoiding deadlocks
       .sort(([k1, _1], [k2, _2]) => (k1 < k2 ? -1 : 1))
       .map(([kolour, entry]) => ({
@@ -92,47 +99,66 @@ export default async function handler(
         fee: entry.fee,
         listedFee: entry.listedFee,
         imageCid: entry.image.replace("ipfs://", ""),
-        userAddress: quotation.userAddress,
-        feeAddress: quotation.feeAddress,
-        referral: quotation.referral ?? null,
+        userAddress,
+        feeAddress,
+        referral: referral?.id ?? null,
       }));
 
-    const txSigned = await signTx(lucid, tx);
+    const userLock = await acquireLockIfNeeded(source, userAddress);
     try {
-      await sql.begin((sql) => [
-        sql`SET LOCAL lock_timeout = '2s'`,
-        // This acts as a multi lock due to the UNIQUE constraint
-        sql`INSERT INTO kolours.kolour_book ${sql(records)}`,
-      ]);
-    } catch (lockError) {
-      if (
-        lockError instanceof postgres.PostgresError &&
-        lockError.code === "23505"
-      )
-        throw new ClientError({ _debug: "kolours are not available anymore" });
-      else throw lockError;
-    }
-    try {
-      const submittedTxId = await txSigned.submit();
-      if (submittedTxId !== txId) console.warn("tx id mismatch");
-    } catch (submitError) {
-      try {
-        const deleted = await sql`
-          DELETE FROM kolours.kolour_book
-            WHERE tx_id = ${txId}
-        `;
-        if (deleted.count !== records.length)
-          console.warn(
-            `revert mismatched: ${deleted.count} =/= ${records.length}`
-          );
-      } catch (revertError) {
-        console.error("revert error", revertError);
+      const kolourHexes = Object.keys(kolours);
+      switch (source) {
+        case "free":
+          await validateFreeMintAvailability(sql, userAddress, kolourHexes);
+          break;
+        case "genesis-kreation":
+          ClientError.assert(await areKoloursAvailable(sql, kolourHexes), {
+            _debug: "kolours are unavailable",
+          });
+          break;
       }
-      const errorMessage =
-        submitError instanceof Error ? submitError.message : submitError;
-      throw new ClientError({ _debug: { submit: errorMessage } });
+
+      const txSigned = await signTx(lucid, tx);
+      try {
+        await sql.begin((sql) => [
+          sql`SET LOCAL lock_timeout = '2s'`,
+          // This acts as a multi lock due to the UNIQUE constraint
+          sql`INSERT INTO kolours.kolour_book ${sql(records)}`,
+        ]);
+      } catch (lockError) {
+        if (
+          lockError instanceof postgres.PostgresError &&
+          lockError.code === "23505"
+        )
+          throw new ClientError({
+            _debug: "kolours are not available anymore",
+          });
+        else throw lockError;
+      }
+      try {
+        const submittedTxId = await txSigned.submit();
+        if (submittedTxId !== txId) console.warn("tx id mismatch");
+      } catch (submitError) {
+        try {
+          const deleted = await sql`
+            DELETE FROM kolours.kolour_book
+              WHERE tx_id = ${txId}
+          `;
+          if (deleted.count !== records.length)
+            console.warn(
+              `revert mismatched: ${deleted.count} =/= ${records.length}`
+            );
+        } catch (revertError) {
+          console.error("revert error", revertError);
+        }
+        const errorMessage =
+          submitError instanceof Error ? submitError.message : submitError;
+        throw new ClientError({ _debug: { submit: errorMessage } });
+      }
+      sendJson(res, { txId, tx: txSigned.toString() });
+    } finally {
+      await userLock?.release();
     }
-    sendJson(res, { txId, tx: txSigned.toString() });
   } catch (apiError) {
     apiCatch(req, res, apiError);
   }
@@ -144,4 +170,18 @@ async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
   return new TxComplete(lucid, tx)
     .signWithPrivateKey(KOLOURS_KOLOUR_NFT_PRIVATE_KEY)
     .complete();
+}
+
+async function acquireLockIfNeeded(
+  source: KolourQuotationProgramme["source"],
+  address: Address
+) {
+  return source === "free"
+    ? await locking.acquire(
+        KOLOUR_USER_LOCK_PREFIX + address,
+        randomUUID(),
+        { ttl: 10 },
+        1000
+      )
+    : null;
 }
