@@ -10,20 +10,20 @@ type Result =
   | { error: null; data: QuoteKolourNft$Response }
   | { error: "fetch-error"; _debug?: unknown };
 
-export type UseQuoteKolourNft$Params = {
-  source: KolourQuotationSource;
+export type UseQuoteFreeKolourNft$Result = Result;
+
+export function useQuoteFreeKolourNft$Nft({
+  kolours,
+  address,
+  source,
+}: {
   kolours: Kolour[];
   address: Address;
-};
-
-export type UseQuoteKolourNft$Result = Result;
-
-export function useQuoteKolourNft$Nft(
-  params: UseQuoteKolourNft$Params
-): Result | undefined {
+  source: KolourQuotationSource;
+}): Result | undefined {
   const { data, error } = useSWR(
-    ["8c924d66-624e-449a-802d-0b8cdff72807", params],
-    async () => await httpGetQuoteKolourNft(params)
+    ["add772c3-9e98-46ee-94a8-0a116a883d35", kolours, address],
+    async () => await httpGetQuoteKolourNft({ kolours, address, source })
   );
 
   if (error) {
