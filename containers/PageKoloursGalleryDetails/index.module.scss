@@ -1,0 +1,32 @@
+.container {
+  display: block;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+}
+
+.border {
+  border-radius: 4px;
+}
+
+.upper {
+  text-align: center;
+  gap: 24px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.main {
+  flex-grow: 1;
+  padding-top: 20px;
+}
+
+.body {
+  background-color: #eef1f0;
+}
