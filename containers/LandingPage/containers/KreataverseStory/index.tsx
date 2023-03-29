@@ -9,7 +9,6 @@ import {
 } from "./components/RightStory";
 import styles from "./index.module.scss";
 
-import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import Carousel from "@/modules/teiki-components/components/Carousel";
 
 type Props = {
