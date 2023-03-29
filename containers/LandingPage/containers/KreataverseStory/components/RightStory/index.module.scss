@@ -1,9 +1,9 @@
-.spaceshipImageContainer {
+.figureContainer {
   min-width: 500px;
   flex: 1 1 0;
 }
 
-.spaceshipImage {
-  position: absolute;
-  inset: 0;
+.figure {
+  width: 100%;
+  height: 100%;
 }

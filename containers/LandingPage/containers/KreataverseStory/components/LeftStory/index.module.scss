@@ -1,9 +1,8 @@
 .container {
   min-width: 500px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(247, 247, 247, 0.04);
+  background-image: url("../../../../hooks/images/filler.png");
   flex: 1 1 0;
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
 }
 
 .story {

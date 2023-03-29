@@ -10,6 +10,7 @@
   color: #fff;
   font-size: 48px;
   text-align: center;
+  width: 100%;
   margin-bottom: 64px;
   margin-top: 112px;
   letter-spacing: 0.16em;
@@ -25,4 +26,6 @@
   flex: 1 1 0;
   width: 100%;
   flex-wrap: wrap;
+  border-radius: 16px;
+  overflow: hidden;
 }

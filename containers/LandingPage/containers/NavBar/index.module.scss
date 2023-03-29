@@ -5,6 +5,7 @@
 
 .container {
   width: 100%;
+  row-gap: 20px;
 }
 
 .logoKreate {
@@ -19,15 +20,13 @@
   color: white;
 }
 
-.leftColumn {
-  flex-grow: 1;
-}
-
 .rightColumn {
-  display: flex;
   justify-content: end;
   gap: 48px;
   flex: 1 1 0;
+  min-width: 500px;
+  font-size: 16px;
+  gap: 48px;
 }
 
 .buttonNav {
@@ -46,4 +45,28 @@
 .buttonNav:hover {
   color: #ec5929;
   border-bottom: 2px solid #ec5929;
+}
+
+@media only screen and (max-width: 1000px) {
+  .container {
+    column-gap: 100px;
+  }
+  .leftColumn {
+    justify-content: center;
+    flex: 0 1 auto;
+    width: 100%;
+  }
+  .rightColumn {
+    justify-content: center;
+    flex: 0 1 auto;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 570px) {
+  .rightColumn {
+    min-width: auto;
+    font-size: 10px;
+    gap: 24px;
+  }
 }

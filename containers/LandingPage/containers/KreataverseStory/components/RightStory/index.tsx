@@ -1,30 +1,36 @@
 import cx from "classnames";
+import Image from "next/image";
 
-import WithAspectRatio from "../../../../../../components/WithAspectRatio";
-import spaceshipPng from "../../image/spaceship.png";
-
+import figure1 from "./images/right-story-1.png";
+import figure2 from "./images/right-story-2.png";
+import figure3 from "./images/right-story-3.png";
 import styles from "./index.module.scss";
-
-import ImageView from "@/modules/teiki-components/components/ImageView";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
 };
 
-export default function RightStory({ className, style }: Props) {
+export function RightStory$1({ className, style }: Props) {
   return (
-    <div
-      className={cx(styles.spaceshipImageContainer, className)}
-      style={style}
-    >
-      <WithAspectRatio aspectRatio={674 / 510}>
-        <ImageView
-          className={styles.spaceshipImage}
-          src={spaceshipPng.src}
-          crop={{ x: 0, y: 0, w: 1, h: 1 }}
-        />
-      </WithAspectRatio>
+    <div className={cx(styles.figureContainer, className)} style={style}>
+      <Image className={styles.figure} src={figure1} alt="spaceship" />
+    </div>
+  );
+}
+
+export function RightStory$2({ className, style }: Props) {
+  return (
+    <div className={cx(styles.figureContainer, className)} style={style}>
+      <Image className={styles.figure} src={figure2} alt="spaceship" />
+    </div>
+  );
+}
+
+export function RightStory$3({ className, style }: Props) {
+  return (
+    <div className={cx(styles.figureContainer, className)} style={style}>
+      <Image className={styles.figure} src={figure3} alt="spaceship" />
     </div>
   );
 }
