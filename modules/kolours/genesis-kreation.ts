@@ -137,7 +137,7 @@ async function queryGenesisKreation<T extends object = Record<string, never>>(
               AND kb.status = 'minted'
         WHERE
           gp.kreation_id = gl.id
-      ))
+      )) AS status
     FROM
       kolours.genesis_kreation_list gl
       LEFT JOIN kolours.genesis_kreation_book gb
