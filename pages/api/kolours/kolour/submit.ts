@@ -19,7 +19,7 @@ import {
 } from "@/modules/kolours/kolour";
 import {
   KolourQuotation,
-  KolourQuotationProgramme,
+  KolourQuotationProgram,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
@@ -93,6 +93,7 @@ export default async function handler(
       .map(([kolour, entry]) => ({
         kolour: kolour,
         status: "booked",
+        source,
         txId,
         txExpSlot: txExp.slot,
         txExpTime: txExp.time,
@@ -111,7 +112,7 @@ export default async function handler(
         case "free":
           await validateFreeMintAvailability(sql, userAddress, kolourHexes);
           break;
-        case "genesis-kreation":
+        case "genesis_kreation":
           ClientError.assert(await areKoloursAvailable(sql, kolourHexes), {
             _debug: "kolours are unavailable",
           });
@@ -173,7 +174,7 @@ async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
 }
 
 async function acquireLockIfNeeded(
-  source: KolourQuotationProgramme["source"],
+  source: KolourQuotationProgram["source"],
   address: Address
 ) {
   return source === "free"
