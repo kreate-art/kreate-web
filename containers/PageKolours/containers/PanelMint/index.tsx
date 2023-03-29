@@ -86,11 +86,11 @@ export default function PanelMint({
           />
         ));
       case "connected": {
+        if (!selectedNft || !palette) return;
+
         const kolours: Layer[] = [];
-        if (!palette) return;
-        for (const [index, selected] of Object.entries(selection)) {
+        for (const [index, selected] of Object.entries(selection))
           if (selected) kolours.push(palette[parseInt(index)]);
-        }
 
         type ModalMintKolour$ModalResult =
           | { type: "success"; variant: "genesisKreation"; txHash: string }
@@ -120,6 +120,10 @@ export default function PanelMint({
           : await showModal<ModalMintKolour$ModalResult>((resolve) => (
               <ModalMintKolour
                 open
+                source={{
+                  type: "genesis_kreation",
+                  kreation: selectedNft.id,
+                }}
                 kolours={kolours}
                 onCancel={() => resolve({ type: "cancel" })}
                 onSuccess={(txHash, quotation) =>

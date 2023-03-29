@@ -14,7 +14,11 @@ import { tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import { KolourQuotation, Layer } from "@/modules/kolours/types/Kolours";
+import {
+  KolourQuotation,
+  KolourQuotationSource,
+  Layer,
+} from "@/modules/kolours/types/Kolours";
 import httpGetKoloursMintedByTxId from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxId";
 import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
 import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
@@ -29,6 +33,7 @@ import Modal from "@/modules/teiki-ui/components/Modal";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
+  source: KolourQuotationSource;
   className?: string;
   style?: React.CSSProperties;
   kolours: Layer[];
@@ -37,7 +42,8 @@ type Props = {
   onSuccess?: (txHash: string, quotation: KolourQuotation) => void;
 };
 
-export default function ModalMintKolourNft({
+export default function ModalMintKolour({
+  source,
   className,
   style,
   kolours,
@@ -58,6 +64,7 @@ export default function ModalMintKolourNft({
 
   const txParamsResult = useTxParams$UserMintKolourNft();
   const quoteResult = useQuoteKolourNft$Nft({
+    source,
     kolours: selectedKolours.map((item) => item.kolour),
     address:
       walletStatus.status === "connected" ? walletStatus.info.address : "",
@@ -98,6 +105,7 @@ export default function ModalMintKolourNft({
 
       setStatusBarText("Quoting kolours...");
       const { quotation, signature } = await httpGetQuoteKolourNft({
+        source,
         kolours: selectedKolours.map((item) => item.kolour),
         address: walletStatus.info.address,
       }).catch((cause) => {

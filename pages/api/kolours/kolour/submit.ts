@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 
 import { verifyKolourNftMintingTx } from "@kreate/protocol/transactions/kolours/kolour-nft";
-import { C, Core, Lucid, TxComplete, TxSigned, Address } from "lucid-cardano";
+import { Address, C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
@@ -15,16 +15,17 @@ import { getTxExp } from "@/modules/kolours/common";
 import { KOLOUR_USER_LOCK_PREFIX } from "@/modules/kolours/keys";
 import {
   areKoloursAvailable,
-  validateFreeMintAvailability,
+  checkFreeMintAvailability,
 } from "@/modules/kolours/kolour";
 import {
+  Kolour,
   KolourQuotation,
-  KolourQuotationProgram,
+  KolourQuotationSource,
 } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";
-import { postgres } from "@/modules/next-backend/db";
+import { postgres, Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
 
 export const config = { api: { bodyParser: false } };
@@ -87,13 +88,18 @@ export default async function handler(
 
     const { source, referral, kolours, userAddress, feeAddress } = quotation;
 
+    const sourceDbCols =
+      source.type === "genesis_kreation"
+        ? { source: source.type, sourceId: source.kreation }
+        : { source: source.type };
+
     const records = Object.entries(kolours)
       // Deterministic ordering helps with avoiding deadlocks
       .sort(([k1, _1], [k2, _2]) => (k1 < k2 ? -1 : 1))
       .map(([kolour, entry]) => ({
         kolour: kolour,
         status: "booked",
-        source,
+        ...sourceDbCols,
         txId,
         txExpSlot: txExp.slot,
         txExpTime: txExp.time,
@@ -107,17 +113,7 @@ export default async function handler(
 
     const userLock = await acquireLockIfNeeded(source, userAddress);
     try {
-      const kolourHexes = Object.keys(kolours);
-      switch (source) {
-        case "free":
-          await validateFreeMintAvailability(sql, userAddress, kolourHexes);
-          break;
-        case "genesis_kreation":
-          ClientError.assert(await areKoloursAvailable(sql, kolourHexes), {
-            _debug: "kolours are unavailable",
-          });
-          break;
-      }
+      await checkAvailability(sql, source, userAddress, Object.keys(kolours));
 
       const txSigned = await signTx(lucid, tx);
       try {
@@ -173,11 +169,30 @@ async function signTx(lucid: Lucid, tx: Core.Transaction): Promise<TxSigned> {
     .complete();
 }
 
+async function checkAvailability(
+  sql: Sql,
+  source: KolourQuotationSource,
+  address: Address,
+  kolours: Kolour[]
+): Promise<void> {
+  switch (source.type) {
+    case "free":
+      return checkFreeMintAvailability(sql, address, kolours);
+    case "genesis_kreation":
+      return ClientError.assert(await areKoloursAvailable(sql, kolours), {
+        _debug: "kolours are unavailable",
+      });
+    case "present":
+      // TODO: Support `present` later.
+      throw new ClientError({ _debug: "present source is unsupported" });
+  }
+}
+
 async function acquireLockIfNeeded(
-  source: KolourQuotationProgram["source"],
+  source: KolourQuotationSource,
   address: Address
 ) {
-  return source === "free"
+  return source.type === "free"
     ? await locking.acquire(
         KOLOUR_USER_LOCK_PREFIX + address,
         randomUUID(),

@@ -46,6 +46,10 @@ export default function Demo() {
         void showModal((resolve) => (
           <ModalMintKolour
             open
+            source={{
+              type: "genesis_kreation",
+              kreation: "Genesis Kreation #01",
+            }}
             kolours={kolours}
             onCancel={() => resolve({ type: "cancel" })}
             onSuccess={(event) => resolve({ type: "success", event })}

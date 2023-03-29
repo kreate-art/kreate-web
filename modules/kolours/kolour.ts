@@ -113,7 +113,7 @@ export async function areKoloursAvailableForFreeMint(
   return !res.count;
 }
 
-export async function validateFreeMintAvailability(
+export async function checkFreeMintAvailability(
   sql: Sql,
   address: Address,
   kolours: Kolour[]
