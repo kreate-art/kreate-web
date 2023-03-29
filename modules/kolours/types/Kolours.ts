@@ -4,7 +4,7 @@ import {
   UnixTimestamp,
 } from "@/modules/business-types";
 
-export type Kolour = string; // RRGGBB
+export type Kolour = string; // RRGGBB (hex, uppercase)
 
 export type Referral = {
   id: string;
