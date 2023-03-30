@@ -88,14 +88,24 @@ export async function getMintedKolours(
     )
     SELECT
       kb.kolour,
-      kb.user_address,
+      kt.address AS user_address,
       kb.fee,
       ke.expected_earning,
       kb.created_at
     FROM
       kolours.kolour_book kb
-      LEFT JOIN kolour_earning ke
-        ON ke.kolour = kb.kolour
+    INNER JOIN (
+      SELECT
+        DISTINCT ON (kolour)
+        address,
+        kolour
+      FROM
+        kolours.kolour_trace
+      ORDER BY
+        kolour ASC, id DESC
+    ) AS kt ON kt.kolour = kb.kolour
+    LEFT JOIN
+      kolour_earning ke ON ke.kolour = kb.kolour
     WHERE
       kb.status <> 'expired'
       AND ${kolour == null ? sql`TRUE` : sql`kb.kolour = ${kolour}`}
