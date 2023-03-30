@@ -90,13 +90,14 @@ export default function GenesisNftCard({ className, style, value }: Props) {
             />
           </Flex.Cell>
         </Flex.Row>
-        {value.description ? (
+        {value.description?.length ? (
           <>
             <Divider$Horizontal$CustomDash />
             <Flex.Row justifyContent="space-between" alignItems="center">
               <Flex.Cell>
+                {/* TODO: @sk-yagi: Update this along with the new description UI later */}
                 <Typography.Div
-                  content={value.description}
+                  content={value.description.join("")}
                   size="bodySmall"
                   color="ink80"
                 />

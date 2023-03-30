@@ -50,7 +50,7 @@ export type GenesisKreationEntry = {
   createdAt: UnixTimestamp;
   name: string | null;
   userAddress: string | null;
-  description: string | null;
+  description: string[] | null;
 };
 
 export type GenesisKreationList = {

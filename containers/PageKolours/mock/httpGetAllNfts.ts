@@ -100,7 +100,7 @@ export async function httpGetAllNfts(): Promise<Response> {
         createdAt: 1e9,
         name: faker.random.alphaNumeric(5),
         userAddress: generateAddress(),
-        description: faker.commerce.productDescription(),
+        description: [faker.commerce.productDescription()],
       },
       {
         id: "ffcde3e2-2622-4fd0-9bd2-7523f0cc20a3",
@@ -184,7 +184,7 @@ export async function httpGetAllNfts(): Promise<Response> {
         createdAt: 1e9,
         name: faker.random.alphaNumeric(5),
         userAddress: generateAddress(),
-        description: faker.commerce.productDescription(),
+        description: [faker.commerce.productDescription()],
       },
     ],
   };

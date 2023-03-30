@@ -14,7 +14,7 @@ import { getReferenceTxTime } from "@/modules/protocol/utils";
 export type BuildTxParams = {
   lucid: Lucid;
   name: string;
-  description: string;
+  description: string | string[];
   quotation: GenesisKreationQuotation;
   txParams: TxParams$UserMintGKNft;
 };

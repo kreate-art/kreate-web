@@ -163,7 +163,7 @@ function extractMetadata(
   id: GenesisKreationId
 ): {
   name: string;
-  description: string;
+  description: string[];
 } {
   const metadatumCore = tx.auxiliary_data()?.metadata()?.get(METADATA_NFT_TAG);
   ClientError.assert(metadatumCore, { _debug: "missing tx nft metadatum" });
@@ -176,10 +176,22 @@ function extractMetadata(
   );
   const entry = metadatum?.[KOLOURS_GENESIS_KREATION_POLICY_ID]?.[id];
   const name = entry?.name;
-  const description = entry?.description ?? null;
+  const r_description = entry?.description;
   ClientError.assert(name, { _debug: "missing genesis kreation nft name" });
-  ClientError.assert(description != null, {
+  ClientError.assert(r_description != null, {
     _debug: "missing genesis kreation nft description",
   });
+  let description: string[];
+  if (typeof r_description === "string")
+    description = r_description ? [] : [r_description];
+  else if (
+    Array.isArray(r_description) &&
+    r_description.every((e) => typeof e === "string")
+  )
+    description = r_description;
+  else
+    throw new ClientError({
+      _debug: "genesis kreation nft description must be string or string[]",
+    });
   return { name, description };
 }
