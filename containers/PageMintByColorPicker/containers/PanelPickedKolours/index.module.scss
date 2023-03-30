@@ -1,0 +1,14 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: block;
+}
+
+.content {
+  border: 1px solid colors.$black10;
+  border-radius: 16px;
+}
+
+.scrollBox {
+  overflow: auto;
+}
