@@ -8,6 +8,7 @@ import IconGift from "../../icons/IconGift";
 import { UseFreeKolour$Result } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
 
+import { calculateKolourFee } from "@/modules/kolours/fees";
 import { Kolour } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
@@ -113,22 +114,27 @@ export default function PanelPickedKolours({
               color="ink50"
             />
             <Typography.Div>
-              {/* TODO: do not hard code */}
               <AssetViewer.Ada.Standard
                 as="span"
-                lovelaceAmount={150000000}
+                //  All Free!
+                lovelaceAmount={0}
                 size="bodySmall"
                 color="ink"
                 fontWeight="semibold"
               />
               <Typography.Span content=" " />
-              <AssetViewer.Ada.Standard
-                as="span"
-                lovelaceAmount={100000000}
-                size="bodySmall"
-                color="ink50"
-                style={{ textDecoration: "line-through" }}
-              />
+              {value.length ? (
+                <AssetViewer.Ada.Standard
+                  as="span"
+                  lovelaceAmount={value.reduce(
+                    (prev, kolour) => prev + calculateKolourFee(kolour),
+                    BigInt(0)
+                  )}
+                  size="bodySmall"
+                  color="ink50"
+                  style={{ textDecoration: "line-through" }}
+                />
+              ) : null}
             </Typography.Div>
           </Flex.Col>
           <Button.Solid
