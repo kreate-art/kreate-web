@@ -41,7 +41,7 @@ export async function getAllGenesisKreations(
       gl.listed_fee,
       gl.base_discount,
       gl.created_at,
-      gb.user_address,
+      gkt.address AS user_address,
       gb.fee,
       gb.name,
       gb.description,
@@ -54,12 +54,24 @@ export async function getAllGenesisKreations(
           AND gb.status <> 'expired'
       INNER JOIN kolours.genesis_kreation_palette gp
         ON gp.kreation_id = gl.id
+      INNER JOIN (
+        SELECT
+          DISTINCT ON (kreation)
+            address,
+            kreation
+          FROM
+            kolours.genesis_kreation_trace
+          ORDER BY
+            kreation ASC, id DESC
+      ) AS gkt
+        ON gkt.kreation = gl.kreation
       LEFT JOIN kolours.kolour_book kb
         ON kb.kolour = gp.kolour
           AND kb.status <> 'expired'
     GROUP BY
       gl.id,
-      gb.id
+      gb.id,
+      gkt.address
     ORDER BY
       gl.id ASC
   `;
