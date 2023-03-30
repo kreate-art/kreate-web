@@ -20,7 +20,7 @@ type GenesisKreationDbRow = {
   userAddress: string | null;
   fee: bigint | null;
   name: string | null;
-  description: string | null;
+  description: string[] | null;
   status: GenesisKreationStatus;
   palette: string; // kolour|cid|status,...
 };
