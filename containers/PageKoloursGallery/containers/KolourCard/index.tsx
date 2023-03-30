@@ -1,4 +1,5 @@
 import cx from "classnames";
+import Link from "next/link";
 import * as React from "react";
 
 import { getPerceivedLuminance } from "../../../PageKolours/containers/PanelMint/components/PaletteCell/utils";
@@ -31,17 +32,22 @@ export default function KolourCard({ className, style, value }: Props) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <Flex.Row
-        style={{ backgroundColor: toHexColor(value.kolour) }}
-        justifyContent="center"
-        alignItems="center"
-        padding="96px"
-      >
-        <Typography.Div
-          content={toHexColor(value.kolour)}
-          color={isDark ? "white" : "ink"}
-        />
-      </Flex.Row>
+      <Link href={`/kolour/${value.kolour}`}>
+        <Flex.Row
+          style={{
+            backgroundColor: toHexColor(value.kolour),
+            cursor: "pointer",
+          }}
+          justifyContent="center"
+          alignItems="center"
+          padding="96px"
+        >
+          <Typography.Div
+            content={toHexColor(value.kolour)}
+            color={isDark ? "white" : "ink"}
+          />
+        </Flex.Row>
+      </Link>
       <Flex.Col gap="16px" padding="24px">
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
