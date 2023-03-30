@@ -1,4 +1,4 @@
-import { calculateKolourFee, computeFees } from "./fees";
+import { calculateKolourFee, computeFee, discountFromDb } from "./fees";
 import {
   GenesisKreationEntry,
   GenesisKreationId,
@@ -14,7 +14,8 @@ type GenesisKreationDbRow = {
   kreation: GenesisKreationId;
   initialImageCid: string;
   finalImageCid: string;
-  baseFee: bigint;
+  listedFee: bigint;
+  baseDiscount: string;
   createdAt: Date;
   userAddress: string | null;
   fee: bigint | null;
@@ -26,7 +27,7 @@ type GenesisKreationDbRow = {
 
 export async function getAllGenesisKreations(
   sql: Sql,
-  discount?: number
+  referralDiscount?: number
 ): Promise<GenesisKreationEntry[]> {
   const rows = await sql<GenesisKreationDbRow[]>`
     SELECT
@@ -34,7 +35,8 @@ export async function getAllGenesisKreations(
       gl.kreation,
       gl.initial_image_cid,
       gl.final_image_cid,
-      gl.listed_fee AS base_fee,
+      gl.listed_fee,
+      gl.base_discount,
       gl.created_at,
       gb.user_address,
       gb.fee,
@@ -54,27 +56,22 @@ export async function getAllGenesisKreations(
           AND kb.status <> 'expired'
     GROUP BY
       gl.id,
-      gl.kreation,
-      gl.initial_image_cid,
-      gl.final_image_cid,
-      gl.listed_fee,
-      gl.created_at,
-      gb.user_address,
-      gb.fee,
-      gb.name,
-      gb.description,
-      gb.status
+      gb.id
     ORDER BY
       gl.id ASC
   `;
   return rows.map((row) => {
+    const baseDiscount = discountFromDb(row.baseDiscount);
     const palette = row.palette.split(",").map((text): Layer => {
       const [kolour, cid, status] = text.split("|");
+      const listedFee = calculateKolourFee(kolour);
+      const fee = computeFee(listedFee, baseDiscount, referralDiscount);
       return {
         kolour,
         image: { src: getIpfsUrl(cid) },
         status: (status as "booked" | "minted" | "") || "free",
-        ...computeFees(calculateKolourFee(kolour), discount),
+        listedFee,
+        fee,
       };
     });
     return {
@@ -82,7 +79,8 @@ export async function getAllGenesisKreations(
       status: row.status,
       initialImage: { src: getIpfsUrl(row.initialImageCid) },
       finalImage: { src: getIpfsUrl(row.finalImageCid) },
-      ...computeFees(row.baseFee, discount),
+      listedFee: row.listedFee,
+      fee: computeFee(row.listedFee, baseDiscount, referralDiscount),
       palette,
       createdAt: row.createdAt.valueOf(),
       name: row.name,
@@ -95,20 +93,24 @@ export async function getAllGenesisKreations(
 export async function quoteGenesisKreation(
   sql: Sql,
   id: GenesisKreationId,
-  discount?: number
+  referralDiscount?: number
 ) {
   const extra = sql`
     gl.final_image_cid AS image_cid,
-    gl.listed_fee AS base_fee,
+    gl.listed_fee,
   `;
   const row = await queryGenesisKreation<{
     imageCid: string;
-    baseFee: Lovelace;
-    // Deduced later
-    fee: Lovelace;
+    baseDiscount: string;
+    fee: Lovelace; // Deduced later
     listedFee: Lovelace;
   }>(sql, id, extra);
-  row && Object.assign(row, computeFees(row.baseFee, discount));
+  if (row)
+    row.fee = computeFee(
+      row.listedFee,
+      discountFromDb(row.baseDiscount),
+      referralDiscount
+    );
   return row;
 }
 

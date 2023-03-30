@@ -7,8 +7,9 @@ import sharp from "sharp";
 
 import { ClientError } from "../next-backend/api/errors";
 
+import { discountFromDb } from "./fees";
 import { KOLOUR_IMAGE_CID_PREFIX, KOLOUR_IMAGE_LOCK_PREFIX } from "./keys";
-import { Kolour, MintedKolourEntry } from "./types/Kolours";
+import { GenesisKreationId, Kolour, MintedKolourEntry } from "./types/Kolours";
 
 import { Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
@@ -34,6 +35,34 @@ export async function areKoloursAvailable(
   return !res.count;
 }
 
+export async function getGenesisKreationWithKolours(
+  sql: Sql,
+  kreation: GenesisKreationId,
+  kolours: Kolour[]
+) {
+  const [row]: [{ baseDiscount: string; available: number }?] = await sql`
+    SELECT
+      gl.base_discount,
+      count(1)::integer AS available
+    FROM
+      kolours.genesis_kreation_list gl
+      INNER JOIN kolours.genesis_kreation_palette gp ON gp.kreation_id = gl.id
+      LEFT JOIN kolours.kolour_book kb ON kb.kolour = gp.kolour
+    WHERE
+      gl.kreation = ${kreation}
+      AND gp.kolour IN ${sql(kolours)}
+      AND (kb.status IS NULL OR kb.status = 'expired')
+    GROUP BY
+      gl.base_discount
+  `;
+  return row
+    ? {
+        baseDiscount: discountFromDb(row.baseDiscount),
+        available: row.available,
+      }
+    : null;
+}
+
 export async function getAllMintedKolours(
   sql: Sql
 ): Promise<MintedKolourEntry[]> {
@@ -41,7 +70,7 @@ export async function getAllMintedKolours(
     WITH kolour_earning AS (
       SELECT
         gp.kolour,
-        sum(coalesce(gb.fee / 100, gl.listed_fee / 200))::bigint AS expected_earning
+        sum(coalesce(gb.fee, gl.listed_fee * gl.base_discount) / 100)::bigint AS expected_earning
       FROM
         kolours.genesis_kreation_list gl
         LEFT JOIN kolours.genesis_kreation_book gb

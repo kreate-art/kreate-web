@@ -14,15 +14,15 @@ import { BLOCKFROST_PROJECT_ID, BLOCKFROST_URL, NETWORK } from "../env/client";
 import { toJson } from "../json-utils";
 
 import { QUOTATION_TTL } from "./common";
+import { discountFromDb } from "./fees";
 import {
   EPOCH_END_KEY,
   EPOCH_LOCK_KEY,
   KOLOUR_ADDRESS_REFERRAL_PREFIX,
-  KOLOUR_POOL_REFERRAL_PREFIX,
   KOLOUR_STAKE_DELEGATION_LOCK_PREFIX,
   KOLOUR_STAKE_DELEGATION_PREFIX,
 } from "./keys";
-import { DISCOUNT_MULTIPLIER, Referral } from "./types/Kolours";
+import { Referral } from "./types/Kolours";
 
 import { UnixTimestamp } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
@@ -41,9 +41,7 @@ export async function lookupReferral(
     if (cachedReferral != null) return referralFromText(cachedReferral);
     lockId ??= randomUUID();
     const poolId = await lookupDelegation(redis, address, lockId);
-    const referral = poolId
-      ? await lookupPoolReferral(redis, sql, poolId)
-      : null;
+    const referral = poolId ? await queryPoolReferral(sql, poolId) : null;
     void redis.set(referralKey, referralToText(referral), "EX", QUOTATION_TTL);
     return referral;
   } catch (error) {
@@ -53,19 +51,6 @@ export async function lookupReferral(
     console.warn("lookupReferral:", error);
     return null;
   }
-}
-
-export async function lookupPoolReferral(
-  redis: Redis,
-  sql: Sql,
-  poolId: string
-): Promise<Referral | null> {
-  const referralKey = KOLOUR_POOL_REFERRAL_PREFIX + poolId;
-  const cachedReferral = await redis.get(referralKey);
-  if (cachedReferral != null) return referralFromText(cachedReferral);
-  const referral = await queryPoolReferral(sql, poolId);
-  void redis.set(referralKey, referralToText(referral), "EX", QUOTATION_TTL);
-  return referral;
 }
 
 export async function lookupDelegation(
@@ -120,12 +105,7 @@ async function queryPoolReferral(
     SELECT id, discount FROM kolours.referral
     WHERE pool_id = ${poolId}
   `;
-  return row
-    ? {
-        id: row.id,
-        discount: Math.trunc(Number(row.discount) * DISCOUNT_MULTIPLIER),
-      }
-    : null;
+  return row ? { id: row.id, discount: discountFromDb(row.discount) } : null;
 }
 
 async function queryDelegation(address: Address): Promise<string | undefined> {

@@ -12,6 +12,7 @@ export type Referral = {
 };
 
 export const DISCOUNT_MULTIPLIER = 10000;
+export const DISCOUNT_MULTIPLIER_BI = BigInt(DISCOUNT_MULTIPLIER);
 
 export type GenesisKreationId = string; // Act as token name also
 
