@@ -1,5 +1,6 @@
 import assetFingerprint from "@emurgo/cip14-js";
 import cx from "classnames";
+import moment from "moment";
 import Link from "next/link";
 import * as React from "react";
 
@@ -117,20 +118,21 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
               <Flex.Col padding="0 56px" gap="24px">
                 <Divider$Horizontal$CustomDash />
                 <Flex.Row flexWrap="wrap" gap="24px 12px">
-                  {/* TODO: @sk-kitsune: add minted time */}
-                  {/* <Flex.Row
-                  className={styles.infoCell}
-                  flex="1 1 300px"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  padding="12px 24px"
-                >
-                  <Typography.Div color="ink80" content="Minted Time" />
-                  <Typography.Div
-                    fontWeight="semibold"
-                    content={}
-                  />
-                </Flex.Row> */}
+                  <Flex.Row
+                    className={styles.infoCell}
+                    flex="1 1 300px"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    padding="12px 24px"
+                  >
+                    <Typography.Div color="ink80" content="Minted Time" />
+                    <Typography.Div
+                      fontWeight="semibold"
+                      content={moment(mintedKolour.createdAt).format(
+                        "MMM DD, yyyy, hh:mm A"
+                      )}
+                    />
+                  </Flex.Row>
                   <Flex.Row
                     className={styles.infoCell}
                     flex="1 1 300px"

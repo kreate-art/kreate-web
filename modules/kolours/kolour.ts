@@ -63,11 +63,15 @@ export async function getGenesisKreationWithKolours(
     : null;
 }
 
+type MintedKolourEntryDbRow = Omit<MintedKolourEntry, "createdAt"> & {
+  createdAt: Date;
+};
+
 export async function getMintedKolours(
   sql: Sql,
   { kolour }: { kolour?: Kolour }
 ): Promise<MintedKolourEntry[]> {
-  const rows = await sql<MintedKolourEntry[]>`
+  const rows = await sql<MintedKolourEntryDbRow[]>`
     WITH kolour_earning AS (
       SELECT
         gp.kolour,
@@ -86,7 +90,8 @@ export async function getMintedKolours(
       kb.kolour,
       kb.user_address,
       kb.fee,
-      ke.expected_earning
+      ke.expected_earning,
+      kb.created_at
     FROM
       kolours.kolour_book kb
       LEFT JOIN kolour_earning ke
@@ -97,7 +102,12 @@ export async function getMintedKolours(
     ORDER BY
       kb.id ASC
   `;
-  return rows.slice();
+  return rows.map(({ createdAt, ...others }) => {
+    return {
+      createdAt: createdAt.valueOf(),
+      ...others,
+    };
+  });
 }
 
 export async function getFreeMintQuota(sql: Sql, address: Address) {
