@@ -96,6 +96,7 @@ export async function quoteGenesisKreation(
   referralDiscount?: number
 ) {
   const extra = sql`
+    gl.base_discount,
     gl.final_image_cid AS image_cid,
     gl.listed_fee,
   `;
