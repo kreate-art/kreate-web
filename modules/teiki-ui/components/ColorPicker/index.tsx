@@ -1,34 +1,40 @@
 import cx from "classnames";
-import { useState } from "react";
-import { HexColorPicker, HexColorInput } from "react-colorful";
+import { HexColorPicker } from "react-colorful";
 
+import InputColor, { ColorSystem } from "./components/InputColor";
+import Interactive from "./components/Interactive";
 import styles from "./index.module.scss";
-import { randomHexColor, hexToRgb, rgbToHex, ColorSubComponent } from "./utils";
+import { Color } from "./types";
+import {
+  randomHexColor,
+  hexToRgb,
+  rgbToHsl,
+  changeColorHueValue,
+} from "./utils";
 
 import useComputationOnMount from "@/modules/common-hooks/hooks/useComputationOnMount";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
-// #RRGGBB (uppercase)
-export type Color = string;
-
 type Props = {
+  // Warning: We assume that value prop is a valid hex color.
+  // Things might break if it's not
   value: Color;
   onChange?: (value: Color) => void;
   showColorSuggestions?: boolean;
+  buttonSlot?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 };
 
-// We allow user to paste abitrary values, hence string not number
-type RgbString = [string, string, string];
+const COLOR_SYSTEMS: ColorSystem[] = ["hex", "rgb", "cmyk", "hsl"];
 
 function ColorPicker(props: Props) {
   const {
     value,
-    onChange,
     showColorSuggestions = false,
+    buttonSlot,
     className,
     style,
   } = props;
@@ -36,78 +42,71 @@ function ColorPicker(props: Props) {
   // Prevent React hydration error since we are generating colors randomly
   const colorSuggestions = useComputationOnMount(() => randomHexColor(18));
 
-  // We buffer dirty changes. The buffer is flush iff color input is valid
-  // Otherwise, if the buffer is dirty (not null), we priotize using it over
-  // value passed from props
-  const [dirtyChanges, setDirtyChanges] = useState<RgbString | null>(null);
-  const rgb$Source =
-    dirtyChanges ?? (hexToRgb(value).map((i) => i.toString()) as RgbString);
-
-  const commitColor = (hex: string) => {
+  const onChange = (hex: string) => {
     hex = hex.toUpperCase();
     if (hex[0] !== "#") hex = `#${hex}`;
-    onChange?.(hex);
-    setDirtyChanges(null);
+    props.onChange?.(hex);
   };
 
-  const colorInputs = (
-    <Flex.Row className={styles.colorInputContainer} columnGap={8}>
-      <Flex.Col alignItems="center" rowGap={4} flexGrow={1}>
-        <HexColorInput
-          color={value}
-          onChange={(color) => {
-            // Although, 3-digit shorthand for hex color is a valid format,
-            // we ignore it for simplicity's sake
-            if (color.length === 7) commitColor(color);
-          }}
-          className={styles.colorInputHex}
-        />
-        <span>Hex</span>
-      </Flex.Col>
+  const hue = rgbToHsl(hexToRgb(value))[0];
+  const hueSlider = (
+    <Interactive
+      onMove={(e) => {
+        const hueValue = Math.round(e.left * 360);
+        onChange(changeColorHueValue(value, hueValue));
+      }}
+      onKey={(e) => {
+        const hueValue = hue + e.left * 360;
+        onChange(changeColorHueValue(value, hueValue));
+      }}
+      aria-label="Hue"
+      className={styles.hueSlider}
+      aria-valuenow={hue}
+      aria-valuemax="360"
+      aria-valuemin="0"
+    >
+      <div
+        className={styles.hueSliderHandle}
+        style={{
+          backgroundColor: `hsl(${hue}, 100%, 50%)`,
+          left: `${(hue / 360) * 100}%`,
+        }}
+      ></div>
+    </Interactive>
+  );
 
-      {(["R", "G", "B"] as ColorSubComponent[]).map((pigment) => {
-        let index: number;
-        switch (pigment) {
-          case "R":
-            index = 0;
-            break;
-          case "G":
-            index = 1;
-            break;
-          case "B":
-            index = 2;
-            break;
-        }
-        return (
-          <Flex.Col alignItems="center" rowGap={4} flexGrow={0} key={pigment}>
-            <input
-              aria-label={`Input controlling ${pigment} value of color`}
-              value={rgb$Source[index]}
-              className={styles.colorInputRGB}
-              onChange={(e) => {
-                const newRgb = rgb$Source.map((v, i) =>
-                  i === index ? e.target.value : v
-                ) as RgbString;
-                const hex = rgbToHex(newRgb);
-                if (hex) commitColor(hex);
-                else setDirtyChanges(newRgb);
-              }}
-            />
-            <Typography.Span color="ink80">{pigment}</Typography.Span>
-          </Flex.Col>
-        );
-      })}
-    </Flex.Row>
+  const colorInputs = (
+    <div className={styles.inputsContainer}>
+      {COLOR_SYSTEMS.map((system) => (
+        <InputColor
+          key={system}
+          colorSystem={system}
+          value={value}
+          onChange={(color) => onChange(color)}
+        />
+      ))}
+    </div>
   );
 
   return (
     <div className={cx([styles.container, className])} style={style}>
-      <HexColorPicker
-        color={value}
-        onChange={commitColor}
-        className={styles.colorPallete}
-      />
-      {colorInputs}
+      <Flex.Row className={styles.topHalf}>
+        <HexColorPicker
+          color={value}
+          onChange={onChange}
+          className={styles.colorPallete}
+        />
+
+        <div className={styles.colorDisplay} style={{ backgroundColor: value }}>
+          <div className={styles.buttonSlot}>{buttonSlot}</div>
+        </div>
+      </Flex.Row>
+
+      <Flex.Col className={styles.bottomHalf}>
+        {hueSlider}
+        {colorInputs}
+      </Flex.Col>
+
       {colorSuggestions && showColorSuggestions && (
         <>
           <Divider.Horizontal />
@@ -119,7 +118,7 @@ function ColorPicker(props: Props) {
                   key={color}
                   className={styles.suggestion}
                   style={{ backgroundColor: `#${color}` }}
-                  onClick={() => commitColor(color)}
+                  onClick={() => onChange(color)}
                 ></div>
               ))}
             </Flex.Row>
