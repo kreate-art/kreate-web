@@ -61,7 +61,10 @@ export default function PageMintByColorPicker({ className, style }: Props) {
             />
           </Flex.Col>
           <Flex.Col flex="5 5 250px">
-            <PanelPickedKolours value={pickedKolours} />
+            <PanelPickedKolours
+              value={pickedKolours}
+              onChange={(newValue) => setPickedKolours(newValue)}
+            />
           </Flex.Col>
         </Flex.Row>
       </Section>
