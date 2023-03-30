@@ -64,7 +64,8 @@ export async function getGenesisKreationWithKolours(
 }
 
 export async function getAllMintedKolours(
-  sql: Sql
+  sql: Sql,
+  { kolour }: { kolour?: Kolour }
 ): Promise<MintedKolourEntry[]> {
   const rows = await sql<MintedKolourEntry[]>`
     WITH kolour_earning AS (
@@ -92,6 +93,7 @@ export async function getAllMintedKolours(
         ON ke.kolour = kb.kolour
     WHERE
       kb.status <> 'expired'
+      AND ${kolour == null ? sql`TRUE` : sql`kb.kolour = ${kolour}`}
     ORDER BY
       kb.id ASC
   `;
