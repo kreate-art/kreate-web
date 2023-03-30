@@ -4,6 +4,7 @@ import * as React from "react";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
 import Section from "./components/Section";
+import Menu$TopNavigation from "./containers/Menu$TopNavigation";
 import NavBar from "./containers/NavBar";
 import NftCardGrid from "./containers/NftCardGrid";
 import PanelMint from "./containers/PanelMint";
@@ -60,7 +61,7 @@ export default function PageKolours({ className, style }: Props) {
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} showGalleryButton={true} />
-      {/* <BelowNavBar /> */}
+      <Menu$TopNavigation style={{ marginTop: "48px" }} />
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}

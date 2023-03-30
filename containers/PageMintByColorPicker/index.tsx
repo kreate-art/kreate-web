@@ -6,6 +6,7 @@ import NavBar from "../PageKolours/containers/NavBar";
 import { fromHexColor, toHexColor } from "../PageKolours/utils";
 
 import Section from "./components/Section";
+import Menu$TopNavigation from "./containers/Menu$TopNavigation";
 import PanelPickedKolours from "./containers/PanelPickedKolours";
 import styles from "./index.module.scss";
 
@@ -41,7 +42,8 @@ export default function PageMintByColorPicker({ className, style }: Props) {
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} showGalleryButton={true} />
-      <Section marginTop="48px" marginBottom="48px">
+      <Menu$TopNavigation style={{ marginTop: "48px" }} />
+      <Section marginTop="48px" marginBottom="48px" className={styles.main}>
         <Flex.Row flexWrap="wrap" gap="20px" alignItems="stretch">
           <Flex.Col alignItems="center" flex="7 7 350px">
             <ColorPicker

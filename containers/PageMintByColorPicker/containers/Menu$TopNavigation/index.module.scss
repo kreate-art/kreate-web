@@ -1,0 +1,33 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.topNavContainer {
+  padding: 0 56px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.currentNav {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 56px;
+  cursor: pointer;
+  color: colors.$black;
+  border-bottom: 2px solid colors.$black;
+}
+
+.link {
+  color: colors.$black80;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.link:hover {
+  color: colors.$black80;
+}
