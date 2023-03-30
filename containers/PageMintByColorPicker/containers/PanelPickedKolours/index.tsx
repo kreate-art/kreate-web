@@ -2,15 +2,13 @@ import cx from "classnames";
 import * as React from "react";
 
 import ModalFreeMintKolour from "../../../PageKolours/containers/ModalFreeMintKolour";
-import { useQuoteFreeKolourNft$Nft } from "../../../PageKolours/containers/ModalFreeMintKolour/hooks/useQuoteFreeKolourNft";
 import FreeKolourGrid from "../../components/FreeKolourGrid";
 
-import { useFreeKolour } from "./hooks/useFreeKolour";
+import { UseFreeKolour$Result } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
 
 import { Kolour } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
-import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider from "@/modules/teiki-ui/components/Divider";
@@ -21,6 +19,7 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: Kolour[];
+  freeKolourResponse?: UseFreeKolour$Result;
   onChange?: (newValue: Kolour[]) => void;
 };
 
@@ -28,23 +27,9 @@ export default function PanelPickedKolours({
   className,
   style,
   value,
+  freeKolourResponse,
   onChange,
 }: Props) {
-  const { walletStatus } = useAppContextValue$Consumer();
-
-  const freeKolour$Response = useFreeKolour({
-    address:
-      walletStatus.status === "connected" ? walletStatus.info.address : "",
-  });
-
-  // TODO: Delete this if not being used.
-  const quoteResult = useQuoteFreeKolourNft$Nft({
-    kolours: value,
-    address:
-      walletStatus.status === "connected" ? walletStatus.info.address : "",
-    source: { type: "free" },
-  });
-
   const { showModal } = useModalPromises();
 
   const handleSubmit = async () => {
@@ -79,14 +64,16 @@ export default function PanelPickedKolours({
           flex="0 0 auto"
         >
           <Typography.Div content="Collection" size="heading6" />
-          {freeKolour$Response?.error ||
-          !freeKolour$Response?.data ||
-          freeKolour$Response.data.used ===
-            freeKolour$Response.data.total ? null : (
+          {freeKolourResponse?.error ||
+          !freeKolourResponse?.data ||
+          freeKolourResponse.data.used ===
+            freeKolourResponse.data.total ? null : (
             <Typography.Div
               content={`${
-                freeKolour$Response.data.total - freeKolour$Response.data.used
-              }/${freeKolour$Response.data.total} Free Kolours Remaining`}
+                freeKolourResponse.data.total -
+                freeKolourResponse.data.used -
+                value.length
+              }/${freeKolourResponse.data.total} Free Kolours Remaining`}
               size="bodyExtraSmall"
             />
           )}

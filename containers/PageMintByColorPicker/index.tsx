@@ -7,6 +7,7 @@ import { fromHexColor, toHexColor } from "../PageKolours/utils";
 
 import Section from "./components/Section";
 import PanelPickedKolours from "./containers/PanelPickedKolours";
+import { useFreeKolour } from "./containers/PanelPickedKolours/hooks/useFreeKolour";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
@@ -14,6 +15,8 @@ import { HOST } from "@/modules/env/client";
 import { Kolour } from "@/modules/kolours/types/Kolours";
 import Menu$TopNavigation from "@/modules/teiki-components/components/Menu$TopNavigation";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
+import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
+import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import Button from "@/modules/teiki-ui/components/Button";
 import ColorPicker from "@/modules/teiki-ui/components/ColorPicker";
 import Flex from "@/modules/teiki-ui/components/Flex";
@@ -26,8 +29,14 @@ type Props = {
 // NOTE: feel free to rename this component
 export default function PageMintByColorPicker({ className, style }: Props) {
   useBodyClasses([styles.body]);
+  const { showMessage } = useToast();
+  const { walletStatus } = useAppContextValue$Consumer();
   const [pendingKolour, setPendingKolour] = React.useState("000000");
   const [pickedKolours, setPickedKolours] = React.useState<Kolour[]>([]);
+  const freeKolour$Response = useFreeKolour({
+    address:
+      walletStatus.status === "connected" ? walletStatus.info.address : "",
+  });
 
   const canAddPendingKolour =
     /^[0-9A-F]{6}$/.test(pendingKolour) &&
@@ -76,15 +85,35 @@ export default function PageMintByColorPicker({ className, style }: Props) {
             <Button.Solid
               content="Add to Collection"
               onClick={() => {
-                setPickedKolours((value) => [...value, pendingKolour]);
+                if (
+                  freeKolour$Response?.error != null ||
+                  !freeKolour$Response?.data
+                )
+                  return;
+                if (
+                  freeKolour$Response.data.used + pickedKolours.length >=
+                  freeKolour$Response.data.total
+                ) {
+                  showMessage({
+                    title: "You are out of free kolour",
+                    color: "danger",
+                  });
+                } else {
+                  setPickedKolours((value) => [...value, pendingKolour]);
+                }
               }}
-              disabled={!canAddPendingKolour}
+              disabled={
+                !canAddPendingKolour ||
+                freeKolour$Response?.error != null ||
+                !freeKolour$Response?.data
+              }
             />
           </Flex.Col>
           <Flex.Col flex="5 5 250px">
             <PanelPickedKolours
               value={pickedKolours}
               onChange={(newValue) => setPickedKolours(newValue)}
+              freeKolourResponse={freeKolour$Response}
             />
           </Flex.Col>
         </Flex.Row>
