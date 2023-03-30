@@ -1,19 +1,28 @@
-import { DISCOUNT_MULTIPLIER, Kolour } from "./types/Kolours";
+import {
+  DISCOUNT_MULTIPLIER,
+  DISCOUNT_MULTIPLIER_BI,
+  Kolour,
+} from "./types/Kolours";
 
 import { Lovelace } from "@/modules/next-backend/types";
 
-export const FEE_MULTIPLIER = BigInt(2);
+export function discountFromDb(data: string) {
+  return Math.trunc(Number(data) * DISCOUNT_MULTIPLIER);
+}
 
-export function computeFees(
-  baseFee: Lovelace,
-  discount?: number
-): { listedFee: Lovelace; fee: Lovelace } {
-  const listedFee = baseFee;
-  const half = baseFee / BigInt(2);
-  const fee = discount
-    ? half - (half * BigInt(discount)) / BigInt(DISCOUNT_MULTIPLIER)
-    : half;
-  return { fee, listedFee };
+export function applyDiscount(fee: Lovelace, discount: number) {
+  return (
+    (fee * BigInt(DISCOUNT_MULTIPLIER - discount)) / DISCOUNT_MULTIPLIER_BI
+  );
+}
+
+export function computeFee(
+  listedFee: Lovelace,
+  baseDiscount: number,
+  referralDiscount?: number
+): Lovelace {
+  const base = applyDiscount(listedFee, baseDiscount);
+  return referralDiscount ? applyDiscount(base, referralDiscount) : base;
 }
 
 export function calculateKolourFee(kolour: Kolour): Lovelace {

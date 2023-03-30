@@ -7,11 +7,11 @@ import {
   KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
 } from "@/modules/env/kolours/server";
 import { getExpirationTime, parseKolour } from "@/modules/kolours/common";
-import { calculateKolourFee, computeFees } from "@/modules/kolours/fees";
+import { calculateKolourFee, computeFee } from "@/modules/kolours/fees";
 import {
-  areKoloursAvailable,
-  generateKolourImageCid,
   checkFreeMintAvailability,
+  generateKolourImageCid,
+  getGenesisKreationWithKolours,
 } from "@/modules/kolours/kolour";
 import { lookupReferral } from "@/modules/kolours/referral";
 import {
@@ -71,29 +71,31 @@ export default async function handler(
     );
     ClientError.assert(kolours.length, { _debug: "kolour is required" });
 
-    let program: KolourQuotationProgram;
-    let discount: number | undefined;
+    let program: KolourQuotationProgram, baseDiscount: number;
     switch (source.type) {
       case "free":
         await checkFreeMintAvailability(db, address, kolours);
         program = { source };
-        discount = DISCOUNT_MULTIPLIER; // 100%
+        baseDiscount = DISCOUNT_MULTIPLIER; // 100%
         break;
       case "genesis_kreation": {
         // TODO: Fetch base_discount from kreation
         const kreation = req.query.kreation;
         ClientError.assert(kreation && typeof kreation === "string", {
-          _debug: "invalid kreation",
+          _debug: "invalid kreation id",
         });
-        const [referral, areAvailable] = await Promise.all([
+        const [referral, kreationInfo] = await Promise.all([
           lookupReferral(redis, db, address),
-          areKoloursAvailable(db, kolours),
+          getGenesisKreationWithKolours(db, kreation, kolours),
         ]);
-        ClientError.assert(areAvailable, {
+        ClientError.assert(kreationInfo, {
+          _debug: "unknown kreation",
+        });
+        ClientError.assert(kreationInfo.available === kolours.length, {
           _debug: "kolours are unavailable",
         });
         program = { source, referral: referral ?? undefined };
-        discount = referral?.discount;
+        baseDiscount = kreationInfo.baseDiscount;
         break;
       }
       case "present":
@@ -101,11 +103,15 @@ export default async function handler(
         throw new ClientError({ _debug: "present source is unsupported" });
     }
 
+    const referralDiscount = program?.referral?.discount;
     const quotation: KolourQuotation = {
       ...program,
       kolours: Object.fromEntries(
         await Promise.all(
-          kolours.map(async (k) => [k, await quoteKolour(k, discount)])
+          kolours.map(async (kolour) => [
+            kolour,
+            await quoteKolour(kolour, baseDiscount, referralDiscount),
+          ])
         )
       ),
       userAddress: address,
@@ -123,11 +129,16 @@ export default async function handler(
 
 async function quoteKolour(
   kolour: Kolour,
-  discount?: number
+  baseDiscount: number,
+  referralDiscount?: number
 ): Promise<KolourEntry> {
-  const baseFee = calculateKolourFee(kolour);
+  const listedFee = calculateKolourFee(kolour);
   const cid = await generateKolourImageCid(redis, ipfs, kolour);
-  return { ...computeFees(baseFee, discount), image: `ipfs://${cid}` };
+  return {
+    listedFee,
+    fee: computeFee(listedFee, baseDiscount, referralDiscount),
+    image: `ipfs://${cid}`,
+  };
 }
 
 function extractKolourSource(req: NextApiRequest): KolourQuotationSource {
