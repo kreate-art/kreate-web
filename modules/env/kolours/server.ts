@@ -15,6 +15,15 @@ export const KOLOURS_KOLOUR_NFT_FEE_ADDRESS = IS_NEXT_BUILD
       defaultValue: null,
     });
 
+export const KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS = IS_NEXT_BUILD
+  ? never()
+  : parseEnv$Optional({
+      label: "KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS",
+      input: process.env.KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS,
+      parser: parseStringByRegex(/^(addr|addr_test)[0-9a-z]+$/),
+      defaultValue: null,
+    });
+
 export const KOLOURS_KOLOUR_NFT_PRIVATE_KEY = parseEnv$Optional({
   label: "KOLOURS_KOLOUR_NFT_PRIVATE_KEY",
   input: process.env.KOLOURS_KOLOUR_NFT_PRIVATE_KEY,

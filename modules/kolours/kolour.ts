@@ -125,7 +125,7 @@ export async function getFreeMintQuota(sql: Sql, address: Address) {
   return { total, available, used };
 }
 
-export async function areKoloursAvailableForFreeMint(
+export async function areKoloursAvailableForOpenMint(
   sql: Sql,
   kolours: Kolour[]
 ): Promise<boolean> {
@@ -149,7 +149,7 @@ export async function checkFreeMintAvailability(
 ) {
   const [quota, areAvailable] = await Promise.all([
     getFreeMintQuota(sql, address),
-    areKoloursAvailableForFreeMint(sql, kolours),
+    areKoloursAvailableForOpenMint(sql, kolours),
   ]);
   ClientError.assert(areAvailable, {
     _debug: "kolours are unavailable for free mint",

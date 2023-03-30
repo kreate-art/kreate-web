@@ -5,10 +5,12 @@ import * as crypt from "@/modules/crypt";
 import {
   KOLOURS_HMAC_SECRET,
   KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
+  KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS,
 } from "@/modules/env/kolours/server";
 import { getExpirationTime, parseKolour } from "@/modules/kolours/common";
 import { calculateKolourFee, computeFee } from "@/modules/kolours/fees";
 import {
+  areKoloursAvailableForOpenMint,
   checkFreeMintAvailability,
   generateKolourImageCid,
   getGenesisKreationWithKolours,
@@ -73,13 +75,24 @@ export default async function handler(
 
     let program: KolourQuotationProgram, baseDiscount: number;
     switch (source.type) {
+      case "present":
+        ClientError.assert(
+          KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS &&
+            address === KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS,
+          { _debug: "address isn't elible for present mint" }
+        );
+        ClientError.assert(await areKoloursAvailableForOpenMint(db, kolours), {
+          _debug: "kolours are unavailable for present mint",
+        });
+        program = { source };
+        baseDiscount = DISCOUNT_MULTIPLIER; // 100%
+        break;
       case "free":
         await checkFreeMintAvailability(db, address, kolours);
         program = { source };
         baseDiscount = DISCOUNT_MULTIPLIER; // 100%
         break;
       case "genesis_kreation": {
-        // TODO: Fetch base_discount from kreation
         const kreation = req.query.kreation;
         ClientError.assert(kreation && typeof kreation === "string", {
           _debug: "invalid kreation id",
@@ -98,9 +111,6 @@ export default async function handler(
         baseDiscount = kreationInfo.baseDiscount;
         break;
       }
-      case "present":
-        // TODO: Support `present` later.
-        throw new ClientError({ _debug: "present source is unsupported" });
     }
 
     const referralDiscount = program?.referral?.discount;

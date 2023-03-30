@@ -9,12 +9,14 @@ import * as crypt from "@/modules/crypt";
 import { KOLOURS_KOLOUR_NFT_POLICY_ID } from "@/modules/env/kolours/client";
 import {
   KOLOURS_HMAC_SECRET,
+  KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS,
   KOLOURS_KOLOUR_NFT_PRIVATE_KEY,
 } from "@/modules/env/kolours/server";
 import { getTxExp } from "@/modules/kolours/common";
 import { KOLOUR_USER_LOCK_PREFIX } from "@/modules/kolours/keys";
 import {
   areKoloursAvailable,
+  areKoloursAvailableForOpenMint,
   checkFreeMintAvailability,
 } from "@/modules/kolours/kolour";
 import {
@@ -183,8 +185,14 @@ async function checkAvailability(
         _debug: "kolours are unavailable",
       });
     case "present":
-      // TODO: Support `present` later.
-      throw new ClientError({ _debug: "present source is unsupported" });
+      ClientError.assert(
+        KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS &&
+          address === KOLOURS_KOLOUR_NFT_PRESENT_ADDRESS,
+        { _debug: "address isn't elible for present mint" }
+      );
+      ClientError.assert(await areKoloursAvailableForOpenMint(db, kolours), {
+        _debug: "kolours are unavailable for present mint",
+      });
   }
 }
 
