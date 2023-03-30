@@ -20,7 +20,7 @@
     "@emurgo/cip14-js": "^3.0.1",
     "@faker-js/faker": "^7.6.0",
     "@grammarly/editor-sdk-react": "^2.2.0",
-    "@kreate/protocol": "github:kreate-community/kreate-protocol#f2871dbb33701a0352bb83781bdc31082ad2805a",
+    "@kreate/protocol": "github:kreate-community/kreate-protocol#ed8c5359d93aa4e7f2ad845e6a3330ac7344497d",
     "@next/font": "^13.0.5",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
