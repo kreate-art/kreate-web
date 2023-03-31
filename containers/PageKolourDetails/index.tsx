@@ -4,7 +4,9 @@ import Link from "next/link";
 import * as React from "react";
 
 import NavBar from "../PageKolours/containers/NavBar";
+import { useAllNfts } from "../PageKolours/hooks/useAllNfts";
 import { toHexColor } from "../PageKolours/utils";
+import GenesisNftList from "../PageKoloursGallery/containers/GenesisNftList";
 
 import Section from "./components/Section";
 import { useMintedKolour } from "./hooks/useMintedKolour";
@@ -37,6 +39,14 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
     kolour,
   });
 
+  // TODO: @sk-kitsune: currently, the number of Genesis NFTs is pretty small,
+  // therefore, we can just fetch all then filter in frontend. By right, we should
+  // pass some queries to BE then let BE filter.
+  const [allNfts$Response, allNfts$Error] = useAllNfts();
+  const relatedNfts = allNfts$Response?.kreations?.filter((item) =>
+    item.palette.some((layer) => layer.kolour === kolour)
+  );
+
   if (mintedKolour$Error) {
     return (
       <div className={cx(styles.container, className)} style={style}>
@@ -64,7 +74,7 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} showMintButton={true} />
-      <Section marginTop="32px">
+      <Section marginTop="32px" marginBottom="16px">
         <Flex.Row gap="20px">
           <Flex.Cell
             className={styles.leftPanel}
@@ -168,6 +178,21 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
             </Flex.Row>
           </Flex.Col>
         </Flex.Row>
+      </Section>
+      <Section marginTop="16px" marginBottom="32px">
+        <Flex.Col className={styles.panelAsSeenIn} alignItems="stretch">
+          <Flex.Row padding="24px 48px">
+            <Typography.H2 size="heading5" color="ink" content="As Seen In" />
+          </Flex.Row>
+          <Divider$Horizontal$CustomDash />
+          <Flex.Row padding="24px 48px">
+            <GenesisNftList
+              value={relatedNfts}
+              error={allNfts$Error}
+              displayOptions={{ card: { border: "solid" } }}
+            />
+          </Flex.Row>
+        </Flex.Col>
       </Section>
     </div>
   );
