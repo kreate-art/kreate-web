@@ -41,7 +41,7 @@ export default function AddressViewer({
 }: Props) {
   const Component = as == "span" ? Typography.Span : Typography.Div;
   const { data: handle, error } = useSWR(
-    ["c2b75c1b-8c7a-4124-ac76-909b2a943a4f", value],
+    ["afd318d7-e024-4bb5-8525-a75f9dd7c980", value],
     async () => {
       return await getAdaHandle(value);
     }
