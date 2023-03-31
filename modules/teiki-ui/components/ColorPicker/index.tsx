@@ -54,7 +54,7 @@ function ColorPicker(props: Props) {
       value={hue}
       min={0}
       max={360}
-      step={10}
+      step={1}
       displayOptions={{
         container: {
           className: styles.hueSlider,
