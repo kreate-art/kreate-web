@@ -43,7 +43,7 @@ export async function getAllGenesisKreations(
       gb.name,
       gb.description,
       coalesce(gb.status::text, CASE WHEN bool_and(kb.status IS NOT DISTINCT FROM 'minted') THEN 'ready' ELSE 'unready' END) AS status,
-      string_agg(concat(gp.kolour, '|', gp.layer_image_cid, '|', kb.status), ',' ORDER BY gp.id) AS palette
+      string_agg(concat(gp.kolour, '|', gp.layer_image_cid, '|', gp.mask_image_cid, '|', kb.status), ',' ORDER BY gp.id) AS palette
     FROM
       kolours.genesis_kreation_list gl
       LEFT JOIN kolours.genesis_kreation_book gb
@@ -63,12 +63,13 @@ export async function getAllGenesisKreations(
   return rows.map((row) => {
     const baseDiscount = discountFromDb(row.baseDiscount);
     const palette = row.palette.split(",").map((text): Layer => {
-      const [kolour, cid, status] = text.split("|");
+      const [kolour, layerCid, maskCid, status] = text.split("|");
       const listedFee = calculateKolourFee(kolour);
       const fee = computeFee(listedFee, baseDiscount, referralDiscount);
       return {
         kolour,
-        image: { src: getIpfsUrl(cid) },
+        image: { src: getIpfsUrl(layerCid) },
+        mask: maskCid ? { src: getIpfsUrl(maskCid) } : undefined,
         status: (status as "booked" | "minted" | "") || "free",
         listedFee,
         fee,

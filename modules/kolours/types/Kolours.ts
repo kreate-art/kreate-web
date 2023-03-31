@@ -34,6 +34,7 @@ export type Image = { src: string };
 export type Layer = {
   kolour: Kolour;
   image: Image;
+  mask?: Image | undefined; // Luma mask
   status: "free" | "booked" | "minted";
   fee: LovelaceAmount;
   listedFee: LovelaceAmount;
