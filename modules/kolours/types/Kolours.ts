@@ -86,6 +86,6 @@ export type MintedKolourEntry = {
   kolour: Kolour;
   userAddress: string;
   fee: LovelaceAmount;
-  expectedEarning: LovelaceAmount | null;
+  expectedEarning: LovelaceAmount;
   createdAt: UnixTimestamp;
 };
