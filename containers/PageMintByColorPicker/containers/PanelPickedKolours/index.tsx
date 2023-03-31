@@ -3,6 +3,7 @@ import * as React from "react";
 
 import ModalFreeMintKolour from "../../../PageKolours/containers/ModalFreeMintKolour";
 import FreeKolourGrid from "../../components/FreeKolourGrid";
+import IconGift from "../../icons/IconGift";
 
 import { UseFreeKolour$Result } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
@@ -68,14 +69,23 @@ export default function PanelPickedKolours({
           !freeKolourResponse?.data ||
           freeKolourResponse.data.used ===
             freeKolourResponse.data.total ? null : (
-            <Typography.Div
-              content={`${
-                freeKolourResponse.data.total -
-                freeKolourResponse.data.used -
-                value.length
-              }/${freeKolourResponse.data.total} Free Kolours Remaining`}
-              size="bodyExtraSmall"
-            />
+            <Flex.Row
+              gap="8px"
+              padding="8px 12px"
+              alignItems="center"
+              className={styles.remaining}
+            >
+              <IconGift />
+              <Typography.Div
+                content={`${
+                  freeKolourResponse.data.total -
+                  freeKolourResponse.data.used -
+                  value.length
+                }/${freeKolourResponse.data.total} Free Kolours Remaining`}
+                size="bodyExtraSmall"
+                color="white"
+              />
+            </Flex.Row>
           )}
         </Flex.Row>
         <Divider.Horizontal />
