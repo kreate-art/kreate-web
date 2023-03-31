@@ -71,12 +71,12 @@ export default function PageKolours({ className, style }: Props) {
           {
             label: "The Origin of Kolours",
             key: "origins",
-            href: "mint",
+            href: "/mint",
           },
           {
             label: "Your Kolours",
             key: "yours",
-            href: "mint-free",
+            href: "/mint-free",
           },
         ]}
         activeKey="origins"
