@@ -4,7 +4,6 @@ import * as React from "react";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
 import Section from "./components/Section";
-import Menu$TopNavigation from "./containers/Menu$TopNavigation";
 import NavBar from "./containers/NavBar";
 import NftCardGrid from "./containers/NftCardGrid";
 import PanelMint from "./containers/PanelMint";
@@ -12,6 +11,7 @@ import { useAllNfts } from "./hooks/useAllNfts";
 import styles from "./index.module.scss";
 
 import { HOST } from "@/modules/env/client";
+import Menu$TopNavigation from "@/modules/teiki-components/components/Menu$TopNavigation";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import { useDefaultBackground } from "@/modules/teiki-components/hooks/useDefaultBackground";
 
@@ -61,7 +61,22 @@ export default function PageKolours({ className, style }: Props) {
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} showGalleryButton={true} />
-      <Menu$TopNavigation style={{ marginTop: "48px" }} />
+      <Menu$TopNavigation
+        style={{ marginTop: "48px" }}
+        items={[
+          {
+            label: "The Origin of Kolours",
+            key: "origins",
+            href: "/gallery",
+          },
+          {
+            label: "Your Kolours",
+            key: "yours",
+            href: "/mint-by-color-picker",
+          },
+        ]}
+        activeKey="origins"
+      />
       <Section marginTop="24px" ref={sectionMint$Ref}>
         <PanelMint
           key={selectedId}
