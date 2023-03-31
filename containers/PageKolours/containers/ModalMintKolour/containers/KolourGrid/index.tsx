@@ -5,10 +5,7 @@ import IconClose from "../../icons/IconClose";
 
 import styles from "./index.module.scss";
 
-import {
-  formatLovelaceAmount,
-  sumLovelaceAmount,
-} from "@/modules/bigint-utils";
+import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import { Layer } from "@/modules/kolours/types/Kolours";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -71,10 +68,10 @@ export default function KolourGrid({
                 <Typography.Span
                   content={
                     item.fee != null
-                      ? formatLovelaceAmount(
-                          sumLovelaceAmount([item.fee, item.fee]),
-                          { compact: true, includeCurrencySymbol: true }
-                        )
+                      ? formatLovelaceAmount(item.listedFee, {
+                          compact: true,
+                          includeCurrencySymbol: true,
+                        })
                       : "-"
                   }
                   size="bodySmall"
