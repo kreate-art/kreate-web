@@ -13,8 +13,6 @@ import GenesisNftList from "../PageKoloursGallery/containers/GenesisNftList";
 
 import Section from "./components/Section";
 import { useMintedKolour } from "./hooks/useMintedKolour";
-import IconCrown from "./icons/IconCrown";
-import IconSeparator from "./icons/IconSeparator";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
@@ -82,9 +80,9 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
           <Flex.Row gap="20px">
             <Flex.Cell
               className={styles.leftPanel}
-              flex="5 5 100px"
+              flex="5 5 350px"
               style={{ backgroundColor: toHexColor(kolour) }}
-            ></Flex.Cell>
+            />
             <Flex.Col
               className={styles.rightPanel}
               flex="7 7 350px "
@@ -108,20 +106,14 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                       />
                     </Typography.Span>
                   </Typography.Div>
-                  <IconSeparator />
-                  <Flex.Row alignItems="center" gap="12px">
-                    <IconCrown style={{ color: "#FFB743" }} />
-                    <Typography.Div fontWeight="bold" content="1% Royalties" />
-                  </Flex.Row>
                 </Flex.Row>
               </Flex.Col>
               {/* minted time, minted fee, expected earning */}
-              <Flex.Col padding="0 56px" gap="24px">
+              <Flex.Col padding="0 56px" gap="32px">
                 <Divider$Horizontal$CustomDash />
-                <Flex.Row flexWrap="wrap" gap="24px 12px">
+                <Flex.Col gap="12px">
                   <Flex.Row
                     className={styles.infoCell}
-                    flex="1 1 300px"
                     justifyContent="space-between"
                     alignItems="center"
                     padding="12px 24px"
@@ -136,7 +128,6 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                   </Flex.Row>
                   <Flex.Row
                     className={styles.infoCell}
-                    flex="1 1 300px"
                     justifyContent="space-between"
                     alignItems="center"
                     padding="12px 24px"
@@ -152,7 +143,19 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                   </Flex.Row>
                   <Flex.Row
                     className={styles.infoCell}
-                    flex="1 1 300px"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    padding="12px 24px"
+                  >
+                    <Typography.Div color="ink80" content="Royalties" />
+                    <Typography.Div
+                      color="secondary"
+                      content="1%"
+                      size="heading6"
+                    />
+                  </Flex.Row>
+                  <Flex.Row
+                    className={styles.infoCell}
                     justifyContent="space-between"
                     alignItems="center"
                     padding="12px 24px"
@@ -166,7 +169,7 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                       fontWeight="semibold"
                     />
                   </Flex.Row>
-                </Flex.Row>
+                </Flex.Col>
                 <Divider$Horizontal$CustomDash />
               </Flex.Col>
               {/* view on pool.pm button, share button */}
@@ -196,7 +199,11 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button.Outline icon={icon} circular={true} />
+                        <Button.Outline
+                          icon={icon}
+                          circular={true}
+                          size="extraSmall"
+                        />
                       </Link>
                     );
                   })}
