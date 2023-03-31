@@ -3,6 +3,7 @@ import * as React from "react";
 
 import ModalFreeMintKolour from "../../../PageKolours/containers/ModalFreeMintKolour";
 import { useQuoteFreeKolourNft$Nft } from "../../../PageKolours/containers/ModalFreeMintKolour/hooks/useQuoteFreeKolourNft";
+import FreeKolourGrid from "../../components/FreeKolourGrid";
 
 import { useFreeKolour } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
@@ -20,16 +21,25 @@ type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: Kolour[];
+  onChange?: (newValue: Kolour[]) => void;
 };
 
-export default function PanelPickedKolours({ className, style, value }: Props) {
+export default function PanelPickedKolours({
+  className,
+  style,
+  value,
+  onChange,
+}: Props) {
   const { walletStatus } = useAppContextValue$Consumer();
+
   const freeKolour$Response = useFreeKolour({
     address:
       walletStatus.status === "connected" ? walletStatus.info.address : "",
   });
+
+  // TODO: Delete this if not being used.
   const quoteResult = useQuoteFreeKolourNft$Nft({
-    kolours: value.map((item) => item),
+    kolours: value,
     address:
       walletStatus.status === "connected" ? walletStatus.info.address : "",
     source: { type: "free" },
@@ -82,12 +92,14 @@ export default function PanelPickedKolours({ className, style, value }: Props) {
           )}
         </Flex.Row>
         <Divider.Horizontal />
-        <Flex.Col flex="1 1 200px" minHeight="0">
-          <div className={styles.scrollBox} style={{ maxWidth: "480px" }}>
-            {/* TODO: display properly */}
-            <pre>{JSON.stringify(value, null, 2)}</pre>
-            <pre>{JSON.stringify({ quoteResult }, null, 2)}</pre>
-          </div>
+        <Flex.Col flex="1 1 200px" minHeight="0" className={styles.colorPanel}>
+          <FreeKolourGrid
+            value={value}
+            onChange={(newValue: Kolour[]) => {
+              return onChange && onChange(newValue);
+            }}
+            className={styles.colorGrid}
+          />
         </Flex.Col>
         <Divider.Horizontal />
         <Flex.Row
