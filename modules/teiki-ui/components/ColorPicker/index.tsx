@@ -31,13 +31,6 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-const COLOR_SYSTEM_TO_COMPONENT = {
-  hex: InputColor$Hex,
-  rgb: InputColor$Rgb,
-  cmyk: InputColor$Cmyk,
-  hsl: InputColor$Hsl,
-};
-
 function ColorPicker(props: Props) {
   const {
     value: color,
@@ -82,9 +75,10 @@ function ColorPicker(props: Props) {
 
   const colorInputs = (
     <div className={styles.inputsContainer}>
-      {Object.entries(COLOR_SYSTEM_TO_COMPONENT).map(([system, C]) => (
-        <C key={system} value={color} onChange={(color) => onChange(color)} />
-      ))}
+      <InputColor$Hex value={color} onChange={onChange} />
+      <InputColor$Rgb value={color} onChange={onChange} />
+      <InputColor$Cmyk value={color} onChange={onChange} />
+      <InputColor$Hsl value={color} onChange={onChange} />
     </div>
   );
 
