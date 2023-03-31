@@ -23,6 +23,7 @@ type Props = {
   value: Kolour[];
   freeKolourResponse?: UseFreeKolour$Result;
   onChange?: (newValue: Kolour[]) => void;
+  fill?: boolean;
 };
 
 export default function PanelPickedKolours({
@@ -31,6 +32,7 @@ export default function PanelPickedKolours({
   value,
   freeKolourResponse,
   onChange,
+  fill,
 }: Props) {
   const { showModal } = useModalPromises();
 
@@ -57,7 +59,10 @@ export default function PanelPickedKolours({
   };
 
   return (
-    <div className={cx(styles.container, className)} style={style}>
+    <div
+      className={cx(styles.container, className, fill ? styles.fill : null)}
+      style={style}
+    >
       <Flex.Col className={styles.content} alignItems="stretch">
         <Flex.Row
           padding="24px"
