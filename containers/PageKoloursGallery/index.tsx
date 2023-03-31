@@ -62,7 +62,11 @@ export default function PageKoloursGallery({ className, style }: Props) {
         url="https://kolours.kreate.community"
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
-      <NavBar className={styles.navBar} showMintButton={true} />
+      <NavBar
+        className={styles.navBar}
+        showMintButton={true}
+        showGalleryButton={true}
+      />
       <Section marginTop="48px" marginBottom="16px">
         <SwitchTab
           showMyNfts={showMyNfts}

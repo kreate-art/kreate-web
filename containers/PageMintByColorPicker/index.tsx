@@ -12,6 +12,7 @@ import styles from "./index.module.scss";
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
 import { HOST } from "@/modules/env/client";
 import { Kolour } from "@/modules/kolours/types/Kolours";
+import Menu$TopNavigation from "@/modules/teiki-components/components/Menu$TopNavigation";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import Button from "@/modules/teiki-ui/components/Button";
 import ColorPicker from "@/modules/teiki-ui/components/ColorPicker";
@@ -40,8 +41,28 @@ export default function PageMintByColorPicker({ className, style }: Props) {
         url="https://kolours.kreate.community"
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
-      <NavBar className={styles.navBar} showGalleryButton={true} />
-      <Section marginTop="48px" marginBottom="48px">
+      <NavBar
+        className={styles.navBar}
+        showGalleryButton={true}
+        showMintButton={true}
+      />
+      <Menu$TopNavigation
+        style={{ marginTop: "48px" }}
+        items={[
+          {
+            label: "The Origin of Kolours",
+            key: "origins",
+            href: "mint",
+          },
+          {
+            label: "Your Kolours",
+            key: "yours",
+            href: "mint-free",
+          },
+        ]}
+        activeKey="yours"
+      />
+      <Section marginTop="48px" marginBottom="48px" className={styles.main}>
         <Flex.Row flexWrap="wrap" gap="20px" alignItems="stretch">
           <Flex.Col alignItems="center" flex="7 7 350px">
             <ColorPicker

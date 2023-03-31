@@ -1,6 +1,8 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
 .container {
   display: flex;
-  background-color: black;
+  background-color: colors.$black;
   height: 80px;
 }
 
