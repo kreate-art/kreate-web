@@ -12,6 +12,7 @@ import { postgres, Sql } from "@/modules/next-backend/db";
 import { Lovelace } from "@/modules/next-backend/types";
 import { getIpfsUrl } from "@/modules/urls";
 
+// TODO: Split into 2 types
 type GenesisKreationDbRow = {
   slug: GenesisKreationSlug;
   kreation: GenesisKreationId;
@@ -20,10 +21,11 @@ type GenesisKreationDbRow = {
   listedFee: bigint;
   baseDiscount: string;
   createdAt: Date;
-  userAddress: string | null;
-  fee: bigint | null;
-  name: string | null;
-  description: string[] | null;
+  mintedAt: Date;
+  userAddress: string;
+  fee: bigint;
+  name: string;
+  description: string[];
   status: GenesisKreationStatus;
   palette: string; // kolour|cid|status,...
 };
@@ -36,15 +38,12 @@ export async function getAllGenesisKreationsForGallery(
       gl.id,
       gl.slug,
       gl.kreation,
-      gl.initial_image_cid,
       gl.final_image_cid,
-      gl.listed_fee,
-      gl.base_discount,
-      gl.created_at,
       gkt.address AS user_address,
       gb.fee,
       gb.name,
       gb.description,
+      gb.created_at AS minted_at,
       string_agg(gp.kolour, ',' ORDER BY gp.id) AS palette
     FROM
       kolours.genesis_kreation_list gl
@@ -72,15 +71,13 @@ export async function getAllGenesisKreationsForGallery(
       gl.id ASC
   `;
   return rows.map((row) => {
-    const baseDiscount = discountFromDb(row.baseDiscount);
     const palette = row.palette.split(",");
     return {
       id: row.kreation,
-      initialImage: { src: getIpfsUrl(row.initialImageCid) },
+      slug: row.slug,
       finalImage: { src: getIpfsUrl(row.finalImageCid) },
-      listedFee: row.listedFee,
-      fee: computeFee(row.listedFee, baseDiscount),
-      createdAt: row.createdAt.valueOf(),
+      fee: row.fee,
+      mintedAt: row.mintedAt.valueOf(),
       palette,
       name: row.name,
       userAddress: row.userAddress,
@@ -97,10 +94,11 @@ export async function getAllGenesisKreationsForMint(
     SELECT
       gl.id,
       gl.kreation,
+      gl.initial_image_cid,
       gl.final_image_cid,
       gl.base_discount,
       gl.created_at,
-      gb.fee,
+      gl.listed_fee,
       coalesce(gb.status::text, CASE WHEN bool_and(kb.status IS NOT DISTINCT FROM 'minted') THEN 'ready' ELSE 'unready' END) AS status,
       string_agg(concat(gp.kolour, '|', gp.layer_image_cid, '|', gp.mask_image_cid, '|', kb.status), ',' ORDER BY gp.id) AS palette
     FROM
