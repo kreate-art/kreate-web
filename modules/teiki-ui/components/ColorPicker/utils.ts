@@ -9,10 +9,6 @@ export function randomHexColor(amount: number): Color[] {
   return result;
 }
 
-export function clamp(number: number, min = 0, max = 1): number {
-  return Math.min(Math.max(number, min), max);
-}
-
 // Hue measured in degrees of the color circle ranging from 0 to 360
 export function changeColorHueValue(color: Color, hue: number): Color {
   const hsl = rgbToHsl(hexToRgb(color));
