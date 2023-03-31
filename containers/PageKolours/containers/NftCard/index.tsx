@@ -23,6 +23,9 @@ type Props = {
 
 // TODO: @sk-kitsune: implement this component properly
 export default function NftCard({ className, style, value, onClick }: Props) {
+  const discountPercentage =
+    BigInt(100) - (BigInt(value.fee) * BigInt(100)) / BigInt(value.listedFee);
+
   return (
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.box} onClick={onClick}>
@@ -50,7 +53,7 @@ export default function NftCard({ className, style, value, onClick }: Props) {
             />
           )}
           <Typography.Div
-            content="50% OFF"
+            content={`${discountPercentage}% OFF`}
             color="white"
             className={styles.discount}
             size="heading6"
