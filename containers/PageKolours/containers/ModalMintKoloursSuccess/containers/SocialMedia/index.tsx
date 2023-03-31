@@ -31,7 +31,7 @@ export default function SocialMedia({
 }
 
 // Copied from PageProjectDetails/containers/ProjectOverview/components/TagSocialMedia.tsx
-function getSocialMediaInfo(socialMedia: string) {
+export function getSocialMediaInfo(socialMedia: string) {
   switch (socialMedia) {
     case "twitter":
       return {
