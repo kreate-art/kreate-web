@@ -87,7 +87,7 @@ export default function KolourCard({ className, style, value }: Props) {
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
             <Typography.Div
-              content="Royalty Fee"
+              content="Future Royalties"
               size="bodySmall"
               color="ink80"
             />
@@ -104,7 +104,7 @@ export default function KolourCard({ className, style, value }: Props) {
         <Flex.Row justifyContent="space-between" alignItems="center">
           <Flex.Cell>
             <Typography.Div
-              content="Expected Earning"
+              content="Current Earning"
               size="bodySmall"
               color="ink80"
             />
@@ -115,6 +115,7 @@ export default function KolourCard({ className, style, value }: Props) {
                 <AssetViewer.Ada.Compact
                   as="span"
                   lovelaceAmount={value.expectedEarning ?? undefined}
+                  approx
                 />
               }
               size="heading6"

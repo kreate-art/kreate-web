@@ -26,7 +26,7 @@ export default function SwitchTab({ showMyNfts, onChangeShowMyNfts }: Props) {
             disabled={showMyNfts}
             onClick={onChangeShowMyNfts}
           >
-            My NFTs
+            Your NFTs
           </button>
         ) : null}
       </div>
