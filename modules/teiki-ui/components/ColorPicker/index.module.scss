@@ -58,36 +58,25 @@ $color-pallete-height: 300px;
 }
 
 .hueSlider {
-  background: linear-gradient(
-    90deg,
-    #eb4d2a 0%,
-    #feff54 17.19%,
-    #90fc4d 33.85%,
-    #74fcf4 50.52%,
-    #0205f5 66.67%,
-    #ea32d6 83.33%,
-    #eb332c 100%
-  );
   width: 100%;
-  height: 12px;
-  border-radius: 8px;
-  position: relative;
-  overflow: visible;
   margin-bottom: 32px;
 
   &:focus-visible {
     outline: none;
   }
 
-  .hueSliderHandle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
+  .hueSliderTrack {
+    background: linear-gradient(
+      90deg,
+      #eb4d2a 0%,
+      #feff54 17.19%,
+      #90fc4d 33.85%,
+      #74fcf4 50.52%,
+      #0205f5 66.67%,
+      #ea32d6 83.33%,
+      #eb332c 100%
+    );
+    border-radius: 8px;
   }
 }
 
