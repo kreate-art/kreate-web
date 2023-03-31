@@ -147,6 +147,13 @@ export default function PanelPickedKolours({
             size="large"
             color="primary"
             onClick={handleSubmit}
+            disabled={
+              !value.length ||
+              !!freeKolourResponse?.error ||
+              !freeKolourResponse?.data ||
+              freeKolourResponse.data.total <
+                freeKolourResponse.data.used + value.length
+            }
           />
         </Flex.Row>
       </Flex.Col>
