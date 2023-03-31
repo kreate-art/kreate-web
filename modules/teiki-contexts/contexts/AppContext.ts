@@ -1,4 +1,4 @@
-import { Network, Provider } from "lucid-cardano";
+import { Network, Provider, networkToId } from "lucid-cardano";
 import * as React from "react";
 
 import { AdaPriceInfo, useAdaPriceInfo } from "@/modules/ada-price-provider";
@@ -102,7 +102,9 @@ export function useAppContextValue$Provider({
     if (
       walletStatus.status !== "connected" ||
       origin.includes("kolours") ||
-      !walletNetworkWarning
+      (walletStatus.status === "connected" &&
+        walletStatus.info.addressDetails.networkId !==
+          networkToId(walletStatus.lucid.network))
     )
       return;
     void (async () => {
