@@ -1,0 +1,31 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    filter: opacity(50%);
+  }
+}
+
+.track {
+  height: 12px;
+}
+
+.thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  top: 0;
+  border: 3px solid white;
+  display: flex;
+
+  &:focus-visible {
+    outline: colors.$primary;
+  }
+}
