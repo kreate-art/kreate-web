@@ -1,4 +1,5 @@
 import cx from "classnames";
+import { useRouter } from "next/router";
 import * as React from "react";
 
 import ModalFreeMintKolour from "../../../PageKolours/containers/ModalFreeMintKolour";
@@ -35,6 +36,7 @@ export default function PanelPickedKolours({
   onChange,
   fill,
 }: Props) {
+  const router = useRouter();
   const { showModal } = useModalPromises();
 
   const handleSubmit = async () => {
@@ -76,6 +78,7 @@ export default function PanelPickedKolours({
           )}
         />
       ));
+      router.push("/gallery");
     }
   };
 
