@@ -60,7 +60,11 @@ export default function PageKolours({ className, style }: Props) {
         url="https://kolours.kreate.community"
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
-      <NavBar className={styles.navBar} showGalleryButton={true} />
+      <NavBar
+        className={styles.navBar}
+        showMintButton={true}
+        showGalleryButton={true}
+      />
       <Menu$TopNavigation
         style={{ marginTop: "48px" }}
         items={[
@@ -72,7 +76,7 @@ export default function PageKolours({ className, style }: Props) {
           {
             label: "Your Kolours",
             key: "yours",
-            href: "/mint-by-color-picker",
+            href: "/mint-free",
           },
         ]}
         activeKey="origins"

@@ -10,6 +10,7 @@ import styles from "./index.module.scss";
 
 import { NETWORK } from "@/modules/env/client";
 import { LogoKreateFull, LogoKreateWhite } from "@/modules/teiki-logos";
+import Button from "@/modules/teiki-ui/components/Button";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
@@ -56,23 +57,27 @@ export default function NavBar({
         </Typography.Div>
 
         <div className={styles.rightMain}>
-          <ButtonWalletNavbar />
-          {showGalleryButton ? (
-            <Link href="/gallery">
-              <div className={styles.buttonNav}>
-                <IconGallery />
-                <span>Gallery</span>
-              </div>
-            </Link>
-          ) : null}
           {showMintButton ? (
             <Link href="/mint">
-              <div className={styles.buttonNav}>
-                <IconSwatches />
-                <span>Mint</span>
-              </div>
+              <Button.Outline
+                as="div"
+                icon={<IconSwatches />}
+                content="Mint"
+                color="white"
+              />
             </Link>
           ) : null}
+          {showGalleryButton ? (
+            <Link href="/gallery">
+              <Button.Outline
+                as="div"
+                icon={<IconGallery />}
+                content="Gallery"
+                color="white"
+              />
+            </Link>
+          ) : null}
+          <ButtonWalletNavbar />
         </div>
       </div>
     </div>
