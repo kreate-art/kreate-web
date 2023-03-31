@@ -13,23 +13,44 @@ import Flex from "@/modules/teiki-ui/components/Flex";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
+const BORDER_TO_CLASS_NAME = {
+  solid: styles.borderSolid,
+  none: styles.borderNone,
+};
+
 type Props = {
   className?: string;
   style?: React.CSSProperties;
   value: GenesisKreationEntry | undefined;
+  border?: keyof typeof BORDER_TO_CLASS_NAME;
 };
 
-export default function GenesisNftCard({ className, style, value }: Props) {
+export default function GenesisNftCard({
+  className,
+  style,
+  value,
+  border = "none",
+}: Props) {
   if (!value) {
     return (
-      <div className={cx(styles.container, className)} style={style}>
+      <div
+        className={cx(
+          styles.container,
+          className,
+          BORDER_TO_CLASS_NAME[border]
+        )}
+        style={style}
+      >
         LOADING
       </div>
     );
   }
 
   return (
-    <div className={cx(styles.container, className)} style={style}>
+    <div
+      className={cx(styles.container, className, BORDER_TO_CLASS_NAME[border])}
+      style={style}
+    >
       <WithAspectRatio aspectRatio={2 / 1}>
         <ImageView
           className={styles.image}

@@ -13,6 +13,9 @@ type Props = {
   style?: React.CSSProperties;
   value: GenesisKreationEntry[] | undefined;
   error: unknown;
+  displayOptions?: {
+    card?: Pick<React.ComponentProps<typeof GenesisNftCard>, "border">;
+  };
 };
 
 export default function GenesisNftList({
@@ -20,6 +23,7 @@ export default function GenesisNftList({
   style,
   value,
   error,
+  displayOptions,
 }: Props) {
   if (error) {
     return (
@@ -49,7 +53,7 @@ export default function GenesisNftList({
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.grid}>
         {value.map((item, index) => (
-          <GenesisNftCard key={index} value={item} />
+          <GenesisNftCard key={index} value={item} {...displayOptions?.card} />
         ))}
       </div>
     </div>
