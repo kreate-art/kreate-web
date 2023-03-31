@@ -5,3 +5,9 @@
 .autoContainer {
   display: inline-block;
 }
+
+.handle {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -27,14 +27,6 @@ const LENGTH_TO_SUFFIX_LENGTH: Record<Length, number> = {
   long: 20,
   full: Infinity,
 };
-
-const LENGTH_TO_HANDLE_LENGTH: Record<Length, number> = {
-  short: 8,
-  medium: 20,
-  long: 40,
-  full: Infinity,
-};
-
 function Base({
   className,
   style,
@@ -49,15 +41,20 @@ function Base({
   );
   const prefixLength = LENGTH_TO_PREFIX_LENGTH[length];
   const suffixLength = LENGTH_TO_SUFFIX_LENGTH[length];
-  const handleLength = LENGTH_TO_HANDLE_LENGTH[length];
   const hasAdaHandle = handle && handle !== value && error == null;
-  const displayedText = hasAdaHandle
-    ? handleLength >= handle.length
-      ? handle
-      : handle.slice(0, handleLength) + "..."
-    : prefixLength + suffixLength >= value.length
-    ? value
-    : value.slice(0, prefixLength) + "..." + value.slice(-suffixLength);
+  if (hasAdaHandle) {
+    return (
+      <div className={className} style={style}>
+        <div className={styles.handle}>
+          <span>{handle}</span>
+        </div>
+      </div>
+    );
+  }
+  const displayedText =
+    prefixLength + suffixLength >= value.length
+      ? value
+      : value.slice(0, prefixLength) + "..." + value.slice(-suffixLength);
   return (
     <span
       title={hasAdaHandle ? handle : value}
