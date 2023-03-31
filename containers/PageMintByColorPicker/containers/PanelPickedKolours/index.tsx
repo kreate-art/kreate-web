@@ -42,7 +42,6 @@ export default function PanelPickedKolours({
       | {
           result: "success";
           txHash: string;
-          variant: "kolour";
           quotation: KolourQuotation;
         }
       | { result: "canceled" };
@@ -58,7 +57,6 @@ export default function PanelPickedKolours({
               resolve({
                 result: "success",
                 txHash,
-                variant: "kolour",
                 quotation,
               })
             }
