@@ -114,7 +114,7 @@ export default function KolourCard({ className, style, value }: Props) {
               content={
                 <AssetViewer.Ada.Compact
                   as="span"
-                  lovelaceAmount={value.expectedEarning ?? undefined}
+                  lovelaceAmount={value.expectedEarning}
                   approx
                 />
               }

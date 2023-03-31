@@ -159,7 +159,7 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                     <Typography.Div color="ink80" content="Expected Earning" />
                     <AssetViewer.Ada.Compact
                       as="div"
-                      lovelaceAmount={mintedKolour.expectedEarning ?? undefined}
+                      lovelaceAmount={mintedKolour.expectedEarning}
                       size="heading6"
                       color="ink"
                       fontWeight="semibold"
