@@ -32,16 +32,17 @@ export default function NavBar({ className, style }: Props) {
         {/* <Link href="/gallery">
           <div className={styles.buttonNav}>Gallery</div>
         </Link> */}
-        <Link href="#kreataverse">
+        {/**NOTE: sk-tenba: using absolute path for more accurate link */}
+        <Link href="/#kreataverse">
           <div className={styles.buttonNav}>The Kreataverse</div>
         </Link>
-        <Link href="#how">
+        <Link href="/#how">
           <div className={styles.buttonNav}>How to Kolour</div>
         </Link>
-        <Link href="#rewards">
+        <Link href="/#rewards">
           <div className={styles.buttonNav}>Your Rewards</div>
         </Link>
-        <Link href="#roadmap">
+        <Link href="/#roadmap">
           <div className={styles.buttonNav}>Roadmap</div>
         </Link>
       </Flex.Row>
