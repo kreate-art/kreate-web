@@ -1,20 +1,30 @@
+import assetFingerprint from "@emurgo/cip14-js";
 import cx from "classnames";
+import moment from "moment";
+import Link from "next/link";
 import React from "react";
 
 import WithAspectRatio from "../../components/WithAspectRatio";
+import { getSocialMediaInfo } from "../PageKolours/containers/ModalMintKoloursSuccess/containers/SocialMedia";
 import NavBar from "../PageKolours/containers/NavBar";
 import { toHexColor } from "../PageKolours/utils";
 
 import Section from "./components/Section";
 import styles from "./index.module.scss";
 
+import { formatLovelaceAmount } from "@/modules/bigint-utils";
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
 import { useElementSize } from "@/modules/common-hooks/hooks/useElementSize";
 import { HOST } from "@/modules/env/client";
-import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
+import { KOLOURS_GENESIS_KREATION_POLICY_ID } from "@/modules/env/kolours/client";
+import {
+  GenesisKreation$Gallery,
+  GenesisKreationId,
+} from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Flex from "@/modules/teiki-components/components/PanelProjectOverview/components/Flex";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
+import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
@@ -22,7 +32,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: GenesisKreationEntry;
+  value: GenesisKreation$Gallery;
 };
 
 export default function PageKoloursGalleryDetails({
@@ -31,6 +41,13 @@ export default function PageKoloursGalleryDetails({
   value,
 }: Props) {
   useBodyClasses([styles.body]);
+
+  const [genesisKreationLink, setgenesisKreationLink] =
+    React.useState<string>("");
+  React.useEffect(() => {
+    setgenesisKreationLink(window.location.href);
+  }, []);
+
   const [lowerElement, setLowerElement] = React.useState<HTMLDivElement | null>(
     null
   );
@@ -60,13 +77,72 @@ export default function PageKoloursGalleryDetails({
             className={styles.text}
             color="ink80"
           />
-          <Typography.Span>
-            Owner:{" "}
-            <InlineAddress
-              value={value.userAddress ?? "Cant find owner"}
-              length="short"
+          <Typography.Div>
+            <Typography.Span content="Owner: " />
+            <Typography.Span fontWeight="semibold" color="primary">
+              <InlineAddress
+                length="short"
+                value={value.userAddress ?? "Cannot find owner"}
+              />
+            </Typography.Span>
+          </Typography.Div>
+          <Flex.Row gap="24px 12px" justifyContent="center">
+            <Flex.Row
+              className={styles.infoCell}
+              justifyContent="space-between"
+              alignItems="center"
+              padding="12px 24px"
+              minWidth="380px"
+            >
+              <Typography.Div color="ink80" content="Minted Time" />
+              <Typography.Div
+                fontWeight="semibold"
+                content={moment(value.mintedAt).format("MMM, DD yyyy HH:mm A")}
+              />
+            </Flex.Row>
+
+            <Flex.Row
+              className={styles.infoCell}
+              justifyContent="space-between"
+              alignItems="center"
+              padding="12px 24px"
+              minWidth="380px"
+            >
+              <Typography.Div color="ink80" content="Minted Fee" />
+              <Typography.Div
+                fontWeight="semibold"
+                content={formatLovelaceAmount(value.fee, {
+                  includeCurrencySymbol: true,
+                })}
+              />
+            </Flex.Row>
+          </Flex.Row>
+          <Divider$Horizontal$CustomDash />
+          <Flex.Row gap="12px" alignItems="center" justifyContent="center">
+            <Link href={toPoolpmUrl(value.id)}>
+              <Button.Outline as="div" content="View on Pool.pm" />
+            </Link>
+            <Typography.Div
+              content="Share"
+              size="heading6"
+              style={{ marginRight: "4px" }}
             />
-          </Typography.Span>
+            {["twitter", "telegram", "reddit"].map((key) => {
+              const { icon, sharerLink } = getSocialMediaInfo(key);
+              const navUrl =
+                sharerLink + encodeURIComponent(genesisKreationLink);
+              return (
+                <Link
+                  href={navUrl}
+                  key={key}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button.Outline icon={icon} circular={true} />
+                </Link>
+              );
+            })}
+          </Flex.Row>
         </Flex.Col>
       </Section>
 
@@ -97,21 +173,21 @@ export default function PageKoloursGalleryDetails({
                   <Flex.Row alignItems="center" gap="8px">
                     <div
                       style={{
-                        backgroundColor: toHexColor(item.kolour),
+                        backgroundColor: toHexColor(item),
                         width: "32px",
                         height: "32px",
                         borderRadius: "50%",
                       }}
                     />
                     <Typography.Div
-                      content={toHexColor(item.kolour)}
+                      content={toHexColor(item)}
                       size="heading6"
                     />
                   </Flex.Row>
                   <Flex.Row alignItems="center" gap="4px">
                     <Typography.Span content="1%" size="heading6" />
                     <Typography.Span
-                      content={toHexColor(item.kolour)}
+                      content={toHexColor(item)}
                       size="bodySmall"
                       color="secondary80"
                     />
@@ -124,4 +200,17 @@ export default function PageKoloursGalleryDetails({
       </Section>
     </div>
   );
+}
+
+function toPoolpmUrl(genesisKreation: GenesisKreationId) {
+  return `https://pool.pm/${genesisKreationToBech32(genesisKreation)}`;
+}
+
+function genesisKreationToBech32(genesisKreation: GenesisKreationId) {
+  return assetFingerprint
+    .fromParts(
+      Buffer.from(KOLOURS_GENESIS_KREATION_POLICY_ID, "hex"),
+      Buffer.from(`${genesisKreation}`, "utf-8")
+    )
+    .fingerprint();
 }
