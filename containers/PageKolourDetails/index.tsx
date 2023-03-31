@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as React from "react";
 
 import FooterPanel from "../PageHome/containers/FooterPanel";
+import { getSocialMediaInfo } from "../PageKolours/containers/ModalMintKoloursSuccess/containers/SocialMedia";
 import NavBar from "../PageKolours/containers/NavBar";
 import { useAllNfts } from "../PageKolours/hooks/useAllNfts";
 import { toHexColor } from "../PageKolours/utils";
@@ -23,6 +24,7 @@ import { Kolour } from "@/modules/kolours/types/Kolours";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
+import Divider from "@/modules/teiki-ui/components/Divider";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
 import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
@@ -40,7 +42,6 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
   const [mintedKolour$Response, mintedKolour$Error] = useMintedKolour({
     kolour,
   });
-
   // TODO: @sk-kitsune: currently, the number of Genesis NFTs is pretty small,
   // therefore, we can just fetch all then filter in frontend. By right, we should
   // pass some queries to BE then let BE filter.
@@ -169,7 +170,7 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                 <Divider$Horizontal$CustomDash />
               </Flex.Col>
               {/* view on pool.pm button, share button */}
-              <Flex.Row padding="0 56px" gap="24px">
+              <Flex.Row padding="0 56px" gap="24px" alignItems="center">
                 <Link
                   href={toPoolpmUrl(kolour)}
                   target="_blank"
@@ -177,6 +178,29 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                 >
                   <Button.Outline as="div" content="View on Pool.pm" />
                 </Link>
+                <Divider.Vertical />
+                <Flex.Row gap="12px" alignItems="center">
+                  <Typography.Div
+                    content="Share"
+                    size="heading6"
+                    style={{ marginRight: "4px" }}
+                  />
+                  {["twitter", "telegram", "reddit"].map((key) => {
+                    const { icon, sharerLink } = getSocialMediaInfo(key);
+                    const navUrl =
+                      sharerLink + encodeURIComponent(window.location.href);
+                    return (
+                      <Link
+                        href={navUrl}
+                        key={key}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button.Outline icon={icon} circular={true} />
+                      </Link>
+                    );
+                  })}
+                </Flex.Row>
                 {/* <Button.Outline
                 icon={<IconTwitter width="20" height="20" />}
                 color="secondary"
