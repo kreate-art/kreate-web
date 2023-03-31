@@ -18,8 +18,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   if (
     typeof paymentPubKeyHash !== "string" ||
     !/^[0-9A-Fa-f]*$/.test(paymentPubKeyHash)
-  ) {
+  )
     return { notFound: true };
-  }
   return { props: { paymentPubKeyHash } };
 };

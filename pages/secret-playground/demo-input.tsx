@@ -1,8 +1,7 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import * as React from "react";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
-
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import Input from "@/modules/teiki-ui/components/Input";
 
 export default function DemoInput() {
@@ -21,9 +20,6 @@ export default function DemoInput() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };

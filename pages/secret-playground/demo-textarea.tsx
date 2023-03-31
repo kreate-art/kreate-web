@@ -1,9 +1,8 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import * as React from "react";
 import { Form } from "semantic-ui-react";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
-
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import TextArea from "@/modules/teiki-ui/components/TextArea";
 
 function getKeyOf<T>(obj: Record<string, T>, value: T) {
@@ -173,9 +172,6 @@ export default function DemoTextarea() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };

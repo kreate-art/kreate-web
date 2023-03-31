@@ -1,9 +1,9 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import * as React from "react";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
 import InputSummaryWithSuggestions from "../../containers/PageEditProject/containers/ProjectBasicsEditor/containers/BasicForm/components/InputSummaryWithSuggestions";
 
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import Resizable from "@/modules/teiki-components/components/Resizable";
 
 export default function Demo() {
@@ -29,9 +29,6 @@ export default function Demo() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };

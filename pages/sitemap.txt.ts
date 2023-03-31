@@ -3,8 +3,7 @@
 
 import { GetServerSideProps } from "next";
 
-import { NEXT_PUBLIC_HOST } from "../config/client";
-
+import { HOST } from "@/modules/env/client";
 import { db } from "@/modules/next-backend/connections";
 import { getAllProjects } from "@/modules/next-backend/logic/getAllProjects";
 
@@ -39,7 +38,7 @@ async function getAllRelativePaths() {
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const relativePaths = await getAllRelativePaths();
-  const absolutePaths = relativePaths.map((path) => NEXT_PUBLIC_HOST + path);
+  const absolutePaths = relativePaths.map((path) => HOST + path);
 
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
   res.write(absolutePaths.join("\n"));

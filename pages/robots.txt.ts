@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 
-import { NEXT_PUBLIC_HOST } from "../config/client";
+import { HOST } from "@/modules/env/client";
 
 export default function Robots() {
   return null;
@@ -21,7 +21,7 @@ Disallow: /projects/
 Disallow: /projects-by-id/
 Disallow: /secret-playground/
 
-Sitemap: ${NEXT_PUBLIC_HOST}/sitemap.txt
+Sitemap: ${HOST}/sitemap.txt
 `.trimStart()
   );
   res.end();

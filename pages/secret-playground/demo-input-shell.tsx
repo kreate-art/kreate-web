@@ -1,8 +1,6 @@
-import { GetServerSideProps } from "next";
-import React from "react";
+import { GetStaticProps } from "next";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
-
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import Resizable from "@/modules/teiki-components/components/Resizable";
 import InputShell from "@/modules/teiki-ui/components/InputShell";
 
@@ -67,9 +65,6 @@ export default function DemoInputShell() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };

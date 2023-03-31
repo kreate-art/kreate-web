@@ -1,9 +1,8 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import * as React from "react";
 import { Form } from "semantic-ui-react";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
-
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import { toJson } from "@/modules/json-utils";
 import Resizable from "@/modules/teiki-components/components/Resizable";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -197,9 +196,6 @@ export default function DemoButton() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };

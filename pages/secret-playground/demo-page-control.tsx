@@ -1,9 +1,9 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import React from "react";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
 import PageControl from "../../containers/PageEditProject/containers/ProjectEditor/components/PageControl";
 
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import Resizable from "@/modules/teiki-components/components/Resizable";
 
 export default function DemoPageControl() {
@@ -33,9 +33,6 @@ export default function DemoPageControl() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };

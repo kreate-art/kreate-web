@@ -25,9 +25,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const projectId = context.params?.["projectId"];
 
-  if (typeof projectId !== "string" || !/^[ -~]+$/.test(projectId)) {
+  if (typeof projectId !== "string" || !/^[ -~]+$/.test(projectId))
     return { notFound: true };
-  }
 
   const project$Response = await getDetailedProject(db, {
     projectId,
@@ -40,15 +39,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     });
   });
 
-  if (project$Response.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND) {
-    return {
-      notFound: true,
-    };
-  }
+  if (project$Response.error === GET_DETAILED_PROJECT__ERRORS.NOT_FOUND)
+    return { notFound: true };
 
-  return {
-    props: {
-      projectId,
-    },
-  };
+  return { props: { projectId } };
 };

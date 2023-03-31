@@ -1,6 +1,5 @@
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 
-import { NEXT_PUBLIC_SHOW_SECRET_ROUTES } from "../../config/client";
 import PanelActivities from "../../containers/PageProjectDetails/containers/PanelActivities";
 import Activity from "../../containers/PageProjectDetails/containers/ProjectDetails/containers/TabActivities/components/Activity";
 import ActivityList from "../../containers/PageProjectDetails/containers/ProjectDetails/containers/TabActivities/components/ActivityList";
@@ -10,6 +9,7 @@ import {
   generateProjectActivity,
   generateProjectActivityList,
 } from "@/modules/data-faker";
+import { SHOW_SECRET_ROUTES } from "@/modules/env/client";
 import Resizable from "@/modules/teiki-components/components/Resizable";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 
@@ -49,9 +49,6 @@ export default function PageDemoActivity() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (NEXT_PUBLIC_SHOW_SECRET_ROUTES !== "true") {
-    return { notFound: true };
-  }
-  return { props: {} };
+export const getStaticProps: GetStaticProps = async () => {
+  return SHOW_SECRET_ROUTES ? { props: {} } : { notFound: true };
 };
