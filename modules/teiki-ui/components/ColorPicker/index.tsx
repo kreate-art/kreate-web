@@ -2,7 +2,6 @@ import cx from "classnames";
 import { HexColorPicker } from "react-colorful";
 
 import InputColor, { ColorSystem } from "./components/InputColor";
-import Interactive from "./components/Interactive";
 import styles from "./index.module.scss";
 import { Color } from "./types";
 import {
@@ -15,6 +14,7 @@ import {
 import useComputationOnMount from "@/modules/common-hooks/hooks/useComputationOnMount";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import Flex from "@/modules/teiki-ui/components/Flex";
+import Slider from "@/modules/teiki-ui/components/Slider";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
@@ -32,7 +32,7 @@ const COLOR_SYSTEMS: ColorSystem[] = ["hex", "rgb", "cmyk", "hsl"];
 
 function ColorPicker(props: Props) {
   const {
-    value,
+    value: color,
     showColorSuggestions = false,
     buttonSlot,
     className,
@@ -48,31 +48,28 @@ function ColorPicker(props: Props) {
     props.onChange?.(hex);
   };
 
-  const hue = rgbToHsl(hexToRgb(value))[0];
+  const hue = rgbToHsl(hexToRgb(color))[0];
   const hueSlider = (
-    <Interactive
-      onMove={(e) => {
-        const hueValue = Math.round(e.left * 360);
-        onChange(changeColorHueValue(value, hueValue));
+    <Slider
+      value={hue}
+      min={0}
+      max={360}
+      step={10}
+      displayOptions={{
+        container: {
+          className: styles.hueSlider,
+        },
+        track: {
+          className: styles.hueSliderTrack,
+        },
+        thumb: {
+          className: styles.hueSliderHandle,
+          style: { backgroundColor: `hsl(${hue}, 100%, 50%)` },
+        },
       }}
-      onKey={(e) => {
-        const hueValue = hue + e.left * 360;
-        onChange(changeColorHueValue(value, hueValue));
-      }}
-      aria-label="Hue"
-      className={styles.hueSlider}
-      aria-valuenow={hue}
-      aria-valuemax="360"
-      aria-valuemin="0"
-    >
-      <div
-        className={styles.hueSliderHandle}
-        style={{
-          backgroundColor: `hsl(${hue}, 100%, 50%)`,
-          left: `${(hue / 360) * 100}%`,
-        }}
-      ></div>
-    </Interactive>
+      onChange={(newHue) => onChange(changeColorHueValue(color, newHue))}
+      aria-label="Slider controlling hue value of the selecting color"
+    />
   );
 
   const colorInputs = (
@@ -81,7 +78,7 @@ function ColorPicker(props: Props) {
         <InputColor
           key={system}
           colorSystem={system}
-          value={value}
+          value={color}
           onChange={(color) => onChange(color)}
         />
       ))}
@@ -92,12 +89,12 @@ function ColorPicker(props: Props) {
     <div className={cx([styles.container, className])} style={style}>
       <Flex.Row className={styles.topHalf}>
         <HexColorPicker
-          color={value}
+          color={color}
           onChange={onChange}
           className={styles.colorPallete}
         />
 
-        <div className={styles.colorDisplay} style={{ backgroundColor: value }}>
+        <div className={styles.colorDisplay} style={{ backgroundColor: color }}>
           <div className={styles.buttonSlot}>{buttonSlot}</div>
         </div>
       </Flex.Row>
