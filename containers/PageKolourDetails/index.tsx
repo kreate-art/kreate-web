@@ -7,7 +7,7 @@ import * as React from "react";
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import { getSocialMediaInfo } from "../PageKolours/containers/ModalMintKoloursSuccess/containers/SocialMedia";
 import NavBar from "../PageKolours/containers/NavBar";
-import { useAllNfts } from "../PageKolours/hooks/useAllNfts";
+import { useAllNftsForGallery } from "../PageKolours/hooks/useAllNftsForGallery";
 import { toHexColor } from "../PageKolours/utils";
 import GenesisNftList from "../PageKoloursGallery/containers/GenesisNftList";
 
@@ -43,9 +43,9 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
   // TODO: @sk-kitsune: currently, the number of Genesis NFTs is pretty small,
   // therefore, we can just fetch all then filter in frontend. By right, we should
   // pass some queries to BE then let BE filter.
-  const [allNfts$Response, allNfts$Error] = useAllNfts();
+  const [allNfts$Response, allNfts$Error] = useAllNftsForGallery();
   const relatedNfts = allNfts$Response?.kreations?.filter((item) =>
-    item.palette.some((layer) => layer.kolour === kolour)
+    item.palette.some((item) => item === kolour)
   );
 
   if (mintedKolour$Error) {

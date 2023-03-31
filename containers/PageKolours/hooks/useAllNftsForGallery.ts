@@ -1,18 +1,24 @@
 import useSWR from "swr";
 
-import { httpGetAllNfts, HttpGetAllNfts$Response } from "../api/httpGetAllNfts";
+import {
+  httpGetAllNftsForGallery,
+  HttpGetAllNftsForGallery$Response,
+} from "../api/httpGetAllNftsGallery";
 
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 
-export function useAllNfts(): [HttpGetAllNfts$Response | undefined, unknown] {
+export function useAllNftsForGallery(): [
+  HttpGetAllNftsForGallery$Response | undefined,
+  unknown
+] {
   const { walletStatus } = useAppContextValue$Consumer();
 
   const address =
     walletStatus.status === "connected" ? walletStatus.info.address : undefined;
 
   const { data, error } = useSWR(
-    ["4831891d-eee4-46ef-8b34-9d9cf7292874", address],
-    async () => await httpGetAllNfts({ address })
+    ["bd4ccfa9-388f-4827-baec-bcdc03d3b2dc", address],
+    async () => await httpGetAllNftsForGallery()
   );
   return [data, error];
 }

@@ -5,7 +5,7 @@ import WithAspectRatio from "../../../../components/WithAspectRatio";
 
 import styles from "./index.module.scss";
 
-import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
+import { GenesisKreation$Gallery } from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import AddressViewer from "@/modules/teiki-ui/components/AddressViewer";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
@@ -21,7 +21,7 @@ const BORDER_TO_CLASS_NAME = {
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: GenesisKreationEntry | undefined;
+  value: GenesisKreation$Gallery | undefined;
   border?: keyof typeof BORDER_TO_CLASS_NAME;
 };
 

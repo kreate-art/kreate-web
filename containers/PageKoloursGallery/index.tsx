@@ -3,13 +3,13 @@ import * as React from "react";
 
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import NavBar from "../PageKolours/containers/NavBar";
+import { useAllNftsForGallery } from "../PageKolours/hooks/useAllNftsForGallery";
 
 import Section from "./components/Section";
 import GenesisNftList from "./containers/GenesisNftList";
 import KolourList from "./containers/KolourList";
 import SwitchTab from "./containers/SwitchTab";
 import { useAllMintedKolours } from "./hooks/useAllMintedKolours";
-import { useAllMintedKreations } from "./hooks/useAllMintedKreations";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
@@ -30,7 +30,7 @@ type Props = {
 export default function PageKoloursGallery({ className, style }: Props) {
   useBodyClasses([styles.body]);
   const { walletStatus } = useAppContextValue$Consumer();
-  const [useAllNfts$Response, useAllNfts$Error] = useAllMintedKreations();
+  const [useAllNfts$Response, useAllNfts$Error] = useAllNftsForGallery();
   const [useAllMintedKolours$Response, useAllMintedKolours$Error] =
     useAllMintedKolours();
   const [showMyNfts, setShowMyNfts] = React.useState(false);
@@ -40,12 +40,10 @@ export default function PageKoloursGallery({ className, style }: Props) {
     }
   }, [walletStatus]);
 
-  const allNftsList = useAllNfts$Response?.kreations?.filter(
-    (item) =>
-      ["booked", "minted"].includes(item.status) &&
-      (showMyNfts && walletStatus.status === "connected"
-        ? walletStatus.info.address === item.userAddress
-        : true)
+  const allNftsList = useAllNfts$Response?.kreations?.filter((item) =>
+    showMyNfts && walletStatus.status === "connected"
+      ? walletStatus.info.address === item.userAddress
+      : true
   );
   const allMintedKoloursList = useAllMintedKolours$Response?.kolours.filter(
     (item) =>

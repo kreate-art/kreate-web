@@ -8,7 +8,7 @@ import SocialMedia from "../ModalMintKoloursSuccess/containers/SocialMedia";
 import styles from "./index.module.scss";
 
 import { KOLOURS_GENESIS_KREATION_POLICY_ID } from "@/modules/env/kolours/client";
-import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
+import { GenesisKreation$Mint } from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
@@ -23,7 +23,7 @@ type Props = {
   open: boolean;
   onClose?: () => void;
   txHash: string;
-  value: GenesisKreationEntry;
+  value: GenesisKreation$Mint;
 };
 
 export default function ModalMintGenesisKreationSuccess({

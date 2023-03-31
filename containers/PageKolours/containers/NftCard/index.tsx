@@ -17,7 +17,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: Kolours.GenesisKreationEntry;
+  value: Kolours.GenesisKreation$Mint;
   onClick?: () => void;
 };
 

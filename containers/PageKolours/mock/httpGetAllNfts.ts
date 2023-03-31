@@ -27,6 +27,7 @@ export async function httpGetAllNfts(): Promise<Response> {
     kreations: [
       {
         id: "2802c300-169b-41a7-bd66-afe3df3e0d1d",
+        slug: "slug",
         initialImage: grayscale,
         finalImage: original,
         palette: [
@@ -104,6 +105,7 @@ export async function httpGetAllNfts(): Promise<Response> {
       },
       {
         id: "ffcde3e2-2622-4fd0-9bd2-7523f0cc20a3",
+        slug: "slug",
         initialImage: grayscale,
         finalImage: original,
         palette: [

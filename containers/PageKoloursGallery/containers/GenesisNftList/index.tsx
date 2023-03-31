@@ -5,13 +5,13 @@ import GenesisNftCard from "../GenesisNftCard";
 
 import styles from "./index.module.scss";
 
-import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
+import { GenesisKreation$Gallery } from "@/modules/kolours/types/Kolours";
 import MessageBox from "@/modules/teiki-ui/components/MessageBox";
 
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: GenesisKreationEntry[] | undefined;
+  value: GenesisKreation$Gallery[] | undefined;
   error: unknown;
   displayOptions?: {
     card?: Pick<React.ComponentProps<typeof GenesisNftCard>, "border">;

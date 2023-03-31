@@ -17,7 +17,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  value: Kolours.GenesisKreationEntry[];
+  value: Kolours.GenesisKreation$Mint[];
   onSelect?: (id: string) => void;
 };
 
@@ -46,11 +46,11 @@ export default function NftCardGrid({
     addedDate: true,
   });
   const keyFunctions = {
-    completion: (nft: Kolours.GenesisKreationEntry) =>
+    completion: (nft: Kolours.GenesisKreation$Mint) =>
       nft.palette.filter((item) => item.status !== "free").length /
       nft.palette.length,
-    price: (nft: Kolours.GenesisKreationEntry) => nft.listedFee ?? 0,
-    addedDate: (nft: Kolours.GenesisKreationEntry) => nft.id,
+    price: (nft: Kolours.GenesisKreation$Mint) => nft.fee ?? 0,
+    addedDate: (nft: Kolours.GenesisKreation$Mint) => nft.id,
   };
   const ascValue = sortedBy(value, keyFunctions[sortOption]);
   const sortedValue = sortOrders[sortOption] ? ascValue.reverse() : ascValue;

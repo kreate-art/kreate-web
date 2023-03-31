@@ -19,9 +19,9 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { Kolours } from "@/modules/kolours/types";
 import {
   GenesisKreationStatus,
-  GenesisKreationEntry,
   Layer,
   KolourQuotation,
+  GenesisKreation$Mint,
 } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
@@ -45,7 +45,7 @@ type Props = {
   fee: LovelaceAmount | undefined;
   listedFee: LovelaceAmount | undefined;
   status: GenesisKreationStatus | undefined;
-  selectedNft: GenesisKreationEntry | undefined;
+  selectedNft: GenesisKreation$Mint | undefined;
   canGoPrev?: boolean;
   onGoPrev?: () => void;
   canGoNext?: boolean;
