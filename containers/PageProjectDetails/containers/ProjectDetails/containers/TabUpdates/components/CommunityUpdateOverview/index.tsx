@@ -125,7 +125,7 @@ export default function CommunityUpdateOverview({
                 color="primary"
               />
               <Button.Solid
-                content="Become a Fans"
+                content="Become a Fan"
                 color="primary"
                 size="small"
                 className={styles.member}

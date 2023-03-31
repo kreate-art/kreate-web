@@ -15,10 +15,10 @@ export default function Callout(props: SVGProps<SVGSVGElement>) {
         y="83"
         style={{ fontSize: "52px", fill: "#EC5929", fontWeight: "900" }}
       >
-        IT&apos;S FUN
+        IT&apos;S EASY
       </text>
       <text
-        x="288"
+        x="326"
         y="83"
         style={{ fontSize: "52px", fill: "#222", fontWeight: "900" }}
       >
