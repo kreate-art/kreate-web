@@ -63,7 +63,7 @@ export async function getGenesisKreationWithKolours(
     : null;
 }
 
-export async function getAllMintedKolours(
+export async function getMintedKolours(
   sql: Sql,
   { kolour }: { kolour?: Kolour }
 ): Promise<MintedKolourEntry[]> {

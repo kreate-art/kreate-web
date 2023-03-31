@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getAllMintedKolours } from "@/modules/kolours/kolour";
+import { getMintedKolours } from "@/modules/kolours/kolour";
 import { MintedKolourEntry } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
@@ -14,7 +14,7 @@ export default async function handler(
     ClientError.assert(req.method === "GET", {
       _debug: "invalid http method",
     });
-    const kolours = await getAllMintedKolours(db, {});
+    const kolours = await getMintedKolours(db, {});
     sendJson(res, { kolours } satisfies { kolours: MintedKolourEntry[] });
   } catch (error) {
     apiCatch(req, res, error);
