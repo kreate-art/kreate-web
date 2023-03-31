@@ -1,4 +1,6 @@
-export default function IconBulletPoint() {
+import { SVGProps } from "react";
+
+export default function IconBulletPoint(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="21"
@@ -6,6 +8,7 @@ export default function IconBulletPoint() {
       viewBox="0 0 21 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g clipPath="url(#clip0_5_5)">
         <path
