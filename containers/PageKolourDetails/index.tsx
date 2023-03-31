@@ -168,7 +168,11 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
               </Flex.Col>
               {/* view on pool.pm button, share button */}
               <Flex.Row padding="0 56px" gap="24px">
-                <Link href={toPoolpmUrl(kolour)}>
+                <Link
+                  href={toPoolpmUrl(kolour)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <Button.Outline as="div" content="View on Pool.pm" />
                 </Link>
                 {/* <Button.Outline
