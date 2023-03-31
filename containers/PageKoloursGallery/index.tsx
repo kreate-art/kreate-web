@@ -3,13 +3,13 @@ import * as React from "react";
 
 import FooterPanel from "../PageHome/containers/FooterPanel";
 import NavBar from "../PageKolours/containers/NavBar";
-import { useAllNfts } from "../PageKolours/hooks/useAllNfts";
 
 import Section from "./components/Section";
 import GenesisNftList from "./containers/GenesisNftList";
 import KolourList from "./containers/KolourList";
 import SwitchTab from "./containers/SwitchTab";
 import { useAllMintedKolours } from "./hooks/useAllMintedKolours";
+import { useAllMintedKreations } from "./hooks/useAllMintedKreations";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
@@ -30,7 +30,7 @@ type Props = {
 export default function PageKoloursGallery({ className, style }: Props) {
   useBodyClasses([styles.body]);
   const { walletStatus } = useAppContextValue$Consumer();
-  const [useAllNfts$Response, useAllNfts$Error] = useAllNfts();
+  const [useAllNfts$Response, useAllNfts$Error] = useAllMintedKreations();
   const [useAllMintedKolours$Response, useAllMintedKolours$Error] =
     useAllMintedKolours();
   const [showMyNfts, setShowMyNfts] = React.useState(false);

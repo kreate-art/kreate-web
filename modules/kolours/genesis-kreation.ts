@@ -29,7 +29,13 @@ type GenesisKreationDbRow = {
 
 export async function getAllGenesisKreations(
   sql: Sql,
-  referralDiscount?: number
+  {
+    preset,
+    referralDiscount,
+  }: {
+    preset: "mint" | "gallery";
+    referralDiscount?: number;
+  }
 ): Promise<GenesisKreationEntry[]> {
   const rows = await sql<GenesisKreationDbRow[]>`
     SELECT
@@ -41,10 +47,20 @@ export async function getAllGenesisKreations(
       gl.listed_fee,
       gl.base_discount,
       gl.created_at,
-      gkt.address AS user_address,
       gb.fee,
-      gb.name,
-      gb.description,
+      ${
+        preset === "gallery"
+          ? sql`
+              gkt.address AS user_address,
+              gb.name,
+              gb.description,
+            `
+          : sql`
+              NULL AS user_address,
+              NULL AS name,
+              NULL AS description,
+            `
+      }
       coalesce(gb.status::text, CASE WHEN bool_and(kb.status IS NOT DISTINCT FROM 'minted') THEN 'ready' ELSE 'unready' END) AS status,
       string_agg(concat(gp.kolour, '|', gp.layer_image_cid, '|', gp.mask_image_cid, '|', kb.status), ',' ORDER BY gp.id) AS palette
     FROM
@@ -54,24 +70,32 @@ export async function getAllGenesisKreations(
           AND gb.status <> 'expired'
       INNER JOIN kolours.genesis_kreation_palette gp
         ON gp.kreation_id = gl.id
-      INNER JOIN (
-        SELECT
-          DISTINCT ON (kreation)
-            address,
-            kreation
-          FROM
-            kolours.genesis_kreation_trace
-          ORDER BY
-            kreation ASC, id DESC
-      ) AS gkt
-        ON gkt.kreation = gl.kreation
+      ${
+        preset === "gallery"
+          ? sql`
+              INNER JOIN (
+                SELECT
+                  DISTINCT ON (kreation)
+                    address,
+                    kreation
+                  FROM
+                    kolours.genesis_kreation_trace
+                  ORDER BY
+                    kreation ASC, id DESC
+              ) AS gkt
+                ON gkt.kreation = gl.kreation
+            `
+          : sql``
+      }
       LEFT JOIN kolours.kolour_book kb
         ON kb.kolour = gp.kolour
           AND kb.status <> 'expired'
     GROUP BY
-      gl.id,
-      gb.id,
-      gkt.address
+      ${
+        preset === "gallery"
+          ? sql`gl.id, gb.id, gkt.address`
+          : sql`gl.id, gb.id`
+      }
     ORDER BY
       gl.id ASC
   `;
