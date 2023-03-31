@@ -1,18 +1,15 @@
 import { Inter, Roboto_Mono } from "@next/font/google";
-import { Blockfrost, Network } from "lucid-cardano";
-import App, { AppContext, AppInitialProps, AppProps } from "next/app";
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { Blockfrost } from "lucid-cardano";
+import { AppProps } from "next/app";
 import * as React from "react";
 
-import {
-  NEXT_PUBLIC_BLOCKFROST_PROJECT_ID,
-  NEXT_PUBLIC_BLOCKFROST_URL,
-  NEXT_PUBLIC_NETWORK,
-} from "../config/client";
-
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
+import {
+  BLOCKFROST_PROJECT_ID,
+  BLOCKFROST_URL,
+  NETWORK,
+} from "@/modules/env/client";
 import { withModalPromises } from "@/modules/modal-promises";
-import Head from "@/modules/teiki-components/components/TeikiHead";
 import {
   AppContext as TeikiAppContext,
   useAppContextValue$Consumer,
@@ -23,10 +20,7 @@ import {
   withToastContext,
 } from "@/modules/teiki-contexts/contexts/ToastContext";
 
-const provider = new Blockfrost(
-  NEXT_PUBLIC_BLOCKFROST_URL,
-  NEXT_PUBLIC_BLOCKFROST_PROJECT_ID
-);
+const provider = new Blockfrost(BLOCKFROST_URL, BLOCKFROST_PROJECT_ID);
 
 const fontInter = Inter({
   subsets: ["latin"],
@@ -57,13 +51,13 @@ function withWalletNetworkWarning<P>(WrappedComponent: React.ComponentType<P>) {
         case "wrong-network":
           return showMessage({
             title: "Wrong Cardano Wallet Network!",
-            description: `Please switch your wallet to the ${NEXT_PUBLIC_NETWORK} network.`,
+            description: `Please switch your wallet to the ${NETWORK} network.`,
             color: "danger",
           });
         case "maybe-wrong-network":
           return showMessage({
             title: "Wrong Cardano Wallet Network?!",
-            description: `You may be connecting to the wrong Cardano network. Please make sure you are connecting to ${NEXT_PUBLIC_NETWORK}.`,
+            description: `You may be connecting to the wrong Cardano network. Please make sure you are connecting to ${NETWORK}.`,
             color: "warning",
           });
       }
@@ -83,7 +77,7 @@ function withWalletNetworkWarning<P>(WrappedComponent: React.ComponentType<P>) {
 function TeikiApp({ Component, pageProps }: AppProps) {
   const appContextValue = useAppContextValue$Provider({
     provider,
-    network: NEXT_PUBLIC_NETWORK as Network,
+    network: NETWORK,
   });
   const WrappedComponent = React.useMemo(
     () =>

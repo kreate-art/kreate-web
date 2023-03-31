@@ -22,5 +22,5 @@ jobs:
       - run: ln -sf .env.testnet .env
       - run: npm ci
       - run: npm run lint
-      - run: npm run build
+      - run: npm run build -- --no-lint
       - run: npm test

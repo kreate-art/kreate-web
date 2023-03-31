@@ -20,7 +20,7 @@ COPY --chown=node:node public public
 ARG ENV_FILE=.env
 COPY --chown=node:node $ENV_FILE ./.env
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN npm run build
+RUN npm run build -- --no-lint
 
 #########################################
 
