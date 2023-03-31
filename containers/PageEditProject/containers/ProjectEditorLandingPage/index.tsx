@@ -32,18 +32,18 @@ function Content({
         {KREATE_ENV === "mainnet" ? (
           <div>
             <Title size="h4" color="ink100">
-              1. Around 515 ₳ is needed to become a Kreator.
+              1. Around 40 ₳ is needed to become a Kreator.
             </Title>
             <ul>
               <li className={styles.itemizedItem}>
-                500 ₳ as an on-chain pledge returned when you leave.
+                30 ₳ as an on-chain pledge returned when you leave.
               </li>
               <li className={styles.itemizedItem}>
                 The deposit is fined if deemed inappropriate due to
                 impersonation, etc.
               </li>
               <li className={styles.itemizedItem}>
-                10-15 ₳ in fixed fees. You can choose to spend more on advanced
+                Around 10 ₳ in fixed fees. You can choose to spend more on advanced
                 features.
               </li>
             </ul>
