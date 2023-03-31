@@ -28,7 +28,7 @@ type Props = {
 };
 
 // NOTE: feel free to rename this component
-export default function PageMintByColorPicker({ className, style }: Props) {
+export default function PageMintFree({ className, style }: Props) {
   useBodyClasses([styles.body]);
   const { showMessage } = useToast();
   const { walletStatus } = useAppContextValue$Consumer();
