@@ -54,7 +54,7 @@ export default function ButtonWalletOptions({
               <div>
                 <AddressViewer
                   className={styles.address}
-                  value="walletInfo.address"
+                  value={walletInfo.address}
                 />
               </div>
             </div>
