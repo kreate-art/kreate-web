@@ -1,4 +1,5 @@
 import cx from "classnames";
+import Link from "next/link";
 import * as React from "react";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
@@ -51,83 +52,85 @@ export default function GenesisNftCard({
       className={cx(styles.container, className, BORDER_TO_CLASS_NAME[border])}
       style={style}
     >
-      <WithAspectRatio aspectRatio={2 / 1}>
-        <ImageView
-          className={styles.image}
-          src={value.finalImage.src}
-          crop={{ x: 0, y: 0, w: 1, h: 1 }}
-        />
-      </WithAspectRatio>
-      <Flex.Col padding="24px" gap="16px">
-        <Flex.Row justifyContent="space-between" alignItems="center">
-          <Flex.Cell>
-            <Typography.Div content="Name" size="bodySmall" color="ink80" />
-          </Flex.Cell>
-          <Flex.Cell>
-            <Typography.Div
-              content={value.name}
-              size="heading6"
-              color="ink"
-              fontWeight="semibold"
-            />
-          </Flex.Cell>
-        </Flex.Row>
-        <Flex.Row justifyContent="space-between" alignItems="center">
-          <Flex.Cell>
-            <Typography.Div content="Owner" size="bodySmall" color="ink80" />
-          </Flex.Cell>
-          <Flex.Cell>
-            <Typography.Div
-              content={
-                <AddressViewer
-                  size={"heading6"}
-                  value={value.userAddress ? value.userAddress : ""}
-                />
-              }
-              size="heading6"
-              color="ink"
-              fontWeight="semibold"
-            />
-          </Flex.Cell>
-        </Flex.Row>
-        <Flex.Row justifyContent="space-between" alignItems="center">
-          <Flex.Cell>
-            <Typography.Div
-              content="Minted Fee"
-              size="bodySmall"
-              color="ink80"
-            />
-          </Flex.Cell>
-          <Flex.Cell>
-            <Typography.Div
-              content={
-                <AssetViewer.Ada.Standard
-                  as="span"
-                  lovelaceAmount={value.fee}
-                />
-              }
-              size="heading6"
-              color="ink"
-              fontWeight="semibold"
-            />
-          </Flex.Cell>
-        </Flex.Row>
-        {value.description?.length ? (
-          <>
-            <Divider$Horizontal$CustomDash />
-            <Flex.Row justifyContent="space-between" alignItems="center">
-              <Flex.Cell>
-                {/* TODO: @sk-yagi: Update this along with the new description UI later */}
-                <Typography.Div
-                  content={value.description.join("")}
-                  size="bodySmall"
-                  color="ink80"
-                />
-              </Flex.Cell>
-            </Flex.Row>
-          </>
-        ) : null}
-      </Flex.Col>
+      <Link href={`/gallery/${value.slug}`}>
+        <WithAspectRatio aspectRatio={2 / 1}>
+          <ImageView
+            className={styles.image}
+            src={value.finalImage.src}
+            crop={{ x: 0, y: 0, w: 1, h: 1 }}
+          />
+        </WithAspectRatio>
+        <Flex.Col padding="24px" gap="16px">
+          <Flex.Row justifyContent="space-between" alignItems="center">
+            <Flex.Cell>
+              <Typography.Div content="Name" size="bodySmall" color="ink80" />
+            </Flex.Cell>
+            <Flex.Cell>
+              <Typography.Div
+                content={value.name}
+                size="heading6"
+                color="ink"
+                fontWeight="semibold"
+              />
+            </Flex.Cell>
+          </Flex.Row>
+          <Flex.Row justifyContent="space-between" alignItems="center">
+            <Flex.Cell>
+              <Typography.Div content="Owner" size="bodySmall" color="ink80" />
+            </Flex.Cell>
+            <Flex.Cell>
+              <Typography.Div
+                content={
+                  <AddressViewer
+                    size={"heading6"}
+                    value={value.userAddress ? value.userAddress : ""}
+                  />
+                }
+                size="heading6"
+                color="ink"
+                fontWeight="semibold"
+              />
+            </Flex.Cell>
+          </Flex.Row>
+          <Flex.Row justifyContent="space-between" alignItems="center">
+            <Flex.Cell>
+              <Typography.Div
+                content="Minted Fee"
+                size="bodySmall"
+                color="ink80"
+              />
+            </Flex.Cell>
+            <Flex.Cell>
+              <Typography.Div
+                content={
+                  <AssetViewer.Ada.Standard
+                    as="span"
+                    lovelaceAmount={value.fee}
+                  />
+                }
+                size="heading6"
+                color="ink"
+                fontWeight="semibold"
+              />
+            </Flex.Cell>
+          </Flex.Row>
+          {value.description?.length ? (
+            <>
+              <Divider$Horizontal$CustomDash />
+              <Flex.Row justifyContent="space-between" alignItems="center">
+                <Flex.Cell>
+                  {/* TODO: @sk-yagi: Update this along with the new description UI later */}
+                  <Typography.Div
+                    content={value.description.join("")}
+                    size="bodySmall"
+                    color="ink80"
+                  />
+                </Flex.Cell>
+              </Flex.Row>
+            </>
+          ) : null}
+        </Flex.Col>
+      </Link>
     </div>
   );
 }

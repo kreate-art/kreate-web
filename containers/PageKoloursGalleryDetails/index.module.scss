@@ -1,0 +1,56 @@
+@use "~/modules/teiki-ui/styles/_colors.scss" as colors;
+
+.container {
+  display: block;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+}
+
+.border {
+  border-radius: 4px;
+}
+
+.upper {
+  text-align: center;
+  gap: 18px;
+  background-color: #fff;
+  border-radius: 4px;
+  justify-content: center;
+  padding-bottom: 18px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  padding: 0 12px;
+}
+
+.main {
+  flex-grow: 1;
+  padding-top: 20px;
+}
+
+.body {
+  background-color: #eef1f0;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 20px 12px;
+  justify-content: stretch;
+  grid-auto-rows: 1fr;
+  grid-auto-flow: row;
+}
+
+.infoCell {
+  border-radius: 12px;
+  border: 1px solid colors.$black10;
+  width: fit-content;
+  display: flex;
+}
+
