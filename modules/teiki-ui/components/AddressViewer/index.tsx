@@ -1,6 +1,9 @@
 import cx from "classnames";
 import useSWR from "swr";
 
+import { ForwardedProps } from "../AssetViewer/types";
+import Typography from "../Typography";
+
 import styles from "./index.module.scss";
 
 import { getAdaHandle } from "@/modules/ada-handle/utils";
@@ -25,7 +28,7 @@ type Props = {
   length?: Length;
   className?: string;
   style?: React.CSSProperties;
-};
+} & ForwardedProps;
 
 /**NOTE: @sk-tenba: should handle the max width carefully */
 export default function AddressViewer({
@@ -34,7 +37,9 @@ export default function AddressViewer({
   value,
   as = "div",
   length = "short",
+  ...others
 }: Props) {
+  const Component = as == "span" ? Typography.Span : Typography.Div;
   const { data: handle, error } = useSWR(
     ["c2b75c1b-8c7a-4124-ac76-909b2a943a4f", value],
     async () => {
@@ -43,17 +48,14 @@ export default function AddressViewer({
   );
   const hasAdaHandle = handle && handle !== value && error == null;
   if (hasAdaHandle) {
-    if (as === "div") {
-      return (
-        <div className={cx(className, styles.overflowHandle)} style={style}>
-          {handle}
-        </div>
-      );
-    }
     return (
-      <span className={className} style={style}>
+      <Component
+        className={cx(className, styles.overflowHandle)}
+        style={style}
+        {...others}
+      >
         {handle}
-      </span>
+      </Component>
     );
   }
   const prefixLength = LENGTH_TO_PREFIX_LENGTH[length];
@@ -62,13 +64,9 @@ export default function AddressViewer({
     prefixLength + suffixLength >= value.length
       ? value
       : value.slice(0, prefixLength) + "..." + value.slice(-suffixLength);
-  return as === "div" ? (
-    <div className={className} style={style}>
+  return (
+    <Component className={className} style={style} {...others}>
       {displayedText}
-    </div>
-  ) : (
-    <span className={className} style={style}>
-      {displayedText}
-    </span>
+    </Component>
   );
 }

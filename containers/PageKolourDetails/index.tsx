@@ -102,7 +102,10 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                   <Typography.Div>
                     <Typography.Span content="Owner: " />
                     <Typography.Span fontWeight="semibold" color="primary">
-                      <AddressViewer value={mintedKolour.userAddress} />
+                      <AddressViewer
+                        size={"heading6"}
+                        value={mintedKolour.userAddress}
+                      />
                     </Typography.Span>
                   </Typography.Div>
                   <IconSeparator />

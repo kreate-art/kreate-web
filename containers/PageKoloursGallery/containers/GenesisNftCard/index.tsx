@@ -80,6 +80,7 @@ export default function GenesisNftCard({
             <Typography.Div
               content={
                 <AddressViewer
+                  size={"heading6"}
                   value={value.userAddress ? value.userAddress : ""}
                 />
               }

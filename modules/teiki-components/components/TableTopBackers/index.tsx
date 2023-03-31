@@ -62,6 +62,7 @@ export default function TableTopBackers({ className, style, value }: Props) {
             </div>
             <div className={styles.columnAddress}>
               <AddressViewer
+                size={"heading6"}
                 value={item.address}
                 className={styles.inlineAddressAuto}
               />

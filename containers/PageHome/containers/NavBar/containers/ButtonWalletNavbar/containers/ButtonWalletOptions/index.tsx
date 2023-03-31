@@ -53,6 +53,8 @@ export default function ButtonWalletOptions({
               )}
               <div>
                 <AddressViewer
+                  color="white"
+                  size="heading6"
                   className={styles.address}
                   value={walletInfo.address}
                 />

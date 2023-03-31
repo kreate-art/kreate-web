@@ -55,7 +55,9 @@ export default function KolourCard({ className, style, value }: Props) {
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={<AddressViewer value={value.userAddress} />}
+              content={
+                <AddressViewer size={"heading6"} value={value.userAddress} />
+              }
               size="heading6"
               color="ink"
               fontWeight="semibold"
