@@ -1,7 +1,10 @@
 import cx from "classnames";
 import { HexColorPicker } from "react-colorful";
 
-import InputColor, { ColorSystem } from "./components/InputColor";
+import InputColor$Cmyk from "./components/InputColor$Cmyk";
+import InputColor$Hex from "./components/InputColor$Hex";
+import InputColor$Hsl from "./components/InputColor$Hsl";
+import InputColor$Rgb from "./components/InputColor$Rgb";
 import styles from "./index.module.scss";
 import { Color } from "./types";
 import {
@@ -28,7 +31,12 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-const COLOR_SYSTEMS: ColorSystem[] = ["hex", "rgb", "cmyk", "hsl"];
+const COLOR_SYSTEM_TO_COMPONENT = {
+  hex: InputColor$Hex,
+  rgb: InputColor$Rgb,
+  cmyk: InputColor$Cmyk,
+  hsl: InputColor$Hsl,
+};
 
 function ColorPicker(props: Props) {
   const {
@@ -74,13 +82,8 @@ function ColorPicker(props: Props) {
 
   const colorInputs = (
     <div className={styles.inputsContainer}>
-      {COLOR_SYSTEMS.map((system) => (
-        <InputColor
-          key={system}
-          colorSystem={system}
-          value={color}
-          onChange={(color) => onChange(color)}
-        />
+      {Object.entries(COLOR_SYSTEM_TO_COMPONENT).map(([system, C]) => (
+        <C key={system} value={color} onChange={(color) => onChange(color)} />
       ))}
     </div>
   );
