@@ -43,8 +43,8 @@ function Content({
                 impersonation, etc.
               </li>
               <li className={styles.itemizedItem}>
-                Around 10 ₳ in fixed fees. You can choose to spend more on advanced
-                features.
+                Around 10 ₳ in fixed fees. You can choose to spend more on
+                advanced features.
               </li>
             </ul>
           </div>
