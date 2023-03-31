@@ -3,10 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import IconBulletPoint from "../RewardsSection/components/IconBulletPoint";
-
 import pngUserBusinessGenesis from "./assets/user-business-genesis.png";
 import pngUserBusinessKolours from "./assets/user-business-kolours.png";
+import IconBulletPoint from "./icons/IconBulletPoint";
 import styles from "./index.module.scss";
 
 import Carousel from "@/modules/teiki-components/components/Carousel";
