@@ -106,7 +106,8 @@ export default async function handler(
       listedFee: quotation.listedFee,
       userAddress: quotation.userAddress,
       feeAddress: quotation.feeAddress,
-      ...metadata,
+      name: metadata.name,
+      description: metadataValueToArray(metadata.description),
       referral: quotation.referral?.id ?? null,
     };
 
@@ -163,7 +164,7 @@ function extractMetadata(
   id: GenesisKreationId
 ): {
   name: string;
-  description: string[];
+  description: string | string[];
 } {
   const metadatumCore = tx.auxiliary_data()?.metadata()?.get(METADATA_NFT_TAG);
   ClientError.assert(metadatumCore, { _debug: "missing tx nft metadatum" });
@@ -175,23 +176,21 @@ function extractMetadata(
     )
   );
   const entry = metadatum?.[KOLOURS_GENESIS_KREATION_POLICY_ID]?.[id];
-  const name = entry?.name;
-  const r_description = entry?.description;
+  ClientError.assert(entry, { _debug: "missing genesis kreation nft entry" });
+  const { name, description } = entry;
   ClientError.assert(name, { _debug: "missing genesis kreation nft name" });
-  ClientError.assert(r_description != null, {
+  ClientError.assert(description != null, {
     _debug: "missing genesis kreation nft description",
   });
-  let description: string[];
-  if (typeof r_description === "string")
-    description = r_description ? [] : [r_description];
-  else if (
-    Array.isArray(r_description) &&
-    r_description.every((e) => typeof e === "string")
-  )
-    description = r_description;
-  else
-    throw new ClientError({
-      _debug: "genesis kreation nft description must be string or string[]",
-    });
+  ClientError.assert(
+    typeof description === "string" ||
+      (Array.isArray(description) &&
+        description.every((e) => typeof e === "string")),
+    { _debug: "invalid genesis kreation nft description" }
+  );
   return { name, description };
+}
+
+function metadataValueToArray(value: string | string[]): string[] {
+  return !value ? [] : typeof value === "string" ? [value] : value;
 }
