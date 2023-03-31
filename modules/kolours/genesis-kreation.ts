@@ -2,6 +2,7 @@ import { calculateKolourFee, computeFee, discountFromDb } from "./fees";
 import {
   GenesisKreationEntry,
   GenesisKreationId,
+  GenesisKreationSlug,
   GenesisKreationStatus,
   Layer,
 } from "./types/Kolours";
@@ -11,6 +12,7 @@ import { Lovelace } from "@/modules/next-backend/types";
 import { getIpfsUrl } from "@/modules/urls";
 
 type GenesisKreationDbRow = {
+  slug: GenesisKreationSlug;
   kreation: GenesisKreationId;
   initialImageCid: string;
   finalImageCid: string;
@@ -32,6 +34,7 @@ export async function getAllGenesisKreations(
   const rows = await sql<GenesisKreationDbRow[]>`
     SELECT
       gl.id,
+      gl.slug,
       gl.kreation,
       gl.initial_image_cid,
       gl.final_image_cid,
@@ -77,6 +80,7 @@ export async function getAllGenesisKreations(
     });
     return {
       id: row.kreation,
+      slug: row.slug,
       status: row.status,
       initialImage: { src: getIpfsUrl(row.initialImageCid) },
       finalImage: { src: getIpfsUrl(row.finalImageCid) },
