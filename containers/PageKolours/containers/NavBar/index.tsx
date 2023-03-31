@@ -58,7 +58,7 @@ export default function NavBar({
 
         <div className={styles.rightMain}>
           {showMintButton ? (
-            <Link href="mint">
+            <Link href="/mint">
               <Button.Outline
                 as="div"
                 icon={<IconSwatches />}
@@ -68,7 +68,7 @@ export default function NavBar({
             </Link>
           ) : null}
           {showGalleryButton ? (
-            <Link href="gallery">
+            <Link href="/gallery">
               <Button.Outline
                 as="div"
                 icon={<IconGallery />}
