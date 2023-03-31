@@ -7,10 +7,10 @@ import styles from "./index.module.scss";
 
 import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
 import ImageView from "@/modules/teiki-components/components/ImageView";
+import AddressViewer from "@/modules/teiki-ui/components/AddressViewer";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 const BORDER_TO_CLASS_NAME = {
@@ -79,7 +79,7 @@ export default function GenesisNftCard({
           <Flex.Cell>
             <Typography.Div
               content={
-                <InlineAddress.Auto
+                <AddressViewer
                   value={value.userAddress ? value.userAddress : ""}
                 />
               }

@@ -22,12 +22,12 @@ import { HOST } from "@/modules/env/client";
 import { KOLOURS_KOLOUR_NFT_POLICY_ID } from "@/modules/env/kolours/client";
 import { Kolour } from "@/modules/kolours/types/Kolours";
 import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
+import AddressViewer from "@/modules/teiki-ui/components/AddressViewer";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
 import Divider from "@/modules/teiki-ui/components/Divider";
 import Divider$Horizontal$CustomDash from "@/modules/teiki-ui/components/Divider$Horizontal$CustomDash";
 import Flex from "@/modules/teiki-ui/components/Flex";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import MessageBox from "@/modules/teiki-ui/components/MessageBox";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
@@ -102,10 +102,7 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                   <Typography.Div>
                     <Typography.Span content="Owner: " />
                     <Typography.Span fontWeight="semibold" color="primary">
-                      <InlineAddress
-                        length="short"
-                        value={mintedKolour.userAddress}
-                      />
+                      <AddressViewer value={mintedKolour.userAddress} />
                     </Typography.Span>
                   </Typography.Div>
                   <IconSeparator />

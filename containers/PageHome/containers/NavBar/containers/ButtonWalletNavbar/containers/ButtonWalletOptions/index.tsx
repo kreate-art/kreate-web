@@ -10,8 +10,8 @@ import styles from "./index.module.scss";
 
 import { formatLovelaceAmount, formatUsdAmount } from "@/modules/bigint-utils";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
+import AddressViewer from "@/modules/teiki-ui/components/AddressViewer";
 import Divider from "@/modules/teiki-ui/components/Divider";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import { WalletInfo } from "@/modules/wallet/types";
 
 type Props = {
@@ -52,10 +52,9 @@ export default function ButtonWalletOptions({
                 WALLET_LOGO[walletInfo.walletName]
               )}
               <div>
-                <InlineAddress
+                <AddressViewer
                   className={styles.address}
-                  value={walletInfo.address}
-                  length="short"
+                  value="walletInfo.address"
                 />
               </div>
             </div>
