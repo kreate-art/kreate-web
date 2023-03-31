@@ -1,11 +1,17 @@
 @use "~/modules/teiki-ui/styles/_colors.scss" as colors;
 
 .container {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .body {
   background-color: #eef1f0;
+}
+
+.main {
+  flex: 1 1 0;
 }
 
 .rightPanel {

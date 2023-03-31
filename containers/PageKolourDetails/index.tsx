@@ -3,6 +3,7 @@ import cx from "classnames";
 import Link from "next/link";
 import * as React from "react";
 
+import FooterPanel from "../PageHome/containers/FooterPanel";
 import NavBar from "../PageKolours/containers/NavBar";
 import { useAllNfts } from "../PageKolours/hooks/useAllNfts";
 import { toHexColor } from "../PageKolours/utils";
@@ -74,49 +75,50 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
         imageUrl={`${HOST}/images/meta-kolour.png?v=1`}
       />
       <NavBar className={styles.navBar} showMintButton={true} />
-      <Section marginTop="32px" marginBottom="16px">
-        <Flex.Row gap="20px">
-          <Flex.Cell
-            className={styles.leftPanel}
-            flex="5 5 100px"
-            style={{ backgroundColor: toHexColor(kolour) }}
-          ></Flex.Cell>
-          <Flex.Col
-            className={styles.rightPanel}
-            flex="7 7 350px "
-            padding="48px 0"
-            gap="32px"
-          >
-            {/* kolour, owner, royalty percentage */}
-            <Flex.Col padding="0 56px" gap="16px">
-              <Typography.H1
-                size="heading1"
-                color="ink"
-                content={toHexColor(kolour)}
-              />
-              <Flex.Row alignItems="center" gap="12px">
-                <Typography.Div>
-                  <Typography.Span content="Owner: " />
-                  <Typography.Span fontWeight="semibold" color="primary">
-                    <InlineAddress
-                      length="short"
-                      value={mintedKolour.userAddress}
-                    />
-                  </Typography.Span>
-                </Typography.Div>
-                <IconSeparator />
+      <div className={styles.main}>
+        <Section marginTop="32px" marginBottom="16px">
+          <Flex.Row gap="20px">
+            <Flex.Cell
+              className={styles.leftPanel}
+              flex="5 5 100px"
+              style={{ backgroundColor: toHexColor(kolour) }}
+            ></Flex.Cell>
+            <Flex.Col
+              className={styles.rightPanel}
+              flex="7 7 350px "
+              padding="48px 0"
+              gap="32px"
+            >
+              {/* kolour, owner, royalty percentage */}
+              <Flex.Col padding="0 56px" gap="16px">
+                <Typography.H1
+                  size="heading1"
+                  color="ink"
+                  content={toHexColor(kolour)}
+                />
                 <Flex.Row alignItems="center" gap="12px">
-                  <IconCrown style={{ color: "#FFB743" }} />
-                  <Typography.Div fontWeight="bold" content="1% Royalties" />
+                  <Typography.Div>
+                    <Typography.Span content="Owner: " />
+                    <Typography.Span fontWeight="semibold" color="primary">
+                      <InlineAddress
+                        length="short"
+                        value={mintedKolour.userAddress}
+                      />
+                    </Typography.Span>
+                  </Typography.Div>
+                  <IconSeparator />
+                  <Flex.Row alignItems="center" gap="12px">
+                    <IconCrown style={{ color: "#FFB743" }} />
+                    <Typography.Div fontWeight="bold" content="1% Royalties" />
+                  </Flex.Row>
                 </Flex.Row>
-              </Flex.Row>
-            </Flex.Col>
-            {/* minted time, minted fee, expected earning */}
-            <Flex.Col padding="0 56px" gap="24px">
-              <Divider$Horizontal$CustomDash />
-              <Flex.Row flexWrap="wrap" gap="24px 12px">
-                {/* TODO: @sk-kitsune: add minted time */}
-                {/* <Flex.Row
+              </Flex.Col>
+              {/* minted time, minted fee, expected earning */}
+              <Flex.Col padding="0 56px" gap="24px">
+                <Divider$Horizontal$CustomDash />
+                <Flex.Row flexWrap="wrap" gap="24px 12px">
+                  {/* TODO: @sk-kitsune: add minted time */}
+                  {/* <Flex.Row
                   className={styles.infoCell}
                   flex="1 1 300px"
                   justifyContent="space-between"
@@ -129,71 +131,73 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                     content={}
                   />
                 </Flex.Row> */}
-                <Flex.Row
-                  className={styles.infoCell}
-                  flex="1 1 300px"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  padding="12px 24px"
-                >
-                  <Typography.Div color="ink80" content="Minted Fee" />
-                  <AssetViewer.Ada.Compact
-                    as="div"
-                    lovelaceAmount={mintedKolour.fee}
-                    size="heading6"
-                    color="ink"
-                    fontWeight="semibold"
-                  />
+                  <Flex.Row
+                    className={styles.infoCell}
+                    flex="1 1 300px"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    padding="12px 24px"
+                  >
+                    <Typography.Div color="ink80" content="Minted Fee" />
+                    <AssetViewer.Ada.Compact
+                      as="div"
+                      lovelaceAmount={mintedKolour.fee}
+                      size="heading6"
+                      color="ink"
+                      fontWeight="semibold"
+                    />
+                  </Flex.Row>
+                  <Flex.Row
+                    className={styles.infoCell}
+                    flex="1 1 300px"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    padding="12px 24px"
+                  >
+                    <Typography.Div color="ink80" content="Expected Earning" />
+                    <AssetViewer.Ada.Compact
+                      as="div"
+                      lovelaceAmount={mintedKolour.expectedEarning ?? undefined}
+                      size="heading6"
+                      color="ink"
+                      fontWeight="semibold"
+                    />
+                  </Flex.Row>
                 </Flex.Row>
-                <Flex.Row
-                  className={styles.infoCell}
-                  flex="1 1 300px"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  padding="12px 24px"
-                >
-                  <Typography.Div color="ink80" content="Expected Earning" />
-                  <AssetViewer.Ada.Compact
-                    as="div"
-                    lovelaceAmount={mintedKolour.expectedEarning ?? undefined}
-                    size="heading6"
-                    color="ink"
-                    fontWeight="semibold"
-                  />
-                </Flex.Row>
-              </Flex.Row>
-              <Divider$Horizontal$CustomDash />
-            </Flex.Col>
-            {/* view on pool.pm button, share button */}
-            <Flex.Row padding="0 56px" gap="24px">
-              <Link href={toPoolpmUrl(kolour)}>
-                <Button.Outline as="div" content="View on Pool.pm" />
-              </Link>
-              {/* <Button.Outline
+                <Divider$Horizontal$CustomDash />
+              </Flex.Col>
+              {/* view on pool.pm button, share button */}
+              <Flex.Row padding="0 56px" gap="24px">
+                <Link href={toPoolpmUrl(kolour)}>
+                  <Button.Outline as="div" content="View on Pool.pm" />
+                </Link>
+                {/* <Button.Outline
                 icon={<IconTwitter width="20" height="20" />}
                 color="secondary"
                 size="extraSmall"
                 circular
               /> */}
+              </Flex.Row>
+            </Flex.Col>
+          </Flex.Row>
+        </Section>
+        <Section marginTop="16px" marginBottom="32px">
+          <Flex.Col className={styles.panelAsSeenIn} alignItems="stretch">
+            <Flex.Row padding="24px 48px">
+              <Typography.H2 size="heading5" color="ink" content="As Seen In" />
+            </Flex.Row>
+            <Divider$Horizontal$CustomDash />
+            <Flex.Row padding="24px 48px">
+              <GenesisNftList
+                value={relatedNfts}
+                error={allNfts$Error}
+                displayOptions={{ card: { border: "solid" } }}
+              />
             </Flex.Row>
           </Flex.Col>
-        </Flex.Row>
-      </Section>
-      <Section marginTop="16px" marginBottom="32px">
-        <Flex.Col className={styles.panelAsSeenIn} alignItems="stretch">
-          <Flex.Row padding="24px 48px">
-            <Typography.H2 size="heading5" color="ink" content="As Seen In" />
-          </Flex.Row>
-          <Divider$Horizontal$CustomDash />
-          <Flex.Row padding="24px 48px">
-            <GenesisNftList
-              value={relatedNfts}
-              error={allNfts$Error}
-              displayOptions={{ card: { border: "solid" } }}
-            />
-          </Flex.Row>
-        </Flex.Col>
-      </Section>
+        </Section>
+      </div>
+      <FooterPanel />
     </div>
   );
 }
