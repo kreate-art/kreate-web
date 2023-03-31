@@ -8,9 +8,9 @@ import { toHexColor } from "../../../PageKolours/utils";
 import styles from "./index.module.scss";
 
 import { Kolours } from "@/modules/kolours/types";
+import AddressViewer from "@/modules/teiki-ui/components/AddressViewer";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 type Props = {
@@ -55,7 +55,9 @@ export default function KolourCard({ className, style, value }: Props) {
           </Flex.Cell>
           <Flex.Cell>
             <Typography.Div
-              content={<InlineAddress.Auto value={value.userAddress} />}
+              content={
+                <AddressViewer size={"heading6"} value={value.userAddress} />
+              }
               size="heading6"
               color="ink"
               fontWeight="semibold"

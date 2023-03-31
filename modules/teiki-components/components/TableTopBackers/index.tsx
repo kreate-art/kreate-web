@@ -10,9 +10,9 @@ import styles from "./index.module.scss";
 
 import { rankOf, sortedBy } from "@/modules/array-utils";
 import { SupporterInfo } from "@/modules/business-types";
+import AddressViewer from "@/modules/teiki-ui/components/AddressViewer";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Flex from "@/modules/teiki-ui/components/Flex";
-import InlineAddress from "@/modules/teiki-ui/components/InlineAddress";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 const MAX_DISPLAYED_RANK = 10;
@@ -61,7 +61,8 @@ export default function TableTopBackers({ className, style, value }: Props) {
               )}
             </div>
             <div className={styles.columnAddress}>
-              <InlineAddress.Auto
+              <AddressViewer
+                size={"heading6"}
                 value={item.address}
                 className={styles.inlineAddressAuto}
               />
