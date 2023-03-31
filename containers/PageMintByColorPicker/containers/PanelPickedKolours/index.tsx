@@ -5,6 +5,7 @@ import ModalFreeMintKolour from "../../../PageKolours/containers/ModalFreeMintKo
 import { useQuoteFreeKolourNft$Nft } from "../../../PageKolours/containers/ModalFreeMintKolour/hooks/useQuoteFreeKolourNft";
 import FreeKolourGrid from "../../components/FreeKolourGrid";
 
+import { useFreeKolour } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
 
 import { Kolour } from "@/modules/kolours/types/Kolours";
@@ -30,6 +31,12 @@ export default function PanelPickedKolours({
   onChange,
 }: Props) {
   const { walletStatus } = useAppContextValue$Consumer();
+
+  const freeKolour$Response = useFreeKolour({
+    address:
+      walletStatus.status === "connected" ? walletStatus.info.address : "",
+  });
+
   // TODO: Delete this if not being used.
   const quoteResult = useQuoteFreeKolourNft$Nft({
     kolours: value,
@@ -72,11 +79,17 @@ export default function PanelPickedKolours({
           flex="0 0 auto"
         >
           <Typography.Div content="Collection" size="heading6" />
-          {/* TODO: do not hard code */}
-          <Typography.Div
-            content="15/30 Free Kolours Remaining"
-            size="bodyExtraSmall"
-          />
+          {freeKolour$Response?.error ||
+          !freeKolour$Response?.data ||
+          freeKolour$Response.data.used ===
+            freeKolour$Response.data.total ? null : (
+            <Typography.Div
+              content={`${
+                freeKolour$Response.data.total - freeKolour$Response.data.used
+              }/${freeKolour$Response.data.total} Free Kolours Remaining`}
+              size="bodyExtraSmall"
+            />
+          )}
         </Flex.Row>
         <Divider.Horizontal />
         <Flex.Col flex="1 1 200px" minHeight="0" className={styles.colorPanel}>
