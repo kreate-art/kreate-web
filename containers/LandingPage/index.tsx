@@ -10,6 +10,7 @@ import NavBar from "./containers/NavBar";
 import NftCollection from "./containers/NftCollection";
 import IconSwatches from "./containers/NftCollection/components/IconSwatches";
 import RewardSection from "./containers/RewardsSection";
+import RewardsSectionV2 from "./containers/RewardsSectionV2";
 import RoadmapSection from "./containers/RoadmapSection";
 import { useLandingPageColor } from "./hooks/useLandingPageColor";
 import figureDiscount from "./images/figure-discount.png";
@@ -77,6 +78,7 @@ export default function LandingPage() {
             </div>
             <Guideline />
             <RewardSection style={{ marginTop: "172px" }} />
+            <RewardsSectionV2 style={{ marginTop: "172px" }} />
             <RoadmapSection
               style={{
                 paddingTop: "20px",

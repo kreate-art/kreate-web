@@ -1,0 +1,53 @@
+@font-face {
+  font-family: Bangers;
+  src: url(../../fonts/Bangers-Regular.ttf);
+}
+
+.container {
+  display: block;
+}
+
+.title {
+  font-family: Bangers, Futura, "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.16em;
+  color: white;
+  font-size: 48px;
+  text-align: center;
+  margin: 96px 0;
+}
+
+.card {
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(34, 34, 34, 0.06) 35.94%,
+    rgba(34, 34, 34, 0) 100%
+  );
+  border-radius: 12px;
+}
+
+.figure {
+  width: 100%;
+  height: auto;
+}
+
+.bullet {
+  width: 24px;
+  height: 24px;
+  transform: translate(0, +6px);
+}
+
+.subtitle {
+  font-family: Bangers, Futura, "Trebuchet MS", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 21px;
+  letter-spacing: 0.16em;
+}
+
+.note {
+  margin: 108px 0;
+  background-color: #006e46;
+  border-radius: 12px;
+}

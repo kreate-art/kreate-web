@@ -6,6 +6,34 @@
   width: 100%;
 }
 
+.colorInk {
+  color: colors.$ink50;
+}
+.colorInk80 {
+  color: colors.$ink80;
+}
 .colorInk50 {
   color: colors.$ink50;
+}
+.colorInk30 {
+  color: colors.$ink30;
+}
+.colorInk10 {
+  color: colors.$ink10;
+}
+
+.colorWhite {
+  color: colors.$white;
+}
+.colorWhite80 {
+  color: colors.$white80;
+}
+.colorWhite50 {
+  color: colors.$white50;
+}
+.colorWhite30 {
+  color: colors.$white30;
+}
+.colorWhite10 {
+  color: colors.$white10;
 }

@@ -5,7 +5,16 @@ import styles from "./index.module.scss";
 
 // Feel free to add more colors
 const COLOR_TO_CLASS_NAME = {
+  ink: styles.colorInk,
+  ink80: styles.colorInk80,
   ink50: styles.colorInk50,
+  ink30: styles.colorInk30,
+  ink10: styles.colorInk10,
+  white: styles.colorWhite,
+  white80: styles.colorWhite80,
+  white50: styles.colorWhite50,
+  white30: styles.colorWhite30,
+  white10: styles.colorWhite10,
 };
 
 type Props = {
