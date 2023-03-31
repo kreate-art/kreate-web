@@ -12,18 +12,21 @@ export type Props = {
   max?: number;
   step?: number;
   disabled?: boolean;
-  classNames?: Partial<{
-    [k in SubComponent]: string;
-  }>;
-  styles?: Partial<{
-    [k in SubComponent]: React.CSSProperties;
-  }>;
+  displayOptions?: {
+    [k in SubComponent]?: {
+      className?: string;
+      style?: React.CSSProperties;
+    };
+  };
 };
 
-function forwardClassNameAndStyle(component: SubComponent, props: Props) {
+function mergeDisplayOptions(
+  component: SubComponent,
+  displayOptions: Props["displayOptions"]
+) {
   return {
-    className: cx([styles[component], props.classNames?.[component]]),
-    style: props.styles?.[component],
+    className: cx([styles[component], displayOptions?.[component]?.className]),
+    style: displayOptions?.[component]?.style,
   };
 }
 
@@ -34,8 +37,7 @@ export default function Slider(props: Props) {
     min = 0,
     max = 100,
     step = 1,
-    styles: _styles,
-    classNames: _classNames,
+    displayOptions,
     disabled,
     ...others
   } = props;
@@ -48,13 +50,13 @@ export default function Slider(props: Props) {
       step={step}
       onValueChange={([value]) => onChange?.(value)}
       disabled={disabled}
-      {...forwardClassNameAndStyle("container", props)}
+      {...mergeDisplayOptions("container", displayOptions)}
     >
-      <Slider$Radix.Track {...forwardClassNameAndStyle("track", props)}>
-        <Slider$Radix.Range {...forwardClassNameAndStyle("range", props)} />
+      <Slider$Radix.Track {...mergeDisplayOptions("track", displayOptions)}>
+        <Slider$Radix.Range {...mergeDisplayOptions("range", displayOptions)} />
       </Slider$Radix.Track>
       <Slider$Radix.Thumb
-        {...forwardClassNameAndStyle("thumb", props)}
+        {...mergeDisplayOptions("thumb", displayOptions)}
         {...others}
       />
     </Slider$Radix.Root>
