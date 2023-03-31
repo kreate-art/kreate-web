@@ -7,7 +7,7 @@ import Section from "./components/Section";
 import NavBar from "./containers/NavBar";
 import NftCardGrid from "./containers/NftCardGrid";
 import PanelMint from "./containers/PanelMint";
-import { useAllNfts } from "./hooks/useAllNfts";
+import { useAllNftsForMinting } from "./hooks/useAllNftsForMinting";
 import styles from "./index.module.scss";
 
 import { HOST } from "@/modules/env/client";
@@ -22,7 +22,7 @@ type Props = {
 
 export default function PageKolours({ className, style }: Props) {
   useDefaultBackground();
-  const [allNfts, allNfts$Error] = useAllNfts();
+  const [allNfts, allNfts$Error] = useAllNftsForMinting();
 
   const [selectedId, setSelectedId] = React.useState<string>();
 

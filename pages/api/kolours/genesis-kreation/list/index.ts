@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getAllGenesisKreations } from "@/modules/kolours/genesis-kreation";
+import { getAllGenesisKreationsForMint } from "@/modules/kolours/genesis-kreation";
 import { lookupReferral } from "@/modules/kolours/referral";
 import { GenesisKreationList } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
@@ -23,10 +23,10 @@ export default async function handler(
     const referral = address
       ? await lookupReferral(redis, db, address)
       : undefined;
-    const kreations = await getAllGenesisKreations(db, {
-      preset: "mint",
-      referralDiscount: referral?.discount,
-    });
+    const kreations = await getAllGenesisKreationsForMint(
+      db,
+      referral?.discount
+    );
 
     sendJson(res, {
       kreations,

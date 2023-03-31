@@ -1,6 +1,7 @@
 import { calculateKolourFee, computeFee, discountFromDb } from "./fees";
 import {
-  GenesisKreationEntry,
+  GenesisKreation$Gallery,
+  GenesisKreation$Mint,
   GenesisKreationId,
   GenesisKreationSlug,
   GenesisKreationStatus,
@@ -27,16 +28,9 @@ type GenesisKreationDbRow = {
   palette: string; // kolour|cid|status,...
 };
 
-export async function getAllGenesisKreations(
-  sql: Sql,
-  {
-    preset,
-    referralDiscount,
-  }: {
-    preset: "mint" | "gallery";
-    referralDiscount?: number;
-  }
-): Promise<GenesisKreationEntry[]> {
+export async function getAllGenesisKreationsForGallery(
+  sql: Sql
+): Promise<GenesisKreation$Gallery[]> {
   const rows = await sql<GenesisKreationDbRow[]>`
     SELECT
       gl.id,
@@ -47,20 +41,66 @@ export async function getAllGenesisKreations(
       gl.listed_fee,
       gl.base_discount,
       gl.created_at,
+      gkt.address AS user_address,
       gb.fee,
-      ${
-        preset === "gallery"
-          ? sql`
-              gkt.address AS user_address,
-              gb.name,
-              gb.description,
-            `
-          : sql`
-              NULL AS user_address,
-              NULL AS name,
-              NULL AS description,
-            `
-      }
+      gb.name,
+      gb.description,
+      string_agg(gp.kolour, ',' ORDER BY gp.id) AS palette
+    FROM
+      kolours.genesis_kreation_list gl
+      LEFT JOIN kolours.genesis_kreation_book gb
+        ON gl.kreation = gb.kreation
+          AND gb.status <> 'expired'
+      INNER JOIN kolours.genesis_kreation_palette gp
+        ON gp.kreation_id = gl.id
+      INNER JOIN (
+        SELECT
+          DISTINCT ON (kreation)
+            address,
+            kreation
+          FROM
+            kolours.genesis_kreation_trace
+          ORDER BY
+            kreation ASC, id DESC
+      ) AS gkt
+        ON gkt.kreation = gl.kreation
+    GROUP BY
+      gl.id,
+      gb.id,
+      gkt.address
+    ORDER BY
+      gl.id ASC
+  `;
+  return rows.map((row) => {
+    const baseDiscount = discountFromDb(row.baseDiscount);
+    const palette = row.palette.split(",");
+    return {
+      id: row.kreation,
+      initialImage: { src: getIpfsUrl(row.initialImageCid) },
+      finalImage: { src: getIpfsUrl(row.finalImageCid) },
+      listedFee: row.listedFee,
+      fee: computeFee(row.listedFee, baseDiscount),
+      createdAt: row.createdAt.valueOf(),
+      palette,
+      name: row.name,
+      userAddress: row.userAddress,
+      description: row.description,
+    };
+  });
+}
+
+export async function getAllGenesisKreationsForMint(
+  sql: Sql,
+  referralDiscount?: number
+): Promise<GenesisKreation$Mint[]> {
+  const rows = await sql<GenesisKreationDbRow[]>`
+    SELECT
+      gl.id,
+      gl.kreation,
+      gl.final_image_cid,
+      gl.base_discount,
+      gl.created_at,
+      gb.fee,
       coalesce(gb.status::text, CASE WHEN bool_and(kb.status IS NOT DISTINCT FROM 'minted') THEN 'ready' ELSE 'unready' END) AS status,
       string_agg(concat(gp.kolour, '|', gp.layer_image_cid, '|', gp.mask_image_cid, '|', kb.status), ',' ORDER BY gp.id) AS palette
     FROM
@@ -70,32 +110,12 @@ export async function getAllGenesisKreations(
           AND gb.status <> 'expired'
       INNER JOIN kolours.genesis_kreation_palette gp
         ON gp.kreation_id = gl.id
-      ${
-        preset === "gallery"
-          ? sql`
-              INNER JOIN (
-                SELECT
-                  DISTINCT ON (kreation)
-                    address,
-                    kreation
-                  FROM
-                    kolours.genesis_kreation_trace
-                  ORDER BY
-                    kreation ASC, id DESC
-              ) AS gkt
-                ON gkt.kreation = gl.kreation
-            `
-          : sql``
-      }
       LEFT JOIN kolours.kolour_book kb
         ON kb.kolour = gp.kolour
           AND kb.status <> 'expired'
     GROUP BY
-      ${
-        preset === "gallery"
-          ? sql`gl.id, gb.id, gkt.address`
-          : sql`gl.id, gb.id`
-      }
+      gl.id,
+      gb.id
     ORDER BY
       gl.id ASC
   `;
@@ -124,9 +144,6 @@ export async function getAllGenesisKreations(
       fee: computeFee(row.listedFee, baseDiscount, referralDiscount),
       palette,
       createdAt: row.createdAt.valueOf(),
-      name: row.name,
-      userAddress: row.userAddress,
-      description: row.description,
     };
   });
 }

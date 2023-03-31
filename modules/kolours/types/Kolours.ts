@@ -57,7 +57,7 @@ export type GenesisKreationEntry = {
 };
 
 export type GenesisKreationList = {
-  kreations: GenesisKreationEntry[];
+  kreations: GenesisKreation$Mint[];
   referral?: Referral;
 };
 
@@ -90,4 +90,26 @@ export type MintedKolourEntry = {
   fee: LovelaceAmount;
   expectedEarning: LovelaceAmount;
   createdAt: UnixTimestamp;
+};
+
+export type GenesisKreation$Mint = {
+  id: GenesisKreationId;
+  status: GenesisKreationStatus;
+  initialImage: Image;
+  finalImage: Image;
+  fee: LovelaceAmount;
+  listedFee: LovelaceAmount;
+  palette: Layer[];
+  createdAt: UnixTimestamp;
+};
+
+export type GenesisKreation$Gallery = {
+  id: GenesisKreationId;
+  finalImage: Image;
+  fee: LovelaceAmount;
+  createdAt: UnixTimestamp;
+  name: string | null;
+  userAddress: string | null;
+  description: string[] | null;
+  palette: Kolour[];
 };

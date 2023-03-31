@@ -11,14 +11,10 @@ import { buildTx, BuildTxParams } from "./utils/transaction";
 
 import { useAdaPriceInfo } from "@/modules/ada-price-provider";
 import { tryUntil } from "@/modules/async-utils";
-import {
-  formatLovelaceAmount,
-  sumLovelaceAmount,
-  sumTxBreakdown,
-} from "@/modules/bigint-utils";
+import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import { GenesisKreationEntry } from "@/modules/kolours/types/Kolours";
+import { GenesisKreation$Mint } from "@/modules/kolours/types/Kolours";
 import httpGetGenesisKreationMintedByTxId from "@/modules/next-backend-client/api/httpGetGenesisKreationMintedByTxId";
 import { httpGetQuoteGKNft } from "@/modules/next-backend-client/api/httpGetQuoteGKNft";
 import { httpPostMintGKNftTx } from "@/modules/next-backend-client/api/httpPostMintGKNftTx";
@@ -38,7 +34,7 @@ import Typography from "@/modules/teiki-ui/components/Typography";
 type Props = {
   className?: string;
   style?: React.CSSProperties;
-  genesisKreation: GenesisKreationEntry;
+  genesisKreation: GenesisKreation$Mint;
   open: boolean;
   onCancel?: () => void;
   onSuccess?: (txHash: string) => void;
@@ -107,7 +103,7 @@ export default function ModalMintGenesisKreation({
       assert(txParamsResult && !txParamsResult.error, "tx params invalid");
 
       setStatusBarText("Quoting kolours...");
-      const { quotation, signature, status } = await httpGetQuoteGKNft({
+      const { quotation, signature } = await httpGetQuoteGKNft({
         id: genesisKreation.id,
         address: walletStatus.info.address,
       }).catch((cause) => {
