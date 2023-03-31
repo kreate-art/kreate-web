@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 
 import ModalFreeMintKolour from "../../../PageKolours/containers/ModalFreeMintKolour";
+import ModalMintKoloursSuccess from "../../../PageKolours/containers/ModalMintKoloursSuccess";
 import FreeKolourGrid from "../../components/FreeKolourGrid";
 import IconGift from "../../icons/IconGift";
 
@@ -9,7 +10,7 @@ import { UseFreeKolour$Result } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
 
 import { calculateKolourFee } from "@/modules/kolours/fees";
-import { Kolour } from "@/modules/kolours/types/Kolours";
+import { Kolour, KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";
@@ -37,7 +38,14 @@ export default function PanelPickedKolours({
   const { showModal } = useModalPromises();
 
   const handleSubmit = async () => {
-    type ModalFreeMintKolour$ModalResult = "success" | "canceled";
+    type ModalFreeMintKolour$ModalResult =
+      | {
+          result: "success";
+          txHash: string;
+          variant: "kolour";
+          quotation: KolourQuotation;
+        }
+      | { result: "canceled" };
 
     const modalResult$ModalFreeMintKolour =
       await showModal<ModalFreeMintKolour$ModalResult>((resolve) => {
@@ -46,15 +54,30 @@ export default function PanelPickedKolours({
             open
             source={{ type: "free" }}
             kolours={value}
-            onSuccess={() => resolve("success")}
-            onCancel={() => resolve("canceled")}
+            onSuccess={(txHash, quotation) =>
+              resolve({
+                result: "success",
+                txHash,
+                variant: "kolour",
+                quotation,
+              })
+            }
+            onCancel={() => resolve({ result: "canceled" })}
           />
         );
       });
 
-    if (modalResult$ModalFreeMintKolour === "success") {
-      // TODO: show the success modal
-      alert("Success!");
+    if (modalResult$ModalFreeMintKolour.result === "success") {
+      await showModal<void>((resolve) => (
+        <ModalMintKoloursSuccess
+          open={true}
+          onClose={resolve}
+          txHash={modalResult$ModalFreeMintKolour.txHash}
+          value={Object.entries(
+            modalResult$ModalFreeMintKolour.quotation.kolours
+          )}
+        />
+      ));
     }
   };
 
