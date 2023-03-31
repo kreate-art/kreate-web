@@ -60,19 +60,30 @@ export default function PageMintByColorPicker({ className, style }: Props) {
         style={{ marginTop: "48px" }}
         items={[
           {
-            label: "The Origin of Kolours",
+            label: "Kolour the Kreataverse",
             key: "origins",
             href: "/mint",
           },
           {
-            label: "Your Kolours",
+            label: "Free Mint",
             key: "yours",
             href: "/mint-free",
           },
         ]}
         activeKey="yours"
       />
-      <Section marginTop="48px" marginBottom="48px" className={styles.main}>
+      <Section marginBottom="48px" className={styles.main}>
+        <div style={{ margin: "20px 0px" }}>
+          Please see this{" "}
+          <a
+            href="https://twitter.com/KreatePlatform/status/1640436459378475009"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Tweet
+          </a>{" "}
+          on how to get a free mint!
+        </div>
         <Flex.Row flexWrap="wrap" gap="20px" alignItems="stretch">
           <Flex.Col alignItems="center" flex="7 7 350px">
             <ColorPicker

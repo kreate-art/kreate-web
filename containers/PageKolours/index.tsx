@@ -69,12 +69,12 @@ export default function PageKolours({ className, style }: Props) {
         style={{ marginTop: "48px" }}
         items={[
           {
-            label: "The Origin of Kolours",
+            label: "Kolour the Kreataverse",
             key: "origins",
             href: "/mint",
           },
           {
-            label: "Your Kolours",
+            label: "Free Mint",
             key: "yours",
             href: "/mint-free",
           },

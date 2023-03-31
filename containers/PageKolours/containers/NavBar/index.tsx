@@ -43,17 +43,11 @@ export default function NavBar({
         </div>
 
         <Typography.Div
-          color="white50"
+          color="white80"
           style={{ padding: "0px 16px" }}
           className={styles.discountAdvert}
         >
-          <Typography.Span color="white" content="50-60% discount " />
-          <Typography.Span color="white80" content="until April 7th " />
-          <Typography.Span color="white50" content=" - " />
-          <Typography.Span
-            color="white"
-            content="Kolour the Kreataverse now!"
-          />
+          50-60% discount until April 7th!
         </Typography.Div>
 
         <div className={styles.rightMain}>
