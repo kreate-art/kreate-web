@@ -104,3 +104,14 @@ function TeikiApp({ Component, pageProps }: AppProps) {
 }
 
 export default withToastContext(withModalPromises(TeikiApp));
+
+// TODO: Find a better workaround...
+// Disable Automatic Static Optimization in `next build`...
+// https://nextjs.org/docs/advanced-features/automatic-static-optimization
+if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
+  TeikiApp.getInitialProps = async (
+    context: AppContext
+  ): Promise<AppInitialProps> => {
+    return await App.getInitialProps(context);
+  };
+}
