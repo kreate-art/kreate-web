@@ -20,16 +20,6 @@ export type Props = {
   };
 };
 
-function mergeDisplayOptions(
-  component: SubComponent,
-  displayOptions: Props["displayOptions"]
-) {
-  return {
-    className: cx([styles[component], displayOptions?.[component]?.className]),
-    style: displayOptions?.[component]?.style,
-  };
-}
-
 export default function Slider(props: Props) {
   const {
     value,
@@ -50,13 +40,21 @@ export default function Slider(props: Props) {
       step={step}
       onValueChange={([value]) => onChange?.(value)}
       disabled={disabled}
-      {...mergeDisplayOptions("container", displayOptions)}
+      className={cx([styles.container, displayOptions?.container?.className])}
+      style={displayOptions?.container?.style}
     >
-      <Slider$Radix.Track {...mergeDisplayOptions("track", displayOptions)}>
-        <Slider$Radix.Range {...mergeDisplayOptions("range", displayOptions)} />
+      <Slider$Radix.Track
+        className={cx([styles.track, displayOptions?.track?.className])}
+        style={displayOptions?.track?.style}
+      >
+        <Slider$Radix.Range
+          className={cx([styles.range, displayOptions?.range?.className])}
+          style={displayOptions?.range?.style}
+        />
       </Slider$Radix.Track>
       <Slider$Radix.Thumb
-        {...mergeDisplayOptions("thumb", displayOptions)}
+        className={cx([styles.thumb, displayOptions?.thumb?.className])}
+        style={displayOptions?.thumb?.style}
         {...others}
       />
     </Slider$Radix.Root>
