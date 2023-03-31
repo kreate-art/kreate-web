@@ -8,6 +8,7 @@ import { fromHexColor, toHexColor } from "../PageKolours/utils";
 import Section from "./components/Section";
 import PanelPickedKolours from "./containers/PanelPickedKolours";
 import { useFreeKolour } from "./containers/PanelPickedKolours/hooks/useFreeKolour";
+import IconAdd from "./icons/IconAdd";
 import styles from "./index.module.scss";
 
 import useBodyClasses from "@/modules/common-hooks/hooks/useBodyClasses";
@@ -81,31 +82,37 @@ export default function PageMintByColorPicker({ className, style }: Props) {
                 if (!kolour) return;
                 setPendingKolour(kolour);
               }}
-            />
-            <Button.Solid
-              content="Add to Collection"
-              onClick={() => {
-                if (
-                  freeKolour$Response?.error != null ||
-                  !freeKolour$Response?.data
-                )
-                  return;
-                if (
-                  freeKolour$Response.data.used + pickedKolours.length >=
-                  freeKolour$Response.data.total
-                ) {
-                  showMessage({
-                    title: "You are out of free kolour",
-                    color: "danger",
-                  });
-                } else {
-                  setPickedKolours((value) => [...value, pendingKolour]);
-                }
-              }}
-              disabled={
-                !canAddPendingKolour ||
-                freeKolour$Response?.error != null ||
-                !freeKolour$Response?.data
+              buttonSlot={
+                <div>
+                  <Button.Solid
+                    content="Add to Collection"
+                    color="white"
+                    icon={<IconAdd />}
+                    onClick={() => {
+                      if (
+                        freeKolour$Response?.error != null ||
+                        !freeKolour$Response?.data
+                      )
+                        return;
+                      if (
+                        freeKolour$Response.data.used + pickedKolours.length >=
+                        freeKolour$Response.data.total
+                      ) {
+                        showMessage({
+                          title: "You are out of free kolour",
+                          color: "danger",
+                        });
+                      } else {
+                        setPickedKolours((value) => [...value, pendingKolour]);
+                      }
+                    }}
+                    disabled={
+                      !canAddPendingKolour ||
+                      freeKolour$Response?.error != null ||
+                      !freeKolour$Response?.data
+                    }
+                  />
+                </div>
               }
             />
           </Flex.Col>
@@ -114,6 +121,7 @@ export default function PageMintByColorPicker({ className, style }: Props) {
               value={pickedKolours}
               onChange={(newValue) => setPickedKolours(newValue)}
               freeKolourResponse={freeKolour$Response}
+              fill
             />
           </Flex.Col>
         </Flex.Row>
