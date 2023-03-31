@@ -9,7 +9,6 @@ import KreataverseStory from "./containers/KreataverseStory";
 import NavBar from "./containers/NavBar";
 import NftCollection from "./containers/NftCollection";
 import IconSwatches from "./containers/NftCollection/components/IconSwatches";
-import RewardSection from "./containers/RewardsSection";
 import RewardsSectionV2 from "./containers/RewardsSectionV2";
 import RoadmapSection from "./containers/RoadmapSection";
 import { useLandingPageColor } from "./hooks/useLandingPageColor";
@@ -77,7 +76,6 @@ export default function LandingPage() {
               THE KREATAVERSE
             </div>
             <Guideline />
-            <RewardSection style={{ marginTop: "172px" }} />
             <RewardsSectionV2 style={{ marginTop: "172px" }} />
             <RoadmapSection
               style={{
