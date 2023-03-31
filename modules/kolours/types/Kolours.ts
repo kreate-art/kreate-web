@@ -41,6 +41,7 @@ export type Layer = {
   listedFee: LovelaceAmount;
 };
 
+// DEPRECATED
 export type GenesisKreationEntry = {
   id: GenesisKreationId;
   slug: GenesisKreationSlug;
@@ -105,11 +106,12 @@ export type GenesisKreation$Mint = {
 
 export type GenesisKreation$Gallery = {
   id: GenesisKreationId;
+  slug: GenesisKreationSlug;
   finalImage: Image;
   fee: LovelaceAmount;
-  createdAt: UnixTimestamp;
   name: string | null;
   userAddress: string | null;
   description: string[] | null;
   palette: Kolour[];
+  mintedAt: UnixTimestamp;
 };
