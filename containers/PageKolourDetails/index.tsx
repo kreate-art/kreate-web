@@ -160,13 +160,14 @@ export default function PageKolourDetails({ className, style, kolour }: Props) {
                     alignItems="center"
                     padding="12px 24px"
                   >
-                    <Typography.Div color="ink80" content="Expected Earning" />
+                    <Typography.Div color="ink80" content="Current Earning" />
                     <AssetViewer.Ada.Compact
                       as="div"
                       lovelaceAmount={mintedKolour.expectedEarning}
                       size="heading6"
                       color="ink"
                       fontWeight="semibold"
+                      approx
                     />
                   </Flex.Row>
                 </Flex.Col>
