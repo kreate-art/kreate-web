@@ -43,7 +43,7 @@ export async function getGenesisKreationWithKolours(
   const [row]: [{ baseDiscount: string; available: number }?] = await sql`
     SELECT
       gl.base_discount,
-      count(1)::integer AS available
+      (count(1) FILTER (WHERE kb.status IS NULL OR kb.status = 'expired'))::integer AS available
     FROM
       kolours.genesis_kreation_list gl
       INNER JOIN kolours.genesis_kreation_palette gp ON gp.kreation_id = gl.id
@@ -51,7 +51,6 @@ export async function getGenesisKreationWithKolours(
     WHERE
       gl.kreation = ${kreation}
       AND gp.kolour IN ${sql(kolours)}
-      AND (kb.status IS NULL OR kb.status = 'expired')
     GROUP BY
       gl.base_discount
   `;
