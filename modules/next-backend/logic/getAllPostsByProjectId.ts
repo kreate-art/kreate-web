@@ -82,31 +82,39 @@ export async function getAllPostsByProjectId(
     ownerAddress,
     projectId
   );
-  return rows
-    .map((row) => {
-      try {
-        const isExclusive = isProjectExclusivePost<
-          ExclusiveProjectPost,
-          CipherMeta & { cid: Cid }
-        >(row.data);
-        assert(
-          isProjectPublicPost<PublicProjectPost, Cid>(row.data) || isExclusive
-        );
+  return (
+    rows
+      .map((row) => {
+        try {
+          const isExclusive = isProjectExclusivePost<
+            ExclusiveProjectPost,
+            CipherMeta & { cid: Cid }
+          >(row.data);
+          assert(
+            isProjectPublicPost<PublicProjectPost, Cid>(row.data) || isExclusive
+          );
 
-        const anyProjectAnnouncement = isExclusive
-          ? decryptExclusivePost(row.data, viewerStatus, tiers)
-          : Converters.toProjectCommunityUpdate(CodecCid)(row.data);
-        anyProjectAnnouncement.announcementCid = row.announcementCid;
-        anyProjectAnnouncement.createdAt = row.time?.valueOf();
-        const censorship = MODERATION_TAGS.filter((t) => row[t]);
-        anyProjectAnnouncement.censorship = censorship;
-        anyProjectAnnouncement.isExclusive = isExclusive;
-        return anyProjectAnnouncement;
-      } catch (error) {
-        return undefined;
-      }
-    })
-    .filter(isNotNullOrUndefined);
+          const anyProjectAnnouncement = isExclusive
+            ? decryptExclusivePost(row.data, viewerStatus, tiers)
+            : Converters.toProjectCommunityUpdate(CodecCid)(row.data);
+          anyProjectAnnouncement.announcementCid = row.announcementCid;
+          anyProjectAnnouncement.createdAt = row.time?.valueOf();
+          const censorship = MODERATION_TAGS.filter((t) => row[t]);
+          anyProjectAnnouncement.censorship = censorship;
+          anyProjectAnnouncement.isExclusive = isExclusive;
+          return anyProjectAnnouncement;
+        } catch (error) {
+          return undefined;
+        }
+      })
+      .filter(isNotNullOrUndefined)
+      // FIXME: Allow Kreators to hide/delete their (test) posts
+      // This specific instance is a request from Wheels / Jinsbek
+      .filter(
+        ({ announcementCid }) =>
+          announcementCid !== "QmVMr5se2ys153kr1R9dDW1c1N3GvegPciGsM15SvCYWTr"
+      )
+  );
 }
 
 async function getViewerStatus(
