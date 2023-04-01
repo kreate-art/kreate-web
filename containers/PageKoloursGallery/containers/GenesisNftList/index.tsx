@@ -44,7 +44,7 @@ export default function GenesisNftList({
   if (value && !value.length) {
     return (
       <div className={cx(styles.container, className)} style={style}>
-        <MessageBox description="No Genesis Kreation NFTs minted" />
+        <MessageBox description="Empty list." />
       </div>
     );
   }
