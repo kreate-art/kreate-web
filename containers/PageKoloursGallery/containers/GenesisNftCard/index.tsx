@@ -119,11 +119,11 @@ export default function GenesisNftCard({
               <Divider$Horizontal$CustomDash />
               <Flex.Row justifyContent="space-between" alignItems="center">
                 <Flex.Cell>
-                  {/* TODO: @sk-yagi: Update this along with the new description UI later */}
                   <Typography.Div
                     content={value.description.join("")}
                     size="bodySmall"
                     color="ink80"
+                    style={{ whiteSpace: "pre-line" }}
                   />
                 </Flex.Cell>
               </Flex.Row>

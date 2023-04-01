@@ -75,15 +75,22 @@ export function isNotNullOrUndefined<T>(value: T): value is NonNullable<T> {
  */
 export function splitToLines(message: string, sizeLimit: number): string[] {
   const result: string[] = [];
+  // Split into multiple "paragraphs"
   for (const line of message.split(/(?:\r?\n)+/)) {
+    // Extract words from it
     const words = line.split(/\s/).filter((w) => !!w);
+    // Add line break at the end of each "paragraph"
+    words.push("\n");
     let accumulator: string[] = [];
     let remaining = sizeLimit;
-    for (const word of words) {
+    for (const _word of words) {
+      // @sk-yagi: Appened a space after each word, yes it's a hack, feel free to improve this code.
+      const word = _word + (_word === "\n" ? "" : " ");
       const wordSize = Buffer.from(word, "utf-8").byteLength;
+      // A standalone "word" which exceed the `sizeLimit` itself.
       if (wordSize > sizeLimit) {
         if (accumulator.length > 0) {
-          result.push(accumulator.join(" "));
+          result.push(accumulator.join(""));
           accumulator = [];
           remaining = sizeLimit;
         }
@@ -102,18 +109,29 @@ export function splitToLines(message: string, sizeLimit: number): string[] {
         }
         if (subAccumulator) result.push(subAccumulator);
       } else {
-        // Plus the whitespace " "
-        if (wordSize + 1 > remaining) {
-          result.push(accumulator.join(" "));
+        if (wordSize > remaining) {
+          result.push(accumulator.join(""));
           accumulator = [word];
           remaining = sizeLimit - wordSize;
         } else {
-          remaining -= wordSize + 1;
+          remaining -= wordSize;
           accumulator.push(word);
         }
       }
     }
-    if (accumulator.length > 0) result.push(accumulator.join(" "));
+    if (accumulator.length > 0) result.push(accumulator.join(""));
   }
-  return result;
+
+  // Trim the redundant spaces before line break & remove extra line break at the end.
+  return result.map((line, index) => {
+    if (line.endsWith("\n")) {
+      if (line.substring(line.length - 2, line.length - 1) === " ") {
+        return (
+          line.substring(0, line.length - 2) +
+          (index === result.length - 1 ? "" : line.substring(line.length - 1))
+        );
+      }
+    }
+    return line;
+  });
 }

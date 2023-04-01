@@ -72,11 +72,14 @@ export default function PageKoloursGalleryDetails({
             />
           </WithAspectRatio>
           <Typography.Span content={value.name} size="heading1" />
-          <Typography.Span
-            content={value.description}
-            className={styles.text}
-            color="ink80"
-          />
+          {value.description ? (
+            <Typography.Div
+              content={value.description.join("")}
+              className={styles.text}
+              color="ink80"
+              style={{ whiteSpace: "pre-line", textAlign: "left" }}
+            />
+          ) : null}
           <Typography.Div>
             <Typography.Span content="Owner: " />
             <Typography.Span fontWeight="semibold" color="primary">
