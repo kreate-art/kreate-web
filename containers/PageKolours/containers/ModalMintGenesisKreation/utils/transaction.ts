@@ -4,6 +4,7 @@ import {
 } from "@kreate/protocol/transactions/kolours/genesis-kreaction-nft";
 import { Lucid, TxComplete } from "lucid-cardano";
 
+import { splitToLines } from "@/modules/array-utils";
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { KOLOURS_GENESIS_KREATION_PUBLIC_KEY_HASH } from "@/modules/env/kolours/client";
@@ -20,6 +21,7 @@ export type BuildTxParams = {
 };
 
 const GENESIS_KREATION_NFT_EXPIRATION = 300_000; // 15 blocks
+const METADATA_SIZE_LIMIT = 64;
 
 export type BuildTxResult = {
   txFee: LovelaceAmount;
@@ -55,6 +57,17 @@ export async function buildTxRaw({
     "missing kolour nft public key hash"
   );
 
+  const splitDescription =
+    typeof description === "string"
+      ? splitToLines(description, 64)
+      : // @sk-yagi: In what case the description would be an array of string?
+      description.every(
+          (value) =>
+            Buffer.from(value, "utf-8").byteLength <= METADATA_SIZE_LIMIT
+        )
+      ? description
+      : splitToLines(description.join(""), 64);
+
   const mintParams: MintGKNftTxParams = {
     quotation: {
       ...quotation,
@@ -64,7 +77,7 @@ export async function buildTxRaw({
     gkNftRefScriptUtxo,
     producerPkh: KOLOURS_GENESIS_KREATION_PUBLIC_KEY_HASH,
     name,
-    description,
+    description: splitDescription,
     txTimeStart: await getReferenceTxTime(),
     txTimeEnd: Date.now() + GENESIS_KREATION_NFT_EXPIRATION,
   };
