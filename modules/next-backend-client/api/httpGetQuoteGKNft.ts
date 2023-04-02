@@ -36,6 +36,7 @@ function isResponse(obj: any): obj is QuoteGKNft$Response {
     obj?.error === undefined &&
     typeof obj?.quotation === "object" &&
     typeof obj?.status === "string" &&
+    typeof obj?.baseDiscount === "number" &&
     (obj?.signature ? typeof obj?.signature === "string" : true)
   );
 }

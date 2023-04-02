@@ -1,3 +1,4 @@
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import {
   buildMintKolourNftTx,
   MintKolourNftTxParams,
@@ -7,7 +8,6 @@ import { Lucid, Tx, TxComplete } from "lucid-cardano";
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { KOLOURS_KOLOUR_NFT_PUBLIC_KEY_HASH } from "@/modules/env/kolours/client";
-import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 import { TxParams$UserMintKolourNft } from "@/modules/next-backend-client/api/httpGetTxParams$UserMintKolourNft";
 import { getReferenceTxTime } from "@/modules/protocol/utils";
 

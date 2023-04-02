@@ -19,17 +19,6 @@ export type GenesisKreationSlug = string;
 
 export type GenesisKreationStatus = "unready" | "ready" | "booked" | "minted";
 
-export type GenesisKreationQuotation = {
-  id: GenesisKreationId;
-  image: string; // ipfs://<cid>
-  fee: LovelaceAmount;
-  listedFee: LovelaceAmount;
-  userAddress: Address;
-  feeAddress: Address;
-  referral?: Referral;
-  expiration: number; // Unix Timestamp in seconds
-};
-
 export type Image = { src: string };
 
 export type Layer = {
@@ -66,13 +55,6 @@ export type KolourEntry = {
   fee: LovelaceAmount;
   listedFee: LovelaceAmount;
   image: string; // ipfs://<cid>
-};
-
-export type KolourQuotation = KolourQuotationProgram & {
-  kolours: Record<Kolour, KolourEntry>;
-  userAddress: Address;
-  feeAddress: Address;
-  expiration: number; // Unix Timestamp in seconds
 };
 
 export type KolourQuotationProgram =

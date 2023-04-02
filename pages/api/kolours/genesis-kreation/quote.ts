@@ -1,3 +1,4 @@
+import { GenesisKreationQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
@@ -7,12 +8,10 @@ import {
   KOLOURS_HMAC_SECRET,
 } from "@/modules/env/kolours/server";
 import { getExpirationTime } from "@/modules/kolours/common";
+import { discountFromDb } from "@/modules/kolours/fees";
 import { quoteGenesisKreation } from "@/modules/kolours/genesis-kreation";
 import { lookupReferral } from "@/modules/kolours/referral";
-import {
-  GenesisKreationQuotation,
-  GenesisKreationStatus,
-} from "@/modules/kolours/types/Kolours";
+import { GenesisKreationStatus } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { sendJson } from "@/modules/next-backend/api/helpers";
 import { db, redis } from "@/modules/next-backend/connections";
@@ -20,6 +19,7 @@ import { db, redis } from "@/modules/next-backend/connections";
 type Response = {
   quotation: GenesisKreationQuotation;
   signature?: crypt.Base64;
+  baseDiscount: number;
   status: GenesisKreationStatus;
 };
 
@@ -53,13 +53,21 @@ export default async function handler(
     const quoted = await quoteGenesisKreation(db, id, referral?.discount);
     ClientError.assert(quoted, { _debug: "unknown genesis kreation" });
 
-    const { imageCid, fee, listedFee, status } = quoted;
+    const {
+      imageCid,
+      fee,
+      listedFee,
+      status,
+      baseDiscount: str_baseDiscount,
+    } = quoted;
+    const baseDiscount = discountFromDb(str_baseDiscount);
 
     const quotation: GenesisKreationQuotation = {
       id,
       image: `ipfs://${imageCid}`,
       fee,
       listedFee,
+      baseDiscount,
       userAddress: address,
       feeAddress: KOLOURS_GENESIS_KREATION_FEE_ADDRESS,
       referral: referral ?? undefined,
@@ -71,7 +79,7 @@ export default async function handler(
             json: { genesis_kreation: quotation },
           })
         : undefined;
-    const ret: Response = { quotation, signature, status };
+    const ret: Response = { quotation, signature, baseDiscount, status };
     sendJson(res, ret);
   } catch (error) {
     apiCatch(req, res, error);

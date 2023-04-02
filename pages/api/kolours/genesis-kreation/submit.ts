@@ -1,3 +1,4 @@
+import { GenesisKreationQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import { verifyGKNftMintingTx } from "@kreate/protocol/transactions/kolours/genesis-kreaction-nft";
 import { C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -12,10 +13,7 @@ import {
 import { fromJson } from "@/modules/json-utils";
 import { getTxExp } from "@/modules/kolours/common";
 import { getGenesisKreationStatus } from "@/modules/kolours/genesis-kreation";
-import {
-  GenesisKreationId,
-  GenesisKreationQuotation,
-} from "@/modules/kolours/types/Kolours";
+import { GenesisKreationId } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";

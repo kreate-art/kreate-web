@@ -1,3 +1,4 @@
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import cx from "classnames";
 import * as React from "react";
 
@@ -14,11 +15,7 @@ import { tryUntil } from "@/modules/async-utils";
 import { sumTxBreakdown } from "@/modules/bigint-utils";
 import { assert } from "@/modules/common-utils";
 import { DisplayableError } from "@/modules/displayable-error";
-import {
-  KolourQuotation,
-  KolourQuotationSource,
-  Layer,
-} from "@/modules/kolours/types/Kolours";
+import { KolourQuotationSource, Layer } from "@/modules/kolours/types/Kolours";
 import httpGetKoloursMintedByTxId from "@/modules/next-backend-client/api/httpGetKoloursMintedByTxId";
 import { httpGetQuoteKolourNft } from "@/modules/next-backend-client/api/httpGetQuoteKolourNft";
 import { httpPostMintKolourNftTx } from "@/modules/next-backend-client/api/httpPostMintKolourNftTx";
