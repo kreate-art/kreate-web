@@ -1,3 +1,4 @@
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import cx from "classnames";
 import * as React from "react";
 
@@ -20,7 +21,6 @@ import { Kolours } from "@/modules/kolours/types";
 import {
   GenesisKreationStatus,
   Layer,
-  KolourQuotation,
   GenesisKreation$Mint,
 } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";

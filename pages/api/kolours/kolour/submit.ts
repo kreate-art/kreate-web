@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
 
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import { verifyKolourNftMintingTx } from "@kreate/protocol/transactions/kolours/kolour-nft";
 import { Address, C, Core, Lucid, TxComplete, TxSigned } from "lucid-cardano";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -19,11 +20,7 @@ import {
   areKoloursAvailableForOpenMint,
   checkFreeMintAvailability,
 } from "@/modules/kolours/kolour";
-import {
-  Kolour,
-  KolourQuotation,
-  KolourQuotationSource,
-} from "@/modules/kolours/types/Kolours";
+import { Kolour, KolourQuotationSource } from "@/modules/kolours/types/Kolours";
 import { apiCatch, ClientError } from "@/modules/next-backend/api/errors";
 import { parseBody, sendJson } from "@/modules/next-backend/api/helpers";
 import { db, lucid$ } from "@/modules/next-backend/connections";

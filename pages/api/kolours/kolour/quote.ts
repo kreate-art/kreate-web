@@ -1,3 +1,4 @@
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { assert } from "@/modules/common-utils";
@@ -20,7 +21,6 @@ import {
   DISCOUNT_MULTIPLIER,
   Kolour,
   KolourEntry,
-  KolourQuotation,
   KolourQuotationProgram,
   KolourQuotationSource,
 } from "@/modules/kolours/types/Kolours";
@@ -124,6 +124,7 @@ export default async function handler(
           ])
         )
       ),
+      baseDiscount,
       userAddress: address,
       feeAddress: KOLOURS_KOLOUR_NFT_FEE_ADDRESS,
       expiration: getExpirationTime(),

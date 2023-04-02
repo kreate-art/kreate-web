@@ -1,3 +1,4 @@
+import { GenesisKreationQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import {
   buildMintGKNftTx,
   MintGKNftTxParams,
@@ -7,7 +8,6 @@ import { Lucid, TxComplete } from "lucid-cardano";
 import { LovelaceAmount } from "@/modules/business-types";
 import { DisplayableError } from "@/modules/displayable-error";
 import { KOLOURS_GENESIS_KREATION_PUBLIC_KEY_HASH } from "@/modules/env/kolours/client";
-import { GenesisKreationQuotation } from "@/modules/kolours/types/Kolours";
 import { TxParams$UserMintGKNft } from "@/modules/next-backend-client/api/httpGetTxParams$UserMintGKNft";
 import { getReferenceTxTime } from "@/modules/protocol/utils";
 

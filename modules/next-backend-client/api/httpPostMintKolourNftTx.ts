@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import { Hex } from "@kreate/protocol/types";
 
 import { assert } from "@/modules/common-utils";
 import { fromJson, toJson } from "@/modules/json-utils";
-import { KolourQuotation } from "@/modules/kolours/types/Kolours";
 
 type Params = {
   quotation: KolourQuotation;

@@ -1,3 +1,4 @@
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import cx from "classnames";
 import React from "react";
 
@@ -35,7 +36,7 @@ type Props = {
   kolours: Kolours.Kolour[];
   open: boolean;
   onCancel?: () => void;
-  onSuccess?: (txHash: string, quotation: Kolours.KolourQuotation) => void;
+  onSuccess?: (txHash: string, quotation: KolourQuotation) => void;
 };
 
 export default function ModalFreeMintKolour({

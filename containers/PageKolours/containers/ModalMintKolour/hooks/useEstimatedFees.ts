@@ -7,6 +7,7 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
 import { DisplayableError } from "@/modules/displayable-error";
 import { toJson } from "@/modules/json-utils";
+import { applyDiscount } from "@/modules/kolours/fees";
 import { UseTxParams$UserMintKolourNft$Result } from "@/modules/next-backend-client/hooks/useTxParams$UserMintKolourNft";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 
@@ -86,11 +87,17 @@ export function useEstimatedFees({
         koloursFee += BigInt(allKolours[key].fee);
         koloursListedFee += BigInt(allKolours[key].listedFee);
       }
+      const ikoDiscount =
+        koloursListedFee -
+        applyDiscount(
+          koloursListedFee,
+          quoteResult.data.quotation.baseDiscount
+        );
 
       return {
         kolours: -koloursListedFee,
-        ikoDiscount: koloursListedFee / BigInt(2),
-        sspoDiscount: (koloursListedFee - koloursFee * BigInt(2)) / BigInt(2),
+        ikoDiscount,
+        sspoDiscount: koloursListedFee - ikoDiscount - koloursFee,
         transaction: -BigInt(txComplete.txComplete.body().fee().to_str()),
       };
     },

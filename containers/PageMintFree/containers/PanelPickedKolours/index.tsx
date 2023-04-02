@@ -1,3 +1,4 @@
+import { KolourQuotation } from "@kreate/protocol/schema/teiki/kolours";
 import cx from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -11,7 +12,7 @@ import { UseFreeKolour$Result } from "./hooks/useFreeKolour";
 import styles from "./index.module.scss";
 
 import { calculateKolourFee } from "@/modules/kolours/fees";
-import { Kolour, KolourQuotation } from "@/modules/kolours/types/Kolours";
+import { Kolour } from "@/modules/kolours/types/Kolours";
 import { useModalPromises } from "@/modules/modal-promises";
 import AssetViewer from "@/modules/teiki-ui/components/AssetViewer";
 import Button from "@/modules/teiki-ui/components/Button";

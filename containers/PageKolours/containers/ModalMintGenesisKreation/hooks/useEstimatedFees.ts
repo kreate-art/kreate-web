@@ -7,6 +7,7 @@ import { LovelaceAmount } from "@/modules/business-types";
 import { useMemo$Async } from "@/modules/common-hooks/hooks/useMemo$Async";
 import { DisplayableError } from "@/modules/displayable-error";
 import { toJson } from "@/modules/json-utils";
+import { applyDiscount } from "@/modules/kolours/fees";
 import { UseTxParams$UserMintGKNft$Result } from "@/modules/next-backend-client/hooks/useTxParams$UserMintGKNft";
 import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/AppContext";
 
@@ -90,16 +91,19 @@ export function useEstimatedFees({
 
       signal.throwIfAborted();
 
-      const genesisKreationListedFee = quoteResult.data.quotation.listedFee;
-      const genesisKreationFee = quoteResult.data.quotation.fee;
+      const genesisKreationListedFee = BigInt(
+        quoteResult.data.quotation.listedFee
+      );
+      const genesisKreationFee = BigInt(quoteResult.data.quotation.fee);
+      const ikoDiscount =
+        genesisKreationListedFee -
+        applyDiscount(genesisKreationListedFee, quoteResult.data.baseDiscount);
 
       return {
         genesisKreation: -genesisKreationListedFee,
-        ikoDiscount: BigInt(genesisKreationListedFee) / BigInt(2),
+        ikoDiscount,
         sspoDiscount:
-          (BigInt(genesisKreationListedFee) -
-            BigInt(genesisKreationFee) * BigInt(2)) /
-          BigInt(2),
+          genesisKreationListedFee - ikoDiscount - genesisKreationFee,
         transaction: -BigInt(txComplete.txComplete.body().fee().to_str()),
       };
     },
