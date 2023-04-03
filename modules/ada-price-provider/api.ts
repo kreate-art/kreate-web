@@ -1,8 +1,17 @@
-import { HttpGetAdaPrice$Response } from "../types";
-
+import { UnixTimestamp } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
 
-function isHttpGetAdaPriceResponse(
+export type HttpGetAdaPrice$Response = {
+  cardano: {
+    last_updated_at: UnixTimestamp; // UNIX timestamp in seconds
+    usd: number;
+    usd_24h_change: number;
+    usd_24h_vol: number;
+    usd_market_cap: number;
+  };
+};
+
+export function isHttpGetAdaPriceResponse(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   response: any
 ): response is HttpGetAdaPrice$Response {

@@ -1,1 +1,1 @@
-export { useAdaPriceInfo } from "./hooks/useAdaPriceInfo";
+export { useAdaPriceInfo, type AdaPriceInfo } from "./hooks/useAdaPriceInfo";

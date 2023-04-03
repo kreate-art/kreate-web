@@ -2,64 +2,65 @@ import { randomUUID } from "crypto";
 
 import { Redis } from "ioredis";
 
-import { HttpGetAdaPrice$Response } from "@/modules/ada-price-provider/types";
+import {
+  HttpGetAdaPrice$Response,
+  isHttpGetAdaPriceResponse,
+} from "@/modules/ada-price-provider/api";
 import { assert } from "@/modules/common-utils";
+import { fromJson, toJson } from "@/modules/json-utils";
 import locking from "@/modules/next-backend/locking";
 
-export const REDIS_ADA_PRICE_KEY = "kreate:ada-price";
-export const REDIS_ADA_PRICE_LOCK = "kreate:ada-price-lock";
+const REDIS_ADA_PRICE_KEY = "kreate:ada-price";
+const REDIS_ADA_PRICE_LOCK = "kreate:ada-price.lock";
 
-// A copy from "@modules/ada-price-provider/utils/api.ts"
-function isHttpGetAdaPriceResponse(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response: any
-): response is HttpGetAdaPrice$Response {
-  const cardano = response?.cardano;
-  return (
-    typeof cardano?.last_updated_at === "number" &&
-    typeof cardano?.usd === "number" &&
-    typeof cardano?.usd_24h_change === "number" &&
-    typeof cardano?.usd_24h_vol === "number" &&
-    typeof cardano?.usd_market_cap === "number"
-  );
-}
-
-export async function getAdaPriceInfo(redis: Redis) {
+export async function lookupAdaPriceInfo(redis: Redis): Promise<{
+  status: "hit" | "miss" | "remake";
+  response: HttpGetAdaPrice$Response;
+}> {
+  let cacheStatus: "miss" | "remake" = "miss";
   let cachedAdaPriceResponse = await redis.get(REDIS_ADA_PRICE_KEY);
-
-  if (cachedAdaPriceResponse != null) {
+  if (cachedAdaPriceResponse != null)
     try {
-      return adaPriceFromCache(cachedAdaPriceResponse);
+      return {
+        status: "hit",
+        response: adaPriceFromCache(cachedAdaPriceResponse),
+      };
     } catch (error) {
-      console.warn(error);
-      return fetchAdaPrice(redis);
+      cacheStatus = "remake";
+      console.warn("Malformed ADA price in cache", error);
     }
-  }
   const lock = await locking.acquire(
     REDIS_ADA_PRICE_LOCK,
     randomUUID(),
     { ttl: 2 },
-    100
+    50
   );
   try {
     cachedAdaPriceResponse = await redis.get(REDIS_ADA_PRICE_KEY);
     if (cachedAdaPriceResponse != null)
-      return adaPriceFromCache(cachedAdaPriceResponse);
-    return fetchAdaPrice(redis);
+      // Propagate error if there's one
+      return {
+        status: cacheStatus,
+        response: adaPriceFromCache(cachedAdaPriceResponse),
+      };
+    const res = await fetchAdaPrice();
+    await storeAdaPriceToCache(redis, res);
+    return { status: cacheStatus, response: res };
   } finally {
     await lock.release();
   }
 }
 
 function adaPriceFromCache(obj: string): HttpGetAdaPrice$Response {
-  const priceInfo = JSON.parse(obj) as HttpGetAdaPrice$Response;
-  if (!isHttpGetAdaPriceResponse(priceInfo)) {
-    throw new Error("Malformed ADA price info in cache");
-  }
+  const priceInfo = fromJson<HttpGetAdaPrice$Response>(obj);
+  assert(
+    isHttpGetAdaPriceResponse(priceInfo),
+    "Malformed ADA price info in cache"
+  );
   return priceInfo;
 }
 
-async function fetchAdaPrice(redis: Redis) {
+async function fetchAdaPrice() {
   const baseUrl = "https://api.coingecko.com/api/v3/simple/price";
   const search = new URLSearchParams({
     ids: "cardano",
@@ -79,6 +80,12 @@ async function fetchAdaPrice(redis: Redis) {
   assert(response.ok, "response not ok");
   const obj = await response.json();
   assert(isHttpGetAdaPriceResponse(obj), "invalid response");
-  redis.set(REDIS_ADA_PRICE_KEY, JSON.stringify(obj), "EX", 60); // 1 minute
   return obj;
+}
+
+async function storeAdaPriceToCache(
+  redis: Redis,
+  response: HttpGetAdaPrice$Response
+) {
+  return redis.set(REDIS_ADA_PRICE_KEY, toJson(response), "EX", 60); // 1 minute
 }

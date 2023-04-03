@@ -1,7 +1,16 @@
 import useSWR from "swr";
 
-import { AdaPriceInfo } from "../types";
-import { httpGetAdaPrice } from "../utils/api";
+import { httpGetAdaPrice } from "../api";
+
+import { UnixTimestamp } from "@/modules/business-types";
+
+export type AdaPriceInfo = {
+  lastUpdatedAt: UnixTimestamp;
+  usd: number;
+  usd24hChange: number;
+  usd24hVol: number;
+  usdMarketCap: number;
+};
 
 export function useAdaPriceInfo(): AdaPriceInfo | undefined {
   const { data, error } = useSWR(
