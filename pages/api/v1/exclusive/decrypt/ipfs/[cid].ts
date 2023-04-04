@@ -26,9 +26,11 @@ export default async function handler(
   const signal = controller.signal;
 
   try {
-    ClientError.assert(req.method === "GET", {
-      _debug: "invalid http method",
-    });
+    ClientError.assert(
+      req.method === "GET",
+      { _debug: "invalid http method" },
+      405
+    );
     const { cid, kid, iv, tag, aad, exp: r_exp, sig } = req.query;
 
     ClientError.assert(
@@ -56,18 +58,20 @@ export default async function handler(
       }
     );
 
+    // AES-GCM has a nice attribute: len(ciphertext) == len(plaintext)
+    const { local, size } = await ipfs.files.stat(`/ipfs/${cid}`, {
+      withLocal: true,
+      timeout: IPFS_TIMEOUT,
+      signal,
+    });
+    ClientError.assert(local, { _debug: "file is unavailable" }, 404);
+
     const { key } = crypt.selectKey(KREATE_CONTENT_KEYS, kid);
     const decipher = crypt.createDecipher(key, Buffer.from(iv, crypt.b64), {
       signal,
     });
     decipher.setAuthTag(Buffer.from(tag, crypt.b64));
     aad && decipher.setAAD(Buffer.from(aad, crypt.b64));
-
-    // AES-GCM has a nice attribute: len(ciphertext) == len(plaintext)
-    const { size } = await ipfs.files.stat(`/ipfs/${cid}`, {
-      timeout: IPFS_TIMEOUT,
-      signal,
-    });
 
     res.setHeader("Accept-Ranges", "bytes");
     res.setHeader("Etag", `"${cid}"`);
@@ -137,7 +141,7 @@ async function fetchIpfsUpstream(
   // Because of of encryption, we cannot seek upstream based on requested Range
   // However, I still limit the `length`, just in case we mess up something.
   const ipfsStream = stream.Readable.from(
-    ipfs.cat(`/ipfs/${cid}`, { timeout: IPFS_TIMEOUT, signal, length })
+    ipfs.cat(`/ipfs/${cid}`, { signal, length })
   );
   const upstream = await fileTypeStream(
     stream.pipeline(ipfsStream, decipher, noop)
