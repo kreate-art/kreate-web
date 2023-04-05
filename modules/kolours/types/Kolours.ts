@@ -77,6 +77,7 @@ export type MintedKolourEntry = {
 
 export type GenesisKreation$Mint = {
   id: GenesisKreationId;
+  slug: GenesisKreationSlug;
   status: GenesisKreationStatus;
   initialImage: Image;
   finalImage: Image;
