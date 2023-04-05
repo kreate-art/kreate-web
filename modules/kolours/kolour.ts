@@ -1,7 +1,5 @@
 import { randomUUID } from "node:crypto";
 
-import { Redis } from "ioredis";
-import { IPFSHTTPClient } from "ipfs-http-client/dist/src/types";
 import { Address } from "lucid-cardano";
 import sharp from "sharp";
 
@@ -11,7 +9,8 @@ import { discountFromDb } from "./fees";
 import { KOLOUR_IMAGE_CID_PREFIX, KOLOUR_IMAGE_LOCK_PREFIX } from "./keys";
 import { GenesisKreationId, Kolour, MintedKolourEntry } from "./types/Kolours";
 
-import { Sql } from "@/modules/next-backend/db";
+import type { Redis, Ipfs } from "@/modules/next-backend/connections";
+import type { Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
 
 const IMAGE_OPTIONS: Omit<sharp.Create, "background"> = {
@@ -185,7 +184,7 @@ export async function checkFreeMintAvailability(
 
 export async function generateKolourImageCid(
   redis: Redis,
-  ipfs: IPFSHTTPClient,
+  ipfs: Ipfs,
   kolour: Kolour
 ) {
   const cidKey = KOLOUR_IMAGE_CID_PREFIX + kolour;

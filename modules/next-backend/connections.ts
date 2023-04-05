@@ -1,8 +1,9 @@
 // TODO: Duplicated of kreate-index/src/db.ts
-import Redis from "ioredis";
-import * as rd from "ioredis";
-import * as IpfsClient from "ipfs-http-client";
-import { Lucid, Network, Blockfrost } from "lucid-cardano";
+import Redis, * as rd from "ioredis";
+import type { IPFS } from "ipfs-core-types";
+import * as IpfsHttpClient from "ipfs-http-client";
+import { HTTPError as IpfsHttpError } from "ipfs-utils/src/http/error";
+import { Blockfrost, Lucid, Network } from "lucid-cardano";
 import postgres from "postgres";
 import prexit from "prexit";
 
@@ -11,14 +12,14 @@ import { BLOCKFROST_PROJECT_ID, BLOCKFROST_URL, NETWORK } from "../env/client";
 import { options } from "./db";
 
 import {
-  IS_NEXT_BUILD,
   DATABASE_MAX_CONNECTIONS,
   DATABASE_URL,
+  IPFS_HTTP_API_ORIGIN,
+  IS_NEXT_BUILD,
   LEGACY_DATABASE_URL,
+  REDIS_PASSWORD,
   REDIS_URL,
   REDIS_USERNAME,
-  REDIS_PASSWORD,
-  IPFS_HTTP_API_ORIGIN,
 } from "@/modules/env/server";
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
@@ -108,9 +109,24 @@ declare module "ioredis" {
   }
 }
 
-export const ipfs = service("__ipfs__", () =>
-  IpfsClient.create({ url: IPFS_HTTP_API_ORIGIN })
+export type { Redis };
+
+export const ipfs: Ipfs = service("__ipfs__", () =>
+  Object.assign(IpfsHttpClient.create({ url: IPFS_HTTP_API_ORIGIN }), {
+    isOfflineError: function (error: unknown): boolean {
+      return (
+        error instanceof IpfsHttpError &&
+        error.name === "HTTPError" &&
+        error.message.includes("block was not found locally (offline)")
+      );
+    },
+  })
 );
+
+export interface Ipfs
+  extends IPFS<IpfsHttpClient.HTTPClientExtraOptions & { offline?: boolean }> {
+  isOfflineError: (error: unknown) => boolean;
+}
 
 const _loadedLucid = {
   lucid: undefined as unknown as Lucid,
