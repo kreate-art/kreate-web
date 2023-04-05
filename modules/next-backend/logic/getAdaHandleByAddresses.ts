@@ -1,7 +1,7 @@
-import { Redis } from "ioredis";
 import { Address } from "lucid-cardano";
 
 import { assert } from "@/modules/common-utils";
+import type { Redis } from "@/modules/next-backend/connections";
 
 export type AdaHandle = string;
 

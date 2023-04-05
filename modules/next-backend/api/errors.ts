@@ -12,10 +12,10 @@ export class ClientError extends Error {
   reason: unknown;
   status: number;
 
-  constructor(reason: unknown, status = DEFAULT_CLIENT_ERROR_STATUS) {
-    super(toJson(reason));
+  constructor(reason: unknown, options?: ErrorOptions & { status?: number }) {
+    super(toJson(reason), options);
     this.reason = reason;
-    this.status = status;
+    this.status = options?.status ?? DEFAULT_CLIENT_ERROR_STATUS;
   }
 
   static assert(
@@ -23,9 +23,7 @@ export class ClientError extends Error {
     reason: unknown,
     status?: number
   ): asserts condition {
-    if (!condition) {
-      throw new ClientError(reason, status);
-    }
+    if (!condition) throw new ClientError(reason, { status });
   }
 
   static try$<T>(
@@ -36,7 +34,7 @@ export class ClientError extends Error {
     try {
       return computation();
     } catch (cause) {
-      throw new ClientError(reason(cause), status);
+      throw new ClientError(reason(cause), { status });
     }
   }
 }

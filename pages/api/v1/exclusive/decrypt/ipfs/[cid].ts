@@ -16,8 +16,6 @@ export const config = {
   },
 };
 
-const IPFS_TIMEOUT = 10_000;
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -45,9 +43,7 @@ export default async function handler(
     );
 
     const exp = Number(r_exp);
-    ClientError.assert(Date.now() <= exp * 1000, {
-      _debug: "expired",
-    });
+    ClientError.assert(Date.now() <= exp * 1000, { _debug: "expired" });
 
     ClientError.assert(
       sig &&
@@ -59,12 +55,25 @@ export default async function handler(
     );
 
     // AES-GCM has a nice attribute: len(ciphertext) == len(plaintext)
-    const { local, size } = await ipfs.files.stat(`/ipfs/${cid}`, {
-      withLocal: true,
-      timeout: IPFS_TIMEOUT,
-      signal,
-    });
-    ClientError.assert(local, { _debug: "file is unavailable" }, 404);
+    let size: number;
+    try {
+      const res = await ipfs.files.stat(`/ipfs/${cid}`, {
+        withLocal: true,
+        signal,
+        offline: true,
+      });
+      ClientError.assert(res.local, {
+        _debug: `/ipfs/${cid} is not fully available locally`,
+      });
+      size = res.size;
+    } catch (error) {
+      if (ipfs.isOfflineError(error))
+        throw new ClientError(
+          { _debug: `/ipfs/${cid} is unavailable` },
+          { status: 404 }
+        );
+      throw error;
+    }
 
     const { key } = crypt.selectKey(KREATE_CONTENT_KEYS, kid);
     const decipher = crypt.createDecipher(key, Buffer.from(iv, crypt.b64), {
@@ -73,21 +82,15 @@ export default async function handler(
     decipher.setAuthTag(Buffer.from(tag, crypt.b64));
     aad && decipher.setAAD(Buffer.from(aad, crypt.b64));
 
-    res.setHeader("Accept-Ranges", "bytes");
-    res.setHeader("Etag", `"${cid}"`);
-    res.setHeader(
-      "Cache-Control",
-      "private, max-age=3600, must-revalidate, immutable"
-    );
-
     const rangeHeader = req.headers.range;
     if (rangeHeader) {
       const { start, end } = parseRange(size, rangeHeader);
       if (start < 0 || end < start || end >= size) {
         res.setHeader("Content-Range", `bytes */${size}`);
-        throw new ClientError({ _debug: "out of range" }, 426);
+        throw new ClientError({ _debug: "out of range" }, { status: 426 });
       }
       const u = await fetchIpfsUpstream(cid, decipher, signal, end + 1);
+      writeCommonHeaders(res, cid);
       res.setHeader("Content-Length", end - start + 1);
       res.setHeader("Content-Range", `bytes ${start}-${end}/${size}`);
       res.setHeader("Content-Type", u.contentType);
@@ -96,6 +99,7 @@ export default async function handler(
       await stream.promises.pipeline(u.upstream, slice, res, { signal });
     } else {
       const u = await fetchIpfsUpstream(cid, decipher, signal);
+      writeCommonHeaders(res, cid);
       res.setHeader("Content-Length", size);
       res.setHeader("Content-Type", u.contentType);
       res.status(200);
@@ -132,6 +136,15 @@ function isNonEmptyString(value: unknown): value is string {
   return !!value && typeof value === "string";
 }
 
+function writeCommonHeaders(res: NextApiResponse, cid: string) {
+  res.setHeader("Accept-Ranges", "bytes");
+  res.setHeader("Etag", `"${cid}"`);
+  res.setHeader(
+    "Cache-Control",
+    "private, max-age=3600, must-revalidate, immutable"
+  );
+}
+
 async function fetchIpfsUpstream(
   cid: string,
   decipher: stream.Transform,
@@ -141,7 +154,7 @@ async function fetchIpfsUpstream(
   // Because of of encryption, we cannot seek upstream based on requested Range
   // However, I still limit the `length`, just in case we mess up something.
   const ipfsStream = stream.Readable.from(
-    ipfs.cat(`/ipfs/${cid}`, { signal, length })
+    ipfs.cat(`/ipfs/${cid}`, { signal, length, offline: true })
   );
   const upstream = await fileTypeStream(
     stream.pipeline(ipfsStream, decipher, noop)

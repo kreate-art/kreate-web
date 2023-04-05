@@ -1,6 +1,5 @@
 import { randomUUID } from "node:crypto";
 
-import { Redis } from "ioredis";
 import {
   Address,
   C,
@@ -26,7 +25,8 @@ import { Referral } from "./types/Kolours";
 
 import { UnixTimestamp } from "@/modules/business-types";
 import { assert } from "@/modules/common-utils";
-import { Sql } from "@/modules/next-backend/db";
+import type { Redis } from "@/modules/next-backend/connections";
+import type { Sql } from "@/modules/next-backend/db";
 import locking from "@/modules/next-backend/locking";
 
 export async function lookupReferral(
