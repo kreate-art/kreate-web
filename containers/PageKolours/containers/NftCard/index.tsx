@@ -3,6 +3,7 @@ import * as React from "react";
 
 import WithAspectRatio from "../../../../components/WithAspectRatio";
 import CompleteIndicator from "../../components/CompleteIndicator";
+import { useNftPreviewImage } from "../../hooks/useNftPreviewImage";
 
 import PaletteBar from "./components/PaletteBar";
 import IconMinted from "./icons/IconMinted";
@@ -26,24 +27,23 @@ export default function NftCard({ className, style, value, onClick }: Props) {
   const discountPercentage =
     BigInt(100) - (BigInt(value.fee) * BigInt(100)) / BigInt(value.listedFee);
 
+  const [previewLink, _previewLink$Error] = useNftPreviewImage(value);
+
   return (
     <div className={cx(styles.container, className)} style={style}>
       <div className={styles.box} onClick={onClick}>
         <WithAspectRatio aspectRatio={5 / 3} className={styles.image}>
-          <ImageView
-            className={styles.image}
-            src={value.initialImage.src}
-            crop={{ x: 0, y: 0, w: 1, h: 1 }}
-          />
-          {value.palette.map((item, index) => (
+          {previewLink ? (
             <ImageView
-              key={index}
               className={styles.image}
-              style={{ opacity: item.status !== "free" ? "100%" : "0%" }}
-              src={item.image.src}
+              src={previewLink}
               crop={{ x: 0, y: 0, w: 1, h: 1 }}
+              // Provide sizes to help NextJS generates srcset deterministically
+              // Notice, sizes is chosen based on UI layout
+              // https://nextjs.org/docs/api-reference/next/image#sizes
+              sizes="(max-width: 768px) 50vw, 25vw"
             />
-          ))}
+          ) : null}
           {value.status === "booked" || value.status === "minted" ? (
             <IconMinted className={styles.minted} />
           ) : (

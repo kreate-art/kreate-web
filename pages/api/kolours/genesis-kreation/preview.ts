@@ -40,6 +40,7 @@ export default async function handler(
     );
 
     res.setHeader("X-Kreate-Cache", status);
+    res.setHeader("Cache-Control", "public, max-age=604800, immutable");
     sendJson(res.status(200), { url: getIpfsUrl(mergedLayerCid) });
   } catch (error) {
     apiCatch(req, res, error);
