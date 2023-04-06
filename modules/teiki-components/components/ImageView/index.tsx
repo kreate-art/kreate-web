@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import * as React from "react";
 
 import { ImageErrorBoundary } from "../RichTextEditor/custom-nodes/Image/components/ImageErrorBoundary";
@@ -16,10 +16,18 @@ type Props = {
   src: string;
   alt?: string;
   crop: Crop;
+  sizes?: ImageProps["sizes"];
 };
 
 // TODO: All components should use `ImageView` instead of Next `Image`.
-export default function ImageView({ className, style, src, alt, crop }: Props) {
+export default function ImageView({
+  className,
+  style,
+  src,
+  alt,
+  crop,
+  sizes,
+}: Props) {
   const [target, setTarget] = React.useState<HTMLDivElement | null>(null);
   const [imageSize, setImageSize] = React.useState<Size | undefined>(undefined);
   const targetSize = useElementSize(target);
@@ -106,6 +114,7 @@ export default function ImageView({ className, style, src, alt, crop }: Props) {
                   });
                 }
               }}
+              sizes={sizes}
             />
           </ImageErrorBoundary>
         ) : null}
