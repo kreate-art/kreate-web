@@ -100,14 +100,6 @@ assert(
 );
 
 /** @deprecated - use modules/env/client.ts instead */
-export const NEXT_PUBLIC_AI_URL: string = process.env.NEXT_PUBLIC_AI_URL || "";
-assert(
-  /^(http|https):\/\/.*[^/]$/.test(NEXT_PUBLIC_AI_URL),
-  "NEXT_PUBLIC_AI_URL must starts with " +
-    "'http://' or 'https://' and must not end with '/'"
-);
-
-/** @deprecated - use modules/env/client.ts instead */
 export const NEXT_PUBLIC_GRAMMARLY_CLIENT_ID =
   process.env.NEXT_PUBLIC_GRAMMARLY_CLIENT_ID || "";
 assert(

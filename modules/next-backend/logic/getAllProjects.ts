@@ -1,13 +1,11 @@
 import { Address } from "lucid-cardano";
 
-import { NEXT_PUBLIC_AI_URL } from "../../../config/client";
 import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
 
 import { getBackingTags } from "./getBackingTags";
 
-import { httpPostTagsRecommendation } from "@/modules/ai/api/httpPostTagsRecommendation";
 import { sortedBy } from "@/modules/array-utils";
 import { Project, ProjectGeneralInfo } from "@/modules/business-types";
 import {
@@ -201,19 +199,6 @@ export async function getAllProjects(
     });
 
   let hasMore: boolean | undefined = undefined;
-
-  if (relevantAddress !== undefined) {
-    const listTags = projects.map((project) => project.basics.tags);
-    const { recommend } = await httpPostTagsRecommendation({
-      baseUrl: NEXT_PUBLIC_AI_URL,
-      targetTag,
-      listTags,
-    });
-
-    for (let i = 0; i < projects.length; ++i) {
-      projects[i].match = recommend[i];
-    }
-  }
 
   if (category === "relevant" && targetTag.length > 0) {
     projects = sortedBy(projects, (item) => -(item.match ?? 0)).splice(

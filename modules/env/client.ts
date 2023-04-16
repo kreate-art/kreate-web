@@ -86,12 +86,6 @@ export const TEIKI_ASSET_NAME = parseEnv({
   parser: parseHex(),
 });
 
-export const AI_URL = parseEnv({
-  label: "NEXT_PUBLIC_AI_URL",
-  input: process.env.NEXT_PUBLIC_AI_URL,
-  parser: parseBaseUrl(),
-});
-
 export const GRAMMARLY_CLIENT_ID = parseEnv({
   label: "NEXT_PUBLIC_GRAMMARLY_CLIENT_ID",
   input: process.env.NEXT_PUBLIC_GRAMMARLY_CLIENT_ID,
