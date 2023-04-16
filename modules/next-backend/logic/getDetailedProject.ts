@@ -1,6 +1,5 @@
 import { JSONContent } from "@tiptap/core";
 
-import { NEXT_PUBLIC_AI_URL } from "../../../config/client";
 import { Sql } from "../db";
 import { MODERATION_TAGS } from "../types";
 import { CodecCid } from "../utils/CodecCid";
@@ -348,20 +347,7 @@ export async function getDetailedProject(
       });
     }
 
-    let match: number | undefined = undefined;
-    if (params.relevantAddress != null && project.basics != null) {
-      const { tags: targetTag } = await getBackingTags(sql, {
-        relevantAddress: params.relevantAddress,
-      });
-      const listTags = [project.basics?.tags];
-      const { recommend } = await httpPostTagsRecommendation({
-        baseUrl: NEXT_PUBLIC_AI_URL,
-        targetTag,
-        listTags,
-      });
-
-      match = recommend[0];
-    }
+    const match: number | undefined = undefined;
 
     const fallbackTier = fallbackTiers.get(projectId);
     const tiers$Fallback: ProjectBenefitsTier[] =
@@ -406,18 +392,7 @@ async function backingDataToActivities(
   const activities: ProjectActivity[] = [];
   await Promise.all(
     backingData.map(async (data) => {
-      let message$ModeratedTags: string[] = [];
-      if (data.message) {
-        try {
-          const _message$ModeratedTags = await httpPostContentModeration({
-            baseUrl: NEXT_PUBLIC_AI_URL,
-            text: data.message ?? "",
-          });
-          message$ModeratedTags = _message$ModeratedTags.tags;
-        } catch (error) {
-          console.error(error);
-        }
-      }
+      const message$ModeratedTags: string[] = [];
 
       const action: ProjectActivityAction = {
         type: data.action,

@@ -186,8 +186,8 @@ export default function ProjectEditor({
   });
 
   const [currentSentiment, setCurrentSentiment] = React.useState("neutral");
-  const [descriptionSentiment, setDescriptionSentiment] = React.useState("");
-  const debouncedSentimentAnalysis = React.useRef(
+  const [descriptionSentiment, _setDescriptionSentiment] = React.useState("");
+  const _debouncedSentimentAnalysis = React.useRef(
     awesomeDebouncePromise(getDescriptionSentiment, 1000)
   );
   const [alertedProjectIds, setAlertedProjectIds] = React.useState<string[]>(
@@ -320,25 +320,6 @@ export default function ProjectEditor({
                 onChange={async (newDescription) => {
                   onChange &&
                     onChange({ ...value, description: newDescription });
-                  const description = generateText(
-                    newDescription.body,
-                    editorExtensions
-                  );
-
-                  try {
-                    const rate = await debouncedSentimentAnalysis.current(
-                      description
-                    );
-                    if (rate?.sentiment?.negative) {
-                      setDescriptionSentiment("negative");
-                    } else if (rate?.sentiment?.positive) {
-                      setDescriptionSentiment("positive");
-                    } else {
-                      setDescriptionSentiment("neutral");
-                    }
-                  } catch (error) {
-                    console.log("error :>> ", error);
-                  }
                 }}
               />
             ) : activeIndex === 1 ? (
