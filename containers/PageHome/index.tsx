@@ -29,6 +29,10 @@ type Props = {
 };
 
 export default function PageHome({ className, style }: Props) {
+  React.useEffect(() => {
+    console.log("This is PageHome");
+  });
+
   useDefaultBackground();
   const { walletStatus, lastSavedWalletInfo } = useAppContextValue$Consumer();
   const [activeFilterIndex, setActiveFilterIndex] = React.useState(0);
