@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 import FooterPanel from "../PageHome/containers/FooterPanel";
 
@@ -20,6 +21,10 @@ import TeikiHead from "@/modules/teiki-components/components/TeikiHead";
 import Typography from "@/modules/teiki-ui/components/Typography";
 
 export default function LandingPage() {
+  React.useEffect(() => {
+    console.log("This is LandingPage");
+  });
+
   useLandingPageColor();
   return (
     <>
