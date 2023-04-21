@@ -123,7 +123,9 @@ export async function buildTxRaw({
       proofOfBackingMpRefUtxo,
       proofOfBackingMph: proofOfBackingMpRefUtxo.scriptHash,
     },
-    teikiMintingInfo: txParams.teikiMintingInfo,
+    // teikiMintingInfo: txParams.teikiMintingInfo,
+    // Hotfix for deprecated token
+    teikiMintingInfo: undefined,
     txTime,
   };
 
