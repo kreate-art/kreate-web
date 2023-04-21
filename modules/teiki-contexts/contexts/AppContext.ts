@@ -94,34 +94,35 @@ export function useAppContextValue$Provider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [walletStatus.status]);
 
-  React.useEffect(() => {
-    // NOTE: @sk-yagi: A `hacky` way to disable user authentication on Kolours page
-    // Note that this wont be ignored in the development environment
-    // Should use an `.env` variable if possible.
-    const origin = window.location.origin;
-    if (
-      walletStatus.status !== "connected" ||
-      origin.includes("kolours") ||
-      (walletStatus.status === "connected" &&
-        walletStatus.info.addressDetails.networkId !==
-          networkToId(walletStatus.lucid.network))
-    )
-      return;
-    void (async () => {
-      try {
-        const savedAuthInfo = await loadSavedAuthInfo();
-        if (
-          savedAuthInfo == null ||
-          savedAuthInfo.expiration < Date.now() / 1_000
-        ) {
-          await authenticateWallet();
-        }
-      } catch {
-        disconnectWallet();
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [walletStatus.status]);
+  // Hotfix: deprecating exclusive benefits
+  // React.useEffect(() => {
+  //   // NOTE: @sk-yagi: A `hacky` way to disable user authentication on Kolours page
+  //   // Note that this wont be ignored in the development environment
+  //   // Should use an `.env` variable if possible.
+  //   const origin = window.location.origin;
+  //   if (
+  //     walletStatus.status !== "connected" ||
+  //     origin.includes("kolours") ||
+  //     (walletStatus.status === "connected" &&
+  //       walletStatus.info.addressDetails.networkId !==
+  //         networkToId(walletStatus.lucid.network))
+  //   )
+  //     return;
+  //   void (async () => {
+  //     try {
+  //       const savedAuthInfo = await loadSavedAuthInfo();
+  //       if (
+  //         savedAuthInfo == null ||
+  //         savedAuthInfo.expiration < Date.now() / 1_000
+  //       ) {
+  //         await authenticateWallet();
+  //       }
+  //     } catch {
+  //       disconnectWallet();
+  //     }
+  //   })();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [walletStatus.status]);
 
   const adaPriceInfo = useAdaPriceInfo();
 
