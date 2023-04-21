@@ -81,7 +81,9 @@ export async function buildTxRaw({
   );
 
   let backingScriptAddress: Address | undefined = undefined;
-  if (projectStatus !== "closed" && projectStatus !== "delisted") {
+  // if (projectStatus !== "closed" && projectStatus !== "delisted") {
+  // Hotfix for deprecated code
+  if (projectScriptUtxo) {
     // NOTE: get project credential from project script address due to AllocateStaking...
     DisplayableError.assert(projectScriptUtxo != null, {
       title: "Invalid transaction parameters",
