@@ -24,6 +24,7 @@ import { useAppContextValue$Consumer } from "@/modules/teiki-contexts/contexts/A
 import { useToast } from "@/modules/teiki-contexts/contexts/ToastContext";
 import { LogoKreateFull } from "@/modules/teiki-logos";
 import Button from "@/modules/teiki-ui/components/Button";
+import Typography from "@/modules/teiki-ui/components/Typography";
 import { WalletStatus } from "@/modules/wallet/types";
 
 type Props = {
@@ -65,110 +66,158 @@ export default function NavBar({ className, style }: Props) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      <div className={styles.main}>
-        <div style={{ cursor: "pointer" }} onClick={() => router.push("/")}>
-          <LogoKreateFull network={NETWORK} />
+      <div className={styles.alert}>
+        <div className={styles.alertContent}>
+          <p>
+            {
+              "Friendly reminder: We are sunsetting our ADA-based staking protocol."
+            }
+          </p>
+          <p>
+            <span>{"Please withdraw any funds and close "}</span>
+            <span>{"your Projects before June 6. "}</span>
+            <span>{"Feel free to contact us via "}</span>
+            <a
+              href="https://twitter.com/KreatePlatform"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {"Twitter"}
+            </a>
+            <span>{" or "}</span>
+            <a
+              href="https://discord.gg/kreate"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {"Discord"}
+            </a>
+            <span>{" for any assistance."}</span>
+          </p>
+          <p>
+            <span>
+              {"We’re very thankful for all the feedback and contributions we "}
+            </span>
+            <span>
+              {"received from early supporters. We hope to see you around on "}
+            </span>
+            <a
+              href="https://kreate.community/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {"our new Creator-centric platform"}
+            </a>
+            <span>{". ✨"}</span>
+          </p>
         </div>
-        <InputSearch className={styles.searchBar} />
-        <ButtonWalletNavbar />
-        {
-          customUrl ? (
-            <Button.Outline
-              icon={<IconLeaf />}
-              content="Your Page"
-              size="medium"
-              className={styles.button}
-              onClick={() => {
-                router.push(`/k/${customUrl}`);
-              }}
-            />
-          ) : null
-          // (
-          //   <Button.Outline
-          //     icon={<IconPlusSquare />}
-          //     content="Become a Kreator"
-          //     size="medium"
-          //     className={styles.button}
-          //     disabled={
-          //       appContextValue.walletStatus.status === "connecting" ||
-          //       appContextValue.walletStatus.status === "unknown" ||
-          //       (appContextValue.walletStatus.status === "connected" &&
-          //         // 1. either still loading
-          //         ((error == null && project == null) ||
-          //           // 2. or loaded but there is error except ProjectNotFound
-          //           (error != null && !(error instanceof ProjectNotFound)))) ||
-          //       isCreateProjectButtonDisabled
-          //     }
-          //     onClick={async () => {
-          //       try {
-          //         if (appContextValue.walletStatus.status === "connected") {
-          //           router.push(`/drafts/${paymentPubKeyHash}/edit`);
-          //         } else {
-          //           const modalResult = await showModal<WalletStatus>(
-          //             (resolve) => {
-          //               return (
-          //                 <ModalConnectWallet
-          //                   open
-          //                   onCancel={() => resolve({ status: "disconnected" })}
-          //                   onSuccess={(walletStatus) => resolve(walletStatus)}
-          //                 />
-          //               );
-          //             }
-          //           );
-          //           if (modalResult.status !== "connected") return;
+      </div>
+      <div className={styles.content}>
+        <div className={styles.main}>
+          <div style={{ cursor: "pointer" }} onClick={() => router.push("/")}>
+            <LogoKreateFull network={NETWORK} />
+          </div>
+          <InputSearch className={styles.searchBar} />
+          <ButtonWalletNavbar />
+          {
+            customUrl ? (
+              <Button.Outline
+                icon={<IconLeaf />}
+                content="Your Page"
+                size="medium"
+                className={styles.button}
+                onClick={() => {
+                  router.push(`/k/${customUrl}`);
+                }}
+              />
+            ) : null
+            // (
+            //   <Button.Outline
+            //     icon={<IconPlusSquare />}
+            //     content="Become a Kreator"
+            //     size="medium"
+            //     className={styles.button}
+            //     disabled={
+            //       appContextValue.walletStatus.status === "connecting" ||
+            //       appContextValue.walletStatus.status === "unknown" ||
+            //       (appContextValue.walletStatus.status === "connected" &&
+            //         // 1. either still loading
+            //         ((error == null && project == null) ||
+            //           // 2. or loaded but there is error except ProjectNotFound
+            //           (error != null && !(error instanceof ProjectNotFound)))) ||
+            //       isCreateProjectButtonDisabled
+            //     }
+            //     onClick={async () => {
+            //       try {
+            //         if (appContextValue.walletStatus.status === "connected") {
+            //           router.push(`/drafts/${paymentPubKeyHash}/edit`);
+            //         } else {
+            //           const modalResult = await showModal<WalletStatus>(
+            //             (resolve) => {
+            //               return (
+            //                 <ModalConnectWallet
+            //                   open
+            //                   onCancel={() => resolve({ status: "disconnected" })}
+            //                   onSuccess={(walletStatus) => resolve(walletStatus)}
+            //                 />
+            //               );
+            //             }
+            //           );
+            //           if (modalResult.status !== "connected") return;
 
-          //           if (NEXT_PUBLIC_ENABLE_LEGACY === "true") {
-          //             try {
-          //               const httpGetLegacyBacking$Response =
-          //                 await httpGetLegacyBacking({
-          //                   backerAddress: modalResult.info.address,
-          //                 });
-          //               if (
-          //                 httpGetLegacyBacking$Response.error === undefined &&
-          //                 httpGetLegacyBacking$Response.backingInfo.length > 0
-          //               ) {
-          //                 await showModal<void>((resolve) => (
-          //                   <ModalMigrateFromLegacy
-          //                     open
-          //                     onClose={() => resolve()}
-          //                   />
-          //                 ));
-          //               }
-          //             } catch (error) {
-          //               // we intentionally ignore errors
-          //               console.error(error);
-          //             }
-          //           }
+            //           if (NEXT_PUBLIC_ENABLE_LEGACY === "true") {
+            //             try {
+            //               const httpGetLegacyBacking$Response =
+            //                 await httpGetLegacyBacking({
+            //                   backerAddress: modalResult.info.address,
+            //                 });
+            //               if (
+            //                 httpGetLegacyBacking$Response.error === undefined &&
+            //                 httpGetLegacyBacking$Response.backingInfo.length > 0
+            //               ) {
+            //                 await showModal<void>((resolve) => (
+            //                   <ModalMigrateFromLegacy
+            //                     open
+            //                     onClose={() => resolve()}
+            //                   />
+            //                 ));
+            //               }
+            //             } catch (error) {
+            //               // we intentionally ignore errors
+            //               console.error(error);
+            //             }
+            //           }
 
-          //           setIsCreateProjectButtonDisabled(true);
-          //           const ownerAddress = modalResult.info.address;
-          //           if (!ownerAddress) return;
-          //           const projectResponse = await httpGetProject({
-          //             ownerAddress,
-          //             preset: "minimal",
-          //           });
-          //           if (projectResponse.error != null) {
-          //             router.push(
-          //               `/drafts/${modalResult.info.addressDetails.paymentCredential?.hash}/edit`
-          //             );
-          //           }
-          //           setIsCreateProjectButtonDisabled(false);
-          //         }
-          //       } catch (error) {
-          //         const displayableError = DisplayableError.from(
-          //           error,
-          //           "Failed to become a Kreator"
-          //         );
-          //         showMessage({
-          //           title: displayableError.title,
-          //           description: displayableError.description,
-          //           color: "danger",
-          //         });
-          //       }
-          //     }}
-          //   />
-          // )
-        }
+            //           setIsCreateProjectButtonDisabled(true);
+            //           const ownerAddress = modalResult.info.address;
+            //           if (!ownerAddress) return;
+            //           const projectResponse = await httpGetProject({
+            //             ownerAddress,
+            //             preset: "minimal",
+            //           });
+            //           if (projectResponse.error != null) {
+            //             router.push(
+            //               `/drafts/${modalResult.info.addressDetails.paymentCredential?.hash}/edit`
+            //             );
+            //           }
+            //           setIsCreateProjectButtonDisabled(false);
+            //         }
+            //       } catch (error) {
+            //         const displayableError = DisplayableError.from(
+            //           error,
+            //           "Failed to become a Kreator"
+            //         );
+            //         showMessage({
+            //           title: displayableError.title,
+            //           description: displayableError.description,
+            //           color: "danger",
+            //         });
+            //       }
+            //     }}
+            //   />
+            // )
+          }
+        </div>
       </div>
     </div>
   );
