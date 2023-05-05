@@ -94,7 +94,7 @@ export default function PageHome({ className, style }: Props) {
         </nav>
         <main className={styles.main}>
           <div className={styles.blockContainer}>
-            <SectionSlogan className={styles.slogan} />
+            {/* <SectionSlogan className={styles.slogan} /> */}
             {/* <ProjectCarousel
               className={styles.projectCarousel}
               error={featuredProjectsResponse.error}
