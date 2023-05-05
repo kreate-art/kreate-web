@@ -71,101 +71,104 @@ export default function NavBar({ className, style }: Props) {
         </div>
         <InputSearch className={styles.searchBar} />
         <ButtonWalletNavbar />
-        {customUrl ? (
-          <Button.Outline
-            icon={<IconLeaf />}
-            content="Your Page"
-            size="medium"
-            className={styles.button}
-            onClick={() => {
-              router.push(`/k/${customUrl}`);
-            }}
-          />
-        ) : (
-          <Button.Outline
-            icon={<IconPlusSquare />}
-            content="Become a Kreator"
-            size="medium"
-            className={styles.button}
-            disabled={
-              appContextValue.walletStatus.status === "connecting" ||
-              appContextValue.walletStatus.status === "unknown" ||
-              (appContextValue.walletStatus.status === "connected" &&
-                // 1. either still loading
-                ((error == null && project == null) ||
-                  // 2. or loaded but there is error except ProjectNotFound
-                  (error != null && !(error instanceof ProjectNotFound)))) ||
-              isCreateProjectButtonDisabled
-            }
-            onClick={async () => {
-              try {
-                if (appContextValue.walletStatus.status === "connected") {
-                  router.push(`/drafts/${paymentPubKeyHash}/edit`);
-                } else {
-                  const modalResult = await showModal<WalletStatus>(
-                    (resolve) => {
-                      return (
-                        <ModalConnectWallet
-                          open
-                          onCancel={() => resolve({ status: "disconnected" })}
-                          onSuccess={(walletStatus) => resolve(walletStatus)}
-                        />
-                      );
-                    }
-                  );
-                  if (modalResult.status !== "connected") return;
+        {
+          customUrl ? (
+            <Button.Outline
+              icon={<IconLeaf />}
+              content="Your Page"
+              size="medium"
+              className={styles.button}
+              onClick={() => {
+                router.push(`/k/${customUrl}`);
+              }}
+            />
+          ) : null
+          // (
+          //   <Button.Outline
+          //     icon={<IconPlusSquare />}
+          //     content="Become a Kreator"
+          //     size="medium"
+          //     className={styles.button}
+          //     disabled={
+          //       appContextValue.walletStatus.status === "connecting" ||
+          //       appContextValue.walletStatus.status === "unknown" ||
+          //       (appContextValue.walletStatus.status === "connected" &&
+          //         // 1. either still loading
+          //         ((error == null && project == null) ||
+          //           // 2. or loaded but there is error except ProjectNotFound
+          //           (error != null && !(error instanceof ProjectNotFound)))) ||
+          //       isCreateProjectButtonDisabled
+          //     }
+          //     onClick={async () => {
+          //       try {
+          //         if (appContextValue.walletStatus.status === "connected") {
+          //           router.push(`/drafts/${paymentPubKeyHash}/edit`);
+          //         } else {
+          //           const modalResult = await showModal<WalletStatus>(
+          //             (resolve) => {
+          //               return (
+          //                 <ModalConnectWallet
+          //                   open
+          //                   onCancel={() => resolve({ status: "disconnected" })}
+          //                   onSuccess={(walletStatus) => resolve(walletStatus)}
+          //                 />
+          //               );
+          //             }
+          //           );
+          //           if (modalResult.status !== "connected") return;
 
-                  if (NEXT_PUBLIC_ENABLE_LEGACY === "true") {
-                    try {
-                      const httpGetLegacyBacking$Response =
-                        await httpGetLegacyBacking({
-                          backerAddress: modalResult.info.address,
-                        });
-                      if (
-                        httpGetLegacyBacking$Response.error === undefined &&
-                        httpGetLegacyBacking$Response.backingInfo.length > 0
-                      ) {
-                        await showModal<void>((resolve) => (
-                          <ModalMigrateFromLegacy
-                            open
-                            onClose={() => resolve()}
-                          />
-                        ));
-                      }
-                    } catch (error) {
-                      // we intentionally ignore errors
-                      console.error(error);
-                    }
-                  }
+          //           if (NEXT_PUBLIC_ENABLE_LEGACY === "true") {
+          //             try {
+          //               const httpGetLegacyBacking$Response =
+          //                 await httpGetLegacyBacking({
+          //                   backerAddress: modalResult.info.address,
+          //                 });
+          //               if (
+          //                 httpGetLegacyBacking$Response.error === undefined &&
+          //                 httpGetLegacyBacking$Response.backingInfo.length > 0
+          //               ) {
+          //                 await showModal<void>((resolve) => (
+          //                   <ModalMigrateFromLegacy
+          //                     open
+          //                     onClose={() => resolve()}
+          //                   />
+          //                 ));
+          //               }
+          //             } catch (error) {
+          //               // we intentionally ignore errors
+          //               console.error(error);
+          //             }
+          //           }
 
-                  setIsCreateProjectButtonDisabled(true);
-                  const ownerAddress = modalResult.info.address;
-                  if (!ownerAddress) return;
-                  const projectResponse = await httpGetProject({
-                    ownerAddress,
-                    preset: "minimal",
-                  });
-                  if (projectResponse.error != null) {
-                    router.push(
-                      `/drafts/${modalResult.info.addressDetails.paymentCredential?.hash}/edit`
-                    );
-                  }
-                  setIsCreateProjectButtonDisabled(false);
-                }
-              } catch (error) {
-                const displayableError = DisplayableError.from(
-                  error,
-                  "Failed to become a Kreator"
-                );
-                showMessage({
-                  title: displayableError.title,
-                  description: displayableError.description,
-                  color: "danger",
-                });
-              }
-            }}
-          />
-        )}
+          //           setIsCreateProjectButtonDisabled(true);
+          //           const ownerAddress = modalResult.info.address;
+          //           if (!ownerAddress) return;
+          //           const projectResponse = await httpGetProject({
+          //             ownerAddress,
+          //             preset: "minimal",
+          //           });
+          //           if (projectResponse.error != null) {
+          //             router.push(
+          //               `/drafts/${modalResult.info.addressDetails.paymentCredential?.hash}/edit`
+          //             );
+          //           }
+          //           setIsCreateProjectButtonDisabled(false);
+          //         }
+          //       } catch (error) {
+          //         const displayableError = DisplayableError.from(
+          //           error,
+          //           "Failed to become a Kreator"
+          //         );
+          //         showMessage({
+          //           title: displayableError.title,
+          //           description: displayableError.description,
+          //           color: "danger",
+          //         });
+          //       }
+          //     }}
+          //   />
+          // )
+        }
       </div>
     </div>
   );
