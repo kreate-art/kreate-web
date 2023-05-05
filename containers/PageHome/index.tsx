@@ -95,12 +95,12 @@ export default function PageHome({ className, style }: Props) {
         <main className={styles.main}>
           <div className={styles.blockContainer}>
             <SectionSlogan className={styles.slogan} />
-            <ProjectCarousel
+            {/* <ProjectCarousel
               className={styles.projectCarousel}
               error={featuredProjectsResponse.error}
               data={featuredProjectsResponse.data}
               descriptionMaxLines={3}
-            />
+            /> */}
           </div>
           <div className={styles.twoColumnsWrapper}>
             <div className={styles.twoColumns}>
