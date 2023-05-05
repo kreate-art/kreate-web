@@ -177,7 +177,7 @@ export default function PageHome({ className, style }: Props) {
               </div>
             </div>
           </div>
-          <div className={cx(styles.blockContainer, styles.sectionSlogan)}>
+          {/* <div className={cx(styles.blockContainer, styles.sectionSlogan)}>
             <SponsorSlogan className={styles.slogan} />
             <ProjectCarousel
               className={styles.projectCarousel}
@@ -187,7 +187,7 @@ export default function PageHome({ className, style }: Props) {
               padding="narrow"
               descriptionMaxLines={4}
             />
-          </div>
+          </div> */}
         </main>
         <FooterPanel style={{ width: "100%" }} />
         <Podcast podcastClassName={styles.podcast} />
