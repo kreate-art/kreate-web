@@ -156,11 +156,11 @@ export default function PageHome({ className, style }: Props) {
                 )}
               </div>
               <div className={styles.columnRight}>
-                <PanelProtocolStatistics
+                {/* <PanelProtocolStatistics
                   error={protocolStatisticsResponse.error}
                   data={protocolStatisticsResponse.data}
                   style={{ marginBottom: "12px" }}
-                />
+                /> */}
                 {topSupporterResponse.error ? (
                   "error"
                 ) : !topSupporterResponse.data ? (
